@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Http\Controllers\JobController;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,6 +26,19 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        $schedule->call(function () {
+            $jobController = new JobController();
+            $jobController->sendJobAlert();
+        })->daily();  
+
+        $schedule->call(function () {
+            sendNotifications();
+        })->everyTenMinutes();  
+
+        $schedule->call(function () {
+            archivePublishedJobs();
+        })->daily();  
     }
 
     /**

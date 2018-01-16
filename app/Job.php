@@ -42,9 +42,7 @@ class Job extends Model
     }
 
     public function jobStatusesToChange(){
- 
-
-        $statuses = ['1'=>'Draft','2'=>'Submit for review','3'=>'Publish','4'=>'Archive','5'=>'Reject'];
+        $statuses = ['1'=>'Draft','2'=>'Submit for review','3'=>'Relist','4'=>'Archive','5'=>'Reject'];
         return $statuses;
     }
 
@@ -104,6 +102,15 @@ class Job extends Model
         $jobTypes = (!empty($jobTypeIds)) ? $this->jobTypes($jobTypeIds) :[];
          
     	return $jobTypes;
+    }
+
+    public function getJobTypeIds(){
+        if(!empty($this->hasJobTypes()))
+            $jobTypeIds = $this->hasJobTypes()->pluck('type_ids');
+        else
+            $jobTypeIds = [];
+          
+        return $jobTypeIds;
     }
 
     public function jobExperience(){
@@ -463,6 +470,14 @@ class Job extends Model
 
     }
 
+    public function jobOwner(){
+        if(Auth::check() && $this->job_creator == Auth::user()->id)
+            return true;
+        else
+            return false;
+
+    }
+
     public function isJobVisible(){
         
         if(hasAccess('edit_permission_element_cls',$this->reference_id,'jobs') && $this->isJobDataComplete())
@@ -602,6 +617,58 @@ class Job extends Model
 
     public function premium(){
         return $this->morphMany( 'App\PlanAssociation', 'premium');
+    }
+
+    public function hasPremiumRequest(){
+        $premiumRequest = $this->premium()->first();
+        return (!empty($premiumRequest)) ? true : false;
+    }
+
+
+    public function submitForReviewEmail(){
+        $date = date('Y-m-d H:i:s');    
+
+        $this->status = 2; 
+        $this->date_of_submission = $date; 
+        $this->save();
+
+
+        //email data 
+
+        $jobOwner = $this->createdBy;
+        $ownerDetails = $jobOwner->getUserProfileDetails();
+
+        $templateData = [];
+        $jobCompany  = $this->getJobCompany();
+        $locations  = $this->getJobLocationNames();
+        $metaData = $this->meta_data;
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
+        
+        $contactEmail = getCommunicationContactDetail($this->job_creator,'App\User','email');
+        $contactMobile = getCommunicationContactDetail($this->job_creator,'App\User','mobile');  
+        $contactLandline = getCommunicationContactDetail($this->job_creator,'App\User','landline');  
+
+        $templateData['keywords'] = $jobKeywords;
+        $templateData['jobCompany'] = $jobCompany;
+        $templateData['contactEmail'] = $contactEmail;
+        $templateData['contactMobile'] = $contactMobile;
+        $templateData['contactLandline'] = $contactLandline;
+        $templateData['locations'] = $locations;
+        $templateData['job'] = $this;
+        
+
+        $data = [];
+        $data['from'] = $ownerDetails['email'];
+        $data['name'] = $jobOwner->name;
+        $data['to'] = [config('constants.email_to')];
+        $data['cc'] = [config('constants.email_to')];
+        $data['subject'] = "A job has been submitted for review.";
+        $data['template_data'] = $templateData;
+        
+        sendEmail('job-submit-for-review', $data);
+
+        return true;
+
     }
  
 }

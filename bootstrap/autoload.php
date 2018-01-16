@@ -13,5 +13,5 @@ define('LARAVEL_START', microtime(true));
 | our application's PHP classes. It just feels great to relax.
 |
 */
-
+require realpath(__DIR__.'/../public/news/').'/wp-load.php';
 require __DIR__.'/../vendor/autoload.php';

@@ -1,5 +1,5 @@
 (function() {
-  var browsecat, catlabel, contactrow, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
+  var browsecat, catlabel, contactrow, equalcol, getheight, handleResponse, loadUpdates, moveelement, offset, order, status;
 
   $('.shareRoundIcons').jsSocials({
     showLabel: false,
@@ -142,14 +142,14 @@
   if ($(window).width() < 769) {
     browsecat = $('.browse-cat').detach();
     $('.similar-business').after(browsecat);
-    status = $('.contact__enquiry .approval').detach();
-    $('.new-changes .seller-info__body').append(status);
     moveelement = $('.move-element').detach();
     $('.nav-info').before(moveelement);
     catlabel = $('.single-cate').detach();
     $('.singleV-title').before(catlabel);
     contactrow = $('.single-contact-section').detach();
-    $('.operate-section').after(contactrow);
+    $('.card-body').append(contactrow);
+    status = $('.contact__enquiry').detach();
+    $('.card-body').append(status);
     $('.back-icon').click(function() {
       $('.fly-out').removeClass('active');
     });
@@ -162,6 +162,157 @@
     var gethref;
     gethref = $(this).attr("data-href");
     window.location.href = gethref;
+  });
+
+  handleResponse = function(step, html) {
+    $('#contact-modal .modal-body').html(html);
+    if (step === 'get-details') {
+      return $('#contact-modal #contact_number').intlTelInput({
+        initialCountry: 'auto',
+        separateDialCode: true,
+        geoIpLookup: function(callback) {
+          $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
+            var countryCode;
+            countryCode = resp && resp.country ? resp.country : '';
+            callback(countryCode);
+          });
+        },
+        preferredCountries: ['IN'],
+        americaMode: false,
+        formatOnDisplay: false
+      });
+    }
+  };
+
+  $('body').on('click', '#contact-info', function() {
+    $('#contact-modal').modal('show');
+    return $.ajax({
+      url: '/contact-request',
+      type: 'post',
+      data: {
+        'id': document.getElementById('listing_id').value
+      },
+      success: function(data) {
+        return handleResponse(data['step'], data['html']);
+      }
+    });
+  });
+
+  $('#contact-modal').on('click', '#cr-get-details-form-submit', function() {
+    var description, email, mobile, name, region, url;
+    if (!$('#contact-modal #get-crdetails-form').parsley().validate()) {
+      return;
+    }
+    if ($('#get-crdetails-form').parsley().isValid()) {
+      $('.contact-sub-spin').removeClass('hidden');
+    }
+    name = $('#contact-modal #get-crdetails-form #contact_name').val();
+    email = $('#contact-modal #get-crdetails-form #contact_email').val();
+    mobile = $('#contact-modal #get-crdetails-form #contact_number').val();
+    region = $('#contact-modal #get-crdetails-form #contact_number').intlTelInput('getSelectedCountryData')['dialCode'];
+    description = $('#contact-modal #get-crdetails-form #contact_description').val();
+    url = $('#contact-modal #cr-details-form-submit-link').val();
+    return $.ajax({
+      url: url,
+      type: 'post',
+      data: {
+        id: document.getElementById('listing_id').value,
+        name: name,
+        email: email,
+        mobile: mobile,
+        mobile_region: region,
+        description: JSON.stringify(description)
+      },
+      success: function(data) {
+        handleResponse(data['step'], data['html']);
+        return $('.contact-sub-spin').addClass('hidden');
+      }
+    });
+  });
+
+  $('#contact-modal').on('click', '#edit-cr-number', function() {
+    console.log('enters');
+    $('#new-mobile-modal #new-mobile-verify-btn').prop('disabled', false);
+    return $('#new-mobile-modal').modal('show');
+  });
+
+  $('#CR').on('click', '#new-mobile-verify-btn', function() {
+    var country, force, number, url;
+    $('#CR #new-mobile-modal input').attr('required', 'required');
+    console.log($('#new-mobile-modal input').parsley().validate()[0]);
+    if (!$('#new-mobile-modal input').parsley().validate(force = true)[0]) {
+      $('#CR #new-mobile-modal input').removeAttr('required');
+      $(this).prop('disabled', true);
+      number = $('#new-mobile-modal input').val();
+      country = $('#new-mobile-modal input').intlTelInput('getSelectedCountryData')['dialCode'];
+      console.log(number, country);
+      url = $('#contact-modal #cr-number-change-link').val();
+      return $.ajax({
+        url: url,
+        type: 'post',
+        data: {
+          id: document.getElementById('listing_id').value,
+          contact: number,
+          contact_region: country
+        },
+        success: function(data) {
+          handleResponse(data['step'], data['html']);
+          $('#new-mobile-modal input').intlTelInput("setCountry", "in");
+          $('#new-mobile-modal input').val('');
+          return $('#new-mobile-modal').modal('hide');
+        }
+      });
+    } else {
+      $('#CR #new-mobile-modal input').removeAttr('required');
+      return false;
+    }
+  });
+
+  $('#contact-modal').on('click', '#cr-resend-sms', function() {
+    var url;
+    url = $('#contact-modal #cr-otp-resend-link').val();
+    return $.ajax({
+      url: url,
+      type: 'post',
+      data: {
+        id: document.getElementById('listing_id').value
+      },
+      success: function(data) {
+        return handleResponse(data['step'], data['html']);
+      }
+    });
+  });
+
+  $('#contact-modal').on('click', '#submit-cr-otp', function() {
+    var url;
+    if (!$('#contact-modal #input-cr-otp').parsley().validate()) {
+      return;
+    }
+    url = $('#contact-modal #cr-otp-submit-link').val();
+    return $.ajax({
+      url: url,
+      type: 'post',
+      data: {
+        id: document.getElementById('listing_id').value,
+        otp: $('#contact-modal #input-cr-otp').val()
+      },
+      success: function(data) {
+        return handleResponse(data['step'], data['html']);
+      }
+    });
+  });
+
+  $(".contact-modal").on('shown.bs.modal', function(e) {
+    return setTimeout((function() {
+      if ($('.entry-describe-best').length) {
+        return $('.entry-describe-best').multiselect({
+          includeSelectAllOption: true,
+          numberDisplayed: 2,
+          delimiterText: ',',
+          nonSelectedText: 'Select Experience'
+        });
+      }
+    }), 800);
   });
 
 }).call(this);

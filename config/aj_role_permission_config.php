@@ -8,8 +8,8 @@
 		
 		Example:
 		[
-			"roles" => ["superadmin", "admin", "member"],
-			"permissions" => ["add_users", "edit_users", "add_personal", "edit_personal", "add_internal", "edit_internal"],
+			"roles" => [0 => "superadmin", 1 => "admin", 2 => "member"],
+			"permissions" => [0 => "add_users", 1 => "edit_users", 2 => "add_personal", 3 => "edit_personal", 4 => "add_internal", 5 => "edit_internal"],
 			"roles_permissions" => [
 				"roles" => 0, "permissions" => [0, 1, 2, 3, 4, 5],
 				"roles" => 1, "permissions" => [0, 1, 2, 3],
@@ -18,10 +18,16 @@
 		]
 	*/
 	return [
-		"roles" => ['superadmin', 'listing_manager', 'customer'],
-		"permissions" => ['add_internal_user', 'edit_internal_user', 'view_internal_user_list', 'add_listing', 'edit_listing', 'manage_categories', 'manage_locations', 'listing_approval', 'add_job', 'edit_job','manage_job_status','manage_job_view','submit_for_review_job','delete_job_contact','change_job_status'],
+		"roles" => [0 => 'superadmin', 1 => 'listing_manager', 2 => 'customer'],
+		"permissions" => [
+			0 => 'add_internal_user', 1 => 'edit_internal_user', 2 => 'view_internal_user_list', 
+			3 => 'add_listing', 4 => 'edit_listing', 5 => 'manage_categories', 
+			6 => 'manage_locations', 7 => 'listing_approval', 8 => 'add_job', 
+			9 => 'edit_job', 10 => 'manage_job_status', 11 => 'manage_job_view', 
+			12 => 'submit_for_review_job', 13 => 'delete_job_contact', 14 => 'change_job_status'
+		],
 		"roles_permissions" => [
-            ["role" => 0, "permissions" => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]],
+            ["role" => 0, "permissions" => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]],
             ["role" => 1, "permissions" => [3, 4, 7, 9, 10]],
             ["role" => 2, "permissions" => []]
         ]

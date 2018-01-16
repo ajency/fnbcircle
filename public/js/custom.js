@@ -4,6 +4,20 @@ $(function(){
 	$("#login-modal").on('shown.bs.modal', function() {
 		var url = '';
 
+		$('#login-modal .login-container .alternate-login').keypress(function(e){
+		 	if(e.which == 13){//Enter key pressed
+	            $("#login_form_modal_btn").trigger('click'); // Trigger the Login button
+	        }
+	    });
+
+		$('#login-modal .forget-password').keypress(function(e){
+		 	if(e.which == 13){//Enter key pressed
+	            $("#forgot-password-form-btn").trigger('click'); // Trigger the Forgot button
+	            e.preventDefault();
+	        }
+	    });
+
+
 		if (window.location.search && window.location.search.indexOf("login=") < 0) {
 			url = window.location.search + '&login=true';
 		} else if (!window.location.search) {
@@ -124,6 +138,7 @@ $(function(){
 			}
 			 if($(window).scrollTop() + $(window).height() > ($(document).height() - 100) ) {
        			$(".sticky-bottom").removeClass('active');
+       			$(".alert-bottom").addClass('active');
    			}
 		});
 		$('.tab-con').addClass('tab-content');
@@ -241,9 +256,9 @@ $(function(){
 	// 	 });
 	// }
 	// Smooth scroll
-
-	$("html").easeScroll();
-
+	if($().easeScroll){
+		$("html").easeScroll();
+	}
 	// Easing options
 
 	// frameRate: 60,
@@ -310,7 +325,9 @@ $(function(){
 
 		function validatePassword(password, confirm_password, parent_path, child_path) {
 			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
-			var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+			// var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+			// Password should have 8 or more characters and No (atleast 1 char & 1 no)
+			var expression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
 			var message = '', status = true;
 
 			if(expression.test(password)) {
@@ -323,12 +340,17 @@ $(function(){
 					status = false;
 				}
 			} else { // Else password not Satisfied the criteria
-				message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+				if(password.length > 0) {
+					// message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+					message = "Please enter a password of minimum 8 characters and has atleast 1 number.<br/><div class='note-popover popover top'><div class='arrow'></div> <div class='popover-content'><b class='fnb-errors'>Note:</b> Don’t use obvious passwords or easily guessable one's, your or your pet’s name. Also try and avoid using passwords you may have on a lot of other sites.</div></div>";
+				} else {
+					message = "Please enter a Password";
+				}
 				status = false;
 			}
 
 			if(!status && parent_path !== '') {
-				$(parent_path + " " + child_path).removeClass('hidden').text(message);
+				$(parent_path + " " + child_path).removeClass('hidden').html(message);
 			} else if(status && parent_path !== '') {
 				//$(parent_path + " " + child_path).addClass('hidden');
 				$(parent_path + " " + "#password_errors").addClass('hidden');
@@ -385,7 +407,65 @@ $(function(){
 			return flag;
 		}
 
+		function forgotPassword(email) {
+			$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").removeClass("hidden");
+
+			$.ajax({
+				type: 'post',
+				url: '/forgot-password',
+				data: {
+					'email': email
+				},
+				success: function(data) {
+					$("#forget-password-div #email-error-container").text("");
+					$("#forget-password-div .forgot-link-sent").removeClass("hidden");
+					$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").addClass("hidden");
+
+					$('#forget-password-div .forgot-link-sent').on('close.bs.alert', function (e) {
+						$("#forget-password-div .forgot-link-sent").addClass("hidden");
+						e.preventDefault();
+					});
+
+				},
+				error: function(request, status, error) {
+					$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").addClass("hidden");
+					console.log(status);
+					console.log(error);
+					if(request.responseJSON) {
+						$("#forget-password-div #email-error-container").text(request.responseJSON["message"]);
+					}
+					//throw Error();
+				}
+			});
+
+		}
+
 		$(document).ready(function() {
+
+			if($("#reset-password-form").length > 0) {
+				/* Reset password form section */
+
+				$("#reset-password-form input[type='password'][name='password']").on('focus, input', function(){
+					// console.log(validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val()));
+					if(!validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val(), "#reset-password-form", "#new-pass-error")) {
+						return false;
+					} else {
+						$("#reset-password-form #new-pass-error").addClass("hidden");
+						return true;
+					}
+				});
+
+				/*$("#reset-password-form input[type='password'][name='password_confirmation']").on('focus, input', function(){
+					// console.log(validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val()));
+					if(!validatePassword($("#reset-password-form input[type='password'][name='password']").val(), $(this).val(), "#reset-password-form", "#confirm-password-error")) {
+						// $("#reset-password-form #confirm-password-error").removeClass("hidden").text("Password and Confirm password are not matching");
+						return false;
+					} else {
+						$("#reset-password-form #confirm-password-error").addClass("hidden");
+						return true;
+					}
+				});*/
+			}
 
 			if(window.location.hash.length > 0 && window.location.hash.indexOf("_=_") > -1) { // If "_=_" exist in the URL (appears post FB login)
 				hash_array = window.location.hash.split("_=_");
@@ -534,7 +614,7 @@ $(function(){
 				}
 			});
 
-			$("#register_form input[type='password'][name='password']").on('focus, input', function(){
+			$("#register_form input[type='password'][name='password']").on('focusin, input', function(){
 				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
 				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form", "#password_errors")) {
 					return false;
@@ -544,7 +624,15 @@ $(function(){
 				}
 			});
 
-			$("#register_form input[type='password'][name='password_confirmation']").on('focus, input', function(){
+			$("#register_form input[type='password'][name='password']").on('focusout', function(){
+				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
+				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form", "#password_errors")) {
+					$("#register_form #password_errors").addClass("hidden").removeClass("hidden").text("Please enter a valid password");
+					return false;
+				}
+			});
+
+			$("#register_form input[type='password'][name='password_confirmation']").on('focusin, input', function(){
 				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
 				if(!validatePassword($("#register_form input[type='password'][name='password']").val(), $(this).val(), "#register_form", "#password_confirm_errors")) {
 					// $("#register_form #password_confirm_errors").removeClass("hidden").text("Password and Confirm password are not matching");
@@ -555,13 +643,21 @@ $(function(){
 				}
 			});
 
-			$("#register_form #accept_terms_checkbox").on('change', function() {
-				if(!$(this).prop("checked")) {
-					$("#register_form_btn").attr("disabled","disabled");
-				} else {
-					$("#register_form_btn").removeAttr("disabled");
+			$("#register_form input[type='password'][name='password_confirmation']").on('focusout', function(){
+				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
+				if(!validatePassword($("#register_form input[type='password'][name='password']").val(), $(this).val(), "#register_form", "#password_confirm_errors")) {
+					$("#register_form #password_confirm_errors").addClass("hidden").removeClass("hidden").text("Please enter a valid confirm password");
+					return false;
 				}
 			});
+
+			// $("#register_form #accept_terms_checkbox").on('change', function() {
+			// 	if(!$(this).prop("checked")) {
+			// 		$("#register_form_btn").attr("disabled","disabled");
+			// 	} else {
+			// 		$("#register_form_btn").removeAttr("disabled");
+			// 	}
+			// });
 
 			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
 				$("#login-modal").modal('show');
@@ -571,7 +667,7 @@ $(function(){
 				var message_key = window.location.search.split("message=")[1].split("&")[0];
 
 				var popup_message = "#login-modal .login-container .alert";
-				
+				console.log(message_key);
 				if (message_key == 'is_google_account') { // Account exist & linked via Google Login
 					$(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
@@ -590,15 +686,31 @@ $(function(){
 				} else if (message_key == 'email_confirm') {
 					$(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'resend_verification') {
+					$(popup_message + ".alert-warning .resend-verification.resend-verification-error").removeClass('hidden');
+					$(popup_message + ".alert-warning").removeClass('hidden');
 				} else if (message_key == 'is_verified') {
 					$(popup_message + ".alert-success").removeClass('hidden');
 				} else if (message_key == 'no_account') { // Account with this email ID doesn't exist
 					$(popup_message + ".alert-danger .no-account-exist.no-email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
-				} else if (message_key == 'incorrect_password') { // Account with this email ID doesn't exist
+				} else if (message_key == 'incorrect_password' || message_key == 'is_internal_listing_signup_account') { // Account with this email ID doesn't exist
 					$(popup_message + ".alert-danger .account-exist.wrong-password-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'token_expired') { // Token expired
+					$(popup_message + ".alert-danger .user-token-expiry.token-expiry-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'token_already_verified') { // Token already Verfied / Used
+					$(popup_message + ".alert-warning .token-already-verified.already-verified-error").removeClass('hidden');
+					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'facebook_email_missing') {
+					$(popup_message + ".alert-danger .email-missing.facebook-email-miss-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'google_email_missing') {
+					$(popup_message + ".alert-danger .email-missing.google-email-miss-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
 				}
+
 			}
 
 			if (window.location.search.indexOf("required_field=true") > -1) { // If required_field=true exist in URL, then trigger the Popup
@@ -707,11 +819,12 @@ $(function(){
                 validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors");
 
                 if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors")) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
-                	if($("#accept_terms_checkbox").prop("checked")) {
-                		return $(parent).submit(); // Submit the form
-                	} else {
-                		$("#accept_terms_checkbox").removeClass("hidden");
-                	}
+                	$(parent).submit();
+                	// if($("#accept_terms_checkbox").prop("checked")) {
+                	// 	return $(parent).submit(); // Submit the form
+                	// } else {
+                	// 	$("#accept_terms_checkbox").removeClass("hidden");
+                	// }
                 }
 
                 e.stopImmediatePropagation();
@@ -739,6 +852,27 @@ $(function(){
 	        		$(parent + " #login_form_modal_btn i").addClass("hidden"); // Hide the loader
 	        	}
 	        });
+
+	        if($(document).find("#forgot-password-form").length > 0) { // If this container exist, then execute the below conditions
+	        	if($("#forgot_password_email").val().length <= 0) {
+	        		$("#forgot-password-form-btn").prop('disabled', true);
+	        	}
+
+	        	$("#forgot-password-form #forgot_password_email").on("change keyup input", function() {
+	        		if($(this).val().length <= 0 || !validateEmail($(this).val(), "#as")) {
+	        			$("#forgot-password-form-btn").prop('disabled', true);
+	        			$("#email-error-container").text("");
+	        		} else {
+	        			$("#forgot-password-form-btn").prop('disabled', false);
+	        		}
+	        	});
+
+		        $("#forgot-password-form-btn").click(function() {
+		        	if($("#forgot-password-form").parsley().validate()) {
+		        		forgotPassword($("#forgot-password-form #forgot_password_email").val());
+		        	}
+		        });
+	        }
 		});
 
 		if($('.photo-gallery').length){
@@ -771,25 +905,25 @@ $(function(){
 			var businessListing = $('.businessListing').detach();
 			$('.addShow').after(businessListing);
 			
-			$('.filter-data').each(function(){
+			// $('.filter-data').each(function(){
 
-				var detailrow = $(this).find('.recent-updates__content');
-				var detailbtn = $(this).find('.detail-move').detach();
-				$(detailrow).append(detailbtn);
+			// 	var detailrow = $(this).find('.recent-updates__content');
+			// 	var detailbtn = $(this).find('.detail-move').detach();
+			// 	$(detailrow).append(detailbtn);
 
-				var recentrow = $(this).find('.updates-dropDown');
-				var recentData = $(this).find('.recent-data').detach();
-				$(recentrow).append(recentData);
+			// 	var recentrow = $(this).find('.updates-dropDown');
+			// 	var recentData = $(this).find('.recent-data').detach();
+			// 	$(recentrow).append(recentData);
 
-				var publishedAdd = $(this).find('.stats');
-				var publisherow = $(this).find('.rat-pub').detach();
-				$(publishedAdd).append(publisherow);
+			// 	var publishedAdd = $(this).find('.stats');
+			// 	var publisherow = $(this).find('.rat-pub').detach();
+			// 	$(publishedAdd).append(publisherow);
 
-				var power = $(this).find('.power-seller-container');
-				var powerseller = $(this).find('.power-seller').detach();
-				$(power).append(powerseller);
+			// 	var power = $(this).find('.power-seller-container');
+			// 	var powerseller = $(this).find('.power-seller').detach();
+			// 	$(power).append(powerseller);
 
-			});
+			// });
 
 
 			var advAdd = $('.adv-row').detach();
@@ -895,11 +1029,23 @@ $(function(){
 		  $('.mobile-back').removeClass('desk-level-two');
 		});
 
-		$('.float-input').on('focus', function() {
+		/*$('.float-input').on('focus', function() {
 		  $(this).siblings('.float-label').addClass('filled focused');
 		});
 
 		$('.float-input').on('blur', function() {
+		  $(this).siblings('.float-label').removeClass('focused');
+
+		  if (this.value === '') {
+		    $(this).siblings('.float-label').removeClass('filled')
+		  }
+		});*/
+
+		$(document).on('focus', '.float-input', function() {
+		  $(this).siblings('.float-label').addClass('filled focused');
+		});
+
+		$(document).on('blur', '.float-input', function() {
 		  $(this).siblings('.float-label').removeClass('focused');
 
 		  if (this.value === '') {
@@ -961,7 +1107,7 @@ $(function(){
 		if($('.multi-select,.default-area-select').length > 0){
 			$('.multi-select').multiselect({
 	            includeSelectAllOption: true,
-	            numberDisplayed: 1
+	            numberDisplayed: 3
 	        });
 	        // different select init
 	        $('.default-area-select').multiselect({
@@ -1081,6 +1227,11 @@ $(function(){
 				var sort = $('.page-sidebar .sort').detach();
 				$('.page-sidebar').closest('.fly-out').find('.right').append(sort);
 			});
+			// adding class and css on load
+			$(document).ready(function(){
+				$('body').addClass('body-animate');
+				$('.m-side-bar,.fly-out').css("display",'block');
+			})
 		}
 
 		// Login
@@ -1219,63 +1370,14 @@ $(function(){
 		var infoIcon = '<i class="fa fa-info-circle p-l-5" aria-hidden="true"></i>'
 		$('.multipleOptions .multiselect-container li:not(.multiselect-all) .checkbox').append(infoIcon);
 
+		// Register page scroll to name
+		if($('#focus-name').length){
+			$('html, body').animate({
+			  scrollTop: $('#focus-name').offset().top
+			}, 'slow');
 
-
-
-		// /* exported initSample */
-
-		// if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
-		// 	CKEDITOR.tools.enableHtml5Elements( document );
-
-		// // The trick to keep the editor in the sample quite small
-		// // unless user specified own height.
-		// CKEDITOR.config.height = 150;
-		// CKEDITOR.config.width = 'auto';
-
-		// var initSample = ( function() {
-		// 	var wysiwygareaAvailable = isWysiwygareaAvailable(),
-		// 		isBBCodeBuiltIn = !!CKEDITOR.plugins.get( 'bbcode' );
-
-		// 	return function() {
-		// 		var editorElement = CKEDITOR.document.getById( 'editor' );
-
-		// 		// :(((
-		// 		if ( isBBCodeBuiltIn ) {
-		// 			editorElement.setHtml(
-		// 				'Hello world!\n\n' +
-		// 				'I\'m an instance of [url=http://ckeditor.com]CKEditor[/url].'
-		// 			);
-		// 		}
-
-		// 		// Depending on the wysiwygare plugin availability initialize classic or inline editor.
-		// 		if ( wysiwygareaAvailable ) {
-		// 			CKEDITOR.replace( 'editor' );
-		// 		} else {
-		// 			editorElement.setAttribute( 'contenteditable', 'true' );
-		// 			CKEDITOR.inline( 'editor' );
-
-		// 			// TODO we can consider displaying some info box that
-		// 			// without wysiwygarea the classic editor may not work.
-		// 		}
-		// 	};
-
-		// 	function isWysiwygareaAvailable() {
-		// 		// If in development mode, then the wysiwygarea must be available.
-		// 		// Split REV into two strings so builder does not replace it :D.
-		// 		if ( CKEDITOR.revision == ( '%RE' + 'V%' ) ) {
-		// 			return true;
-		// 		}
-
-		// 		return !!CKEDITOR.plugins.get( 'wysiwygarea' );
-		// 	}
-		// } )();
-
-
-		// initSample();
-
-
-
- // CKEDITOR.replace( 'editor' );
+			$('#focus-name .fnb-input').focus();
+		}
 
 
 });

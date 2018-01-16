@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Common;
 use Validator;
+use Auth;
+use Hash;
+use App\Description;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +19,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+      if(Schema::hasTable('descriptions')){
+        $descriptions = Description::where('active',1)->get();
+        $config = [];
+        foreach ($descriptions as $description) {
+          $array = json_decode($description->meta,true);
+          foreach ($array as $config_key => $config_data) {
+            if(!isset($config[$config_key])) $config[$config_key]=[];
+            $config_data['content'] = $description->description;
+            if($config_key == 'enquiry_popup_display') $config[$config_key][$description->value] = $config_data;
+            else $config[$config_key][] = $config_data;
+          }
+        }
+        $this->app['config']['helper_generate_html_config'] = $config;
+      }
       Validator::extend('contacts', function($attribute, $value, $parameters, $validator) {
         $contacts=json_decode($value);
         if(json_last_error() !== JSON_ERROR_NONE) return false;
@@ -80,6 +98,10 @@ class AppServiceProvider extends ServiceProvider
      }
      return true;
   });
+  // current password validation rule
+    Validator::extend('current_password', function ($attribute, $value, $parameters, $validator) {
+        return Hash::check($value, Auth::user()->password);
+    });
     }
 
     /**

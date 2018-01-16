@@ -48,6 +48,8 @@
                         </li>
                         <li class=""><a href="#">Manage Listings</a>
                         </li>
+                        <li class="@if(Request::path() == 'admin-dashboard/moderation/manage-enquiries')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/moderation/manage-enquiries')#@else {{action('AdminEnquiryController@manageEnquiries')}} @endif"">Manage Enquiries</a>
+                        </li>
                       </ul>
                     </li>
                     <li><a>Configuration <span class="fa fa-chevron-down"></span></a>
@@ -75,8 +77,11 @@
                   </ul>
               </li>
               <li><a><i class="fa fa-envelope"></i> Emails <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                  <li class=""><a href="email_notifications.html">Notifications</a></li>
+                <ul class="nav child_menu" style="display: block">
+                
+                  <li class="sub_menu @if(Request::path() == 'admin-dashboard/email-notification' )current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/email-notification')#@else {{action('AdminModerationController@emailNotification')}} @endif">Notifications</a></li>
+                  <li class="sub_menu @if(Request::path() == 'admin-dashboard/internal-email' )current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/internal-email')#@else {{action('AdminModerationController@internalEmails')}} @endif">Internal Emails</a></li>
+                
                 </ul>
               </li>
             </ul>

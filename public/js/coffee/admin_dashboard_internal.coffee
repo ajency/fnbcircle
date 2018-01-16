@@ -92,7 +92,9 @@ get_sort_order = () ->
 
 validatePassword = (password, confirm_password = '', parent_path = '', child_path = "#password_errors") ->
 	# Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
-	expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
+	# expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
+	# Password should have 8 or more characters and No (atleast 1 char & 1 no)
+	expression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
 	message = ''
 	status = true
 
@@ -105,11 +107,15 @@ validatePassword = (password, confirm_password = '', parent_path = '', child_pat
 			message = "Password & Confirm Password are not matching"
 			status = false
 	else # Else password not Satisfied the criteria
-		message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character"
-		status = false
+		if password.length > 0
+	      # message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+	      message = 'Please enter a password of minimum 8 characters and has atleast 1 number.<br/><div class=\'note-popover popover top\'><div class=\'arrow\'></div> <div class=\'popover-content\'><b class=\'fnb-errors\'>Note:</b> Don’t use obvious passwords or easily guessable one\'s, your or your pet’s name. Also try and avoid using passwords you may have on a lot of other sites.</div></div>'
+	    else
+	      message = 'Please enter a Password'
+	    status = false
 
 	if(!status && parent_path != '')
-		$(parent_path + " " + child_path).removeClass('hidden').text(message)
+		$(parent_path + " " + child_path).removeClass('hidden').html(message)
 	else if(status && parent_path != '')
 		#$(parent_path + " " + child_path).addClass('hidden')
 		$(parent_path + " " + child_path).addClass('hidden')
@@ -148,8 +154,8 @@ requestData = (table_id) ->
 			{ mData: "edit", sWidth: "5%", bSearchable: false, bSortable: false, bVisible: true }
 			{ mData: "name", sWidth: "20%", className: "sorting_1", bSearchable: true, bSortable: true }
 			{ mData: "email", sWidth: "20%", className: "text-center", bSearchable: false, bSortable: true }
-			{ mData: "roles", sWidth: "30%", className: "text-center", bSearchable: false, bSortable: false }
-			{ mData: "status", sWidth: "20%", className: "text-center", bSearchable: false, bSortable: false }
+			{ mData: "roles", sWidth: "30%", className: "text-center", bSearchable: true, bSortable: false }
+			{ mData: "status", sWidth: "20%", className: "text-center", bSearchable: true, bSortable: false }
 		]
 		'bSort': true
 		'order': [get_sort_order()]#[[ 2, "desc" ]]
@@ -205,10 +211,44 @@ requestData = (table_id) ->
 			return
 	return internal_user_table
 
+init_Multiselect = ->
+	$('.multi-ddd').multiselect
+		# buttonContainer: '<span></span>'
+		# buttonClass: ''
+		maxHeight: 200
+		templates: 
+			button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
+		# includeSelectAllOption: true
+		numberDisplayed: 5
+		# delimiterText: ','
+		#nonSelectedText: 'Select City'
+		onChange: (element, checked) ->
+			categories = $(this)[0]['$select'].find('option:selected')
+			selected = []
+			$(categories).each (index, city) ->
+				selected.push '^' + $(this).val() + "$" # Search for exact word & not LIKE "%<string>%", hence "^<string>$"
+				return
+		
+			search = selected.join('|')
+			col = $(this)[0]['$select'].closest('th').data('col')
+			$('#datatable-internal-users').DataTable().column(col).search(search, true, false).draw()
+			# Show/hide first column for Listing Approval table
+			# if (selected == "Pending Review") {
+			#     $(".select-checkbox").css("display", "table-cell");
+			#     $(".bulk-status-update").removeClass('hidden');
+			# } else {
+			#     $(".select-checkbox").css("display", "none");
+			#     $(".bulk-status-update").addClass('hidden');
+			# }
+			return
+	return
+
 $(document).ready () ->
 
 	#get_filters()
+	### --- Initialize the Table for 1st time, as the filters will be on Client-Side --- ### 
 	table = requestData("datatable-internal-users")
+	init_Multiselect()
 	
 	$("#add_newuser_modal #add_newuser_modal_form input[type='email'][name='email']").on 'keyup change', () ->
 		form_obj = $("#add_newuser_modal #add_newuser_modal_form")
@@ -233,7 +273,7 @@ $(document).ready () ->
 			user_type : "internal"
 			name : form_obj.find('input[type="text"][name="name"]').val()
 			email : form_obj.find('input[type="email"][name="email"]').val()
-			roles : if form_obj.find('select[name="role"]').val().length then form_obj.find('select[name="role"]').val() else []
+			roles : if form_obj.find('select[name="role"]').val().length then [form_obj.find('select[name="role"]').val()] else []
 			status : form_obj.find('select[name="status"]').val()
 			#'old_password' : if form_obj.find('input[type="password"][name="old_password"]').prop('disabled') then '' else form_obj.find('input[type="password"][name="old_password"]').val()
 			password : if form_obj.find('input[type="password"][name="password"]').prop('disabled') then '' else form_obj.find('input[type="password"][name="password"]').val()
@@ -255,7 +295,7 @@ $(document).ready () ->
 					$("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass "hidden"
 					$("#add_newuser_modal").modal "hide"
 					if url_type == "add"
-						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "Successfully created new User"
+						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "Successfully created new user"
 					else
 						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "User updated successfully"
 
@@ -341,8 +381,13 @@ $(document).ready () ->
 		modal_object.find("input[type='email'][name='email']").val(row.find('td:eq(2)').text()).attr("disabled", "true")
 
 		### --- Select the user's Role --- ###
-		modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()])
-		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
+		# modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()])
+		# modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
+		modal_object.find('select.form-control.fnb-select.single-role-select').val(row.find('td:eq(3)').text().toLowerCase())
+
+
+		console.log row.find('td:eq(4)').text().toLowerCase()
+		modal_object.find('select.form-control.status-select').val row.find('td:eq(4)').text().toLowerCase()
 
 		modal_object.find('.createSave').addClass 'hidden'
 		modal_object.find('.editSave').removeClass 'hidden'

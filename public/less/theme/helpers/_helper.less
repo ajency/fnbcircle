@@ -94,6 +94,10 @@
   color: @danger;
 }
 
+.cloud-color{
+  color: #fff;
+}
+
 .primary-link{
   color: @accent-primary;
   &:hover,&:active,&:focus{
@@ -209,8 +213,25 @@
   align-items: end;
 }
 
+.align-baseline{
+  align-items: baseline;
+}
+
+.self-end{
+  align-self: flex-end;
+}
+
 .justify-center{
   justify-content: center;
+}
+
+.align-full{
+  align-items: inherit;
+}
+
+
+.flex-1{
+  flex: 1;
 }
 
 .label-size{
@@ -222,6 +243,10 @@
 
 .stable-size{
   font-size: 1.05em;
+}
+
+.full-width{
+  width: 100%;
 }
 
 .overflow-hidden{
@@ -248,6 +273,11 @@
       position: absolute;
       left: -5px;
     }
+  }
+  &.with-flag{
+    position: relative;
+    top: -6px;
+    left: -6px;
   }
 }
 
@@ -284,6 +314,13 @@
     overflow: hidden;
 }
 
+.no-outline{
+  outline: 0;
+  &:focus,&:active{
+    outline: 0 !important;
+  }
+}
+
 @media screen and (min-width: 769px){
   .ellipsis-desk{
     text-overflow: ellipsis;
@@ -312,6 +349,9 @@
   }
   .full-m-width{
     width: 100%;
+  }
+  .mobile-column{
+    flex-direction: column;
   }
 }
 
@@ -531,5 +571,42 @@ input[type=checkbox].custom-checkbox{
 
 .intl-tel-input{
   z-index: 10;
+}
+
+.clear{
+  clear: both;
+}
+
+// Common for news and others
+
+.post-tags{
+  // height: 56px;
+  // overflow: hidden;
+  padding-right: 1em;
+  width: 100%;
+  &__child{
+      color: @accent-secondary;
+      border: 1px solid;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 5px;
+      padding: 5px;
+      display: inline-block;
+      margin-right: 3px;
+  }
+  .fa{
+    color: @accent-secondary;
+    padding-right: 5px;
+  }
+}
+
+.related-article{
+  .post-tags{
+    .fa{
+      padding-right: 0;
+    }
+  }
 }
 

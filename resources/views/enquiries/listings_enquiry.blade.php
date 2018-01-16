@@ -1,4 +1,4 @@
-<div class="filter-data m-t-30 send-enquiry-section m-b-30">
+<div class="filter-data m-t-30 send-enquiry-section m-b-30" id="listing_list_view_enquiry">
     <div class="pos-fixed fly-out enquiry-card">
         <div class="mobile-back desk-hide mobile-flex">
             <div class="left mobile-flex">
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="fly-out__content">
-            <div class="bg-card filter-cards add-card flex-row white-space">
+            <div class="bg-card filter-cards add-card enquiry-add-card flex-row white-space align-top">
                 <div class="add-card__content">
                     <p class="element-title heavier title flex-row">
                         <img src="{{ asset('/img/business.png') }}" class="img-responsive p-r-10">
@@ -21,47 +21,7 @@
                     </p>
                 </div>
                 <div class="add-card__form">
-                    <form>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group p-t-10 p-b-10">
-                                    <input type="text" class="form-control fnb-input" placeholder="Name">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group p-t-10 p-b-10">
-                                    <input type="email" class="form-control fnb-input" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group p-t-10 p-b-10">
-                                    <input type="number" class="form-control fnb-input" placeholder="Number">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group p-t-10 p-b-10">
-                                    <select class="form-control fnb-select select-variant text-lighter">
-                                        <option>What describes you best</option>
-                                        <option>Pune</option>
-                                        <option>Delhi</option>
-                                        <option>Mumbai</option>
-                                        <option>Goa</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group p-t-10 p-b-10">
-                                    <label class="form-label">Message</label>
-                                    <textarea class="form-control fnb-textarea" col="2"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group p-t-10 p-b-0 m-b-0 mobile-center">
-                                    <button class="btn fnb-btn primary-btn full border-btn submit-enquiry" type="button">Send an Enquiry</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                    @include('modals.listing_enquiry_popup.popup_level_one', array("no_title" => true, "is_multi_select_dropdown" => true, "enquiry_send_button" => true, "enquiry_modal_id" => "#multi-quote-enquiry-modal"))
                 </div>
             </div>
         </div>    

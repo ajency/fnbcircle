@@ -1,5 +1,6 @@
 @import "_var";
 @import "components/_buttons";
+@import "dashboard/_tagsinput";
 // @import "layout/_forms";
 // @import "components/_radio";
 
@@ -337,6 +338,20 @@ a{
 	}
 }
 
+.list-approval-tab{
+	&.table{
+		&>tbody>tr>td,
+		&>tbody>tr>th,
+		&>tfoot>tr>td,
+		&>tfoot>tr>th,
+		&>thead>tr>td,
+		&>thead>tr>th{
+			padding: 10px 7px;
+		}
+	}
+}
+
+
 .dataTable{
 	.sorting, .sorting_asc, .sorting_desc{
 		padding-right: 0 !important;
@@ -497,6 +512,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 	padding: 0.5em;
 	&.dropdown-menu{
 		left: -75px;
+		overflow-x: scroll !important;
 	}
 }
 
@@ -730,3 +746,106 @@ table.dataTable tr th.selected.select-checkbox:after {
     	margin-left: 1em;
 	}
 }
+
+
+.internal-users{
+	.multiselect-native-select{
+		display: inline-block;
+	}
+}
+
+.registered-table{
+	td{
+		text-align: center;
+	}
+}
+
+
+.no-sort-icon{
+	.sort-icon{
+		display: none;
+	}
+}
+
+.fnb-select.single-role-select{
+	font-size: 1em;
+    padding-left: 0;
+}
+
+.import-listing{
+	.modal-content{
+		padding-top: 0;
+		.modal-header{
+			background-color: #ddd;
+    		margin: 0 -20px;
+		}
+	}
+}
+
+
+.filter-area{
+	// border-top: 1px solid #eee;
+    padding-top: 1em;
+    margin-top: 1em;
+    .desc-filter{
+    	& + .multiselect-native-select{
+    		display: inline-block;
+    	}
+    }
+    .multiselect-container{
+    	overflow: auto !important;
+    }
+	.multiselect.dropdown-toggle{
+		border-bottom: 1px solid #ddd;
+		font-size: 1em;
+		min-width: 150px;
+		display: flex;
+		span{
+			font-size: 1em;
+			padding: 0 0.5em;
+		}
+	}
+	.multiselect-container{
+		li{
+			a{
+				label{
+					input[type='checkbox']{
+						position: relative;
+						&:before{
+							top: -7px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.category-modal{
+	.catOptions{
+		flex-wrap: wrap;
+		@media screen and (min-width: @tab){
+			width: 700px;
+    		margin: 45px auto 0 auto;
+		}
+		li{
+			flex: 1 0 40%;
+    		text-align: center;
+		}
+		.multi-label-select{
+			label{
+				justify-content: center;
+			}
+		}
+	}
+	.main-category{
+		.add-container{
+			h5{
+				span{
+					display: none;
+				}
+			}
+		}
+	}
+}
+

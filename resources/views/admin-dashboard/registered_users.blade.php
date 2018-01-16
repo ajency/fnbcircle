@@ -1,368 +1,178 @@
 @extends('layouts.admin-dashboard')
 
 @section('css')
-    <!-- Datatables -->
-    <!-- Google font cdn -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
-    <!-- Font awesome cdn -->
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('/css/bootstrap.min.css') }}">
-    <!-- Datatables -->
-    <link href="{{ asset('/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-    <!-- Main styles -->
-    <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
-    <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
+  <!-- bootstrap-daterangepicker -->
+    <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="/bower_components/datatables.net-select-dt/css/select.dataTables.css" rel="stylesheet">
+  @parent
 @endsection
 
 @section('js')
   @parent
-  <!-- <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
-  <script src="{{ asset('/js/bootstrap-multiselect.js') }}"></script> -->
+   <!-- bootstrap-daterangepicker -->
+    <script src="/bower_components/moment/min/moment.min.js"></script>
+    <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-    <!-- Datatables -->
-    <!-- <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script> -->
-    <!-- <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script> -->
+  <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/dashboard-registered-user.js') }}"></script>
+ 
+  
+@endsection
 
-    <!-- Autosize textarea -->
-    <!-- <script src="{{ asset('bower_components/autosize/dist/autosize.min.js') }}"></script> -->
-
-    <!-- custom script -->
-    <!-- <script type="text/javascript" src="{{ asset('js/dashboard.js') }}"></script> -->
+@section('meta')
+  <meta property="status-url" content="{{action('AdminConfigurationController@userAccountStatus')}}">
 @endsection
 
 @section('page-data')
 	<div class="right_col" role="main">
-    	<div class="">
-
-			<!--<ul class="fnb-breadcrums flex-row m-t-10 m-b-20">
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <i class="fa fa-home home-icon" aria-hidden="true"></i>
-			            </a>
-			        </li>
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <p class="fnb-breadcrums__title main-name">Admin Control Panel</p>
-			            </a>
-			        </li>
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <p class="fnb-breadcrums__title">/</p>
-			            </a>
-			        </li>
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <p class="fnb-breadcrums__title main-name">Business</p>
-			            </a>
-			        </li>
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <p class="fnb-breadcrums__title">/</p>
-			            </a>
-			        </li>
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <p class="fnb-breadcrums__title main-name">Configuration</p>
-			            </a>
-			        </li>
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <p class="fnb-breadcrums__title">/</p>
-			            </a>
-			        </li>
-			        <li class="fnb-breadcrums__section">
-			            <a href="">
-			                <p class="fnb-breadcrums__title main-name">Categories</p>
-			            </a>
-			        </li>
-			    </ul> -->
-
-	        <div class="page-title">
-	          <div class="title_left">
-	            <h5>Registered Users </h5>
-	          </div>
-	        </div>
-
-	        <div class="clearfix"></div>
-
-	        <div class="row">
-
-	          <div class="col-md-12 col-sm-12 col-xs-12">
-	            <div class="x_panel">
-	              <div class="x_content">
-
-	                <div class="row">
-	                  <div class="col-sm-4">
-	                    <label>Date created</label>
-	                    <a href="#" class="btn btn-link btn-sm clearDate">Clear</a>
-	                    <div class="form-group">
-	                      <input type="text" id="submissionDate" name="" class="form-control fnb-input">
-	                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
-	                    </div>
-	                  </div>
-
-	                  <div class="col-sm-4">
-	                    <label>Last Login</label>
-	                    <a href="#" class="btn btn-link btn-sm clearDate">Clear</a>
-	                    <div class="form-group">
-	                      <input type="text" id="loginDate" name="" class="form-control fnb-input">
-	                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
-	                    </div>
-	                  </div>
-
-	                  <div class="col-sm-3">
-	                      <div class="m-t-20 filterAction">
-	                        <button class="btn fnb-btn outline no-border">Reset all Filters</button>
-	                        <button class="btn primary-btn border-btn fnb-btn">Apply Filters</button>
-	                      </div>
-	                  </div>
-	                    
-	                </div>
+      <div class="">
 
 
-	                <input type="text" name="" placeholder="Search by Name" id="catNameSearch" class="form-control fnb-input pull-right customDtSrch" >
+        <div class="page-title">
+          <div class="title_left">
+            <h5>Registered Users  <button id="resetfilter" class="btn btn-link btn-sm reset-filters">Reset Filters</button></h5>
+          </div>
+        </div>
 
-	                <table id="datatable-registered" class="table table-striped  no-wrap registered-table" cellspacing="0" width="100%">
+        <div class="clearfix"></div>
+
+        <div class="row">
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_content">
+
+ 
+              <div class="row">  
+               <div class="col-sm-3">
+                    <label>Date Created</label>
+                    <a href="#" class="btn btn-link btn-sm clear-date"  >Clear</a>
+                    <div class="form-group date-range-picker">
+                      <input type="text" id="user_created_date" name="" class="form-control fnb-input date-range">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                      <input type="hidden" name="user_created_from" class="date-from">
+                      <input type="hidden" name="user_created_to" class="date-to">
+                    </div>
+                  </div>  
+
+                <div class="col-sm-3">
+                    <label>Last Logged In</label>
+                    <a href="#" class="btn btn-link btn-sm clear-date"  >Clear</a>
+                    <div class="form-group date-range-picker">
+                      <input type="text" id="last_login_date" name="" class="form-control fnb-input date-range">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                      <input type="hidden" name="last_login_from" class="date-from">
+                      <input type="hidden" name="last_login_to" class="date-to">
+                    </div>
+                  </div>  
+              </div>
+
+                <input type="text" name="user_name" placeholder="Search by Name" id="user_name" class="form-control fnb-input pull-right customDtSrch userstrsearchinput manage-search-box">
+
+                <input type="text" name="user_email" placeholder="Search by Email" id="user_email" class="form-control fnb-input pull-right customDtSrch userstrsearchinput manage-search-box">
+
+                <input type="text" name="user_phone" placeholder="Search by Phone" id="user_phone" class="form-control fnb-input pull-right customDtSrch userstrsearchinput manage-search-box">
+                
+
+                <table id="datatable-registration" class="table table-striped  no-wrap registered-table" cellspacing="0" width="100%">
 	                  <thead>
 	                    <tr>
 	                      <th class="text-center" rowspan="2" >Name</th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="2">Registration Type
-	                        <select multiple class="form-control multi-dd">
-	                          <option value="yes">Yes</option>
-	                          <option value="no">No</option>
+	                        <select multiple class="form-control multi-dd usersearchinput" name="registration_type">
+	                          <option value="email_signup">Email signup</option>
+	                          <option value="google">Google</option>
+                            <option value="facebook">Facebook</option>
+	                          <option value="internal_listing_signup">Created by Internal via Listing</option>
 	                        </select>
 	                      </th>
 	                      <th class="text-center" rowspan="2">Email</th>
 	                      <th class="text-center" rowspan="2">Phone</th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="3">What describe you the best?
-	                        <select multiple class="form-control multi-dd">
-	                          <option value="yes">Yes</option>
-	                          <option value="no">No</option>
+	                        <select multiple class="form-control multi-dd usersearchinput" name="user_description">
+                            @foreach(\App\Description::all() as $description)
+  	                          <option value="{{$description->id}}">{{$description->title}}</option>
+                            @endforeach
 	                        </select>
 	                      </th>
-	                      <th rowspan="2" class="no-sort text-center" data-col="4" style="min-width: 70px;">City
-	                        <select multiple class="form-control multi-dd">
-	                          <option value="yes">Yes</option>
-	                          <option value="no">No</option>
-	                        </select>
-	                      </th>
-	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
-	                          Area
-	                          <select multiple class="form-control multi-dd">
-	                            <option value="meat">Meat</option>
-	                            <option value="sea foods">Sea Foods</option>
+	                      <th rowspan="2" class="no-sort text-center" data-col="4" style="min-width: 70px;">State
+		                        <select multiple class="form-control multi-dd usersearchinput stateSearch" id="filterStates" name="user_state">
+	                            @foreach ($cities as $city)
+	                            <option value="{{$city->id}}">{{$city->name}}</option>
+	                          @endforeach
 	                          </select>
 	                      </th>
-	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="6" style="min-width: 70px;">
-	                        Status
-	                        <select multiple class="form-control multi-dd">
-	                          <option value="Chicken Distributors">Chicken Distributors</option>
-	                        </select>
+	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
+	                          City
+	                          <select multiple class="form-control multi-dd usersearchinput citySearch" id="filterCity" name="user_city">
+	                             @foreach ($areas as $area)
+	                            <option value="{{$area->id}}">{{$area->name}}</option>
+	                          @endforeach
+	                          </select>
 	                      </th>
+	                      
 	                      <th class="text-center" rowspan="2" class="no-sort" style="min-width: 130px;">Date Created</th>
 	                      <th class="text-center" rowspan="2" class="" style="min-width: 70px;">Last Login</th>
 	                      <th class="text-center" colspan="2" style="min-width: 70px;">Business Listings</th>
-	                      <th class="text-center" colspan="2" style="min-width: 70px;">Restaurant Listings</th>
+	              
 	                      <th class="text-center" colspan="2" style="min-width: 70px;">Jobs Added</th>
 	                      <th class="text-center" rowspan="2" style="min-width: 100px;">Jobs Applied to</th>
 	                      <th class="text-center" rowspan="2" style="min-width: 100px;">Resume Uploaded (Y/N)</th>
+	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="6" style="min-width: 70px;">
+	                        Status
+	                        <select multiple class="form-control multi-dd usersearchinput" id="user_status" name="user_status">
+	                          <option value="active">Active</option>
+	                          <option value="inactive">Inactive</option>
+	                          <option value="suspended">Suspended</option>
+	                        </select>
+	                      </th>
 	                    </tr>
 	                    <tr>
 	                      <th class="text-center" style="min-width: 70px;">Total</th>
 	                      <th class="text-center" style="min-width: 70px;">Published</th>
 	                      <th class="text-center" style="min-width: 70px;">Total</th>
 	                      <th class="text-center" style="min-width: 70px;">Published</th>
-	                      <th class="text-center" style="min-width: 70px;">Total</th>
-	                      <th class="text-center" style="min-width: 70px;">Published</th>
 	                    </tr>
+	                    
 	                  </thead>
 
 	                  <tbody>
-	                    <tr>
-	                      <td class="text-center">Amit Adav</td>
-	                      <td class="text-center">Email</td>
-	                      <td class="text-center">amit@ajency.in</td>
-	                      <td class="text-center">8087854125</td>
-	                      <td class="text-center">Others</td>
-	                      <td class="text-center">Goa</td>
-	                      <td class="text-center">Panjim</td>
-	                      <td class="text-center">Active</td>
-	                      <td class="text-center">12/01/2017</td>
-	                      <td class="text-center">21/06/2017</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">0</td>
-	                      <td class="text-center">N</td>
-	                    </tr>
-	                    <tr>
-	                      <td class="text-center">Valenie Lourenco</td>
-	                      <td class="text-center">Email</td>
-	                      <td class="text-center">valenie@ajency.in</td>
-	                      <td class="text-center">8087854125</td>
-	                      <td class="text-center">Others</td>
-	                      <td class="text-center">Goa</td>
-	                      <td class="text-center">Panjim</td>
-	                      <td class="text-center">Active</td>
-	                      <td class="text-center">12/01/2017</td>
-	                      <td class="text-center">21/06/2017</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">0</td>
-	                      <td class="text-center">N</td>
-	                    </tr>
+	                     	 
 	                  </tbody>
 	                </table>
 
-	              </div>
+              </div>
 
-	            </div>
-	          </div>
+            </div>
+          </div>
 
-	        </div>
+        </div>
 
-	        <!-- Add Category Modal -->
-	        <div class="modal fade" id="add_category_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	          <div class="modal-dialog" role="document">
-	            <div class="modal-content">
-	              <form>
-	                <div class="modal-header">
-	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                  <h6 class="modal-title">Add New Category</h6>
-	                </div>
-	                <div class="modal-body">
-	                  <label>Type of Category <span class="text-danger">*</span></label>
-	                  <div class="form-group flex flex-space-between">
-	                    <label class="radio-inline">
-	                      <input type="radio" name="categoryType" id="parent_cat" value="parent_cat" class="fnb-radio" checked> Parent Category
-	                    </label>
-	                    <label class="radio-inline">
-	                      <input type="radio" name="categoryType" id="branch_cat" value="branch_cat" class="fnb-radio"> Branch Category
-	                    </label>
-	                    <label class="radio-inline">
-	                      <input type="radio" name="categoryType" id="node_cat" value="node_cat" class="fnb-radio"> Node Category
-	                    </label>
-	                  </div>
+      <div class="modal fade" tabindex="-1" role="dialog" id="updateStatusModal">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">Update Status</h6>
+              </div>
+              <form id="singlestatus">
+              <div class="modal-body">
+                <label>Status of <span id="listing-title"></span></label>
+                <select class="form-control fnb-select w-border status-select" required>
+                  <option value="">Select</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn fnb-btn primary-btn mini" id="change_status">Save changes</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
-	                  <div class="row">
-	                    <div class="col-sm-6">
-	                      <div class="form-group select-parent-cat hidden">
-	                        <label>Select Parent Category <span class="text-danger">*</span></label>
-	                        <select class="form-control fnb-select w-border">
-	                          <option value="">Meat Products</option>
-	                          <option value="">Meat Products</option>
-	                          <option value="">Meat Products</option>
-	                        </select>
-	                      </div>
-	                    </div>
-	                    <div class="col-sm-6">
-	                      <div class="form-group select-branch-cat hidden">
-	                        <label>Select Branch Category <span class="text-danger">*</span></label>
-	                        <select class="form-control fnb-select w-border">
-	                          <option value="">Chicken Suppliers</option>
-	                          <option value="">Chicken Suppliers</option>
-	                          <option value="">Chicken Suppliers</option>
-	                        </select>
-	                      </div>
-	                    </div>
-	                  </div>
+ 
 
-	                  <div class="form-group">
-	                    <label>Category Name  <span class="text-danger">*</span></label>
-	                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter a Category name">
-	                  </div>
-
-	                  <div class="form-group">
-	                    <label>Category Url  <span class="text-danger">*</span></label>
-	                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter the Category Url">
-	                  </div>
-
-	                  <div class="form-group parent_cat_icon">
-	                    <label>Icon  <span class="text-danger">*</span></label>
-	                    <input type="file" name="">
-	                  </div>
-
-	                  <div class="row">
-	                    <div class="col-sm-6">
-	                      <div class="form-group">
-	                        <label>Sort Order  <span class="text-danger">*</span></label>
-	                        <input type="number" class="form-control fnb-input" name="" value="1" min="1" placeholder="Enter a Sort value">
-	                      </div>
-	                    </div>
-	                    <div class="col-sm-6">
-	                      <div class="form-group">
-	                        <label>Status <span class="text-danger">*</span></label>
-	                        <select class="form-control fnb-select w-border">
-	                          <option value="">Published</option>
-	                          <option value="">Draft</option>
-	                          <option value="">Archived</option>
-	                        </select>
-	                      </div>
-	                    </div>
-	                  </div>
-
-	                </div>
-	                <div class="modal-footer">
-	                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
-	                  <button type="submit" class="btn primary-btn fnb-btn border-btn">Save</button>
-	                </div>
-	              </form>
-	            </div>
-	          </div>
-	        </div>
-
-		</div>
-    </div>
-@endsection
-
-@section('js')
-	<div class="site-overlay"></div>
-    <!-- jquery -->
-    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
-    <!-- BS Script -->
-    <!-- <script type="text/javascript" src="../public/js/bootstrap.min.js"></script> -->
-    <!-- Smooth Mouse scroll -->
-    <!-- <script type="text/javascript" src="../public/js/jquery.easeScroll.min.js"></script> -->
-    <!-- BS lightbox -->
-    <!-- <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script> -->
-    <!-- Magnify popup plugin -->
-    <!-- <script type="text/javascript" src="../public/js/magnify.min.js"></script> -->
-    <!-- Read more -->
-    <!-- <script type="text/javascript" src="../public/js/readmore.min.js"></script> -->
-
-    <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
-    <!-- <script src="../public/js/bootstrap-multiselect.js"></script> -->
-  	<script src="{{ asset('/js/bootstrap-multiselect.js') }}"></script>
-
-    <!-- Datatables -->
-    <script src="{{ asset('/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
-    <!-- <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script> -->
-    <!-- <script src="../public/js/datatable-button.js"></script> -->
-    <script src="{{ asset('/js/datatable-button.js') }}"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
-  
-    <!-- Autosize textarea -->
-    <!-- <script src="../public/bower_components/autosize/dist/autosize.min.js"></script> -->
-
-    <!-- Date range -->
-    <script src="{{ asset('/bower_components/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-
-    <!-- custom script -->
-    <!-- <script type="text/javascript" src="../public/js/custom.js"></script>
-
-    <script type="text/javascript" src="../public/js/dashboard.js"></script> -->
 @endsection

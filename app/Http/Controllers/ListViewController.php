@@ -22,11 +22,12 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use App\Helper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ListViewController extends Controller {
-	/**
+    /**
 	* This function will load the List View Blade of Listing
 	*/
     public function listView(Request $request, $city='all') { 
@@ -60,19 +61,19 @@ class ListViewController extends Controller {
 		}
 
 		if($request->has('listing_status') && $request->listing_status) {
-			$filters["listing_status"] = json_decode($request->listing_status);
+			$filters["listing_status"] = jsonDecoder($request->listing_status);
 		} else {
 			$filters["listing_status"] = [];
 		}
 
 		if($request->has('business_types') && $request->business_types) {
-			$filters["business_type"] = json_decode($request->business_types);
+			$filters["business_type"] = jsonDecoder($request->business_types);
 		} else {
 			$filters["business_type"] = [];
 		}
 
-    	if($request->has('areas_selected') && json_decode($request->areas_selected) && Area::whereIn('slug', json_decode($request->areas_selected))->count() > 0) {
-    		$category_search_filter = json_decode($request->areas_selected);
+    	if($request->has('areas_selected') && jsonDecoder($request->areas_selected) && Area::whereIn('slug', jsonDecoder($request->areas_selected))->count() > 0) {
+    		$category_search_filter = jsonDecoder($request->areas_selected);
 
 			if(isset($filters["areas_selected"])) {
 				$filters["areas_selected"] = array_merge($filters["areas_selected"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
@@ -184,6 +185,16 @@ class ListViewController extends Controller {
 		$category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
 
 		$output = new ConsoleOutput;
+
+        if($request->has('category_level') && $request->category_level) {
+            $category_obj = $category_obj->where('level', $request->category_level);
+        }
+
+        if($request->has("ignore_categories") && is_array($request->ignore_categories) && sizeof($request->ignore_categories) > 0) {
+            $category_obj = $category_obj->whereNotIn('slug', $request->ignore_categories);
+        } else if ($request->has('ignore_categories') && !is_array($request->ignore_categories) && strlen($request->ignore_categories) > 0) {
+            $category_obj = $category_obj->where('slug', '<>', $request->ignore_categories);
+        }
 
 		if($request->has("search") && $request->search) {
 			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
@@ -595,7 +606,7 @@ class ListViewController extends Controller {
 
     		// If a Category is selected from the List from the Search box
     		if(isset($request->filters["category_search"])) {
-    			$category_search_filter = json_decode(explode("|", $request->filters["category_search"])[1]);// Get the Node_categories list
+    			$category_search_filter = jsonDecoder(explode("|", $request->filters["category_search"])[1]);// Get the Node_categories list
     			if(isset($filters["categories"])) {
     				$filters["categories"] = array_merge($filters["categories"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
     			} else {
@@ -608,7 +619,7 @@ class ListViewController extends Controller {
     		// If a Category is selected from the List on the Left-hand side
     		if(isset($request->filters["categories"])) {
     			$filter_filters["category"] = array("slug" => explode("|", $request->filters["categories"])[0]);
-    			$category_search_filter = json_decode(explode("|", $request->filters["categories"])[1]);// Get the Node_categories list
+                $category_search_filter = jsonDecoder(explode("|", $request->filters["categories"])[1]); // Get the Node_categories list
 
     			/*if($filter_filters["category"]["id"] > 0 && sizeof($category_search_filter) <= 0) {
     				$category_search_filter = [0];
@@ -627,7 +638,7 @@ class ListViewController extends Controller {
     		}
 
     		if(isset($request->filters["listing_status"]) && $request->filters["listing_status"]) {
-				$filters["listing_status"] = json_decode($request->listing_status);
+				$filters["listing_status"] = jsonDecoder($request->listing_status);
 			} else {
 				$filters["listing_status"] = [];
 			}
@@ -683,7 +694,9 @@ class ListViewController extends Controller {
 
     	$filtered_list_response = $this->getListingSummaryData($city, $filters, $start, $page_size, $sort_by, $sort_order); // Get list of all the data
     	$listing_data = $filtered_list_response["data"];
-    	$list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data'))->render();
+
+        $enquiry_data = Session::get('enquiry_data', []);
+        $list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data', 'enquiry_data'))->render();
 
     	if($request->has('state') && $request->state && (City::where('slug', $request->state)->count() > 0 || Area::where('slug', request()->state)->count() > 0)) {
     		$filter_filters["state"] = $request->state;

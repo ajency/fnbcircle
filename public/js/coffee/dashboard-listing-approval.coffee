@@ -51,10 +51,12 @@ approval_table = $('#datatable-listing_approval').DataTable(
     {"data": "updated_on"}
     {"data": "last_updated_by"}
     {"data": "type"}
+    {"data": "owner-status"}
     {"data": "duplicates"}
     {"data": "premium"}
-    {"data": "status"}
+    {"data": "source"}
     {"data": "status_ref"}
+    {"data": "status"}
   ]
   'select':
     'style': 'multi'
@@ -71,7 +73,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     }
     {
       'targets': [
-        12
+        13
       ]
       'visible': false
       'searchable': false
@@ -447,7 +449,7 @@ $('.bulk-status-update').on 'click','button#bulkupdate', ()->
   selected_listings.forEach (listing) ->
     listing['status'] = $('.bulk-status-update select.status-select').val()
   # console.log $($('.bulk-status-update input[type="checkbox"]')[0]).prop 'checked'
-  sm = ($($('.bulk-status-update input[type="checkbox"]')[0]).prop 'checked')? "1":"0"
+  sm = $($('.bulk-status-update input[type="checkbox"]')[0]).prop 'checked'
   changeStatusAPI(sm)
 
 
@@ -474,6 +476,13 @@ $('body').on 'change','select#citySelect', ->
   filters['city']= $(this).val()
   sendRequest()
 
+$('body').on 'change','select#user-status', ->
+  filters['user-status']= $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#source-filter', ->
+  filters['source']= $(this).val()
+  sendRequest()
 
 
 $('#datatable-listing_approval').on 'click', 'i.fa-pencil', (e) ->
@@ -509,12 +518,17 @@ $('#updateStatusModal').on 'click', 'button#change_status', ->
   selected_listings.forEach (listing) ->
     listing['status'] = $('#updateStatusModal select.status-select').val()
   console.log selected_listings
-  sm = ($('#updateStatusModal input[type="checkbox"]').prop 'checked')? "1":"0"
+  sm = $('#updateStatusModal input[type="checkbox"]').prop('checked')
+
   changeStatusAPI(sm)
 
 changeStatusAPI = (sm) ->
   url = document.head.querySelector('[property="status-url"]').content
-  console.log sm
+  if sm
+    sm = "1"
+  else
+    sm = "0"
+  console.log 'sm = '+sm
   $.ajax
     type: 'post'
     url: url
@@ -570,3 +584,5 @@ sendRequest = ()->
   #     'page':'1'
   #     'sort':'submission_date'
   #   }
+$('body').on 'click','button#importListing', (e)->
+  $('#importListingModal').modal('show')

@@ -36,7 +36,7 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'table' => 'jobs',
+            'table' => 'jobs_queue',
             'queue' => 'default',
             'retry_after' => 90,
         ],
@@ -63,6 +63,13 @@ return [
             'queue' => 'default',
             'retry_after' => 90,
         ],
+
+        'ajfileimportcon' => [
+           'driver' => 'database',
+           'table' => 'aj_import_jobs',
+           'queue' => 'default',
+           'retry_after' => 90,
+       ]
 
     ],
 

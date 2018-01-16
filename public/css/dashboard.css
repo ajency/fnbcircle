@@ -122,6 +122,9 @@
   color: #f19279;
   border: 0;
 }
+.fnb-btn.medium-btn {
+  padding: 0.5em 1.5em;
+}
 .social-btn {
   padding: 0.8em 2em;
   border: 0;
@@ -149,6 +152,83 @@
   position: absolute;
   left: 10px;
   font-size: 1.35em;
+}
+div.tagsinput {
+  border: 1px solid #d8d8d8;
+  background: #FFF;
+  padding: 5px;
+  width: 300px;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow-y: auto;
+}
+div.tagsinput span.tag {
+  border: 1px solid #ec6d4b;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  display: block;
+  float: left;
+  padding: 2px 5px;
+  text-decoration: none;
+  background: #ec6d4b;
+  color: #fff;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+div.tagsinput span.tag a {
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  font-size: 11px;
+  display: inline-block;
+  position: relative;
+  width: 10px;
+}
+div.tagsinput span.tag a:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "\f00d";
+  font-family: FontAwesome;
+  background: #ec6d4b;
+  width: 10px;
+  text-align: center;
+}
+div.tagsinput input {
+  width: 80px;
+  margin: 0px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  padding: 2px 5px;
+  background: transparent;
+  outline: 0px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+div.tagsinput div {
+  display: block;
+  float: left;
+}
+div.tagsinput.no-edit {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+div.tagsinput.no-edit span.tag a {
+  display: none;
+}
+div.tagsinput.no-edit input {
+  display: none;
+}
+.tags_clear {
+  clear: both;
+  width: 100%;
+  height: 0px;
+}
+.not_valid {
+  color: #fff !important;
+  color: #d0021b !important;
 }
 body {
   background: #4e4c4c;
@@ -414,6 +494,14 @@ a:hover {
 .table > thead > tr > th {
   padding: 10px 8px;
 }
+.list-approval-tab.table > tbody > tr > td,
+.list-approval-tab.table > tbody > tr > th,
+.list-approval-tab.table > tfoot > tr > td,
+.list-approval-tab.table > tfoot > tr > th,
+.list-approval-tab.table > thead > tr > td,
+.list-approval-tab.table > thead > tr > th {
+  padding: 10px 7px;
+}
 .dataTable .sorting,
 .dataTable .sorting_asc,
 .dataTable .sorting_desc {
@@ -551,6 +639,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 .multiselect-container.dropdown-menu {
   left: -75px;
+  overflow-x: scroll !important;
 }
 .city-select .multiselect-container {
   padding: 0.5em;
@@ -715,4 +804,69 @@ table.dataTable tr th.selected.select-checkbox:after {
     width: 38%;
     margin-left: 1em;
   }
+}
+.internal-users .multiselect-native-select {
+  display: inline-block;
+}
+.registered-table td {
+  text-align: center;
+}
+.no-sort-icon .sort-icon {
+  display: none;
+}
+.fnb-select.single-role-select {
+  font-size: 1em;
+  padding-left: 0;
+}
+.import-listing .modal-content {
+  padding-top: 0;
+}
+.import-listing .modal-content .modal-header {
+  background-color: #ddd;
+  margin: 0 -20px;
+}
+.filter-area {
+  padding-top: 1em;
+  margin-top: 1em;
+}
+.filter-area .desc-filter + .multiselect-native-select {
+  display: inline-block;
+}
+.filter-area .multiselect-container {
+  overflow: auto !important;
+}
+.filter-area .multiselect.dropdown-toggle {
+  border-bottom: 1px solid #ddd;
+  font-size: 1em;
+  min-width: 150px;
+  display: flex;
+}
+.filter-area .multiselect.dropdown-toggle span {
+  font-size: 1em;
+  padding: 0 0.5em;
+}
+.filter-area .multiselect-container li a label input[type='checkbox'] {
+  position: relative;
+}
+.filter-area .multiselect-container li a label input[type='checkbox']:before {
+  top: -7px;
+}
+.category-modal .catOptions {
+  flex-wrap: wrap;
+}
+@media screen and (min-width: 769px) {
+  .category-modal .catOptions {
+    width: 700px;
+    margin: 45px auto 0 auto;
+  }
+}
+.category-modal .catOptions li {
+  flex: 1 0 40%;
+  text-align: center;
+}
+.category-modal .catOptions .multi-label-select label {
+  justify-content: center;
+}
+.category-modal .main-category .add-container h5 span {
+  display: none;
 }

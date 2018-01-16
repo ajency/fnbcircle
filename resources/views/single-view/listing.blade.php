@@ -3,6 +3,7 @@
 @section('css')
     @parent
     <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-multiselect.min.css">
     <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials.css" />
     <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials-theme-minima.css" />
 @endsection
@@ -16,11 +17,12 @@
       <script type="text/javascript" src="/bower_components/jssocials/dist/jssocials.min.js"></script>
       <script type="text/javascript" src="/js/single-list-view.js"></script>
       <!-- <script type="text/javascript" src="/js/maps.js"></script> -->
-       @if(Session::has('statusChange'))
-    <script> 
-       $('#listing-review').modal('show');
-    </script>
-    @endif
+        @if(Session::has('statusChange'))
+            <script> 
+               $('#listing-review').modal('show');
+            </script>
+        @endif
+        <!-- <script type="text/javascript" src="{{ asset('js/listing_enquiry.js') }}"></script> -->
 @endsection
 
 @section('meta')
@@ -124,7 +126,7 @@
                         <!-- Card Info starts -->
                         <div class="seller-info card design-2-card new-changes">
                             <div class="seller-info__header flex-row"></div>
-                            <div class="seller-info__body">
+                            <div class="seller-info__body card-body">
                                 <div class="flex-row space-between singleV-title">
                                     <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
                                     <input readonly id='listing_id' value="{{$data['reference']}}" type="hidden">
@@ -136,6 +138,7 @@
                                     <img src="/img/power-icon.png" class="img-responsive desk-hide" width="30">
                                     @endif
                                 </div>
+
                                 <div class="location flex-row">
                                     <span class="fnb-icons map-icon"></span>
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
@@ -203,8 +206,10 @@
                             </div>
                             <div class="seller-info__footer p-t-20 single-contact-section">
                                 <div class="contact flex-row space-between flex-wrap">
-                                    <div class="contact__info flex-row">
-                                        <button class="btn fnb-btn primary-btn full border-btn show-info">Show contact info</button>
+                                    <div class="contact__info flex-row show-contact">
+                                        @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+                                        <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
+                                        @endif
                                         <!-- If logged in -->
                                         <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
 
@@ -212,13 +217,13 @@
                                         <!-- <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button> -->
 
                                         <!-- <p class="m-b-0">20</p> -->
-                                        <!-- <p class="contact__title lighter">This lisiting got <b>50+</b> contact requests</p> -->
+                                        <p class="contact__title lighter">This lisiting got <b>{{$data['contact']['requests']}}</b> contact requests</p>
                                     </div>
                                     <!-- <div class="contact__date">
                                         <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
                                     </div> -->
                                     @if(isset($data['publish_date']) and $data['status']['id'] == '1')
-                                    <div class="dropdown social-drop contact-social">
+                                    <div class="dropdown social-drop contact-social mobile-hide">
                                         <button type="button" class="share-btn flex-row" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt p-r-5" aria-hidden="true"></i> Share <i class="fa fa-caret-down p-l-5" aria-hidden="true"></i></button>
                                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                                             <div class="shareRoundIcons"></div>
@@ -272,7 +277,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="text-center">
-                                                <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
+                                                <!-- <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button> -->
                                             </div>
                                         </div>
                                     </div>
@@ -494,6 +499,7 @@
                                 </script>
 
                                 </div>
+
                                 @endisset
                                 @isset($data['payments'])
                                 <div class="detail-4 flex-row m-t-25">
@@ -542,8 +548,7 @@
                                             @endif
                                         </div>
 
-<!-- 
-                                        @isset($similar[0]['operationAreas'])
+                                    <!-- @isset($similar[0]['operationAreas'])
 
 
                                         <div class="operations m-t-10">
@@ -669,14 +674,48 @@
                         <!-- Similar businesses end -->
                         @endif
                         <!-- Related article section -->
-
-
+                        
+                        @if(count($data['news_items']) > 0)
                         <div class="related-article p-b-20" id="article">
                                 <div class="section-start-head m-b-15 flex-row">
                                     <h6 class="element-title">Related Articles</h6>
-                                    <a href="" class="secondary-link view-more heavier">View More</a>
+                                    <a href="{{ url('/news') }}" class="secondary-link view-more heavier">View More</a>
                                 </div>
-                                <div class="related-article__section flex-row">
+                                <div class="related-article__section flex-row align-top">
+
+                                    
+                                    @foreach($data['news_items'] as $news_item)
+                                    
+
+
+                                    <div class="related-article__col article-col fnb-article">
+                                        <a href="" class="article-link">
+                                            <div class="fnb-article__banner" <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});background-position: inherit;" <?php }  ?>  ></div>
+                                            <div class="fnb-article__content m-t-15">
+                                            
+                                                <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="text-darker ellipsis-2 cust-title-height">{{$news_item['title']}}</a></h6>
+
+                                                <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 130, $end = '...') }}    </p>
+
+                                                <?php /* @if(count($news_item['tags']) > 0)
+                                                   <div class="post-tags ellipsis-2 text-color" title="{{ implode(',',$news_item['tags']) }}">
+                                                     @foreach($news_item['tags'] as $news_tag)
+                                                     <span  class="post-tags__child"  title="{{ $news_tag}}" ><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
+                                                      @endforeach
+                                                   </div>
+
+                                                @endif */ ?>
+                                                <span class="dis-block fnb-article__caption lighter date m-t-5">Posted on {{$news_item['display_date']}}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+                                    @endforeach
+                                
+
+
+                                <!--
                                     <div class="related-article__col article-col fnb-article">
                                         <a href="" class="article-link">
                                             <div class="fnb-article__banner"></div>
@@ -696,11 +735,22 @@
                                                 <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
                                             </div>
                                         </a>
-                                    </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        @else
+
+                            <div class="related-article p-b-20" id="article">
+                                <div class="section-start-head m-b-15 flex-row">
+                                    <h6 class="element-title">Related Articles</h6>                                        
+                                </div>
+                                <div class="related-article__section">
+                                    <p class="text-center heavier card no-articles flex-row text-color">No related articles <i class="fa fa-newspaper-o text-primary element-title m-l-10" aria-hidden="true"></i></p>
                                 </div>
                             </div>
 
 
+                        @endif
 
                         <!-- Related article section end -->
 
@@ -722,110 +772,116 @@
                                 @endisset
                             </div> 
                             
-                            <div class="contact__enquiry text-center">                                
-                                <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
-                                <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
-                                @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-                                <div class="approval m-t-20">
-                                    <p class="contact__title lighter">{{$data['status']['text']}}</p>
-                                    <div class="heavier sub-title m-b-10 pending-stuff">{!! $data['status']['status'] !!} </div>
-                                    @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
-                                </div>
+                                <div class="contact__enquiry mobile--enquiry text-center">
+                                                      
+                                @if($data['status']['id']==1)
+                                    <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
+                                    <!-- <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
                                 @endif
+                                    @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+                                        <div class="approval m-t-20">
+                                            <p class="contact__title lighter">{{$data['status']['text']}}</p>
+                                            <div class="heavier sub-title m-b-10 pending-stuff">{!! $data['status']['status'] !!} </div>
+                                            @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
+                                        </div>
+                                    @endif
+                                
                             </div>
                             @isset($data['status']['next'])
-                            <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                              <div class="modal-dialog modal-sm" role="document">
-                                  <div class="modal-content">
-                                      <div class="modal-header">
-                                          <h5 class="text-medium m-t-0 bolder m-b-5">Confirm</h5>
-                                      </div>
-                                      <div class="modal-body text-center">
-                                          <div class="listing-message p-l-10 p-r-10">
-                                              <h4 class="element-title text-medium text-left text-color m-t-0">Are you sure you want to {{$data['status']['next']}} ?</h4>
-                                          </div>  
-                                          <div class="confirm-actions text-right flex-row flex-end">
-                                            {!!$data['status']['change']!!}
-                                                <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
-                                          </div>
-                                      </div>
-                                      <!-- <div class="modal-footer">
-                                          <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
-                                      </div> -->
-                                  </div>
-                              </div>
-                          </div>
+                                <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="text-medium m-t-0 bolder m-b-5">Confirm</h5>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                              <div class="listing-message p-l-10 p-r-10">
+                                                  <h4 class="element-title text-medium text-left text-color m-t-0">Are you sure you want to {{$data['status']['next']}} ?</h4>
+                                              </div>  
+                                              <div class="confirm-actions text-right flex-row flex-end">
+                                                {!!$data['status']['change']!!}
+                                                    <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                              </div>
+                                            </div>
+                                          <!-- <div class="modal-footer">
+                                              <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                                          </div> -->
+                                        </div>
+                                    </div>
+                                </div>
                             @endisset
                         </div>
                         <!-- core categories end -->
                         <!-- Claim -->
                         @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-                        <div class="claim-box p-b-10">
-                            <!-- <i class="fa fa-commenting claim__icon" aria-hidden="true"></i> -->
-                            <!-- <img src="img/exclamation.png" class="img-reponsive"> -->
-                            <span class="fnb-icons exclamation"></span>
-                            <p class="claim-box__text sub-title">Is this your business? <a href="">Claim it now.</a><br> or <a href="">Report/Delete</a></p>
-                        </div>
+                            <div class="claim-box p-b-10">
+                                <!-- <i class="fa fa-commenting claim__icon" aria-hidden="true"></i> -->
+                                <!-- <img src="img/exclamation.png" class="img-reponsive"> -->
+                                <span class="fnb-icons exclamation"></span>
+                                <p class="claim-box__text sub-title">Is this your business? <a href="">Claim it now.</a><br> or <a href="">Report/Delete</a></p>
+                            </div>
                         @endif
                         <!-- claim end -->
                         @if(isset($data['images']) or isset($data['files']))
-                        <!-- Photos and documents -->
-                        <div class="docs p-t-20 p-b-20 m-t-20 move-element">
-                            <p class="element-title m-b-15 bolder">Photos &amp; Documents of {{$data['title']['name']}}</p>
-                            @isset($data['images'])
-                            <div class="photo-gallery">
-                                @php $photo_count = count($data['images'])-4; $i=0;  @endphp
-                                @foreach($data['images'] as $images)
-                                @if($loop->first)
-                                <div class="photo-gallery__banner">
-                                    <a href="{{$images['full']}}" class="thumb-click">
-                                      <img src="{{$images['thumb']}}" class="img-responsive main-img no-height">
-                                      <div class="image-cover" style="background-image:url('{{$images['thumb']}}');">
-                                      </div>
-                                      <div class="blur-img">
-                                        <!-- <img src="{{$images['thumb']}}"> -->
-                                      </div>
-                                    </a>
-                                </div>
-                                <ul class="photo-gallery__thumbnails flex-row m-t-5 m-b-20">
-                                @else
-
-                                    <li>
-                                        <a href="{{$images['full']}}" class="thumb-click" >
-                                            
-                                            <img src="{{$images['thumb']}}" alt="" class="img-responsive no-height">
-                                            <div class="image-mag" style="background-image:url('{{$images['thumb']}}');">
-                                                
-                                            </div>
-                                            @if($i == 3 and $photo_count>0)<p class="sub-title">+ {{$photo_count}} More</p>@endif
+                            <!-- Photos and documents -->
+                            <div class="docs p-t-20 p-b-20 m-t-20 move-element">
+                                <p class="element-title m-b-15 bolder">Photos &amp; Documents of {{$data['title']['name']}}</p>
+                                @isset($data['images'])
+                                <div class="photo-gallery">
+                                    @php $photo_count = count($data['images'])-4; $i=0;  @endphp
+                                    @foreach($data['images'] as $images)
+                                    @if($loop->first)
+                                    <div class="photo-gallery__banner">
+                                        <a href="{{$images['full']}}" class="thumb-click">
+                                          <img src="{{$images['thumb']}}" class="img-responsive main-img no-height">
+                                          <div class="image-cover" style="background-image:url('{{$images['thumb']}}');">
+                                          </div>
+                                          <div class="blur-img">
+                                            <!-- <img src="{{$images['thumb']}}"> -->
+                                          </div>
                                         </a>
-                                    </li>
-                                    
-                                @endif
-                                @if($loop->last)
-                                </ul>
-                                @endif
-                                @php $i++; @endphp
-                                @endforeach
-                            </div>
-                            @endisset
-                            @isset($data['files'])
-                            @foreach($data['files'] as $file)
-                            <div class="catalogue flex-row p-t-20 p-b-20">
-                                <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
-                                    {{$file['name']}}.{{pathinfo($file['url'])['extension']}}
-                                </p>
-                                <a href="{{$file['url']}}" target="_blank" title="Download {{$file['name']}}" download>
-                                    <span class="fnb-icons download"></span>
-                                </a>
-                            </div>
-                            @endforeach
-                            @endisset
-                        </div>
-                        <!-- documents ends -->
-                        <!-- enquiry form -->
-                        @endif
+                                    </div>
+                                    <ul class="photo-gallery__thumbnails flex-row m-t-5 m-b-20">
+                                    @else
 
+                                        <li>
+                                            <a href="{{$images['full']}}" class="thumb-click" >
+                                                
+                                                <img src="{{$images['thumb']}}" alt="" class="img-responsive no-height">
+                                                <div class="image-mag" style="background-image:url('{{$images['thumb']}}');">
+                                                    
+                                                </div>
+                                                @if($i == 3 and $photo_count>0)<p class="sub-title">+ {{$photo_count}} More</p>@endif
+                                            </a>
+                                        </li>
+                                        
+                                    @endif
+                                    @if($loop->last)
+                                    </ul>
+                                    @endif
+                                    @php $i++; @endphp
+                                    @endforeach
+                                </div>
+                                @endisset
+
+                                @isset($data['files'])
+                                    @foreach($data['files'] as $file)
+                                    <div class="catalogue flex-row p-t-20 p-b-20">
+                                        <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
+                                            {{$file['name']}}.{{pathinfo($file['url'])['extension']}}
+                                        </p>
+                                        <a href="{{$file['url']}}" target="_blank" title="Download {{$file['name']}}" download>
+                                            <span class="fnb-icons download"></span>
+                                        </a>
+                                    </div>
+                                    @endforeach
+                                @endisset
+                            </div>
+                            <!-- documents ends -->
+                            
+                        @endif
+                        @if(false)
+                        <!-- enquiry form -->
                         <div class="sticky-bottom mobile-flex desk-hide active">
                             <div class="stick-bottom__text">
                                 <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
@@ -847,30 +903,26 @@
                             </div>
                             <div class="fly-out__content">
                                 <div class="enquiry-form card m-t-30 m-b-20">
-                                    <form method="">
+                                    <!-- <form method=""> -->
                                         <div class="enquiry-form__header flex-row space-between">
-                                            <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
                                             <div class="enquiry-title">
                                                 <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
-                                                <p class="sub-title">Mystical the meat and fish store</p>
+                                                <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p>
                                             </div>
                                             <span class="fnb-icons enquiry"></span>
                                         </div>
-                                        <div class="enquiry-form__body m-t-10">
-                                            <div class="form-group p-t-10 m-b-0">
-                                                <!-- <input type="text" class="form-control fnb-input" placeholder="Name"> -->
+                                        <div class="enquiry-form__body m-t-10 send-enquiry-section common-enquiry-form" id="rhs-enquiry-form">
+                                            <!-- <div class="form-group p-t-10 m-b-0">
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
                                                 <input type="text" class="form-control fnb-input float-input" id="contact_name">
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
-                                                <!-- <input type="email" class="form-control fnb-input" placeholder="Email"> -->
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
                                                 <input type="email" class="form-control fnb-input float-input" id="contact_email">
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
                                                 <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
-                                                <!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
                                             </div>
                                             <div class="form-group p-t-20 p-b-10 m-b-0">
                                                 <label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
@@ -883,40 +935,21 @@
                                                     <option>I work in the F&amp;B industry</option>
                                                 </select>
                                             </div>
-                                            <!-- <div class="form-group p-t-10 p-b-10 m-b-0">
-                                                <label class="">Interested in</label>
-                                                <ul class="interested-options flex-row m-t-15">
-                                                    <li>
-                                                        <input type="radio" class="radio" name="interests" checked>
-                                                        <div class="meat option flex-row">
-                                                            <span class="fnb-icons cat-icon meat"></span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <input type="radio" class="radio" name="interests">
-                                                        <div class="veg option flex-row">
-                                                            <span class="fnb-icons cat-icon veg"></span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div> -->
                                             <div class="form-group p-t-10 p-b-20 m-b-0">
-                                                <!-- <label class="custom-label">Message</label> -->
-                                                <!-- <textarea class="form-control fnb-textarea" col="2"></textarea> -->
                                                 <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
-                                                <!-- <input> -->
-                                                <!-- <textarea class="form-control fnb-textarea float-input" id="contact_msg"></textarea> -->
                                                 <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
-                                                <button class="btn fnb-btn primary-btn full border-btn">Send an Enquiry</button>
-                                            </div>
+                                                <button class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#enquiry-modal">Send an Enquiry</button>
+                                            </div> -->
+                                            @include('modals.listing_enquiry_popup.popup_level_one', array("no_title" => true, "is_multi_select_dropdown" => true, "enquiry_send_button" => true, "enquiry_modal_id" => "#enquiry-modal", "mobile_view" => true))
                                         </div>
-                                    </form>
+                                    <!-- </form> -->
+                                    
                                 </div>
                             </div>
-                        </div>
-
+                        </div>  
+                        @endif
 
 
                         <!-- enquiry form ends-->
@@ -945,8 +978,6 @@
                         <div class="advertisement flex-row m-t-20">
                             <h6 class="element-title">Advertisement</h6>
                         </div>
-
-
 
                         <div class="boost-row single-boost text-center">
                             <i class="fa fa-rocket text-secondary" aria-hidden="true"></i> 
@@ -1016,7 +1047,44 @@
                     <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                     <p class="element-title heavier m-b-0">Back</p>
                 </div>
-                <div class="right">
+                <div class="right"></div>
+            </div>
+        </div>
+        @if($data['status']['id']==1)
+            <!-- Enquiry modal -->
+            <input type="hidden" name="enquiry_slug" id="enquiry_slug" value="{{ $data['title']['slug'] }}">
+            <div id="updateTemplate">
+                @include('modals.listing_enquiry')
+            </div>
+            <!-- <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"> -->
+            @include('modals.categories_list')
+            <!-- Enquiry ends -->
+        @endif
+     </div>
+     <!-- <div class="pos-fixed fly-out side-toggle"> -->
+        <!-- <div class="mobile-back desk-hide mobile-flex">
+            <div class="left mobile-flex">
+                <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                <p class="element-title heavier m-b-0">Back</p>
+            </div>
+            <div class="right">
+            </div>
+        </div> -->
+        <!-- <div class="fly-out__content">
+            <div class="sidebar-updates page-sidebar">
+                <div class="page-sidebar__header flex-row space-between mobile-hide">
+                    <div class="backLink flex-row">
+                        <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                        <div class="element-title bolder">Updates of {{$data['title']['name']}}</div>
+                    </div>
+                   <div class="sort flex-row">
+                       <p class="m-b-0 text-lighter default-size">Sort</p>
+                       <select name="" id="" class="fnb-select">
+                           <option>Recent</option>
+                           <option>Newer</option>
+                           <option>Older</option>
+                       </select>
+                   </div>
                 </div>
             </div>
             <div class="fly-out__content">
@@ -1040,7 +1108,7 @@
                     <div class="page-sidebar__footer"></div>
                 </div>  
             </div>
-        </div>
+        </div> -->
     <!-- </div> -->
 
 @if(Session::has('statusChange'))
@@ -1059,17 +1127,21 @@
                             @if(session('statusChange')=='archive') Your listing is now archived @endif
                             @if(session('statusChange')=='published') Your listing is now published @endif
                         </h4>
-                        @if(session('statusChange')=='review') <p class="default-size text-color lighter list-caption"> Our team will review your listing and you will be notified if your listing is published.</p> @endif
+                        @if(session('statusChange')=='review')
+                            <p class="default-size text-color lighter list-caption"> Our team will review your listing and you will be notified if your listing is published.</p> 
+                        @endif
                     </div>
                     <div class="listing-status highlight-color">
                         <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
                         <div class="pending text-darker heavier sub-title">
-                        @if(session('statusChange')=='review')<i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review @endif
-                        @if(session('statusChange')=='archive')
-                        Archived
+                        @if(session('statusChange')=='review')
+                            <i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i>Pending Review
                         @endif
-                       @if(session('statusChange')=='published')
-                       Published
+                        @if(session('statusChange')=='archive')
+                            Archived
+                        @endif
+                        @if(session('statusChange')=='published')
+                            Published
                         @endif
                          <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
                     </div>
@@ -1080,7 +1152,8 @@
             </div>
         </div>
     </div>
-
 @endif
-
+@if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+ @include('modals.listing_contact_request.modal')
+@endif
 @endsection

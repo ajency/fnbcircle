@@ -138,14 +138,14 @@ if $(window).width() > 769
 if $(window).width() < 769
   browsecat = $('.browse-cat').detach()
   $('.similar-business').after browsecat
-  status = $('.contact__enquiry .approval').detach()
-  $('.new-changes .seller-info__body').append status
   moveelement = $('.move-element').detach()
   $('.nav-info').before moveelement
   catlabel = $('.single-cate').detach()
   $('.singleV-title').before catlabel
   contactrow = $('.single-contact-section').detach()
-  $('.operate-section').after contactrow
+  $('.card-body').append contactrow
+  status = $('.contact__enquiry').detach()
+  $('.card-body').append status
   $('.back-icon').click ->
     $('.fly-out').removeClass 'active'
     return
@@ -159,7 +159,134 @@ $('.similar-card').click ->
   window.location.href = gethref
   return
 
+handleResponse = (step,html) ->
+  $('#contact-modal .modal-body').html html
+  if step == 'get-details'
+    $('#contact-modal #contact_number').intlTelInput
+      initialCountry: 'auto'
+      separateDialCode: true
+      geoIpLookup: (callback) ->
+        $.get('https://ipinfo.io', (->
+        ), 'jsonp').always (resp) ->
+          countryCode = if resp and resp.country then resp.country else ''
+          callback countryCode
+          return
+        return
+      preferredCountries: [ 'IN' ]
+      americaMode: false
+      formatOnDisplay:false
+    # $('#contact-modal #get-crdetails-form').parsley().validate()
+    # remove loader
 
 
 
+
+$('body').on 'click','#contact-info', () ->
+  $('#contact-modal').modal 'show'
+  # show loader
+  $.ajax
+    url : '/contact-request'
+    type : 'post'
+    data :
+      'id': document.getElementById('listing_id').value
+    success: (data) ->
+      handleResponse(data['step'],data['html'])
+
+$('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
+  if !$('#contact-modal #get-crdetails-form').parsley().validate()
+    return
+
+  if $('#get-crdetails-form').parsley().isValid()
+    $('.contact-sub-spin').removeClass 'hidden'
+    
+
+  name = $('#contact-modal #get-crdetails-form #contact_name').val()
+  email = $('#contact-modal #get-crdetails-form #contact_email').val()
+  mobile = $('#contact-modal #get-crdetails-form #contact_number').val()
+  region = $('#contact-modal #get-crdetails-form #contact_number').intlTelInput('getSelectedCountryData')['dialCode']
+  description = $('#contact-modal #get-crdetails-form #contact_description').val()
+  # console.log name, email, mobile, description
+  url = $('#contact-modal #cr-details-form-submit-link').val()
+  $.ajax
+    url: url
+    type: 'post'
+    data:
+      id: document.getElementById('listing_id').value
+      name: name
+      email: email
+      mobile: mobile
+      mobile_region: region
+      description: JSON.stringify description
+    success: (data) ->
+      handleResponse(data['step'],data['html'])
+      $('.contact-sub-spin').addClass 'hidden'
+
+$('#contact-modal').on 'click','#edit-cr-number', () ->
+  console.log 'enters'
+  $('#new-mobile-modal #new-mobile-verify-btn').prop('disabled', false);
+  $('#new-mobile-modal').modal('show')
+  
+
+$('#CR').on 'click','#new-mobile-verify-btn',()->
+  $('#CR #new-mobile-modal input').attr('required','required')
+  console.log $('#new-mobile-modal input').parsley().validate()[0]
+  if !$('#new-mobile-modal input').parsley().validate(force = true)[0]
+    $('#CR #new-mobile-modal input').removeAttr('required')
+    $(this).prop 'disabled',true
+    number = $('#new-mobile-modal input').val()
+    country = $('#new-mobile-modal input').intlTelInput('getSelectedCountryData')['dialCode']
+    console.log number,country
+    url = $('#contact-modal #cr-number-change-link').val()
+    $.ajax
+      url:  url
+      type: 'post'
+      data:
+        id: document.getElementById('listing_id').value
+        contact: number
+        contact_region: country
+      success: (data) ->
+        handleResponse(data['step'],data['html'])
+        $('#new-mobile-modal input').intlTelInput("setCountry", "in");
+        $('#new-mobile-modal input').val('')
+        $('#new-mobile-modal').modal('hide')
+  else
+    $('#CR #new-mobile-modal input').removeAttr('required')
+    return false
+    
+
+$('#contact-modal').on 'click','#cr-resend-sms', () ->
+  url = $('#contact-modal #cr-otp-resend-link').val()
+  $.ajax
+    url:  url
+    type: 'post'
+    data:
+      id: document.getElementById('listing_id').value
+    success: (data) ->
+      handleResponse(data['step'],data['html'])
+
+
+$('#contact-modal').on 'click','#submit-cr-otp', () ->
+  if !$('#contact-modal #input-cr-otp').parsley().validate()
+    return
+  url = $('#contact-modal #cr-otp-submit-link').val()
+  $.ajax
+    url: url
+    type: 'post'
+    data:
+      id: document.getElementById('listing_id').value
+      otp: $('#contact-modal #input-cr-otp').val()
+    success: (data) ->
+      handleResponse(data['step'],data['html'])
+
+
+$(".contact-modal").on 'shown.bs.modal', (e) ->  
+  # console.log 'test'
+   setTimeout (->
+      if $('.entry-describe-best').length
+        $('.entry-describe-best').multiselect
+          includeSelectAllOption: true
+          numberDisplayed: 2
+          delimiterText:','
+          nonSelectedText: 'Select Experience'
+  ), 800
 

@@ -319,12 +319,6 @@
       $('.select-parent-cat select').val(cat['parent_id']);
       $('.select-parent-cat select').change();
     }
-    if (cat['level'] === 3) {
-      $('input#node_cat[name="categoryType"]').prop('checked', true);
-      $('.select-parent-cat select').val(cat['parent_id']);
-      $('.select-parent-cat select').change();
-      $('.select-branch-cat select').val(cat['branch_id']);
-    }
     $('input[name="categoryType"]:checked').change();
     $('input[name="categoryType"]').prop('disabled', true);
     $('#edit_category_modal input[name="slug"]').prop('disabled', true);
@@ -360,7 +354,13 @@
     $('#edit_category_modal input[name="slug"]').val(cat['slug']);
     $('#edit_category_modal input[name="order"]').val(cat['sort_order']);
     $('#edit_category_modal .save-btn').prop('disabled', false);
-    return $('#edit_category_modal').modal('show');
+    $('#edit_category_modal').modal('show');
+    if (cat['level'] === 3) {
+      $('input#node_cat[name="categoryType"]').prop('checked', true);
+      $('.select-parent-cat select').val(cat['parent_id']);
+      $('.select-parent-cat select').change();
+      return $('.select-branch-cat select').val(cat['branch_id']);
+    }
   });
 
   status = void 0;

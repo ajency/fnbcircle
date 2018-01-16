@@ -57,13 +57,17 @@
       }, {
         "data": "type"
       }, {
+        "data": "owner-status"
+      }, {
         "data": "duplicates"
       }, {
         "data": "premium"
       }, {
-        "data": "status"
+        "data": "source"
       }, {
         "data": "status_ref"
+      }, {
+        "data": "status"
       }
     ],
     'select': {
@@ -79,7 +83,7 @@
         'className': 'select-checkbox',
         'targets': 0
       }, {
-        'targets': [12],
+        'targets': [13],
         'visible': false,
         'searchable': false
       }
@@ -482,7 +486,7 @@
   });
 
   $('.bulk-status-update').on('click', 'button#bulkupdate', function() {
-    var base, instance, key, l, len, selected_rows, sm;
+    var instance, key, l, len, selected_rows, sm;
     $('button#bulkupdate').prop('disabled', true);
     instance = $('.bulk-status-update #bulkupdateform').parsley();
     if (!instance.validate()) {
@@ -502,9 +506,7 @@
     selected_listings.forEach(function(listing) {
       return listing['status'] = $('.bulk-status-update select.status-select').val();
     });
-    sm = typeof (base = $($('.bulk-status-update input[type="checkbox"]')[0]).prop('checked')) === "function" ? base({
-      "1": "0"
-    }) : void 0;
+    sm = $($('.bulk-status-update input[type="checkbox"]')[0]).prop('checked');
     return changeStatusAPI(sm);
   });
 
@@ -532,6 +534,16 @@
 
   $('body').on('change', 'select#citySelect', function() {
     filters['city'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#user-status', function() {
+    filters['user-status'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#source-filter', function() {
+    filters['source'] = $(this).val();
     return sendRequest();
   });
 
@@ -565,7 +577,7 @@
   });
 
   $('#updateStatusModal').on('click', 'button#change_status', function() {
-    var base, instance, sm;
+    var instance, sm;
     $('button#change_status').prop('disabled', true);
     instance = $('#updateStatusModal #singlestatus').parsley();
     if (!instance.validate()) {
@@ -577,16 +589,19 @@
       return listing['status'] = $('#updateStatusModal select.status-select').val();
     });
     console.log(selected_listings);
-    sm = typeof (base = $('#updateStatusModal input[type="checkbox"]').prop('checked')) === "function" ? base({
-      "1": "0"
-    }) : void 0;
+    sm = $('#updateStatusModal input[type="checkbox"]').prop('checked');
     return changeStatusAPI(sm);
   });
 
   changeStatusAPI = function(sm) {
     var url;
     url = document.head.querySelector('[property="status-url"]').content;
-    console.log(sm);
+    if (sm) {
+      sm = "1";
+    } else {
+      sm = "0";
+    }
+    console.log('sm = ' + sm);
     return $.ajax({
       type: 'post',
       url: url,
@@ -646,5 +661,9 @@
   sendRequest = function() {
     return approval_table.ajax.reload();
   };
+
+  $('body').on('click', 'button#importListing', function(e) {
+    return $('#importListingModal').modal('show');
+  });
 
 }).call(this);

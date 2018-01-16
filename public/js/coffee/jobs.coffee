@@ -30,7 +30,7 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
         jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
         jobCityObj.closest('.location-select').find('.job-areas').multiselect
           includeSelectAllOption: true
-          numberDisplayed: 2
+          numberDisplayed: 1
           delimiterText:','
           nonSelectedText: 'Select City'
 
@@ -49,12 +49,40 @@ $(document).on 'click', '.remove_resume', ->
     data:
       'user': ''
     success: (data) ->
+      $('input[name="resume_id"]').val('')
       $('.no_resume').removeClass 'hidden'
       $('.has_resume').addClass 'hidden'
+      $('.dropify-message').find('p').html('Upload my resume')
       
     error: (request, status, error) ->
       throwError()
       return
+
+$(document).on 'click', '.apply-jobs', ->
+  $('.apply-job-form').removeClass('hidden');
+  $('.success-apply').addClass('hidden');
+  
+
+
+$(document).on 'click', '.view-applicant__btn', ->
+  $('.application-loader').removeClass('hidden')
+  jobId = $(this).attr('job-id')
+  $.ajax
+    type: 'post'
+    url: '/job/'+jobId+'/get-job-application'
+    data:
+      'user': ''
+    success: (data) ->
+    
+      $('.application-table').find('tbody').html(data.html)
+      $('.application-loader').addClass('hidden')
+      
+    error: (request, status, error) ->
+      throwError()
+      return
+
+
+
 
 
 $('input[name="salary_type"]').change (e) ->
@@ -390,8 +418,9 @@ if $(window).width() > 769
     return 
 
 
+$('body').on 'click', '.add-job-areas', (e) ->
+  console.log 12
 
-$('.add-job-areas').click (e) ->
   locationLen = $('.location-select').length
   addLocationLen = parseInt(locationLen)+1
   area_group = undefined
@@ -449,6 +478,61 @@ if $('.readMore').length
 $(document).on 'countrychange', 'input[name="applicant_phone"]', (e, countryData)->  
   $('input[name="country_code"]').val countryData.dialCode
     
+
+
+$(document).on 'click', 'input[name="send_alert"]', ->
+  $('.edit-criteria').removeClass 'hidden'
+  # sendAlerts = ($(this).is(":checked")) ? 1 : 0
+  # $.ajax
+  #   type: 'get'
+  #   url: '/user/send-job-alerts'
+  #   data:
+  #     'send_alert': sendAlerts
+  #   success: (data) ->
+      
+  #     # console.log data
+      
+  #     return
+  #   error: (request, status, error) ->
+  #     throwError()
+  #     return
+
+$('body').on 'click', '.removelocRow', ->
+  
+  if $(this).closest('.job-areas').find('.location-select').length == 2
+    $(this).closest('.job-areas').find('.add-job-areas').click()
+
+
+$('body').on 'change', '.terms-check', ->
+  if $(this).prop('checked')
+    $('.job-save-btn').removeClass 'disable'
+  else
+    $('.job-save-btn').addClass 'disable'
+
+
+if $('.default-area-select').length
+  $('.default-area-select').multiselect
+    includeSelectAllOption: true
+    numberDisplayed: 1
+    delimiterText:','
+    nonSelectedText: 'Select City'
+          
+
+
+
+$('.open-popup-alert').popover(
+  container: 'body'
+  html: true
+  content: ->
+    clone = $($(this).data('popover-content')).clone(true).removeClass('hidden')
+    clone
+).click (e) ->
+  e.preventDefault()
+  return
+
+
+$('.custom-pop-btn.yes').click ->
+  $('.send-jobs-loader').removeClass 'hidden'
 
 
 

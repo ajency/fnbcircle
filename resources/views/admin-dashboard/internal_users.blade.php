@@ -8,6 +8,7 @@ Internal Users
     <!-- Datatables -->
     <link href="{{ asset('/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/bower_components/datatables.net-select-dt/css/select.dataTables.css') }}" rel="stylesheet">
     <!-- Main styles -->
     <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
 @endsection
@@ -16,8 +17,9 @@ Internal Users
   @parent
   <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
   <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/bower_components/datatables.net-select/js/dataTables.select.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('/js/admin_dashboard_internal.js') }}"></script>
-  <!-- <script src="../public/js/bootstrap-multiselect.js"></script> -->
+  <script type="text/javascript" src="{{ asset('/js/bootstrap-multiselect.js') }}"></script>
 
     <!-- Datatables -->
     <!-- <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -94,29 +96,24 @@ Internal Users
 	                	<input type="search" name="" placeholder="Search by Name" id="internal_name_search" class="form-control fnb-input pull-right customDtSrch" aria-controls="datatable-internal-users"/>
 	                </div> -->
 
-	                <table id="datatable-internal-users" class="display table table-striped  no-wrap" cellspacing="0" width="100%">
+	                <table id="datatable-internal-users" class="display table table-striped  no-wrap internal-users" cellspacing="0" width="100%">
 	                  <thead>
 	                    <tr>
 	                      <th class="no-sort"></th>
 	                      <th class="">Name <span class="sort-icon"/></th>
 	                      <th class="">Email <span class="sort-icon"/></th>
-	                      <th class="no-sort ">Roles
-	                        <select multiple class="form-control multi-dd">
-	                          <!-- <option value="yes">Yes</option>
-	                          <option value="no">No</option> -->
-	                          @foreach(Role::all() as $key_role => $value_role)
+	                      <th class="no-sort" data-col="3">Roles
+	                        <select multiple class="form-control multi-ddd" id="status_filters">
+	                          @foreach(Role::where('name','!=','customer')->get() as $key_role => $value_role)
 	                          	<option value="{{$value_role->name}}">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
 	                          @endforeach
 	                        </select>
 	                      </th>
-	                      <th class="no-sort">Status
-	                        <select multiple class="form-control multi-dd">
-	                          <!-- <option value="published">Published</option>
-	                          <option value="draft">Draft</option>
-	                          <option value="archived">Archived</option> -->
-	                          <option value="active">Active</option>
-	                          <option value="inactive">Inactive</option>
-	                          <option value="suspended">Suspended</option>
+	                      <th class="no-sort" data-col="4">Status
+	                        <select multiple class="form-control multi-ddd" id="status_filters">
+	                          @foreach($status as $status_slug => $status_name)
+	                          	<option value="{{ $status_slug }}">{{ $status_name }}</option>
+	                          @endforeach
 	                        </select>
 	                      </th>
 	                    </tr>
@@ -199,9 +196,12 @@ Internal Users
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Roles  <span class="text-danger">*</span></label>
-	                        <select class="form-control fnb-select roles-select multiSelect" multiple="role_option[]" name="role" data-parsley-mincheck="1" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error">
-	                          @foreach(Role::all() as $key_role => $value_role)
-	                          	<option value="{{$value_role->name}}" name="role_option[]">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
+	                        <!-- <select class="form-control fnb-select roles-select multiSelect" multiple="role_option[]" name="role" data-parsley-mincheck="1" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error"> -->
+	                        <select class="form-control fnb-select single-role-select select-variant" name="role" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error">
+	                        
+	                          @foreach(Role::where('name','!=','customer')->get() as $key_role => $value_role)
+	                          	<!-- <option value="{{$value_role->name}}" name="role_option[]">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option> -->
+	                          	<option value="{{$value_role->name}}">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
 	                          @endforeach
 	                        </select>
 	                        <div id="role-error" class="fnb-error"></div>
@@ -210,9 +210,9 @@ Internal Users
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                          <label>Status  <span class="text-danger">*</span></label>
-	                          <select class="form-control fnb-select dashboard-select" name="status">
+	                          <select class="form-control fnb-select dashboard-select status-select" name="status">
 	                            <option value="active">Active</option>
-	                            <option value="inactive">Inactive</option>
+	                            <!-- <option value="inactive">Inactive</option> -->
 	                            <option value="suspended">Suspended</option>
 	                            <!-- <option value="">Published</option>
 	                            <option value="">Draft</option>
@@ -232,7 +232,7 @@ Internal Users
 	                    <div class="col-sm-6 new-password">
 	                      <div class="form-group">
 	                        <label>Password  <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="password" id="password" placeholder="Enter a password" parsley-type="password"data-parsley-trigger="keyup" data-required="true" required>
+	                        <input type="password" class="form-control fnb-input" name="password" id="password" placeholder="Enter a password" parsley-type="password" data-parsley-trigger="keyup" data-required="true" required>
 	                        <p id="password-error" class="fnb-errors hidden"></p>
 	                      </div>
 	                    </div>

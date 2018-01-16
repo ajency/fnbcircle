@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use App\Category;
+use App\City;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\User;
+use App\Helpers\WpNewsHelper;
 // use App\ListingCategory;
+use Illuminate\Support\Facades\Session;
 
 class ListingViewController extends Controller
 {
@@ -23,18 +26,22 @@ class ListingViewController extends Controller
         // dd($pagedata);
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
-        return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar);
+        $news_items = $this->getNewsList($pagedata,$city);
+        $pagedata['news_items'] = $news_items;
+        $enquiry_data = Session::get('enquiry_data', []);
+        return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar)->with('enquiry_data', $enquiry_data);
     }
 
-    private function getListingData($listing)
+    public function getListingData($listing)
     {
         $pagedata              = array();
         $area                  = Area::with('city')->find($listing->locality_id);
         $pagedata['pagetitle'] = getSingleListingTitle($listing);
         $pagedata['premium']   = $listing->isPremium();
-        $pagedata['verified']  = ($listing->owner_id == null)? false:true;
-        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name);
-        $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => ''];
+        $pagedata['verified']  = ($listing->verified == 1)? true:false;
+        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name, 'slug'=>$area->city['slug'], 'id' => $area->city['id']);
+        $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => '', 'slug' => $listing->slug];
+        // $pagedata['contact-requests'] = displayCount($listing->contact_request_count)
         $pagedata['update']    = $listing->updated_at->format('jS F');
         $pagedata['updates']   = $listing->updates()->orderBy('updated_at', 'desc')->first();
         $pagedata['updates_count'] = $listing->updates()->count();
@@ -42,7 +49,7 @@ class ListingViewController extends Controller
         if ($listing->status == 1) {
             $pagedata['publish_date'] = $listing->published_on->format('F j, Y');
             $pagedata['rating']       = '50';
-            $pagedata['views']        = $listing->views_count;
+            $pagedata['views']        = displayCount($listing->views_count);
             // $pagedata['verified']     = ($listing->verified == 1) ? true : false;
         }
 
@@ -54,8 +61,8 @@ class ListingViewController extends Controller
             unset($pagedata['operationAreas']);
         }
 
-        $pagedata['contact'] = ['email' => [], 'mobile' => [], 'landline' => [], 'requests' => $listing->contact_request_count];
-        if ($listing->show_primary_email) {
+        $pagedata['contact'] = ['email' => [], 'mobile' => [], 'landline' => [], 'requests' => displayCount($listing->contact_request_count)];
+        if ($listing->show_primary_email and $listing->owner_id != null) {
             $pagedata['contact']['email'][] = ['value' => User::find($listing->owner_id)->getPrimaryEmail(), 'verified' => true, 'type' => 'email'];
         }
 
@@ -193,8 +200,8 @@ class ListingViewController extends Controller
             $pagedata['status']['status'] = 'Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>';
             $pagedata['status']['id']     = '3';
             if ($listing->isReviewable()) {
-                $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button type="submit" class="btn fnb-btn text-primary border-btn no-border">Submit for Review</button></form>';
-                $pagedata['status']['next'] = 'Submit for Review';
+                $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button type="submit" class="btn fnb-btn text-primary border-btn no-border">Submit Listing</button></form>';
+                $pagedata['status']['next'] = 'Submit Listing';
             } else {
                 $pagedata['status']['change'] = '';
             }
@@ -219,13 +226,16 @@ class ListingViewController extends Controller
             $pagedata['status']['text']   = "The current status of your listing is ";
             $pagedata['status']['status'] = 'Rejected';
             $pagedata['status']['id']     = '5';
-            $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn text-primary border-btn no-border" type="submit">Submit for Review</button></form>';
-            $pagedata['status']['next'] = 'Submit for Review';
+            $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn text-primary border-btn no-border" type="submit">Submit Listing</button></form>';
+            $pagedata['status']['next'] = 'Submit Listing';
         }
         if (isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) {
             $pagedata['overview'] = true;
         }
-
+        if(!hasAccess('edit_permission_element_cls',$listing['reference'],'listing')){
+            $listing->views_count++;
+            $listing->save();
+        }
         return $pagedata;
     }
 
@@ -233,6 +243,7 @@ class ListingViewController extends Controller
     {
 
         $similar_id = [$listing->id];
+        $area    = Area::with('city')->find($listing->locality_id);
         $categories = ListingCategory::where('listing_id', $listing->id)->where('core', 1)->pluck('category_id')->toArray();
         $simCore    = array_unique(ListingCategory::whereIn('category_id', $categories)->where('core',1)->whereNotIn('listing_id', $similar_id)->pluck('listing_id')->toArray());
 
@@ -285,7 +296,7 @@ class ListingViewController extends Controller
         foreach ($similar_id as $id) {
             $similar[] = $this->getListingData(Listing::find($id));
         }
-        $similar['url'] = $url;
+        $similar['url'] = url('/'.$area->city['slug'].'/business-listings');
         return $similar;
 
     }
@@ -294,8 +305,12 @@ class ListingViewController extends Controller
     {
         $listviewcontroller_obj = new ListViewController;
         $parents    = Category::where('type', 'listing')->where('level', '1')->where('status', 1)->orderBy('order')->orderBy('name')->take(config('tempconfig.single-view-category-number'))->get();
+
+         
+       
+
         $categories = [];
-        foreach ($parents as $category) {
+        foreach ($parents as $category) { 
             $categories[$category->id] = [
                 'id'    => $category->id,
                 'name'  => $category->name,
@@ -303,8 +318,64 @@ class ListingViewController extends Controller
                 'image' => $category->icon_url,
                 'count' => count($category->getAssociatedListings()['data']['listings']),
                 'url' => '/'.$area->city['slug'].'/business-listings?categories='.$listviewcontroller_obj->getCategoryNodeArray($category, "slug", false) ,
+                
             ];
         }
         return $categories;
+    }
+
+
+    public function getBusinessCategoryCard($city)
+    {
+        $city_data                 = City::where('slug', '=', $city)->firstorFail();
+        $area                      = Area::where('city_id', $city_data->id)->get();
+        $browse_categories         = $this->getPopularParentCategories($area->first());
+        $data['city']              = $city_data;
+        $data['browse_categories'] = $browse_categories;
+        return view('single-view.businesss_categories_card')->with('data', $data);
+    }
+
+
+    public function getNewsList($pagedata,$city)
+    {
+        $news = new WpNewsHelper();
+        $cat_ar  = [];
+        //$news_args = array("category"=>array($city),'num_of_items'=>2);
+        $news_args = array('num_of_items'=>2);
+
+        if(isset($pagedata['categories'])){
+            foreach ($pagedata['categories'] as $cats) {
+
+                $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $cats['parent']))); 
+                $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $cats['branch'])));   
+
+                if(isset($cats['nodes'])){
+                    foreach ($cats['nodes'] as $cat) {
+
+                        $cat_ar[] = $cat['slug'];
+
+                    }    
+                }
+                
+            }  
+        }
+
+        
+
+        if(isset($pagedata['brands'])){
+            foreach ($pagedata['brands'] as $brand) {
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $brand))); 
+            }
+        }
+        
+
+        if(count($cat_ar)>0){
+            $news_args["tag"] = $cat_ar;    
+        }
+
+ 
+         
+        $news_items = $news->getNewsByCategories_tags($news_args);   
+        return $news_items;
     }
 }

@@ -34,7 +34,7 @@ $additionalData = ['job'=>$job];
     @endif 
 
 
-    @if(Session::has('success_apply_job')) 
+    @if(Session::has('success_apply_job') || Session::has('success_job_alert_request')) 
      <script type="text/javascript">
     $(document).ready(function() {
       
@@ -45,6 +45,10 @@ $additionalData = ['job'=>$job];
     });
     </script> 
     @endif 
+
+ 
+
+    
 
     {!! getPageLdJson('App\Seo\JobSingleView',$additionalData) !!}
 
@@ -91,20 +95,22 @@ $additionalData = ['job'=>$job];
       </div>
    </div>
    <!-- premium benefits -->
-   <div class="row hidden">
+   @if(!$job->premium && $job->jobOwnerOrAdmin())
+   <div class="row ">
       <div class="col-sm-12">
-         <div class="pre-benefits flex-row">
+         <div class="pre-benefits hot-job-section flex-row">
             <div class="pre-benefits__intro flex-row">
-               <img src="/img/power-icon.png" class="img-repsonsive" width="50">
+               <img src="/img/hot-jobs.png" class="img-repsonsive hot-job-section__img" width="130">
                <div class="pre-benefits__content">
-                  <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
-                  <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click upgrade premium</p>
+                  <h5 class="section-title pre-benefits__title m-b-0">Upgrade to Premium to enjoy more benefits</h5>
+                  <!-- <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click go premium</p> -->
                </div>
             </div>
-            <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</button>
+            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" ><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Go Premium</button></a>
          </div>
       </div>
    </div>
+  @endif
    <!-- pending review -->
    @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
    <div class="row desk-hide">
@@ -124,7 +130,8 @@ $additionalData = ['job'=>$job];
             @endif
 
             @if($job->submitForReview()) 
-             <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button></a>
+             <!-- <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit Job</button></a> -->
+             <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" >Submit Job</a>
             @endif
 
             @if($job->getNextActionButton())
@@ -182,7 +189,7 @@ $additionalData = ['job'=>$job];
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
  
-                       <a href="{{ url(getSinglePopularCity()->slug.'/job-listings') }}?state={{ getSinglePopularCity()->slug }}&business_type={{ $job->category->slug }}" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}" target="_blank">{{ $job->getJobCategoryName() }}</a>
+                       <a href="{{ url(getSinglePopularCitySlug().'/job-listings') }}?state={{ getSinglePopularCitySlug() }}&business_type={{ $job->category->slug }}" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}" target="_blank">{{ $job->getJobCategoryName() }}</a>
  
                     </div>
                     <!-- publish date -->
@@ -201,6 +208,9 @@ $additionalData = ['job'=>$job];
                         </div>
                       </div>
                     </div>
+                     @if($job->premium)
+                    <img src="{{ asset('/img/hot-jobs.png') }}" class="img-responsive power-seller" width="120">
+                    @endif
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
@@ -220,7 +230,7 @@ $additionalData = ['job'=>$job];
 
                             @foreach($keywords as $keywordId=> $keyword)
                              <li>
-                                <p class="default-size cities__title"> <a href='{{ url(getSinglePopularCity()->slug."/job-listings") }}?state={{ getSinglePopularCity()->slug }}&job_roles=["{{ $keywordId }}|{{ str_slug($keyword) }}"]' class="primary-link" title="Find all jobs matching {{ $keyword }}" target="_blank"> {{ $keyword }}</a> </p>
+                                <p class="default-size cities__title"> <a href='{{ url(getSinglePopularCitySlug()."/job-listings") }}?state={{ getSinglePopularCitySlug() }}&job_roles=["{{ $keywordId }}|{{ str_slug($keyword) }}"]' class="primary-link" title="Find all jobs matching {{ $keyword }}" target="_blank"> {{ $keyword }}</a> </p>
 
                              </li>
                              @endforeach
@@ -498,35 +508,87 @@ $additionalData = ['job'=>$job];
 
 
         <!-- Related article section -->
-       
-          <div class="related-article p-b-20" id="article">
-              <div class="section-start-head m-b-15 flex-row">
-                <h6 class="element-title">Related News Articles</h6>
-                <a href="" class="secondary-link view-more heavier">View More</a>
-              </div>
-              <div class="related-article__section jobs-related-article flex-row align-top">
-                <div class="related-article__col article-col fnb-article">
-                  <a href="" class="article-link">
-                    <div class="fnb-article__banner"></div>
-                    <div class="fnb-article__content m-t-15">
-                      <h6 class="sub-title fnb-article__title">Preparing for a Career as a Chef</h6>
-                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
-                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
-                    </div>
-                  </a>
-                </div>
-                <div class="related-article__col article-col fnb-article">
-                  <a href="" class="article-link">
-                    <div class="fnb-article__banner banner-2"></div>
-                    <div class="fnb-article__content m-t-15">
-                      <h6 class="sub-title fnb-article__title">19 pieces of advice all line cooks should read</h6>
-                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
-                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </div>
+                  @if(count($news_items) > 0)
+               
+                      <div class="related-article p-b-20" id="article">
+                          <div class="section-start-head m-b-15 flex-row">
+                            <h6 class="element-title">Related News Articles</h6>
+                            @foreach($news_items as $news_item)
+                            <?php $news_city = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $city)));
+                            ?>
+                            @endforeach
+                            
+                            <a href="{{ url('/news/') }}" class="secondary-link view-more heavier">View More</a>
+                          </div>
+                          <div class="related-article__section jobs-related-article flex-row align-top">
+                            
+
+                            @foreach($news_items as $news_item)
+                            
+
+
+                            <div class="related-article__col article-col fnb-article">
+                              <a href="" class="article-link">
+                                <div class="fnb-article__banner"  <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});background-position: inherit;" <?php }  ?>  ></div>
+                                <div class="fnb-article__content m-t-15">
+                                
+                                  <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="text-darker ellipsis-2 cust-title-height">{{$news_item['title']}}</a></h6>
+                                  <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 130, $end = '...') }}</p>
+                                  
+                                   <?php /* @if(count($news_item['tags']) > 0)
+                                    <div class="post-tags ellipsis-2 text-color" title="{{ implode(',',$news_item['tags']) }}">
+                                      @foreach($news_item['tags'] as $news_tag)
+                                      <span  class="post-tags__child" title="{{ $news_tag}}"><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
+                                       @endforeach
+                                    </div>
+                                   @endif */ ?>
+                               
+                                  <span class="dis-block fnb-article__caption lighter date m-t-10">Posted on {{$news_item['display_date']}}</span>
+                                </div>
+                              </a>
+                            </div>
+
+                           
+
+
+                            @endforeach
+
+                            <!-- <div class="related-article__col article-col fnb-article">
+                              <a href="" class="article-link">
+                                <div class="fnb-article__banner"></div>
+                                <div class="fnb-article__content m-t-15">
+                                  <h6 class="sub-title fnb-article__title">Preparing for a Career as a Chef</h6>
+                                  <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                                  <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                                </div>
+                              </a>
+                            </div>
+                            <div class="related-article__col article-col fnb-article">
+                              <a href="" class="article-link">
+                                <div class="fnb-article__banner banner-2"></div>
+                                <div class="fnb-article__content m-t-15">
+                                  <h6 class="sub-title fnb-article__title">19 pieces of advice all line cooks should read</h6>
+                                  <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                                  <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                                </div>
+                              </a>
+                            </div> -->
+                          </div>
+                        </div>
+
+                    @else
+
+                        <div class="related-article p-b-20" id="article">
+                            <div class="section-start-head m-b-15 flex-row">
+                                <h6 class="element-title">Related Articles</h6>                                        
+                            </div>
+                            <div class="related-article__section">
+                                <p class="text-center heavier card no-articles flex-row text-color">No related articles <i class="fa fa-newspaper-o text-primary element-title m-l-10" aria-hidden="true"></i></p>
+                            </div>
+                        </div>
+
+
+                    @endif
          </div>
       </div>
       <div class="col-sm-4 tes">
@@ -550,17 +612,24 @@ $additionalData = ['job'=>$job];
                           @endif
 
                           @if($job->submitForReview()) 
-                           <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button></a>
+
+                           <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit Job</button></a>
+
                           @endif
 
                           @if($job->getNextActionButton())
                               @php
                               $nextActionBtn =$job->getNextActionButton();
                               @endphp
-                        <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-                        <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
-                          
-                           
+
+                              @if($job->status != 5)
+                                  <a class="Btn-status" data-toggle="modal" data-target="#confirmBox" href="#"><button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                              @elseif($nextActionBtn['id'] == '2')
+                                  <a class="Btn-status" href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}"  ><button type="button" class="btn fnb-btn outline full border-btn upgrade">Submit Job</button></a>
+                              @else    
+                                  <a class="Btn-status" href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"><button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                              @endif
+
                           @endif
                        </div>
                     </div>
@@ -595,14 +664,33 @@ $additionalData = ['job'=>$job];
                       @if(Auth::check())
                         <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
                       @else
-                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                        <a href="#" class="login dis-block" data-toggle="modal" data-target="#login-modal">
                       @endif
                             <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                         </a>
                     @endif
                   @endif
                   <!-- <h1 class="m-b-0">20</h1> -->
-                  <a href="#" class="secondary-link p-l-20 dis-block" title="Get Email Alert"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+
+                  @if(Auth::check())
+                      <!-- <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="secondary-link p-l-20 dis-block" title="Get Email Alert"> -->
+
+                      <!-- Popover data -->
+                      <div id="list-popover" class="hidden job-alert-confirm">
+                        <div class="flex-row space-between">
+                          <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="btn fnb-btn border-btn custom-pop-btn yes" type="button"><i class="p-r-5 fa fa-check" aria-hidden="true"></i> Yes</a>
+                          <a href="#" class="btn fnb-btn border-btn custom-pop-btn no" type="button"><i class="p-r-5 fa fa-times" aria-hidden="true"></i> No</a>
+                        </div>
+                      </div>
+
+                      <!-- Popover data ends -->
+
+                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
+                    @else
+                      <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
+                    @endif
+                      
+                  <i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this <i class="fa fa-circle-o-notch fa-spin fa-fw hidden label-size send-jobs-loader"></i></a>
                   @endif
                </div>
               @if($job->isPublished()) 
@@ -780,7 +868,7 @@ $additionalData = ['job'=>$job];
            <div class="contact__enquiry text-center m-t-15">    
                
               @if(Auth::check())
-                <a href="/jobs/create" >
+                <a href="{{ url('/jobs/create') }}" target="_blank" >
               @else
                 <a href="#" data-toggle="modal" data-target="#login-modal">
               @endif  
@@ -997,12 +1085,26 @@ $additionalData = ['job'=>$job];
                   @endif
                    <div class="success-apply hidden">
                     <!-- <img src="/img/email-add.png" class="img-responsive center-block" width="60"> -->
-                    <h6 class="app-sent flex-row"><i class="fa fa-check-circle text-success p-r-5" aria-hidden="true"></i> Your application has been sent</h6>
+                    <h6 class="app-sent flex-row"><i class="fa fa-check-circle text-success p-r-5" aria-hidden="true"></i>
+                      @php
+                        $jobApply = false;
+                      @endphp
+                      @if(Session::has('success_apply_job')) 
+                        {{ Session::get('success_apply_job') }}
+                        @php
+                        $jobApply = true;
+                        @endphp
+                      @elseif(Session::has('success_job_alert_request')) 
+                        {{ Session::get('success_job_alert_request') }}
+                      @else
+                        Your application has been sent
+                      @endif 
+                        </h6>
                     <div class="open-details">
                         <div class="jobdesc">
                           
                           
-                          
+                    @if($jobApply)     
                           @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
                           <div class="text-center J-name">
                             <h6 class="text-medium">Following are the contact details of the employer</h6>
@@ -1052,95 +1154,58 @@ $additionalData = ['job'=>$job];
                             </div>  
                           </div>
                           @endif
+
+                      @endif
                           
-                          <!-- <div class="job-alert text-center">
+                        @if(!$jobApply)
+                          <div class="job-alert text-center x-small">
                               <i class="fa fa-bell alert-icon text-primary" aria-hidden="true"></i>
-                              <h6 class="text-medium m-b-15 m-t-15">Your job alert for <b>'Food &amp; beverage manager'</b> has been created</h6>
-                              <p>You will receive the job alert in your email <b>'abhayrajput@gmail.com'</b> as per the below criteria</p>
+                              
+                              <h6 class="text-medium m-b-15 m-t-15 j-alert-title">Your job alert for <b>'{{ $job->title }}'</b> has been created</h6>
+                              
+                              <p>You will receive the job alert in your email <b>'{{ Session::get('applicant_email') }}'</b> as per the below criteria</p>
                               <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p>
-                          </div> -->
+                          </div>
+                        @endif
   
 
                           <!-- <hr> -->
 
-                          <div class="row flex-row flex-wrap align-top edit-criteria hidden">
-                            <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">Job type: </label>
-                                @if(!empty($jobTypes))
-                                <div class="flex-row jobDetail__row">
-                                   <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
-                                   <div class="featured-jobs__row flex-row">
-                                        <div class="job-type">
-                                        @foreach($jobTypes as $jobType)
-                                         <div class="text-color year-exp">{{ $jobType }}</div>
-                                        @endforeach
-                                        </div>
-                                   </div>
-                                </div>
-                                @endif
-                            </div>
-                            <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">Experience: </label>
-                                @if(!empty($experience))
-                                 <div class="featured-jobs__row flex-row">
-                                     <div class="year-exp">
-                                        <div class="flex-row flex-wrap">
-                                          @foreach($experience as $exp)
-                                           <div class="text-color year-exp">{{ $exp }} years</div>
-                                          @endforeach
-                                        </div>
-                                     </div>
-                                 </div>
-                                 @endif
-                            </div>
-                            <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">Salary: </label>
-                                <div class="featured-jobs__row flex-row">
-                                 @if($job->salary_lower >="0" && $job->salary_upper > "0" )
-                                  <div class="text-color">
-                                    @if($job->salary_lower == $job->salary_upper )
-                                    <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
-                                    @else
-                                    <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_upper) }} 
-                                    @endif
-                                  {{ $job->getSalaryTypeShortForm()}}
-                                  </div>
+                          <div class="m-b-20 m-t-10 send-job-alert heavier">
+                          Send job alerts : <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_alert" value="1">
+                          </div>
+                          <div class="row flex-row flex-wrap align-top edit-criteria x-small {{ ($sendJobAlerts) ? '' : 'hidden' }}">
 
-                                  @else
-                                  <div class="text-color lighter">Not disclosed</div>
-                                  @endif
-                             </div>
-                            </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size dis-block">Job category: </label>
-                                 <span class="location__title default-size">{{ $job->getJobCategoryName() }}</span>
+                                 <span class="location__title default-size text-color">{{ $job->getJobCategoryName() }}</span>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">Role: </label>
+                                <label class="label-size">Job Role: </label>
                                 <ul class="j-role flex-row flex-wrap">
                                   @foreach($keywords as $keyword)
                                    <li>
-                                      <p class="default-size cities__title m-b-0"> {{ $keyword }} </p>
+                                      <p class="default-size cities__title m-b-0 text-color"> {{ $keyword }} </p>
                                    </li>
                                    @endforeach
                                 </ul>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
-                                <div class="flex-row flex-wrap">
+                                <div class="flex-row flex-wrap align-top">
                                   <div class="p-r-20">
-                                    <label class="label-size">City: </label>
+                                    <label class="label-size">State: </label>
                                     @foreach($locations as $city => $locAreas)
                                       <div class="opertaions__container flex-row job-location">
                                          <div class="location flex-row">
                                              <!-- <span class="fnb-icons map-icon"></span> -->
                                              <!-- <i class="fa fa-map-marker p-r-5 text-color" aria-hidden="true"></i> -->
-                                             <p class="default-size location__title c-title flex-row space-between">{{ $city }}</h6>
+                                             <p class="default-size location__title c-title flex-row space-between text-color m-b-5">{{ $city }}</h6>
                                          </div>
                                       </div>
                                     @endforeach  
                                     </div>
                                   <div class="">
-                                    <label class="label-size">Areas: </label>
+                                    <label class="label-size">City: </label>
                                     @foreach($locations as $city => $locAreas)
                                       <div class="opertaions__container flex-row job-location">
                                          <ul class="cities flex-row">
@@ -1158,7 +1223,7 @@ $additionalData = ['job'=>$job];
                                                $areaInc++;
                                               ?>
                                              <li>
-                                                <p class="cities__title">{{ $area }} 
+                                                <p class="cities__title text-color m-b-5">{{ $area }} 
                                  
                                                 @if($areaInc != $areaCount)
                                                  , 
@@ -1174,7 +1239,7 @@ $additionalData = ['job'=>$job];
                                              </li> -->
                
                                           <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
-                                             <span class="x-small text-secondary cursor-pointer p-b-10 p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+                                             <span class="text-secondary cursor-pointer p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
                
                                             @endif
                                          </ul>
@@ -1183,10 +1248,65 @@ $additionalData = ['job'=>$job];
                                   </div>
                                   </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Job type: </label>
+                                @if(!empty($jobTypes))
+                                <div class="flex-row">
+                                   <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
+                                   <div class="featured-jobs__row flex-row">
+                                        <div class="job-type">
+                                        @foreach($jobTypes as $jobType)
+                                         <div class="text-color year-exp">{{ $jobType }}</div>
+                                        @endforeach
+                                        </div>
+                                   </div>
+                                </div>
+                                @else
+                                 <br>N/A
+                                @endif
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Experience: </label>
+                                @if(!empty($experience))
+                                 <div class="featured-jobs__row flex-row">
+                                     <div class="year-exp">
+                                        <div class="flex-row flex-wrap">
+                                          @foreach($experience as $exp)
+                                           <div class="text-color year-exp">{{ $exp }} years</div>
+                                          @endforeach
+                                        </div>
+                                     </div>
+                                 </div>
+                                 @else
+                                 <br>N/A
+                                 @endif
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Salary: </label>
+                                <div class="featured-jobs__row flex-row">
+                                 @if($job->salary_lower >="0" && $job->salary_upper > "0" )
+                                  <div class="text-color">
+                                    @if($job->salary_lower == $job->salary_upper )
+                                    <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
+                                    @else
+                                    <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_upper) }} 
+                                    @endif
+                                  {{ $job->getSalaryTypeShortForm()}}
+                                  </div>
+
+                                  @else
+                                  <div class="text-color">Not disclosed</div>
+                                  @endif
+                             </div>
+                            </div>
+                            
+                            <div class="col-sm-12 m-t-10">
                               <div class="text-center jobdata-action">
-                                  <button class="btn fnb-btn primary-btn border-btn" type="button"> <i class="fa fa-pencil"></i> Modify</button>
-                                  <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button> 
+                                  <a href="{{ url('customer-dashboard') }}?job={{ $job->reference_id}}"><button class="btn fnb-btn primary-btn border-btn" type="button">Modify <i class="fa fa-pencil"></i></button></a>
+                                  <!-- <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button>  -->
+                                  @if($jobApply)
+                                  <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}?ref_type=save_job_config" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
+                                  @endif
                               </div>
                                
                             </div>

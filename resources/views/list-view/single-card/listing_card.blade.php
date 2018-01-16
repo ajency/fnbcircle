@@ -18,60 +18,60 @@
                     </i>
                 </p>
             </div> -->
-            <div class="seller-info__body filter-cards__body flex-row white-space list-new-changes">
+            <div class="seller-info__body filter-cards__body flex-row white-space list-new-changes" style="@isset($is_email) border: 1px solid #ddd;padding: 15px;margin-top: 20px; @endisset">
                 <div class="body-left flex-cols">
                     <div>
                         <div class="list-title-container">
-                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">{{ $list_value->title }}</a></h3>
+                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}" style="@isset($is_email) margin-bottom: 0;margin-top: 0; @endisset"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" target="_blank" style="@isset($is_email) color: #ec6d4b; @endisset">{{ $list_value->title }}</a></h3>
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-10 flex-row">
                             <!-- <span class="fnb-icons map-icon"></span> -->
                                 <i class="fa fa-map-marker sub-title text-lighter p-r-5" aria-hidden="true"></i>
-                                <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
+                                <p class="location__title default-size m-b-0 text-lighter" style="@isset($is_email)     margin-top: 5px;margin-bottom: 0px; @endisset">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
                             <!-- @if($list_value->display_address)
                                 <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->display_address }}</p>
                             @else
                                 <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
                             @endif -->
                         </div>
-                        <div class="flex-row rat-pub">
+                        <div class="flex-row rat-pub" style="@isset($is_email) float: left; @endisset">
                             <div class="rating-view flex-row p-r-10">
                                 <div class="rating rating-small">
                                     <div class="bg"></div>
                                     <div class="value" style="width: 80%;"></div>
                                 </div>
                             </div>
-                            <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>
+                            @if($list_value->status ==1)<p class="m-b-0 text-lighter default-size lighter published-date" style="@isset($is_email)  margin-top: 0;margin-bottom: 5px; @endisset"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>@endif
                         </div>
-                        <div class="stats flex-row m-t-10">
-                            <a class="fnb-label wholesaler flex-row list-label m-r-10" href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]'>
+                        <div class="stats flex-row m-t-10" style="@isset($is_email) width: 40%;float: right;position: relative;top: -8px; @endisset">
+                            <a class="fnb-label wholesaler flex-row list-label m-r-10" @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]' style="@isset($is_email)  padding: 5px;color: #27b7b0;border: 1px solid;border-radius: 4px;text-decoration: none;font-size: 12px;width: auto;float: left;margin-right: 15px; @endisset">
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                 {{ $list_value->business_type["name"] }}
                             </a>
                             @if ($list_value->verified)
-                            <div class="verified flex-row p-r-10">
+                            <div class="verified flex-row p-r-10" style="@isset($is_email) color: #1eb51e;position: relative;top: 5px; @endisset">
                                 <span class="fnb-icons verified-icon verified-mini"></span>
-                                <p class="c-title">Verified</p>
+                                <p class="c-title" style="@isset($is_email) margin: 0; @endisset">Verified</p>
                             </div>
                             @endif
                         </div>
                     </div>
                     @if($list_value->cores->count() > 0)
-                        <div class="m-t-15 p-t-15 cat-holder">
+                        <div class="m-t-15 p-t-15 cat-holder" style="@isset($is_email) margin-top: 40px;border-top: 1px solid #eee; @endisset">
                             <div class="core-cat">
-                                <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
-                                <ul class="fnb-cat flex-row">
+                                <p class="default-size text-lighter m-t-0 m-b-0" style="@isset($is_email) margin-bottom: 5px; @endisset">Core Categories</p>
+                                <ul class="fnb-cat flex-row" style="@isset($is_email) width: 100%;list-style: none;margin: 0;clear: both; @endisset">
                                     @foreach($list_value->cores->take(4) as $core_index => $core_value)
                                         @if($core_index < 4)
-                                            <li><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                            <li style="@isset($is_email) float: left;padding-right: 8px; @endisset"><a @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title" style="@isset($is_email) color: #757575; @endisset">{{ $core_value->name }}</a></li>
                                         @else
                                             <!-- <li class="desk-hide"><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li> -->
                                         @endif
                                     @endforeach
                                     @if (sizeof($list_value->cores) > 4)
-                                        <li class="cat-more more-show">
-                                            <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="x-small secondary-link">+ {{ sizeof($list_value->cores) - 4}} more...</a>
+                                        <li class="cat-more more-show" style="@isset($is_email) float: left;padding-right: 8px; @endisset">
+                                            <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="x-small secondary-link" target="_blank" style="@isset($is_email) color: #757575; @endisset">+ {{ sizeof($list_value->cores) - 4}} more...</a>
                                         </li>
                                     @endif
                                 </ul>
@@ -79,7 +79,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="body-right flex-cols">
+                <div class="body-right flex-cols" style="@isset($is_email) clear: both;margin-top: 40px; @endisset">
                     @if($list_value->premium || sizeof($list_value->areas_operation) > 0)
                         <div class="operations">
                             @if($list_value->premium)
@@ -90,14 +90,14 @@
                                 <div class="operations__container">
                                     @foreach(array_slice($list_value->areas_operation, 0, 1) as $locations_index => $locations_value)
                                         <div class="location flex-row">
-                                            <p class="m-b-0 text-color heavier default-size"> {{ $locations_value["city"]["name"] }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
+                                            <p class="m-b-0 text-color heavier default-size" style="@isset($is_email) margin-top: 0px; @endisset"> {{ $locations_value["city"]["name"] }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
                                             </p>
                                         </div>
-                                        <ul class="cities flex-row">
+                                        <ul class="cities flex-row" style="@isset($is_email) width: 100%;list-style: none;margin: 0;clear: both; @endisset">
                                             @foreach($locations_value["areas"]->take(5) as $areas_index => $areas_value)
                                                 @if ($areas_index < 5)
-                                                    <li>
-                                                        <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
+                                                    <li style="@isset($is_email) float: left;padding-right: 8px; @endisset">
+                                                        <p class="cities__title default-size" style="@isset($is_email) margin-top: 5px; @endisset">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
                                                     </li>
                                                 @else
                                                     <!-- <li class="mobile-hide">
@@ -108,7 +108,7 @@
 
                                             <li class="remain more-show">
                                                 @if ($locations_value["areas"]->count() > 5)
-                                                    <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
+                                                    <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium" target="_blank" style="@isset($is_email) color: #9a9a9a; @endisset"> and more...</a>
                                                 @endif
                                             </li>
                                             <!-- <li>
@@ -137,7 +137,7 @@
                                 </div>
                                 @if(sizeof($list_value->areas_operation) > 1)
                                     <div class="location flex-row m-t-5">
-                                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number x-small secondary-link moreLink">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
+                                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number x-small secondary-link moreLink" target="_blank" style="@isset($is_email) color: #9a9a9a; @endisset">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
                                         </p>
                                     </div>
                                 @endif
@@ -145,19 +145,19 @@
                         </div>
                     @endif
                     <div>
-                        <div class="enquiries flex-row m-t-15">
-                            <div class="enquiries__count">
-                                <p class="default-size heavier text-color m-b-0">50+</p>
-                                <p class="default-size text-lighter">Enquiries</p>
+                        <div class="enquiries flex-row m-t-15" style="@isset($is_email) clear: both;display: table;width: 100%; @endisset">
+                            <div class="enquiries__count" style="@isset($is_email) float: left;width: 30%; @endisset">
+                                <p class="default-size heavier text-color m-b-0" style="@isset($is_email) margin-bottom:0; @endisset">50+</p>
+                                <p class="default-size text-lighter" style="@isset($is_email) margin-top:5px; @endisset">Enquiries</p>
                             </div>
-                            <div class="enquiries__request">
-                                <p class="default-size heavier text-color m-b-0">100+</p>
-                                <p class="default-size text-lighter">Contact Requests</p>
+                            <div class="enquiries__request" style="@isset($is_email) float: left; @endisset">
+                                <p class="default-size heavier text-color m-b-0" style="@isset($is_email) margin-bottom:0; @endisset">100+</p>
+                                <p class="default-size text-lighter" style="@isset($is_email) margin-top:5px; @endisset">Contact Requests</p>
                             </div>
                             <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
                         </div>
-                        <div class="get-details detail-move">
-                            <a class="btn fnb-btn outline full border-btn fullwidth default-size" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
+                        <div class="get-details detail-move" style="@isset($is_email)  margin-top: 15px;text-align: center;margin-bottom: 18px; @endisset">
+                            <a class="btn fnb-btn outline full border-btn fullwidth default-size" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" target="_blank" style="@isset($is_email) background-color: #fff;color: #ec6d4b;border: 2px solid;padding: 1em 1.8em;font-weight: 500;text-transform: capitalize;border-radius: 4px; @endisset">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -182,11 +182,15 @@
             </div>
         </div>
     </div>
-    @if((($list_index + 1) === 5) || (sizeof($listing_data) < 5 && ($list_index + 1) === sizeof($listing_data)))
-        @include("enquiries.listings_enquiry")
+    @if(false)
+    @if(!isset($exclude_enquiry) || (!$exclude_enquiry))
+        @if((($list_index + 1) === 5) || (sizeof($listing_data) < 5 && ($list_index + 1) === sizeof($listing_data)))
+            @include("enquiries.listings_enquiry")
+        @endif
+    @endif
     @endif
 @endforeach
-@if($listing_data->count() <= 0)
+@if(isset($listing_data) && $listing_data && $listing_data->count() <= 0)
     <div class="filter-data m-b-30">
         <div class="no-results">
             <h3 class="seller-info__title ellipsis text-primary">Sorry, no results found!</h3>

@@ -26,6 +26,11 @@ class Area extends Model
     {
         return Area::where('city_id', $this->city_id)->where('id', '!=', $this->id)->where('status', '1')->count();
     }
+    public function getHirarchyAttribute(){
+        $city = $this->city;
+        return $city->name.">>".$this->name;
+    }
+
     public function isArchivable()
     {
         $listings = Listing::where('locality_id', $this->id)->count();

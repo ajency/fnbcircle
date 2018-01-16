@@ -32,7 +32,11 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Listing Approval <a href="{{url('/listing/create')}}" class="btn btn-link btn-sm">+ Add Listing</a><button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
+            <h5>Listing Approval 
+              <a href="{{url('/listing/create')}}" class="btn btn-link btn-sm">+ Add Listing</a>
+              <button type="button" class="btn btn-link btn-sm" id="importListing">+ Import Listings</button>
+              <button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button>
+            </h5>
           </div>
         </div>
 
@@ -110,7 +114,7 @@
 
                 <hr>
 
-                <table id="datatable-listing_approval" class="table table-striped" cellspacing="0" width="100%">
+                <table id="datatable-listing_approval" class="table table-striped list-approval-tab" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th class="select-checkbox sorting_disabled" aria-label="" style="width: 10px;"></th>
@@ -147,6 +151,14 @@
                           <option value="verified" >Verified</option>
                         </select>
                       </th>
+                      <th class="no-sort" data-col="8" style="min-width: 10%;">
+                        Owner Status
+                        <select multiple class="form-control multi-dd" id="user-status">
+                          <option value="active" >Active</option>
+                          <option value="inactive">Inactive</option>
+                          <option value="suspended" >Suspended</option>
+                        </select>
+                      </th>
                       <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
                       <th class="no-sort" data-col="10" style="min-width: 10%;">
                         Premium Request
@@ -155,6 +167,15 @@
                           <option value="0">No</option>
                         </select>
                       </th>
+                      <th class="no-sort">
+                        Listing Source
+                        <select multiple class="form-control multi-dd" id="source-filter">
+                          <option value="internal_user" >Added by internal user</option>
+                          <option value="external_user" >Added by external user</option>
+                          <option value="import" >Added by import</option>
+                        </select>
+                      </th>
+                      <th>Listing status ref</th>
                       <th class="no-sort" data-col="11" style="min-width: 10%;">
                         Status
                         <select multiple class="form-control multi-dd" id="status-filter">
@@ -165,6 +186,7 @@
                         <option value="5" >Rejected</option>
                         </select>
                       </th>
+                      
                     </tr>
                   </thead>
 
@@ -336,7 +358,28 @@
             </div>
         </div>
 
-
+        <div class="modal fnb-modal modal-center import-listing" id="importListingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                        <h4 class="element-title modal-title">Import Listings</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="flex-row">
+                        <a href="{{action('AdminModerationController@getFile')}}"> Download Import Sample File </a>
+                        <span class="p-l-5 p-r-5">|</span>
+                        <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheet </a>
+                      </div>
+                      <div>Please Note: Once Import file is uploaded, import process cannot be cancelled</div>
+                        {!!$importForm!!}
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
       </div>

@@ -1,3 +1,32 @@
+window.change = 0
+window.submit = 0
+window.archive = 0
+window.publish = 0
+
+$('body').on 'change', 'input', ->
+  window.change = 1
+  return
+$('body').on 'change', 'select', ->
+  window.change = 1
+  return
+$('body').on 'change', 'textarea', ->
+  window.change = 1
+  return
+$('#info-form').on 'keypress', (e) ->
+  keyCode = e.keyCode or e.which
+  if keyCode == 13
+    e.preventDefault()
+    temp = document.activeElement
+    if $(temp).hasClass('blur')
+      $(temp).blur()
+    if $(temp).hasClass('allow-newline')
+      $(temp).val $(temp).val() + '\n'
+      e.preventDefault()
+    return false
+  return
+
+
+
 # Get Started form next/prev
 $('body').on 'click', '.gs-next', ->
 	$('.gs-steps > .active').next('li').find('a').trigger 'click'
@@ -84,7 +113,7 @@ submitForm = (e) ->
   step = $('input#step-name').val()
   e.preventDefault()
   if step == 'business-information'
-    window.validateListing(e)
+    validateListing(e)
   if step == 'business-categories'
     validateCategories()
   if step == 'business-location-hours'

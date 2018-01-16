@@ -35,7 +35,7 @@
           jobCityObj.closest('.location-select').find('.job-areas').multiselect('destroy');
           jobCityObj.closest('.location-select').find('.job-areas').multiselect({
             includeSelectAllOption: true,
-            numberDisplayed: 2,
+            numberDisplayed: 1,
             delimiterText: ',',
             nonSelectedText: 'Select City'
           });
@@ -56,8 +56,35 @@
         'user': ''
       },
       success: function(data) {
+        $('input[name="resume_id"]').val('');
         $('.no_resume').removeClass('hidden');
-        return $('.has_resume').addClass('hidden');
+        $('.has_resume').addClass('hidden');
+        return $('.dropify-message').find('p').html('Upload my resume');
+      },
+      error: function(request, status, error) {
+        throwError();
+      }
+    });
+  });
+
+  $(document).on('click', '.apply-jobs', function() {
+    $('.apply-job-form').removeClass('hidden');
+    return $('.success-apply').addClass('hidden');
+  });
+
+  $(document).on('click', '.view-applicant__btn', function() {
+    var jobId;
+    $('.application-loader').removeClass('hidden');
+    jobId = $(this).attr('job-id');
+    return $.ajax({
+      type: 'post',
+      url: '/job/' + jobId + '/get-job-application',
+      data: {
+        'user': ''
+      },
+      success: function(data) {
+        $('.application-table').find('tbody').html(data.html);
+        return $('.application-loader').addClass('hidden');
       },
       error: function(request, status, error) {
         throwError();
@@ -383,8 +410,9 @@
     });
   }
 
-  $('.add-job-areas').click(function(e) {
+  $('body').on('click', '.add-job-areas', function(e) {
     var addLocationLen, area_group, area_group_clone, locationLen;
+    console.log(12);
     locationLen = $('.location-select').length;
     addLocationLen = parseInt(locationLen) + 1;
     area_group = void 0;
@@ -424,6 +452,49 @@
 
   $(document).on('countrychange', 'input[name="applicant_phone"]', function(e, countryData) {
     return $('input[name="country_code"]').val(countryData.dialCode);
+  });
+
+  $(document).on('click', 'input[name="send_alert"]', function() {
+    return $('.edit-criteria').removeClass('hidden');
+  });
+
+  $('body').on('click', '.removelocRow', function() {
+    if ($(this).closest('.job-areas').find('.location-select').length === 2) {
+      return $(this).closest('.job-areas').find('.add-job-areas').click();
+    }
+  });
+
+  $('body').on('change', '.terms-check', function() {
+    if ($(this).prop('checked')) {
+      return $('.job-save-btn').removeClass('disable');
+    } else {
+      return $('.job-save-btn').addClass('disable');
+    }
+  });
+
+  if ($('.default-area-select').length) {
+    $('.default-area-select').multiselect({
+      includeSelectAllOption: true,
+      numberDisplayed: 1,
+      delimiterText: ',',
+      nonSelectedText: 'Select City'
+    });
+  }
+
+  $('.open-popup-alert').popover({
+    container: 'body',
+    html: true,
+    content: function() {
+      var clone;
+      clone = $($(this).data('popover-content')).clone(true).removeClass('hidden');
+      return clone;
+    }
+  }).click(function(e) {
+    e.preventDefault();
+  });
+
+  $('.custom-pop-btn.yes').click(function() {
+    return $('.send-jobs-loader').removeClass('hidden');
   });
 
 }).call(this);

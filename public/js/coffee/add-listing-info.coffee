@@ -1,3 +1,198 @@
+userCheck = ->
+  if $('#user-type').val() == 'external' or document.getElementsByName('primary_email_txt')[0].value == ""
+    listingInformation()
+    return
+  email = document.getElementsByName('primary_email_txt')[0].value
+  $.ajax
+    type: 'post'
+    url: document.head.querySelector('[property="check-user-exist"]').content
+    data:
+      'email': document.getElementsByName('primary_email_txt')[0].value
+    success: (data) ->
+      $('.section-loader').addClass 'hidden'
+      if data['result']
+        text = 'Email id "'+email+'" already exists with us with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'”. Do you want to create listing under this account?'
+      else
+        text = '<div class="m-b-5">No account exists with this email id.</div> Do you want to create new account? Listing will be created under this new account.';
+      check = email
+      $('#user-exist-text').html text
+      $('#status-address').html check
+      $('#user-exist-confirmation').modal 'show'
+      $('#user-exist-confirmation').on 'click', '#save-listing', (e) ->
+        event.preventDefault()
+        $('.section-loader').removeClass 'hidden'
+        sendmail = $('#send-email-checkbox').prop('checked')
+        listingInformation(sendmail)
+        return
+  return
+
+listingInformation = (sendmail = false)->
+  form = $('<form></form>')
+  form.attr 'method', 'post'
+  form.attr 'action', '/listing'
+  contacts = {}
+  value = document.getElementsByClassName('contact-input')
+  i = 0
+  while i < value.length
+    if value[i].value != ''
+      contact = {}
+      id=""
+      if $(value[i]).closest('.business-contact').hasClass('business-email')
+        type = 1
+      if $(value[i]).closest('.business-contact').hasClass('business-phone')
+        type = 2
+      if $(value[i]).closest('.business-contact').hasClass('contact-info-landline')
+        type = 3
+      id = $(value[i]).closest('.contact-container').find('.contact-id').val()
+      console.log value[i].value,'=>',id
+      $.ajax
+        type: 'post'
+        url: '/contact_save'
+        data:
+          'value': value[i].value
+          'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
+          'type': type
+          'id': id
+        success: (data) ->
+          $(value[i]).closest('.contact-container').find('.contact-id').val data['id']
+          id = data['id']
+          return
+        failure: ->
+          $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Oh snap! Some error occurred. Please <a href="/login">login</a> or refresh your page'
+          $('.alert-failure').addClass 'active'
+          return
+        async: false
+      contact['id'] = id
+      contact['country'] = $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
+      contact['visible'] = if $(value[i]).closest('.contact-container').find('.toggle__check').prop('checked') then '1' else '0'
+      # contact['visible'] = $(value[i]).closest('.contact-container').find('.contact-visible').prop('checked');
+      contact['value'] = $(value[i]).val()
+      contacts[i] = contact
+      console.log contact
+    i++
+  parameters = {}
+  parameters['listing_id'] = document.getElementById('listing_id').value
+  parameters['step'] = 'business-information'
+  parameters['change'] = change
+  parameters['title'] = document.getElementsByName('listing_title')[0].value
+  type = document.getElementsByName('business_type')
+  i = 0
+  while i < type.length
+    if type[i].checked
+      parameters['type'] = type[i].value
+    i++
+  user = {}
+  user['email'] = document.getElementsByName('primary_email_txt')[0].value
+  phone = document.getElementsByName('primary_phone_txt')[0]
+  user['locality'] = $(phone).intlTelInput('getSelectedCountryData')['dialCode']
+  user['phone'] = phone.value
+  user['sendmail'] = sendmail
+  parameters['user'] = JSON.stringify(user)
+  parameters['primary_email'] = if document.getElementsByName('primary_email')[0].checked then '1' else '0'
+  parameters['primary_phone'] = if document.getElementsByName('primary_phone')[0].checked then '1' else '0'
+  parameters['area'] = $('.area select').val()
+  parameters['contacts'] = JSON.stringify(contacts)
+  if submit == 1
+    parameters['submitReview'] = 'yes'
+  if archive == 1
+    parameters['archive'] = 'yes'
+  if publish == 1
+    parameters['publish'] = 'yes'
+  $.each parameters, (key, value) ->
+    field = $('<input></input>')
+    field.attr 'type', 'hidden'
+    field.attr 'name', key
+    field.attr 'value', value
+    form.append field
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
+  return
+
+window.validateListing = (event) ->
+  instance = $('#info-form').parsley()
+  # if (checkDuplicates()) return false;
+  console.log true
+  if !instance.validate()
+    return false
+  $('.section-loader').removeClass 'hidden'
+  # console.log($('#listing_id').val());
+  if $('#listing_id').val() == ''
+    # console.log(true);
+    title = document.getElementsByName('listing_title')[0].value
+    value = document.getElementsByClassName('contact-input')
+    cont = []
+    i = 0
+    while i < value.length
+      type = undefined
+      if value[i].value == ''
+        i++
+        continue
+      if $(value[i]).closest('.business-contact').hasClass('business-email')
+        type = 'email'
+      if $(value[i]).closest('.business-contact').hasClass('business-phone')
+        type = 'mobile'
+      if $(value[i]).closest('.business-contact').hasClass('contact-info-landline')
+        type = 'landline'
+      cont.push
+        'value': value[i].value
+        'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
+        'type': type
+      i++
+    if $('input[name="primary_email_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_email_txt"]').val();
+        'type': "email"
+    if $('input[name="primary_phone_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_phone_txt"]').val();
+        'country': $('input[name="primary_phone_txt"]').intlTelInput('getSelectedCountryData')['dialCode']
+        'type': "mobile"
+    json = JSON.stringify(cont)
+    # console.log(json);
+    $.ajax
+      type: 'post'
+      url: '/duplicates'
+      data:
+        'title': title
+        'contacts': json
+      success: (data) ->
+        console.log data
+        myvar = ''
+        for k of data['similar']
+          myvar += '<div class="list-row flex-row">' + '<div class="left">' + '<h5 class="sub-title text-medium text-capitalise list-title">' + data['similar'][k]['name'] + '</h5>'
+          for j of data['similar'][k]['messages']
+            myvar += '<p class="m-b-0 text-color text-left default-size">' + '<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">' + data['similar'][k]['messages'][j] + '</span>' + '</p>'
+          myvar += '</div>' + '<div class="right">'
+          if data['type'] == 'external'
+            myvar += '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>'
+          myvar += '</div>' + '</div>'
+        $('.list-entries').html myvar
+        if myvar != ''
+          $('.section-loader').addClass 'hidden'
+          $('#duplicate-listing').modal 'show'
+          $('#duplicate-listing').on 'click', '#skip-duplicates', (e) ->
+            event.preventDefault()
+            $('.section-loader').removeClass 'hidden'
+            userCheck()
+            return
+        else
+          event.preventDefault()
+          $('.section-loader').removeClass 'hidden'
+          userCheck()
+        return
+      error: (request, status, error) ->
+        $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>'
+        $('.alert-failure').addClass 'active'
+        return
+  else
+    # console.log(true);
+    event.preventDefault()
+    userCheck()
+  event.preventDefault()
+  return
+
 # parent = undefined
 # input = undefined
 # id = undefined
@@ -46,26 +241,20 @@
 #     $('#phone-modal').modal 'hide'
 #   return
 
-# window.checkDuplicates = ->
-#   contacts = document.getElementsByClassName('contact-input')
-#   index = 0
-#   while index < contacts.length
-#     others = document.getElementsByClassName('contact-input')
-#     value = contacts[index].value
-#     # console.log 'value=' + value
-#     if value != ''
-#       index1 = 0
-#       while index1 < others.length
-#         if value == others[index1].value and index != index1
-#           # console.log 'DupValue=' + others[index1].value
-#           # console.log 'duplicate found'
-#           $(others[index1]).closest('.get-val').find('.dupError').html 'Same contact detail has been added multiple times.'
-#           return true
-#         else
-#           $(others[index1]).closest('.get-val').find('.dupError').html ''
-#         ++index1
-#     ++index
-#   return
+$('.contact-info').on 'change', '.contact-input', (event) ->
+  contacts = document.getElementsByClassName('contact-input')
+  email = $('input[name="primary_email_txt"]').val();
+  phone = $('input[name="primary_phone_txt"]').val();
+  index = 0
+  while index < contacts.length
+    value = contacts[index].value
+    if value == email or value == phone
+      # setTimeout ->
+      $(this).closest('.contact-container').find('.dupError').html 'Same contact detail has been added multiple times.'
+      # , 1000
+      contacts[index].value = ""
+    ++index
+  return
 
 $(document).on 'blur', '.fnb-input', ->
   # checkDuplicates()
@@ -73,6 +262,23 @@ $(document).on 'blur', '.fnb-input', ->
   return
 
 
+$('.user-details-container').on 'keyup keypress blur change', 'input[name="user-email"]', (event) ->
+  $('input[name="primary_email_txt"]').val @value
+  $('input[name="primary_email_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change()
+
+$('.user-details-container').on 'keyup keypress blur change', 'input[name="user-phone"]', (event) ->
+  $('input[name="primary_phone_txt"]').val @value
+  $('input[name="primary_phone_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change()
+
+$('.user-details-container input[name="user-phone"]').on 'countrychange', (e, countryData) ->
+  $('input[name="primary_phone_txt"]').intlTelInput("setCountry", countryData.iso2);
+  return
+
+$('.contact-info').on 'change','input.toggle__check', (event) ->
+  # console.log  $(this).closest('.contact-container').find('.fnb-input').val()
+  if @checked
+    if $(this).closest('.contact-container').find('.fnb-input').val() == ''
+      $(this).prop('checked',false)
 
 # $(document).on 'click', '.verify-link', (event) ->
 # 	event.preventDefault()
@@ -223,12 +429,21 @@ $(document).on 'click', '.business-type .radio', ->
   return
 
 
+# On load change toggle text
+
+$('.business-contact .toggle__check').each ->
+  if $(this).is(':checked')
+    $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing')
+  else
+    $(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing')
+  return
+
 $(document).on 'change', '.business-contact .toggle__check', ->
 # $('.business-contact .toggle__check').change ->
 	if $(this).is(':checked')
-		$(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing')
+		$(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing')
 	else
-		$(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing')
+		$(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing')
 	return
 
 $(document).on 'change', '.city select', ->

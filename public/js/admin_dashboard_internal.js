@@ -1,5 +1,5 @@
 (function() {
-  var filters_array, getColumns, getFiltersForListInternalUsers, get_filters, get_page_no_n_entry_no, get_sort_order, requestData, validatePassword;
+  var filters_array, getColumns, getFiltersForListInternalUsers, get_filters, get_page_no_n_entry_no, get_sort_order, init_Multiselect, requestData, validatePassword;
 
   filters_array = ['roles', 'status'];
 
@@ -119,7 +119,7 @@
     if (child_path == null) {
       child_path = "#password_errors";
     }
-    expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+    expression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
     message = '';
     status = true;
     if (expression.test(password)) {
@@ -132,11 +132,15 @@
         status = false;
       }
     } else {
-      message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+      if (password.length > 0) {
+        message = 'Please enter a password of minimum 8 characters and has atleast 1 number.<br/><div class=\'note-popover popover top\'><div class=\'arrow\'></div> <div class=\'popover-content\'><b class=\'fnb-errors\'>Note:</b> Don’t use obvious passwords or easily guessable one\'s, your or your pet’s name. Also try and avoid using passwords you may have on a lot of other sites.</div></div>';
+      } else {
+        message = 'Please enter a Password';
+      }
       status = false;
     }
     if (!status && parent_path !== '') {
-      $(parent_path + " " + child_path).removeClass('hidden').text(message);
+      $(parent_path + " " + child_path).removeClass('hidden').html(message);
     } else if (status && parent_path !== '') {
       $(parent_path + " " + child_path).addClass('hidden');
     }
@@ -180,13 +184,13 @@
           mData: "roles",
           sWidth: "30%",
           className: "text-center",
-          bSearchable: false,
+          bSearchable: true,
           bSortable: false
         }, {
           mData: "status",
           sWidth: "20%",
           className: "text-center",
-          bSearchable: false,
+          bSearchable: true,
           bSortable: false
         }
       ],
@@ -227,9 +231,33 @@
     return internal_user_table;
   };
 
+  init_Multiselect = function() {
+    $('.multi-ddd').multiselect({
+      maxHeight: 200,
+      templates: {
+        button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
+      },
+      numberDisplayed: 5,
+      onChange: function(element, checked) {
+        var categories, col, search, selected;
+        categories = $(this)[0]['$select'].find('option:selected');
+        selected = [];
+        $(categories).each(function(index, city) {
+          selected.push('^' + $(this).val() + "$");
+        });
+        search = selected.join('|');
+        col = $(this)[0]['$select'].closest('th').data('col');
+        $('#datatable-internal-users').DataTable().column(col).search(search, true, false).draw();
+      }
+    });
+  };
+
   $(document).ready(function() {
+
+    /* --- Initialize the Table for 1st time, as the filters will be on Client-Side --- */
     var table;
     table = requestData("datatable-internal-users");
+    init_Multiselect();
     $("#add_newuser_modal #add_newuser_modal_form input[type='email'][name='email']").on('keyup change', function() {
       var form_obj;
       form_obj = $("#add_newuser_modal #add_newuser_modal_form");
@@ -249,7 +277,7 @@
         user_type: "internal",
         name: form_obj.find('input[type="text"][name="name"]').val(),
         email: form_obj.find('input[type="email"][name="email"]').val(),
-        roles: form_obj.find('select[name="role"]').val().length ? form_obj.find('select[name="role"]').val() : [],
+        roles: form_obj.find('select[name="role"]').val().length ? [form_obj.find('select[name="role"]').val()] : [],
         status: form_obj.find('select[name="status"]').val(),
         password: form_obj.find('input[type="password"][name="password"]').prop('disabled') ? '' : form_obj.find('input[type="password"][name="password"]').val(),
         confirm_password: form_obj.find('input[type="password"][name="confirm_password"]').prop('disabled') ? '' : form_obj.find('input[type="password"][name="confirm_password"]').val()
@@ -267,7 +295,7 @@
             $("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass("hidden");
             $("#add_newuser_modal").modal("hide");
             if (url_type === "add") {
-              $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("Successfully created new User");
+              $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("Successfully created new user");
             } else {
               $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("User updated successfully");
             }
@@ -339,8 +367,9 @@
       modal_object.find("input[type='email'][name='email']").val(row.find('td:eq(2)').text()).attr("disabled", "true");
 
       /* --- Select the user's Role --- */
-      modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()]);
-      modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true);
+      modal_object.find('select.form-control.fnb-select.single-role-select').val(row.find('td:eq(3)').text().toLowerCase());
+      console.log(row.find('td:eq(4)').text().toLowerCase());
+      modal_object.find('select.form-control.status-select').val(row.find('td:eq(4)').text().toLowerCase());
       modal_object.find('.createSave').addClass('hidden');
       modal_object.find('.editSave').removeClass('hidden');
     });

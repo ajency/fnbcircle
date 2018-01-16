@@ -11,6 +11,7 @@ use Conner\Tagging\Model\TagGroup;
 use Ajency\FileUpload\FileUpload;
 use Carbon\Carbon;
 use Auth;
+use App\Http\Controllers\CommonController;
 use App\Defaults;
 
 class Listing extends Model
@@ -97,7 +98,7 @@ class Listing extends Model
 
     }
 
-    public function saveInformation($title, $type, $email, $area)
+    public function saveInformation($title, $type, $email, $area, $phone = 0,$import=false)
     {
         $slug  = str_slug($title);
         $count = self::where('slug', $slug)->where('id','!=',$this->id)->count();
@@ -118,6 +119,7 @@ class Listing extends Model
         }
 
         $this->show_primary_email = $email;
+        $this->show_primary_phone = $phone;
         if($this->locality_id != $area){
             $this->locality_id        = $area;
             $this->latitude = null;
@@ -140,8 +142,14 @@ class Listing extends Model
             if(Auth::user()->type == 'external') {
                 $this->owner_id = Auth::user()->id;
                 $this->verified = 1;
-            }
-            else $this->owner_id = null;
+                $this->source = 'external_user';
+                $common = new CommonController;
+                $common->updateUserDetails(Auth::user());
+
+            }else{
+                $this->owner_id = null; 
+                $this->source = ($import)? 'import': 'internal_user'; 
+            } 
         }
 
         $this->save();
@@ -161,7 +169,12 @@ class Listing extends Model
      }
 
     public function save(array $options = []){
-        $this->last_updated_by = Auth::user()->id;
+        if(!Auth::guest()){
+            $this->last_updated_by = Auth::user()->id;
+            if(Auth::user()->type == 'external') {
+                $this->verified = 1;
+            }
+        }
         parent::save();
     }
 
@@ -233,6 +246,50 @@ class Listing extends Model
     }
     public function premium(){
         return $this->morphMany( 'App\PlanAssociation', 'premium');
+    }
+
+    public function getAllContacts($csv = false){
+        $contacts = ['email'=>[],'mobile'=>[], 'landline'=>[]];
+        if($this->show_primary_email){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $email = $owner->getPrimaryEmail(true);
+                $contacts['email'][] = $email;
+            }
+        }
+        if($this->show_primary_phone){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $phone = $owner->getPrimaryContact();
+                $contacts['mobile'][] = $phone;
+            }
+        }
+        $user_comm = $this->contacts()->where('is_visible',1)->get();
+        foreach ($user_comm as $contact) {
+            if($contact->type == 'email'){
+                $contacts['email'][] =['email'=>$contact->value, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'mobile'){
+                $contacts['mobile'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'landline'){
+                $contacts['landline'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+        }
+        if(!$csv) return $contacts;
+        foreach ($contacts as &$contact_type) {
+            foreach ($contact_type as &$contact) {
+                if(isset($contact['email'])) {
+                    $contact = $contact['email'];
+                }
+                if(isset($contact['contact_region'])) {
+                    $contact = $contact['contact_region'].$contact['contact'];
+                    // unset($contact['contact_region']);
+                }
+            }
+            $contact_type = implode(',', $contact_type);
+        }
+        return $contacts;
     }
 
 }

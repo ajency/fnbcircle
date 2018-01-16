@@ -20,7 +20,7 @@ use App\Plan;
 use App\PlanAssociation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Password;
 /*
  *    This class defines the actions required for adding a listing to the database and editing it.
  *    This can be used as a route or as a resource.
@@ -47,15 +47,101 @@ class ListingController extends Controller
         // Common::authenticate('listing', $this);
     }
 
+    
+    public function createUserAndAssignListing($user_details,$listing){
+        if($user_details->email == "") return false;
+        $user = User::findUsingEmail($user_details->email);
+        if($user != null){
+            $listing->owner_id = $user->id;
+            $listing->save();
+            $common = new CommonController;
+            $common->updateUserDetails($user);
+            if($user_details->sendmail == "true"){    
+                $area = Area::with('city')->find($listing->locality_id);
+                $email = [
+                        'to' => $listing->owner()->first()->getPrimaryEmail(),
+                        'subject' => "Listing added under your account on FnB Circle",
+                        'template_data' => [
+                            'owner_name' => $user->name,
+                            'listings'=>[[
+                                'listing_name' => $listing->title,
+                                'listing_type' => Listing::listing_business_type[$listing->type],
+                                'listing_state' => $area->city['name'],
+                                'listing_city' => $area->name,
+                                'listing_reference' => $listing->reference,
+                            ]],
+                            
+                        ],
+                    ];
+                sendEmail('listing-user-notify',$email);
+            }
+            if(1 == $user->getPrimaryEmail(true)['is_verified']){
+                $listing->verified = 1;
+                $listing->save();
+            }
+            return true;
+        }
+        $request_data = [
+            "user" => array("username" => $user_details->email, "email" => $user_details->email, "password" => str_random(10) , "provider" => "internal_listing_signup", "name" => explode('@', $user_details->email)[0]),
+            "user_comm" => array("email" => $user_details->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0, "is_verified" => 0),
+            "user_details" => array()
+        ];
+        $userauth_obj = new UserAuth;
+        $valid_response = $userauth_obj->validateUserLogin($request_data["user"], "email_signup");
+        if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
+            if ($valid_response["authentic_user"]) {
+                if(!$valid_response["user"]) {
+                    $request_data["user"]["roles"] = "customer";
+                    $request_data["user"]["type"] = "external";
+                    $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
+                }
+                if($user_details->phone != "" && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
+                    $usercomm_obj = UserCommunication::create([
+                        "type" => "mobile", "country_code" => ($user_details->locality) ? $user_details->locality : "91",
+                        "value" => $user_details->phone, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
+                    ]);
+                }
+                $listing->owner_id = $user_resp["user"]->id;
+                $listing->save();
+                $common = new CommonController;
+                $common->updateUserDetails($user_resp["user"]);
+
+                //send email here
+                if($user_details->sendmail == "true"){ 
+                    $user = Password::broker()->getUser(['email'=>$user_details->email]);
+                    $token =Password::broker()->createToken($user);
+                    $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user_details->email.'&new_user=true';
+                    // dd($reset_password_url);
+                    $area = Area::with('city')->find($listing->locality_id);
+                    $email = [
+                            'to' => $user_details->email,
+                            'subject' => "Activate your account to claim your business on FnB Circle",
+                            'template_data' => [
+                                'listing_name' => $listing->title,
+                                'listing_type' => Listing::listing_business_type[$listing->type],
+                                'listing_state' => $area->city['name'],
+                                'listing_city' => $area->name,
+                                'confirmationLink' => $reset_password_url,
+                                'listing_reference' => $listing->reference,
+                            ],
+                        ];
+                    sendEmail('listing-user-verify',$email);
+                }
+            }
+        }
+    }
+
     //-----------------------------------Step 1-----------------------
 
     public function listingInformation($data)
     {
-        
+
         $this->validate($data, [
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,16',
             'primary_email' => 'required|boolean',
+            'primary_phone' => 'required|boolean',
+            'user'          => 'required|json',
             'area'          => 'required|integer|min:1',
             'contacts'      => 'required|json|contacts',
             'change'        => 'nullable|boolean',
@@ -74,7 +160,7 @@ class ListingController extends Controller
         } else {
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
-        $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area);
+        $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area, $data->primary_phone);
         UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->update(['object_id' => null]);
         foreach ($contacts as $contact => $info) {
             // dd($info);
@@ -84,6 +170,10 @@ class ListingController extends Controller
             $com->is_visible   = $info['visible'];
             $com->save();
         }
+
+        $user = json_decode($data->user);
+        if($listing->owner_id == null and $user->email != "") $this->createUserAndAssignListing($user,$listing);
+
         $change = "";
         if (isset($data->change) and $data->change == "1") {
             $change = "&success=true";
@@ -205,7 +295,7 @@ class ListingController extends Controller
             similar_text($listing->title, $value, $percent);
             $output[] = $value.'=>'.$percent;
             if ($percent >= 80) {
-                 
+
                 $similar[$key] = array('name' => $value, 'messages' => array("Business name matches this"));
                 $titles[$key]  = array('id' => $key, 'title' => $value);
             }
@@ -215,13 +305,21 @@ class ListingController extends Controller
         foreach ($contacts as $value) {
             if($value['type'] == 'email') $check_emails[] = $value['value'];
         }
+        $check_mobile = [];
+        foreach ($contacts as $value) {
+            if($value['type'] == 'mobile') $check_mobile[] = $value['value'];
+        }
 
         // dd($output);
         $owner = User::find($listing->owner_id);
         $query = UserCommunication::where('object_type', 'App\\Listing')->whereNotNull('object_id')->where('object_id','!=',$listing->id);
         $query = $query->where(function ($query) use ($contacts, $owner) {
             $query->where(function ($query) use ($owner) {
-                if($owner!=null) $query->where('value', $owner->getPrimaryEmail())->where('type','email');    
+                if($owner!=null) $query->where('value', $owner->getPrimaryEmail())->where('type','email');
+                else $query->whereNull('value');
+            });
+            $query->orWhere(function ($query) use ($owner) {
+                if($owner!=null) $query->where('value', $owner->getPrimaryContact()['contact'])->where('country_code',$owner->getPrimaryContact()['contact_region'])->where('type','mobile');
                 else $query->whereNull('value');
             });
             foreach ($contacts as $value) {
@@ -235,7 +333,7 @@ class ListingController extends Controller
         $dup_com = $query->get();
         // dd($dup_com);
 
-        
+
         $userauth_obj = new UserAuth;
         //create an array of only emails
         $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_emails,'email',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
@@ -256,9 +354,28 @@ class ListingController extends Controller
                     $emails[$business['reference']] = array('id' => $business['reference'], 'email' => []);
                 }
                 $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
-                $emails[$business['reference']]['email'][]     = $user->email;
+                $emails[$business['reference']]['email'][]     = $user->getPrimaryEmail();
             }
         }
+        // $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_mobile,'mobile',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
+        // $users = User::whereIn('id', $user_comm)->with('listing')->get();
+        // foreach ($users as $user) {
+        //     foreach ($user->listing as $business) {
+        //         if ($business['status'] != 1) {
+        //             continue;
+        //         }
+        //         if (!isset($similar[$business['reference']]) /* listing is published*/) {
+        //             $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
+
+        //         }
+        //         if (!isset($phones[$business['reference']])) {
+        //             $phones[$business['reference']] = array('id' => $business['reference'], 'email' => []);
+        //         }
+        //         $similar[$business['reference']]['messages'][] = "Matches found Email Number (<span class=\"heavier\">{$user->email}</span>)";
+        //         $user_mobile = $user->getPrimaryContact();
+        //         $emails[$business['reference']]['email'][]     = '+'.$user_mobile['contact_region'].'-'.$user_mobile['contact'];
+        //     }
+        // }
 
         foreach ($dup_com as $row) {
             if ($row->object['status'] != 1) {
@@ -657,7 +774,7 @@ class ListingController extends Controller
 
     public function uploadListingFiles(Request $request)
     {
-        
+
         $this->validate($request, [
             'listing_id' => 'required',
             'file'       => 'file',
@@ -676,7 +793,7 @@ class ListingController extends Controller
         $this->validate($request, [
             'listing_id' => 'required',
         ]);
-        
+
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
@@ -743,18 +860,47 @@ class ListingController extends Controller
             }
         }
         if($user->type == 'external') $listing->owner_id = $user->id;
-        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas);
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas)->with('show_duplicates',false);
     }
     public function edit($reference, $step = 'business-information')
     {
+        // dd(request()->has('show_duplicates'));
         $listing = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
         $cityy = City::find($listing->location['city_id']);
         if ($step == 'business-information') {
-            
+
             $emails  = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
+            $emails1=[];
+            foreach ($emails as $email) {
+                $emails1[] = [
+                    'id' => $email->id,
+                    'email' => $email->value,
+                    'verified' => $email->is_verified,
+                    'visible' => $email->is_visible,
+                ];
+            }
             $mobiles = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
-            // dd($mobiles);
+             $mobiles1=[];
+            foreach ($mobiles as $mobile) {
+                $mobiles1[] = [
+                    'id' => $mobile->id,
+                    'country_code' => $mobile->country_code,
+                    'mobile' => $mobile->value,
+                    'verified' => $mobile->is_verified,
+                    'visible' => $mobile->is_visible,
+                ];
+            }
             $phones = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'landline')->get();
+            $landlines=[];
+            foreach ($phones as $landline) {
+                $landlines[] = [
+                    'id' => $landline->id,
+                    'country_code' => $landline->country_code,
+                    'landline' => $landline->value,
+                    'verified' => $landline->is_verified,
+                    'visible' => $landline->is_visible,
+                ];
+            }
             $cities = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             $areas  = Area::where('city_id', function ($area) use ($listing) {
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
@@ -764,7 +910,17 @@ class ListingController extends Controller
             else
                 $user = Auth::user();
             // dd($cityy);
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('cityy',$cityy);
+            if(request()->has('show_duplicates') and request()->show_duplicates == 'true'){
+                $show_duplicates = true;
+                $request  = new Request;
+                $request->merge(array('id' => $listing->id));
+                $duplicates = $this->findDuplicates($request)->original["similar"];
+                // dd($duplicates);
+            }else{
+                $show_duplicates = false;
+                $duplicates = null;
+            }
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails1)->with('mobiles', $mobiles1)->with('phones', $landlines)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('show_duplicates',$show_duplicates)->with('duplicates',$duplicates)->with('cityy',$cityy);
         }
         if ($step == 'business-categories') {
             $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
@@ -774,7 +930,7 @@ class ListingController extends Controller
         }
         if ($step == 'business-location-hours') {
             $operationAreas = ListingAreasOfOperation::city($listing->id);
-            
+
             $cities         = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             // dd($listing);
             return view('add-listing.location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas)->with('cityy',$cityy);
@@ -788,22 +944,28 @@ class ListingController extends Controller
             return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details')->with('cityy',$cityy);
         }
         if ($step == 'business-premium') {
-            $plans = Plan::where('type','listing')->get();
+            $plans = Plan::where('type','listing')->orderBy('order')->get();
             $requests = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->orderBy('created_at','desc')->get();
             $now = Carbon::now();
             $active = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->whereNotNull('approval_date')->where('billing_start', '<', $now->toDateTimeString())->where('billing_end', '>', $now->toDateTimeString())->where('status',1)->first();
             if($active == null) {
-                $current = ['id'=>0];
+                $current = ['id'=>null,'next'=>null];
             } else {
                 $current = ['id'=>$active->plan_id];
+                $current['next'] = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->whereNotNull('approval_date')->where('billing_start', '>=', $active->billing_end->toDateTimeString())->where('status',1)->pluck('plan_id')->first();
             }
             $pending = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->where('status',0)->first();
             return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans)->with('current',$current)->with('pending',$pending);
         }
         if($listing->status == 1){
-            $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
             if ($step == 'post-an-update'){
+                $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
                 return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
+            }
+            if ($step == 'manage-leads'){
+                $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+                $cities       = City::where('status', '1')->get();
+                return view('add-listing.manage-leads')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('parents', $parent_categ)->with('cities', $cities);
             }
         }
         abort(404);
@@ -819,12 +981,42 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
-            $listing->status          = Listing::REVIEW;
-            $listing->submission_date = Carbon::now();
-            $listing->save();
-            // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
-            Session::flash('statusChange', 'review');
-            return \Redirect::back();
+            // saveListingStatusChange($listing, $listing->status, Listing::REVIEW);
+            // $listing->status          = Listing::REVIEW;
+            // $listing->submission_date = Carbon::now();
+            // $listing->save();
+
+            // $area = Area::with('city')->find($listing->locality_id);
+            // $owner = User::find($listing->owner_id);
+            // $email = [
+            //     'subject' => "A listing has been submitted for review.",
+            //     'template_data' => [
+            //         'listing_name' => $listing->title,
+            //         'listing_link' => url('/listing/'.$listing->reference.'/edit'),
+            //         'listing_type' => Listing::listing_business_type[$listing->type],
+            //         'listing_city' => $area->city['name'],
+            //         'listing_area' => $area->name,
+            //         'listing_categories' => ListingCategory::getCategories($listing->id),
+            //         'owner_name' => ($listing->owner_id!=null)? $owner->name: 'Orphan',
+            //         'owner_email' => ($listing->owner_id!=null)? $owner->getPrimaryEmail(): 'Nil',
+            //         'email_verified' => ($listing->owner_id!=null)? ($owner->getUserCommunications()->where('type','email')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+            //         'owner_phone' => ($listing->owner_id!=null)? $owner->getPrimaryContact(): 'Nil',
+            //         'phone_verified' => ($listing->owner_id!=null and $owner->getUserCommunications()->count() >= 2)? ($owner->getUserCommunications()->where('type','mobile')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+            //     ],
+
+            // ];
+            // // dd($email);
+            // sendEmail('listing-submit-for-review',$email);
+            // // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+            // Session::flash('statusChange', 'review');
+            // return \Redirect::back();
+
+            return redirect()->action(
+                'ListingController@edit', [
+                    'reference' => $listing->reference,
+                    'step' => 'business-premium',
+                ]
+            );
 
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
@@ -838,8 +1030,13 @@ class ListingController extends Controller
         ]);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         if ($listing->isReviewable() and $listing->status == "1") {
+            saveListingStatusChange($listing, $listing->status, Listing::ARCHIVED);
             $listing->status = Listing::ARCHIVED;
             $listing->save();
+            if($listing->owner_id != null){
+                $common = new CommonController;
+                $common->updateUserDetails($listing->owner);
+            }
             Session::flash('statusChange', 'archive');
             return \Redirect::back();
         } else {
@@ -854,9 +1051,14 @@ class ListingController extends Controller
         ]);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         if ($listing->isReviewable() and $listing->status == "4") {
+            saveListingStatusChange($listing, $listing->status, Listing::PUBLISHED);
             $listing->status = Listing::PUBLISHED;
             $listing->save();
             Session::flash('statusChange', 'published');
+            if($listing->owner_id != null){
+                $common = new CommonController;
+                $common->updateUserDetails($listing->owner);
+            }
             return \Redirect::back();
 
         } else {

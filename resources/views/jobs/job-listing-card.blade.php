@@ -6,17 +6,14 @@
       <div class="seller-info__body filter-cards__body white-space">
           <div class="body-left flex-cols">
               <div>
-                  <div class="flex-row space-between">
+                  <div class="flex-row space-between align-top">
 
-                    <h3 class="seller-info__title ellipsis-2" title="{{ $job->title }}"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class=" text-darker" target="_blank">{{ $job->title }}</a></h3>
- 
+                    <h3 class="seller-info__title ellipsis-2 p-r-10" title="{{ $job->title }}"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class=" text-darker" target="_blank">{{ $job->title }}</a></h3>
 
-                    @if(isset($showApplication) && $showApplication)
-                    <div class="get-details detail-move">
-                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#job-application-{{ $job->id}}"><button class="btn fnb-btn outline full border-btn fullwidth default-size">View Application <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button></a>
-                    </div>
+                    @if($job->premium)
+                    <img src="{{ asset('/img/hot-jobs.png') }}" class="img-responsive power-seller" width="120">
                     @endif
-                  
+                    
                   </div>
                   <div class="location flex-row companyName space-between flex-wrap">
                       <!-- <span class="fnb-icons map-icon"></span> -->
@@ -24,8 +21,8 @@
                       <p class="location__title default-size m-b-0 text-lighter">{{ $job->getJobCompany()->title }}</p>
                       @endif
 
-                      @if($job->jobPostedOn()!="")
-                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on: {{ $job->jobPostedOn() }}</i></p>
+                      @if($job->jobPublishedOn()!="")
+                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on: {{ $job->jobPublishedOn() }}</i></p>
                        @endif
  
                   </div>
@@ -36,7 +33,7 @@
                         @if($isListing)
                           <a href="?state={{ $flteredCitySlug }}&business_type={{ $job->category->slug }}" class="primary-link" title="Find all {{ $job->getJobCategoryName() }} jobs in {{ $flteredCitySlug }}">{{ $job->getJobCategoryName() }}</a>
                         @else
-                           {{ $job->getJobCategoryName() }} 
+                           <div class="text-color">{{ $job->getJobCategoryName() }} </div>
                         @endif
  
                       </div>
@@ -47,7 +44,9 @@
                        
                       @foreach($job->getJobTypes() as $jobType)
                      
-                       <label class="fnb-label wholesaler flex-row m-r-5" @if($isListing) title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" @endif>
+ 
+                       <label class="fnb-label wholesaler flex-row m-r-5" @if($isListing) title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" @endif >
+ 
                           <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
                           @if($isListing)
  
@@ -160,7 +159,7 @@
             <p class="m-t-0 heavier text-lighter text-medium default-size job-list-desc">{{ $job->getShortDescription() }}</p>
           </div> -->
 
-           <div class="recent-updates flex-row flex-wrap open-border space-between align-top">
+           <div class="recent-updates flex-row flex-wrap open-border space-between ">
              <div class="off-salary">
                 <p class="operations__title default-size grey-darker heavier m-t-0">Offered Salary</p>
 
@@ -191,13 +190,30 @@
                </div>
                @endif
 
-              <div class="get-details detail-move mobile-hide">
-                <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
+              <div class="get-details detail-move mobile-hide text-center">
                 <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
+                <p></p>
+                 @if(isset($showApplication) && $showApplication)
+                    <a href="#" class="apply-jobs secondary-link default-size" data-toggle="modal" data-target="#job-application-{{ $job->id}}">View Your Application</a>
+                @endif
+
+ 
+                @if($job->jobOwner() && $job->jobApplicants()->count())  
+                <a href="javascript:void(0)" job-id="{{ $job->reference_id }}" class="secondary-link default-size open-sidebar view-applicant__btn"> View Applications  <span class="x-small">({{ $job->jobApplicants()->count() }})</span></a>
+                @endif
+             
               </div>
+
           </div>
-          <div class="get-details detail-move desk-hide">
-            <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
+          <div class="get-details detail-move text-center flex-row space-between mobile-get-detail justify-center desk-hide">
+            @if(isset($showApplication) && $showApplication)
+                <a href="#"  class="apply-jobs secondary-link default-size applicant-link" data-toggle="modal" data-target="#job-application-{{ $job->id}}">View Your Application</a>
+            @endif
+            
+            @if($job->jobOwner() && $job->jobApplicants()->count())  
+            <a href="javascript:void(0)" job-id="{{ $job->reference_id }}" class="secondary-link default-size open-sidebar applicant-link view-applicant__btn"> View Applications  <span class="x-small">({{ $job->jobApplicants()->count() }})</span></a>
+            @endif
+
             <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
           </div>
       </div>

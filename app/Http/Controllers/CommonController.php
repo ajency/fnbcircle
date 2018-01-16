@@ -8,7 +8,12 @@ use App\Plan;
 use App\Job;
 use App\Listing;
 use App\PlanAssociation;
+use App\ListingCategory;
+use Carbon\Carbon;
+use App\User;
+use Session;
 use Illuminate\Http\Request;
+use Ajency\User\Ajency\userauth\UserAuth;
 
 class CommonController extends Controller
 {
@@ -48,7 +53,7 @@ class CommonController extends Controller
         $res   = array();
         
         foreach ($areas as $area) {
-            $res[] = array('id'=>$area->id,'name'=>$area->name,'slug'=>$area->slug);
+            $res[] = array('id' => "$area->id", 'name' => $area->name, 'slug' => $area->slug);
         }
         
         return response()->json($res);
@@ -139,13 +144,13 @@ class CommonController extends Controller
 
         $user_data = array("email" => $request["email"], "username" => $request["email"]);
 
-        $response_obj = $userauth_obj->checkIfUserExist($user_data, true);
+        $response_obj = $userauth_obj->checkIfUserExists($user_data, true);
 
-        if($respone_obj["comm"] || $respone_obj["user"]) {
-            $response_data = array("message" => "Email exist");
-            $status = 400;
+        if($response_obj["comm"] || $response_obj["user"]) {
+            $response_data = array("result"=>true, "message" => "Email exist", 'user' => User::findUsingEmail($request['email']));
+            $status = 200;
         } else {
-            $response_data = array("message" => "No such email");
+            $response_data = array( "result"=>false, "message" => "No such email");
             $status = 200;
         }
 
@@ -167,7 +172,7 @@ class CommonController extends Controller
     * 
     *
     */
-    public function premium(Request $request){
+    public function premium(Request $request){ 
         $this->validate($request, [
             'id' => 'required',
             'type' => 'required',
@@ -175,25 +180,162 @@ class CommonController extends Controller
         ]);
 
         $config = [
-            'jobs' => ['table' => 'jobs', 'id' =>'reference_id', 'type' => 'listing'],
+            'job' => ['table' => 'jobs', 'id' =>'reference_id', 'type' => 'listing'],
                 'listing' => ['table' => 'listings', 'id' =>'reference','type' => 'listing'],
         ];
 
+        $plan = Plan::find($request->plan_id);
+
+        if(empty($plan)){
+            return \Redirect::back()->withErrors(array('review' => 'Please select valid plan'));
+        }
+
         if($request->type == 'listing'){
             $object = Listing::where($config['listing']['id'],$request->id)->firstOrFail();
-        }elseif($request->type == 'jobs'){
-            $object = Job::where($config['jobs']['id'],$request->id)->firstOrFail();
+            if ($object->status == 3 or $object->status == 5) {
+                if ($object->isReviewable()) {
+                    $object->status          = Listing::REVIEW;
+                    $object->submission_date = Carbon::now();
+                    $object->save();
+                    $area = Area::with('city')->find($object->locality_id);
+                    $owner = User::find($object->owner_id);
+                    $email = [
+                        'subject' => "A listing has been submitted for review.",
+                        'template_data' => [
+                            'listing_name' => $object->title,
+                            'listing_link' => url('/listing/'.$object->reference.'/edit'),
+                            'listing_type' => Listing::listing_business_type[$object->type],
+                            'listing_city' => $area->city['name'],
+                            'listing_area' => $area->name,
+                            'listing_categories' => ListingCategory::getCategories($object->id),
+                            'owner_name' => ($object->owner_id!=null)? $owner->name: 'Orphan',
+                            'owner_email' => ($object->owner_id!=null)? $owner->getPrimaryEmail(): 'Nil',
+                            'email_verified' => ($object->owner_id!=null)? ($owner->getUserCommunications()->where('type','email')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+                            'owner_phone' => ($object->owner_id!=null)? $owner->getPrimaryContact(): 'Nil',
+                            'phone_verified' => ($object->owner_id!=null and $owner->getUserCommunications()->count() >= 2)? ($owner->getUserCommunications()->where('type','mobile')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+                        ],
+                        
+                    ];
+                    // dd($email);
+                    sendEmail('listing-submit-for-review',$email);
+                    // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+                    Session::flash('statusChange', 'review');
+                    
+
+                } else {
+                    return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+                }
+            }
+        }elseif($request->type == 'job'){ 
+            $userId = \Auth::user()->id;
+            $object = Job::find($request->id);
+            $premium = $request->is_premium;
+            $activePlan = getActivePlan($object); 
+
+            //check if same plan is requested again
+            if((!empty($activePlan) && $activePlan->plan_id == $plan->id) ){
+                Session::flash('error_message','You are alredy on '.$plan->title);
+                return \Redirect::back();
+            }
+
+
+            //submit job for review if in draft state
+            if(($object->status == 1 or $object->status == 5) && $object->isJobDataComplete()) {
+                $object->submitForReviewEmail();
+                Session::flash('job_review_pending','Job details submitted for review.');
+            }
+            
+            //create plan
+
+            if($premium[$request->plan_id] == "0")
+            { 
+                if($object->job_expires_on==''){
+                    $expiryDate = date('Y-m-d H:i:s',strtotime("+".$plan->duration." days")); 
+                    $object->job_expires_on = $expiryDate;
+                }
+                
+            }
+            else
+               $object->job_expires_on = null; 
+
+            $object->job_modifier = $userId;
+            $object->updated_at = date('Y-m-d H:i:s');
+            $object->save(); 
+
+            
+            
+
+            if($premium[$request->plan_id] == "0")
+            {
+                return \Redirect::back();
+            }
+            else{
+
+                $jobOwner = $object->createdBy;
+                $templateData = [
+                            'job' => $object,
+                            'user' => $jobOwner,
+                            'planname' => $plan->title,
+                            ];
+
+                $data = [];
+                $data['from'] = $jobOwner->getPrimaryEmail();
+                $data['name'] = $jobOwner->name;
+                $data['to'] = [config('constants.email_to')];
+                $data['subject'] = "Premium request received for job  ".$object->title." !";
+                $data['template_data'] = $templateData;
+                
+                sendEmail('job-premium-request', $data);
+
+
+            }
+         
         }else{
             return response()->json(['status'=>"400", 'message'=>"Invalid Type"]);
         }
 
-        $plan = Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->firstOrFail();
+        
         // dd(Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->toSql());
         $object->premium()->where('status',0)->update(['status'=>2]);
-        $premium = new PlanAssociation;
-        $premium->plan_id = $plan->id;
-        $object->premium()->save($premium);
+        
+        if($plan->slug != 'free-listing'){
+            Session::flash('success_message','Request sent successfully.');
+            $premium = new PlanAssociation;
+            $premium->plan_id = $plan->id;
+            $object->premium()->save($premium);
+        }
 
-        return response()->json(array('status'=>'200'));
+        return \Redirect::back();
+    }
+
+    public function cancelPremiumRequest($objectType,$referenceId){
+        if($objectType == 'job'){
+            $object = Job::where('reference_id',$referenceId)->first();
+        }
+
+        $object->premium()->where('status',0)->update(['status'=>2]);
+
+        Session::flash('success_message','Premium request cancelled successfully.');
+        return \Redirect::back();
+    }
+
+    public function updateUserDetails($user = null){
+        if($user == null){
+            $users = User::where('type','external')->get();
+            foreach ($users as $user) {
+                $this->updateUserDetails($user);
+            }
+            return;
+        }else{
+            $details = [
+                'total_listings' => $user->listing()->count() ,
+                'published_listings' =>  $user->listing()->where('status','1')->count(),
+                'total_jobs' =>  $user->jobs()->count(),
+                'published_jobs' =>  $user->jobs()->where('status','3')->count(),
+                'jobs_applied' =>  $user->applications()->count(),
+            ];
+            $user->getUserDetails()->update($details);
+            return;
+        }
     }
 }

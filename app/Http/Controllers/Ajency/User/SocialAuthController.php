@@ -39,38 +39,44 @@ class SocialAuthController extends Controller {
         }
 
         $social_data = $service->getSocialData($account, $provider);
-        $valid_response = $userauthObj->validateUserLogin($social_data["user"], $provider);
-        
-        /*
-         "$response" => Returns [
-            'status' -> Status of the Response, 
-            'user' -> User Object from DB,
-            'authentic_user' -> If the Logged-In source of the User is Authentic (as in If it is "SocialAccount" then it is "Authentic" by Default; else If "Email Signup", then "Email verification" is necessary & if verified, then the account is "Authentic".),
-            'required_fields_filled' -> Flag that defines if the required fields are Filled by User or Not
-         ]
-        */
 
-        if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
-            $fnb_auth = new FnbAuthController;
-            if ($valid_response["authentic_user"]) { // If the user is Authentic, then Log the user in
-                if($valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
-                    $user_resp = $userauthObj->getUserData($valid_response["user"]);
-                } else {
-                    $social_data["user"]["roles"] = "customer";
-                    $social_data["user"]["type"] = "external";
-                    
-                    $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], [], $social_data["user_comm"]);
-                }
+        if($social_data["user"]["email"]) { // If email is passed by the Social account, only then create the Account
+            $valid_response = $userauthObj->validateUserLogin($social_data["user"], $provider);
+            
+            /*
+             "$response" => Returns [
+                'status' -> Status of the Response, 
+                'user' -> User Object from DB,
+                'authentic_user' -> If the Logged-In source of the User is Authentic (as in If it is "SocialAccount" then it is "Authentic" by Default; else If "Email Signup", then "Email verification" is necessary & if verified, then the account is "Authentic".),
+                'required_fields_filled' -> Flag that defines if the required fields are Filled by User or Not
+             ]
+            */
 
-                if($user_resp["user"]) {
-                    
-                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"], "next_url" => url()->previous()), "website");
-                } else {
-                    return redirect(config('aj_user_config.social_failure_redirect_url'));
+            if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
+                $fnb_auth = new FnbAuthController;
+                if ($valid_response["authentic_user"]) { // If the user is Authentic, then Log the user in
+                    if($valid_response["user"]) { // If $valid_response["user"] !== None, then Create/Update the User, User Details & User Communications
+                        $user_resp = $userauthObj->getUserData($valid_response["user"]);
+                    } else { // New User
+                        $social_data["user"]["roles"] = "customer";
+                        $social_data["user"]["type"] = "external";
+                        $social_data["user_details"]["has_previously_login"] = 0;
+                        $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], $social_data["user_details"], $social_data["user_comm"]);
+                    }
+
+                    if($user_resp["user"]) {
+                        sendUserRegistrationMails($user_resp["user"]);
+                        return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"], "next_url" => url()->previous()), "website");
+     
+                    } else {
+                        return redirect(config('aj_user_config.social_failure_redirect_url'));
+                    }
                 }
+            } else { //status == "error"
+                return redirect(config('aj_user_config.social_failure_redirect_url')."?login=true&message=".$valid_response["message"]); // Redirect to Fail user defined URL
             }
-        } else { //status == "error"
-            return redirect(config('aj_user_config.social_failure_redirect_url')."?login=true&message=".$valid_response["message"]); // Redirect to Fail user defined URL
+        } else { // Email is Missing
+            return redirect(config('aj_user_config.social_failure_redirect_url')."?login=true&message=" . $provider . '_email_missing'); // Redirect to Login fail, if Email is missing
         }
     }
     

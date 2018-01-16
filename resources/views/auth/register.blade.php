@@ -54,7 +54,7 @@
                     <div class="text-center m-t-30 log-sign">
                         <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
                         <p class="text-medium have-acc">Already have an account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
-
+                        @if(false)
                         <div class="row">
                             <div class="col-sm-4 col-sm-offset-4">
                                 <div class="social-login flex-row col-direction m-t-10">
@@ -69,6 +69,7 @@
                         <p class="text-medium m-b-40 m-t-10 no-post-text"><i class="fa fa-lock" aria-hidden="true"></i> We will not post anything without your permission</p>
                         <hr>
                         <h6 class="heavier m-t-40 formTitle">You can also sign up with email. Please enter your details below.</h6>
+                        @endif
                     </div>
 
                     <div class="row">
@@ -78,8 +79,8 @@
 
                                 <div class="row flex-row flex-wrap signup-container">
                                     <div class="col-sm-6">
-                                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-b-10 p-b-10">
-                                            <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
+                                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-b-10 p-b-10" id="focus-name">
+                                            <label class="m-b-0 text-lighter float-label required" for="name">Full Name</label>
                                             <input id="name" type="text" class="form-control fnb-input float-input" name="name" value="{{ old('name') }}" required>
                                             <label id="name-error" class="fnb-errors hidden"></label>
 
@@ -237,19 +238,24 @@
                                             <label id="password_confirm_errors" class="fnb-errors hidden"></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <!-- <div class="col-sm-12">
                                         <div class="form-group m-t-30 m-b-40">
                                             <label class="flex-row accept-row">
-                                                  <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox">
+                                                  <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox" checked>
                                                   <div class="text-medium m-b-0 accept_terms" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of FnB Circle</div>
                                                   <label id="terms_conditions" class="fnb-errors hidden">Please accept our terms and conditions</label>
                                             </label>
                                         </div>
+                                    </div> -->
+                                    <div class="col-sm-12 text-center">
+                                        <div class="text-medium text-lighter accept_terms m-t-5 m-b-5">By clicking Sign Up, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>
                                     </div>
                                     <div class="col-sm-12">
-                                         <div class="form-group text-center m-t-20 m-b-20 signBtn">
+                                         <div class="form-group text-center m-t-20 signBtn">
                                             <!-- <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn"> -->
-                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn" disabled="disabled">
+ 
+                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn" >
+ 
                                                 Sign Up <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                             </button>
                                         </div>

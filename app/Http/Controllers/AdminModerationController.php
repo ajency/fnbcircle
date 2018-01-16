@@ -94,6 +94,7 @@ class AdminModerationController extends Controller
                 $listing['owner-status'] = 'N/A';
             }
             unset($listing['owner']);
+            unset($listing['listing_obj']);
 
             // if (count($filters['status'])==1) $listing['#'] = '<td class=" select-checkbox" style="display: table-cell;"></td>';
             // dd($listing['categories']);
@@ -124,6 +125,77 @@ class AdminModerationController extends Controller
 
         return response()->json($response);
     }
+
+    public function manageListingData(Request $request){
+       $filters = $request->filters;
+        switch ($request->order['0']['column']) {
+            case '1':
+                $sort_by = 'title';
+                $order   = $request->order['0']['dir'];
+                break;
+            case '2':
+                $sort_by = 'id';
+                $order   = $request->order['0']['dir'];
+                break;
+            case '5':
+                $sort_by = "submission_date";
+                $order   = $request->order['0']['dir'];
+                break;
+            case '6':
+                $sort_by = "updated_at";
+                $order   = $request->order['0']['dir'];
+                break;
+            default:
+                $sort_by = "";
+                $order   = "";
+
+        }
+        // $filters  = array();
+        $response = $this->displayListings($request->length, $request->start, $sort_by, $order, $filters,$request->search['value']);
+
+        $status = ['3' => 'Draft', '2' => 'Pending Review', '1' => 'Published', '4' => 'Archived', '5' => 'Rejected'];
+
+        foreach ($response['data'] as &$listing) {
+            $listing['status']     = $status[$listing['status']];
+            $listing['name']       = '<a target="_blank" href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
+            $listing['views'] = $listing['listing_obj']->views_count;
+            $lc=new ListingController;
+            $stats = $lc->getListingStats($listing['listing_obj']);
+            $listing['approval'] = ($listing['listing_obj']->published_on != null)? $listing['listing_obj']->published_on->toDateTimeString():'';
+            $listing['contact-count'] = $stats['contact'];
+            $listing['direct-count'] = $stats['direct'];
+            $listing['shared-count'] = $stats['shared'];
+            unset($listing['owner']);
+            unset($listing['listing_obj']);
+            $i    = 0;
+            $temp = '';
+            foreach ($listing['categories'] as $key => $value) {
+                if ($i != 0) {
+                    $temp .= "<hr>";
+                } else {
+                    $temp .= "";
+                }
+
+                $temp .= $value['parent'] . ' > ' . $value['branch'] . ' > ';
+                $j = 0;
+                foreach ($value['nodes'] as $node) {
+                    if ($j != 0) {
+                        $temp .= ', ';
+                    }
+
+                    $temp .= $node['name'];
+                    $j++;
+                }
+                $i++;
+            }
+            $listing['categories'] = $temp;
+        }
+
+        return response()->json($response);
+        
+
+    }
+
     public function displayListings($display_limit, $start, $sort, $order, $filters,$search='')
     {
         $listings = Listing::where(function ($sql) use ($filters) {
@@ -138,9 +210,11 @@ class AdminModerationController extends Controller
                 }
             }
         });
-        $end = new Carbon($filters['submission_date']['end']);
-        if ($filters['submission_date']['start'] != "") {
-            $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
+        if(isset($filters['submission_date'])){
+            $end = new Carbon($filters['submission_date']['end']);
+            if ($filters['submission_date']['start'] != "") {
+                $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
+            }
         }
         if($search!="") $listings = $listings->where('title','like','%'.$search.'%');
         if (isset($filters['city'])) {
@@ -204,7 +278,12 @@ class AdminModerationController extends Controller
                 $listing->save();
             }
             $sub                                       = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
-            $response[$listing->id]                    = array('id' => $listing->id, 'name' => $listing->title, 'submission_date' => $sub, 'updated_on' => $listing->updated_at->toDateTimeString());
+            $response[$listing->id]                    = array(
+                'id' => $listing->id, 
+                'name' => $listing->title, 
+                'submission_date' => $sub, 
+                'updated_on' => $listing->updated_at->toDateTimeString()
+            );
             $response[$listing->id]['status']          = $listing->status;
             $response[$listing->id]['reference']       = $listing->reference;
             $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['type'];
@@ -239,6 +318,7 @@ class AdminModerationController extends Controller
             else $response[$listing->id]['type'] = 'Orphan';
             $response[$listing->id]['source'] =  $listing->source;
             $response[$listing->id]['owner'] = $listing->owner()->first();
+            $response[$listing->id]['listing_obj'] = $listing;
         }
         $response1 = array();
         foreach ($response as $resp) {
@@ -995,6 +1075,12 @@ class AdminModerationController extends Controller
             
         }
         return response()->json(['errors'=>$errors, 'email_count'=>$users->count()],200);
+    }
+
+    public function manageListings(Request $request){
+        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->where('status','1')->where('type','listing')->get();
+        $cities       = City::where('status', '1')->get();
+        return view('admin-dashboard.manage_listings')->with('parents', $parent_categ)->with('cities', $cities);
     }
 }
 

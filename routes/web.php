@@ -77,6 +77,7 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	
 	Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
 	Route::post('/all-listing','AdminModerationController@displayListingsDum');
+	Route::post('/show-listings','AdminModerationController@manageListingData');
 
 	Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');
 
@@ -182,6 +183,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::post('internal-mail-send','AdminModerationController@sendSelectedUsersMail');
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
+		Route::get('manage-listings','AdminModerationController@managelistings');
 		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');
 		Route::get('listing-sheet','AdminModerationController@getFile');
 		Route::get('data-sheet','AdminModerationController@generateFile');

@@ -121,7 +121,7 @@
                       <th style="min-width: 12%;">Listing Name</th>
                       <th style="min-width: 5%;">ID</th>
                       <th style="min-width: 8%;" class="no-sort" data-col="3">
-                        City
+                        State
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)
                           <option value="{{$city->id}}">{{$city->name}}</option>

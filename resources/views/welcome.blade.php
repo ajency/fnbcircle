@@ -51,8 +51,8 @@
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
-                                        <select class="form-control fnb-select">
-                                            <option>--Change city--</option>
+                                        <select class="form-control fnb-select p-l-20">
+                                            <option>All</option>
                                             <option>Pune</option>
                                             <option selected="">Delhi</option>
                                             <option>Mumbai</option>

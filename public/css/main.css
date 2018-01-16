@@ -8468,6 +8468,9 @@ input[type=checkbox].custom-checkbox:before {
   font-size: 1.2em;
   background-color: #fff;
 }
+.home-search .type-search .fnb-input {
+  padding-left: 0.6em;
+}
 .home-search .search {
   padding: 1em 2.5em;
   font-size: 1.3em;

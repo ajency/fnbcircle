@@ -418,8 +418,8 @@ $ajimport_config['aj_batchcallbacks'] = array(
 $ajimport_config['import_log_mail'] = array(
    'from'        => 'nutan@ajency.in',
    'subject'     => 'Import log -ajency',
-   'to'          => array('harshita@ajency.in'),
-   'cc'          => array('valenie@ajency.in', 'shashank@ajency.in'),
+   'to'          => array('rahul@pizzasquare.in'),
+   'cc'          => array('valenie@ajency.in', 'shashank@ajency.in','harshita@ajency.in'),
    'bcc'         => array('parag@ajency.in'),
    'template'    => '',
    'mail_params' => array('name' => 'import', 'day' => date('d-m-Y H:i:s')),

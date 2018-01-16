@@ -29,4 +29,5 @@ return [
     'cache' => [
         'store' => 'file',
     ],
+    'page-size' => (int) env('ANALYTICS_SIZE','1000'),
 ];

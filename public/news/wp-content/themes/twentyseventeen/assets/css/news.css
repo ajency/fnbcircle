@@ -4668,9 +4668,6 @@ input[type='search'] {
 .login-modal .welcome-text {
   padding: 0px !important;
 }
-.login-modal .stay-logged {
-  display: none !important;
-}
 .login-modal .no-account .fnb-btn {
   -webkit-appearance: none !important;
 }

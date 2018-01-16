@@ -10267,6 +10267,9 @@ input[type='checkbox'].remove-addr {
 .pricing-table__cards:first-child {
   margin-left: 0;
 }
+.pricing-table__cards:nth-child(2n) .points li:last-child {
+  font-weight: 600;
+}
 .pricing-table__cards:last-child {
   margin-right: 0;
 }

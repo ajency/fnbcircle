@@ -21,7 +21,7 @@
                   </div>
                   <div class="views flex-row">
                      <span class="fnb-icons eye-icon"></span>
-                     <p class="views__title text-lighter m-b-0"><span class="heavier">126</span> Views</p>
+                     <p class="views__title text-lighter m-b-0"><span class="heavier">{{displayCount($listing->views_count)}}</span> Views</p>
                   </div>
                </div>
 

@@ -113,7 +113,7 @@
     <div class="row">
         <div class="col-md-3">
             <h5>Views</h5>
-            <h3>1</h3>
+            <h3>{{$listing->views_count}}</h3>
             By default displays the number of views in the last 30 days
         </div>
         <div class="col-md-3">

@@ -24,7 +24,7 @@
 
           
               
-             We regret to inform you that your business <a href="" style="color: #ec6d4b;" target="_blank">{{$listing_name}}</a> which was sent for review has been rejected by our team.<br><br>
+             We regret to inform you that your business <a href="{{$listing_link}}" style="color: #ec6d4b;" target="_blank">{{$listing_name}}</a> which was sent for review has been rejected by our team.<br><br>
 
               <div style=""><span style="font-weight: 600;">NOTE:</span> Rejected listings can be submitted for review again.</div><br>
 

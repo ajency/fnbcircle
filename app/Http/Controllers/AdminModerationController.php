@@ -348,6 +348,7 @@ class AdminModerationController extends Controller
                                 'template_data' => [
                                     'owner_name' => $owner->name,
                                     'listing_name' => $listing->title,
+                                    'listing_link' => url('/listing/'.$listing->reference.'/edit'),
                                 ],
                             ];
                             sendEmail('listing-rejected',$email);

@@ -78,7 +78,7 @@
                     <p class="review-note__title">Recently updated listings usually get more leads.<br> Go ahead and post an update</p>
                 </div>
                <div class="review-note__submit">
-                     <a href="#" class="btn primary-btn sub-title">Post an update</a>
+                     <a href="/listing/{{$listing->reference}}/edit/post-an-update?step=true"  class="btn primary-btn sub-title">Post an update</a>
                </div>
            </div>
         </div>

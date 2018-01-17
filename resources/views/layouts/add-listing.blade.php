@@ -236,13 +236,13 @@
                                             @if($listing->status!="1")
                                             <div class="links inactive">
                                             @else
-                                            <a href="@if($listing->reference!=null and $step != 'summary') /listing/{{$listing->reference}}/edit/summary?step=true @else # @endif" id="listing-summary" " class="links enabled form-toggle">
+                                            <a href="@if($listing->reference!=null and $step != 'summary') /listing/{{$listing->reference}}/edit/summary?step=true @else # @endif" id="summary" " class="links enabled form-toggle">
                                             @endif
-                                                <div>
-                                                    Listing Summary
-                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this."></i> @endif
-                                                </div>
-                                                <i class="fa fa-caret-right"></i>
+                                            <div>
+                                                Listing Summary
+                                                @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this."></i> @endif
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
                                             @if($listing->status!="1")
                                             </div>
                                             @else

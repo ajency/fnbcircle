@@ -973,7 +973,7 @@ class ListingController extends Controller
             if ($step == 'summary'){
                 $updates = $listing->updates()->orderBy('updated_at', 'desc')->first();
                 $stats = $this->getListingStats($listing,Carbon::now()->subMonth()->toDateString(),Carbon::now()->toDateString());
-                return view('add-listing.summary')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('updates',$updates)->with('stats',$stats);
+                return view('add-listing.summary')->with('listing', $listing)->with('step', 'summary')->with('back', 'business-premium')->with('cityy',$cityy)->with('updates',$updates)->with('stats',$stats);
             }
         }
         abort(404);

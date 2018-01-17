@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="business-info  post-update tab-pane fade in active business-leads" id="manage-leads">
+<div class="business-info  post-update tab-pane fade in active business-leads" id="summary">
     <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between preview-detach post-up-head align-top">
     <div class="flex-row space-between">
         <img src="/img/post-update.png" class="img-responsive mobile-hide m-r-15" width="60">

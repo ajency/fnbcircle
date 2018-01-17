@@ -68,7 +68,7 @@
                 </li>
                 @endforeach
             </ul>
-            
+            <p class="text-lighter m-b-0 postDate">Posted {{$updates->created_at->diffForHumans()}}</p>
         </div>
 
         <div class="m-t-30 c-gap">

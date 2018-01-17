@@ -32,6 +32,17 @@ $('.requestDate').daterangepicker(
 	endDate: moment()
 
 )
+
+if $('.post-gallery').length
+  $('.post-gallery').magnificPopup
+    delegate: 'a'
+    type: 'image'
+    gallery: enabled: true
+    zoom:
+      enabled: true
+      duration: 300
+
+
 $('.requestDate').on 'apply.daterangepicker', (ev, picker) ->
 	start_date = picker.startDate.format('YYYY-MM-DD')
 	end_date = picker.endDate.format('YYYY-MM-DD')

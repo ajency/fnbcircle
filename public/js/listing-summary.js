@@ -14,6 +14,20 @@
     endDate: moment()
   });
 
+  if ($('.post-gallery').length) {
+    $('.post-gallery').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      gallery: {
+        enabled: true
+      },
+      zoom: {
+        enabled: true,
+        duration: 300
+      }
+    });
+  }
+
   $('.requestDate').on('apply.daterangepicker', function(ev, picker) {
     var end_date, start_date, url;
     start_date = picker.startDate.format('YYYY-MM-DD');

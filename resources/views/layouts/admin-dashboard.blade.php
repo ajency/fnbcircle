@@ -46,7 +46,7 @@
                       <ul class="nav child_menu" style="display: block">
                         <li class="@if(Request::path() == 'admin-dashboard/moderation/listing-approval')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/moderation/listing-approval')#@else {{action('AdminModerationController@listingApproval')}} @endif"">Listing Approval</a>
                         </li>
-                        <li class=""><a href="#">Manage Listings</a>
+                        <li class="@if(Request::path() == 'admin-dashboard/moderation/manage-listings')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/moderation/manage-listings')#@else {{action('AdminModerationController@manageListings')}} @endif"">Manage Listings</a>
                         </li>
                         <li class="@if(Request::path() == 'admin-dashboard/moderation/manage-enquiries')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/moderation/manage-enquiries')#@else {{action('AdminEnquiryController@manageEnquiries')}} @endif"">Manage Enquiries</a>
                         </li>

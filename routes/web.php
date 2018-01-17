@@ -183,7 +183,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::post('internal-mail-send','AdminModerationController@sendSelectedUsersMail');
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
-		Route::get('manage-listings','AdminModerationController@managelistings');
+		Route::get('manage-listings','AdminModerationController@manageListings');
 		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');
 		Route::get('listing-sheet','AdminModerationController@getFile');
 		Route::get('data-sheet','AdminModerationController@generateFile');

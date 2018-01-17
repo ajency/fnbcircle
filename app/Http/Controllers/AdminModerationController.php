@@ -289,7 +289,7 @@ class AdminModerationController extends Controller
                 'id' => $listing->id, 
                 'name' => $listing->title, 
                 'submission_date' => $sub, 
-                'updated_on' => $listing->updated_at->toDateTimeString()
+                'updated_on' => ($listing->updated_at != null)? $listing->updated_at->toDateTimeString():""
             );
             $response[$listing->id]['status']          = $listing->status;
             $response[$listing->id]['reference']       = $listing->reference;

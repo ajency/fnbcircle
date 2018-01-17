@@ -133,16 +133,16 @@ class AdminModerationController extends Controller
                 $sort_by = 'title';
                 $order   = $request->order['0']['dir'];
                 break;
-            case '2':
-                $sort_by = 'id';
+            case '3':
+                $sort_by = 'submission_date';
                 $order   = $request->order['0']['dir'];
                 break;
-            case '5':
-                $sort_by = "submission_date";
+            case '4':
+                $sort_by = "published_on";
                 $order   = $request->order['0']['dir'];
                 break;
-            case '6':
-                $sort_by = "updated_at";
+            case '7':
+                $sort_by = "views_count";
                 $order   = $request->order['0']['dir'];
                 break;
             default:
@@ -159,12 +159,19 @@ class AdminModerationController extends Controller
             $listing['status']     = $status[$listing['status']];
             $listing['name']       = '<a target="_blank" href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
             $listing['views'] = $listing['listing_obj']->views_count;
+            $listing['paid'] = ($listing['listing_obj']->premium)? "Yes":"No";
             $lc=new ListingController;
             $stats = $lc->getListingStats($listing['listing_obj']);
             $listing['approval'] = ($listing['listing_obj']->published_on != null)? $listing['listing_obj']->published_on->toDateTimeString():'';
             $listing['contact-count'] = $stats['contact'];
             $listing['direct-count'] = $stats['direct'];
             $listing['shared-count'] = $stats['shared'];
+            unset($listing['duplicates']);
+            unset($listing['last_updated_by']);
+            unset($listing['premium']);
+            unset($listing['source']);
+            unset($listing['type']);
+            unset($listing['updated_on']);
             unset($listing['owner']);
             unset($listing['listing_obj']);
             $i    = 0;

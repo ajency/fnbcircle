@@ -31,7 +31,7 @@
       }, {
         "data": "approval"
       }, {
-        "data": "premium"
+        "data": "paid"
       }, {
         "data": "status"
       }, {

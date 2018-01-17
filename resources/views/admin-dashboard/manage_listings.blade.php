@@ -20,6 +20,7 @@
     <!-- Autosize textarea -->
     <script src="/bower_components/autosize/dist/autosize.min.js"></script>
 
+    <script type="text/javascript" src="/js/categories_select_leads.js"></script>
     <script type="text/javascript" src="/js/dashboard-manage-listings.js"></script>
 @endsection
 
@@ -66,12 +67,12 @@
                   <div class="col-sm-1"></div>
 
                   <div class="col-sm-8">
-                    <div class="cat-filter__wrapper">
-                      <label>Category Filter</label>
-                      <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm">Filter based on node categories</a>
-                      <div id="categories" class="node-list"></div>
-
-                    </div>
+                    <div class="m-t-10 m-b-10"><label>Category Filter</label>
+                     <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm heavier" id="select-more-categories">Filter based on Categories</a></div>
+                    <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                    <input type="hidden" id="is_parent_category_checkbox" value="1">
+                    <input type="hidden" id="is_branch_category_checkbox" value="1">
+                    <div id="categories" class="node-list"></div>
                   </div>
                 </div>
 
@@ -129,13 +130,13 @@
                       <th class="" >
                         Views
                       </th>
-                      <th class="" >
+                      <th class="no-sort" >
                         Contact Requests
                       </th>
-                      <th class="" >
+                      <th class="no-sort" >
                         Direct Enquiries
                       </th>
-                      <th class="" >
+                      <th class="no-sort" >
                         Indirect Enquiries
                       </th>
 

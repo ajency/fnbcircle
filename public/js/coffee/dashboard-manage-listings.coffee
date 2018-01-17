@@ -23,7 +23,7 @@ listing_table = $('#datatable-manage_listings').DataTable(
     {"data": "categories"}
     {"data": "submission_date"}
     {"data": "approval"}
-    {"data": "premium"}
+    {"data": "paid"}
     {"data": "status"}
     {"data": "views"}
     {"data": "contact-count"}

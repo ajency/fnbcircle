@@ -79,13 +79,6 @@ $('body').on 'show.bs.modal', '#area-select', (e) ->
   return
 
 
-$('body').on 'show.bs.modal','#category-select', (e) ->
-  setTimeout (->
-    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
-    return
-  ), 500
-
-
 
 $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', ->
   if @checked

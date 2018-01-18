@@ -129,6 +129,10 @@ class AdminModerationController extends Controller
     public function manageListingData(Request $request){
        $filters = $request->filters;
         switch ($request->order['0']['column']) {
+            case '0':
+                $sort_by = 'created_at';
+                $order   = 'desc';
+                break;
             case '1':
                 $sort_by = 'title';
                 $order   = $request->order['0']['dir'];

@@ -92,7 +92,8 @@
                 <table id="datatable-manage_listings" class="table table-striped list-approval-tab" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="no-sort" style="width:50px;">
+                      <th></th>
+                      <th class="no-sort" style="width:50px;" >
                         State
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)

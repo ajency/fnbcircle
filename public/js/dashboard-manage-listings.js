@@ -6,7 +6,7 @@
   listing_table = $('#datatable-manage_listings').DataTable({
     'pageLength': 25,
     'processing': true,
-    'order': [[1, 'desc']],
+    'order': [[0, 'desc']],
     'serverSide': true,
     'ajax': {
       'url': '/show-listings',
@@ -21,6 +21,8 @@
     },
     "columns": [
       {
+        "data": "id"
+      }, {
         "data": "city"
       }, {
         "data": "name"
@@ -52,6 +54,10 @@
       {
         'targets': 'no-sort',
         'orderable': false
+      }, {
+        'targets': [0],
+        'visible': false,
+        'searchable': false
       }
     ]
   });

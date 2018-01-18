@@ -4,7 +4,7 @@ listing_table = $('#datatable-manage_listings').DataTable(
   'pageLength': 25
   'processing': true
   'order': [ [
-    1
+    0
     'desc'
   ] ]
   'serverSide':true
@@ -18,6 +18,7 @@ listing_table = $('#datatable-manage_listings').DataTable(
       return datavar
       # d = datavar
   "columns": [
+    {"data": "id"}
     {"data": "city"}
     {"data": "name"}
     {"data": "categories"}
@@ -38,6 +39,13 @@ listing_table = $('#datatable-manage_listings').DataTable(
     {
       'targets': 'no-sort'
       'orderable': false
+    },
+    {
+      'targets': [
+        0
+      ]
+      'visible': false
+      'searchable': false
     }
   ]
   )

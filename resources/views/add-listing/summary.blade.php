@@ -38,9 +38,9 @@
 <div class="business-info  post-update tab-pane fade in active business-leads" id="summary">
     <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between preview-detach post-up-head align-top">
     <div class="flex-row space-between">
-        <img src="/img/post-update.png" class="img-responsive mobile-hide m-r-15" width="60">
+        <img src="/img/listing-sum.png" class="img-responsive mobile-hide m-r-15" width="60">
         <div>Make your business stand out on FnB Circle
-            <span class="dis-block xxx-small lighter m-t-10 post-caption">Post special events, promotions and more on your listings.</span>
+            <span class="dis-block xxx-small lighter m-t-10 post-caption">Post special events, promotions and more on your listing.</span>
         </div>
         
     </div>
@@ -133,7 +133,7 @@
                         <p class="text-lighter default-size">Number of direct enquiries sent to this listing. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=direct" class="x-small primary-link">View</a></p>
                     </div>
                     <div class="list-cols views">
-                        <p class="default-size text-uppercase text-color heavier">Indirect enquiries</p>
+                        <p class="default-size text-uppercase text-color heavier">Shared enquiries</p>
                         <h3 class="m-t-15 heavier">{{$stats['shared']}}</h3>
                         <p class="text-lighter default-size">Number of indirect enquiries sent to this listing based on the category and area the listing belongs to. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=shared" class="x-small primary-link">View</a></p>
                     </div>
@@ -173,7 +173,7 @@
 
 
     <div class="m-t-50 relative leads-tab-section">
-        <h4>My Recent Leads <span style="font-size: 50%;"><a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true">View All</a></span></h4>
+        <h5>My Recent Leads <span class="p-l-10"><a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true" class="primary-link x-small">View All</a></span></h5>
 
     <table id="listing-leads" class="table table-striped listing-lead" cellspacing="0" width="100%">
         <thead>

@@ -15,7 +15,7 @@
         <div style="margin-top: 2em;">
           <div style="margin-bottom: 0.8em;">
 
-            <p style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;margin-bottom: 15px;">Following listing(s) of your's are in draft status. Please log in to your account and complete these listings.</p>
+            <p style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;margin-bottom: 15px;">Following listing(s) are in draft status. Please log in to your account and complete these listings.</p>
 
 
         <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">

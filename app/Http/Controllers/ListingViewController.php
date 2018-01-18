@@ -61,7 +61,7 @@ class ListingViewController extends Controller
             unset($pagedata['operationAreas']);
         }
 
-        $pagedata['contact'] = ['email' => [], 'mobile' => [], 'landline' => [], 'requests' => displayCount($listing->contact_request_count)];
+        $pagedata['contact'] = ['email' => [], 'mobile' => [], 'landline' => [], 'requests' => displayCount($listing->contact_request_count), 'enquiries' => displayCount($listing->enquiries_count)];
         if ($listing->show_primary_email and $listing->owner_id != null) {
             $pagedata['contact']['email'][] = ['value' => User::find($listing->owner_id)->getPrimaryEmail(), 'verified' => true, 'type' => 'email'];
         }

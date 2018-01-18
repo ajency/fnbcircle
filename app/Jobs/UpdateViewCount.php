@@ -58,6 +58,7 @@ class UpdateViewCount implements ShouldQueue
                 $lc = new ListingController;
                 $stats = $lc->getListingStats($listing,Carbon::now()->subMonth()->toDateString(),Carbon::now()->toDateString());
                 $listing->contact_request_count = $stats['contact'];
+                $listing->enquiries_count = $stats['direct'] + $stats['shared'];
                 if(isset($views[$listing->slug])){
                     $listing->views_count = $views[$listing->slug];  
                 }

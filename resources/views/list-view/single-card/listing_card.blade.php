@@ -147,11 +147,11 @@
                     <div>
                         <div class="enquiries flex-row m-t-15" style="@isset($is_email) clear: both;display: table;width: 100%; @endisset">
                             <div class="enquiries__count" style="@isset($is_email) float: left;width: 30%; @endisset">
-                                <p class="default-size heavier text-color m-b-0" style="@isset($is_email) margin-bottom:0; @endisset">50+</p>
+                                <p class="default-size heavier text-color m-b-0" style="@isset($is_email) margin-bottom:0; @endisset">{{$list_value->counts['enquiries']}}</p>
                                 <p class="default-size text-lighter" style="@isset($is_email) margin-top:5px; @endisset">Enquiries</p>
                             </div>
                             <div class="enquiries__request" style="@isset($is_email) float: left; @endisset">
-                                <p class="default-size heavier text-color m-b-0" style="@isset($is_email) margin-bottom:0; @endisset">100+</p>
+                                <p class="default-size heavier text-color m-b-0" style="@isset($is_email) margin-bottom:0; @endisset">{{$list_value->counts['contact']}}</p>
                                 <p class="default-size text-lighter" style="@isset($is_email) margin-top:5px; @endisset">Contact Requests</p>
                             </div>
                             <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>

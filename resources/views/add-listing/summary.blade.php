@@ -54,9 +54,9 @@
                 @if(isset($updates) and !empty($updates))
                 <div class="update-sec__body update-space">
                     <div class="flex-row space-between"> 
-                        <p class="element-title update-sec__heading m-t-15 bolder">{{$updates->title}}</p>
+                        <p class="element-title update-sec__heading bolder">{{$updates->title}}</p>
                     </div>
-                    <p class="update-sec__caption text-lighter" style="margin-bottom:0;">{!! nl2br(e($updates->contents)) !!}</p>
+                    <p class="update-sec__caption text-lighter update-desc" style="margin-bottom:0;">{!! nl2br(e($updates->contents)) !!}</p>
                     <ul class="flex-row update-img flex-wrap post-gallery align-top">
                     @php $photos = $updates->getImages(); @endphp
                         @foreach($photos as $photo)

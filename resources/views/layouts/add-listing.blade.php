@@ -205,7 +205,7 @@
                                                     <a href="#" class="review-submit-link" >Submit Listing</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "1"))
-                                                    @if($step != 'summary' and $step != 'manage-leads' and $step != 'post-an-update')
+                                                    @if($step != 'summary' and $step != 'manage-leads' and $step != 'business-updates')
                                                     <a href="#" data-toggle="modal" data-target="#confirmBox">Archive</a><i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Remove this Listing." ></i>
                                                     @endif
                                                 @endif

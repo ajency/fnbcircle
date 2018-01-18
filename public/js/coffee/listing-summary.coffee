@@ -64,7 +64,8 @@ $('.requestDate').on 'apply.daterangepicker', (ev, picker) ->
 	updateStat(start_date,end_date)
 	
 
-$('body').on 'click','#clear-stats-date-filter', () ->
+$('body').on 'click','#clear-stats-date-filter', (e) ->
+	e.preventDefault()
 	$('#submissionDate').data('daterangepicker').setStartDate(moment().subtract(1, 'months'));
 	$('#submissionDate').data('daterangepicker').setEndDate(moment());
 	start_date = moment().subtract(1, 'months').format('YYYY-MM-DD')

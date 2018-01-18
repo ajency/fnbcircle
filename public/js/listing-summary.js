@@ -54,8 +54,9 @@
     return updateStat(start_date, end_date);
   });
 
-  $('body').on('click', '#clear-stats-date-filter', function() {
+  $('body').on('click', '#clear-stats-date-filter', function(e) {
     var end_date, start_date;
+    e.preventDefault();
     $('#submissionDate').data('daterangepicker').setStartDate(moment().subtract(1, 'months'));
     $('#submissionDate').data('daterangepicker').setEndDate(moment());
     start_date = moment().subtract(1, 'months').format('YYYY-MM-DD');

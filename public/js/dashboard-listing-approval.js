@@ -397,6 +397,7 @@
       }
     };
     sendRequest();
+    showBulk();
   });
 
   $('body').on('click', 'a#clearSubDate', function() {

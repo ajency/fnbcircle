@@ -3670,6 +3670,11 @@ input[type=checkbox].custom-checkbox:before {
   margin-bottom: 0;
   opacity: 0.5;
 }
+.update-sec .noUpdates {
+  padding: 1em 0;
+  margin-top: -20px;
+  background-color: #f1f1f1;
+}
 .listed .parent-cat {
   -webkit-box-flex: 0.5;
   -webkit-flex: 0.5;
@@ -3741,6 +3746,12 @@ input[type=checkbox].custom-checkbox:before {
   }
   .listed hr {
     margin: 10px 0;
+  }
+  .update-sec .noUpdates {
+    margin-top: 0;
+  }
+  .update-sec .noUpdates .sub-title {
+    font-size: 1em;
   }
 }
 @media screen and (max-width: 1024px) {

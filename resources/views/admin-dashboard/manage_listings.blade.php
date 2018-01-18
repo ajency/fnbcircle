@@ -92,32 +92,32 @@
                 <table id="datatable-manage_listings" class="table table-striped list-approval-tab" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th  class="no-sort">
-                        City
+                      <th class="no-sort" style="width:50px;">
+                        State
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)
                           <option value="{{$city->id}}">{{$city->name}}</option>
                         @endforeach
                         </select>
                       </th>
-                      <th >Listing Name</th>
-                      <th class="no-sort">
+                      <th style="width:100px;">Listing Name</th>
+                      <th class="no-sort" style="width:150px;">
                         Categories
                       </th>
-                      <th class="" >
+                      <th class="" style="width:150px;">
                         Date of Submission
                       </th>
-                      <th class="" >
-                        Date of approval
+                      <th class="" style="width:120px;">
+                        Date of Approval
                       </th>
-                      <th class="no-sort" >
+                      <th class="no-sort" style="width:50px;">
                         Paid
                         <select multiple class="form-control multi-dd" id="paidFilter">
                           <option value="1">Yes</option>
                           <option value="0">No</option>
                         </select>
                       </th>
-                      <th class="no-sort"  >
+                      <th class="no-sort"  style="width:80px;">
                         Status
                         <select multiple class="form-control multi-dd" id="status-filter">
                           <option value="3" >Draft</option>
@@ -127,17 +127,17 @@
                           <option value="5" >Rejected</option>
                         </select>
                       </th>
-                      <th class="" >
+                      <th class="" style="width:70px;">
                         Views
                       </th>
-                      <th class="no-sort" >
+                      <th class="no-sort" style="width:120px;">
                         Contact Requests
                       </th>
-                      <th class="no-sort" >
+                      <th class="no-sort" style="width:120px;">
                         Direct Enquiries
                       </th>
-                      <th class="no-sort" >
-                        Indirect Enquiries
+                      <th class="no-sort" style="width:120px;">
+                        Shared Enquiries
                       </th>
 
 

@@ -152,9 +152,9 @@
                                         </div>
                                         @endisset
                                         @isset($data['views'])
-                                        <div class="views m-r-20 flex-row">
+                                        <div class="views m-r-20 flex-row" title="Views">
                                             <span class="fnb-icons eye-icon"></span>
-                                            <p class="views__title c-title"><span>{{$data['views']}}</span> Views</p>
+                                            <p class="views__title c-title"><span>{{$data['views']}}</span> </p>
                                         </div>
                                         @endisset
                                         @isset($data['verified'])

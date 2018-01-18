@@ -157,7 +157,7 @@
         <div class="col-md-3">
             <h5>Contact Requests</h5>
             <h3 id="contact-count">{{$stats['contact']}}</h3>
-            Number of requests sent for the contact details of the listing
+            Number of requests sent for the contact details of the listing <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=contact-request">View</a>
         </div>
         <div class="col-md-3">
             <h5>Direct Enquiries</h5>

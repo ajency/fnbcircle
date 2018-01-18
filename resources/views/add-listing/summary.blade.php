@@ -48,69 +48,107 @@
     
 
     <!-- updates section -->
-     <div class="update-sec m-t-20 nav-starter" id="updates">
-        @if(isset($updates) and !empty($updates))
-        <div class="update-sec__body update-space">
-
-            <p class="m-t-20 m-b-5 updateTitle heavier">{{$updates->title}}</p>
-            <p class="update-sec__caption grey-darker">
-                {!! nl2br(e($updates->contents)) !!}
-            </p>
-            <ul class="flex-row update-img flex-wrap post-gallery align-top">
-            @php $photos = $updates->getImages(); @endphp
-                @foreach($photos as $photo)
-                <li>
-                    <a href="{{$photo[config('tempconfig.listing-photo-full')]}}">
-                        <img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80" class="no-height">
-                        <div class="updates-img-col" style="background-image: url('{{$photo[config('tempconfig.listing-photo-thumb')]}}');">
-                        </div>
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-            <p class="text-lighter m-b-0 postDate">Posted {{$updates->created_at->diffForHumans()}}</p>
-        </div>
-
-        <div class="m-t-30 c-gap">
-           <div class="review-note flex-row space-between">
-                <div class="review-note__text flex-row">
-                    <i class="fa fa-list-alt" aria-hidden="true"></i>
-                    <p class="review-note__title">Recently updated listings usually get more leads.<br> Go ahead and post an update</p>
-                </div>
-               <div class="review-note__submit">
-                     <a href="/listing/{{$listing->reference}}/edit/post-an-update?step=true"  class="btn primary-btn sub-title">Post an update</a>
-               </div>
-           </div>
-        </div>
-        @else
-            <!-- if no posts -->
-            
-            <div class="update-sec__body update-space">
-
-                <h6 class="sub-title update-sec__heading m-t-15 heavier text-center no-post-title">
-                    You have not posted any updates as of now! <br> Recently updated listings usually get more leads, so go ahead and post an update.
-                </h6>
-                <p class="m-b-0 m-t-20 text-center">
-                    <a href="/listing/{{$listing->reference}}/edit/post-an-update?step=true" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
-                </p>
-            </div>
-            
-        @endif
-    </div>
-    <!-- updates section ends -->
-
     <div class="row">
-        <div class="col-md-6">
-            <h4>Listing Stats</h4>
+        <div class="col-sm-12">
+             <div class="update-sec m-t-20 sidebar-article listing-summary-row" id="updates">
+                @if(isset($updates) and !empty($updates))
+                <div class="update-sec__body update-space">
+                    <div class="flex-row space-between"> 
+                        <p class="element-title update-sec__heading m-t-15 bolder">{{$updates->title}}</p>
+                    </div>
+                    <p class="update-sec__caption text-lighter" style="margin-bottom:0;">{!! nl2br(e($updates->contents)) !!}</p>
+                    <ul class="flex-row update-img flex-wrap post-gallery align-top">
+                    @php $photos = $updates->getImages(); @endphp
+                        @foreach($photos as $photo)
+                        <li>
+                            <a href="{{$photo[config('tempconfig.listing-photo-full')]}}">
+                                <img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80" class="no-height">
+                                <div class="updates-img-col" style="background-image: url('{{$photo[config('tempconfig.listing-photo-thumb')]}}');">
+                                </div>
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i>Posted {{$updates->created_at->diffForHumans()}}</p>
+                </div>
+
+                <div class="post-update-row flex-row space-between">
+                     <p class="m-b-0 grey-darker">Recently updated listings usually get more Leads. <br> Go ahead and post an update.</p>
+                     <a href="/listing/{{$listing->reference}}/edit/post-an-update?step=true" class="btn fnb-btn primary-btn full post-btn" id="" type="button">Post</a>
+                 </div>
+                @else
+                    <!-- if no posts -->
+                    
+                    <div class="noUpdates">
+
+                        <h6 class="sub-title update-sec__heading m-t-15 heavier text-center no-post-title">
+                            You have not posted any updates as of now! <br> Recently updated listings usually get more leads, so go ahead and post an update.
+                        </h6>
+                        <p class="m-b-0 m-t-20 text-center">
+                            <a href="/listing/{{$listing->reference}}/edit/post-an-update?step=true" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
+                        </p>
+                    </div>
+                    
+                @endif
+            </div>
+        <!-- updates section ends -->
         </div>
-        <div class="col-md-3">
+    </div>
+
+
+
+    <div class="row m-t-40">
+        <div class="col-sm-12">
+            <div class="listing-stats">
+                <div class="listing-stats__header">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h4 class="m-t-0 list-stat-title">Listing Stats</h4>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="flex-row period-filter space-between flex-wrap align-top">
+                                <p class="m-b-0 default-size text-color title ">Filter your stats for a particular<br> time period</p>   
+                                <div class="relative date-icon">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    <input type="text" class="form-control fnb-input requestDate stat-filter default-size" placeholder="Request Date" id="submissionDate">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="listing-stats__body flex-row flex-wrap m-t-40 align-full">
+                    <div class="list-cols views">
+                        <p class="default-size text-uppercase text-color heavier">Views</p>
+                        <h3 class="m-t-15 heavier">{{$listing->views_count}}</h3>
+                        <p class="text-lighter default-size">By default displays the number of views in the last 30 days.</p>
+                    </div>
+                    <div class="list-cols views">
+                        <p class="default-size text-uppercase text-color heavier">Contact requests</p>
+                        <h3 class="m-t-15 heavier">{{$stats['contact']}}</h3>
+                        <p class="text-lighter default-size">Number of requests sent for the contact details of the listing.</p>
+                    </div>
+                    <div class="list-cols views">
+                        <p class="default-size text-uppercase text-color heavier">Direct enquiries</p>
+                        <h3 class="m-t-15 heavier">{{$stats['direct']}}</h3>
+                        <p class="text-lighter default-size">Number of direct enquiries sent to this listing. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=direct" class="x-small primary-link">View</a></p>
+                    </div>
+                    <div class="list-cols views">
+                        <p class="default-size text-uppercase text-color heavier">Indirect enquiries</p>
+                        <h3 class="m-t-15 heavier">{{$stats['shared']}}</h3>
+                        <p class="text-lighter default-size">Number of indirect enquiries sent to this listing based on the category and area the listing belongs to. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=shared" class="x-small primary-link">View</a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- <h4>Listing Stats</h4> -->
+        </div>
+        <!-- <div class="col-md-3">
             Filter your stats for a particular time period 
         </div>
         <div class="col-md-3">
             <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date" id="submissionDate">
-        </div>
+        </div> -->
     </div>
-    <div class="row">
+<!--     <div class="row">
         <div class="col-md-3">
             <h5>Views</h5>
             <h3>{{$listing->views_count}}</h3>
@@ -131,7 +169,7 @@
             <h3 id="shared-count">{{$stats['shared']}}</h3>
             number of indirect enquiries sent to this listing based on category and area the listing belongs to <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=shared">View</a>
         </div>
-    </div>
+    </div> -->
 
 
     <div class="m-t-50 relative leads-tab-section">

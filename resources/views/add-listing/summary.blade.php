@@ -120,7 +120,7 @@
                     <div class="list-cols views">
                         <p class="default-size text-uppercase text-color heavier">Views</p>
                         <h3 class="m-t-15 heavier">{{$listing->views_count}}</h3>
-                        <p class="text-lighter default-size">By default displays the number of views in the last 30 days.</p>
+                        <p class="text-lighter default-size">Number of views in the last 30 days.</p>
                     </div>
                     <div class="list-cols views">
                         <p class="default-size text-uppercase text-color heavier">Contact requests</p>

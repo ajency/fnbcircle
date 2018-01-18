@@ -1,5 +1,5 @@
 (function() {
-  var filters, format, table, tooltipinit;
+  var filters, format, table, tooltipinit, updateStat;
 
   format = function(d) {
     return '<div class="row leads-drop"> <div class="col-sm-6"> <div class="operations m-b-20"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">State - Cities</p>' + d.areas + '</div> <div class="operations"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0"><i class="fa fa-comments text-primary" aria-hidden="true"></i> Message</p> <div class="ca-holder">' + d.message + '</div> </div> </div> <div class="col-sm-6"> <div class="operations cate-list"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">Categories</p>' + d.categories + '</div> </div> </div>';
@@ -28,10 +28,8 @@
     });
   }
 
-  $('.requestDate').on('apply.daterangepicker', function(ev, picker) {
-    var end_date, start_date, url;
-    start_date = picker.startDate.format('YYYY-MM-DD');
-    end_date = picker.endDate.format('YYYY-MM-DD');
+  updateStat = function(start_date, end_date) {
+    var url;
     url = document.head.querySelector('[property="listing-stats"]').content;
     return $.ajax({
       url: url,
@@ -47,6 +45,22 @@
         return $('#contact-count').html(response['contact']);
       }
     });
+  };
+
+  $('.requestDate').on('apply.daterangepicker', function(ev, picker) {
+    var end_date, start_date;
+    start_date = picker.startDate.format('YYYY-MM-DD');
+    end_date = picker.endDate.format('YYYY-MM-DD');
+    return updateStat(start_date, end_date);
+  });
+
+  $('body').on('click', '#clear-stats-date-filter', function() {
+    var end_date, start_date;
+    $('#submissionDate').data('daterangepicker').setStartDate(moment().subtract(1, 'months'));
+    $('#submissionDate').data('daterangepicker').setEndDate(moment());
+    start_date = moment().subtract(1, 'months').format('YYYY-MM-DD');
+    end_date = moment().format('YYYY-MM-DD');
+    return updateStat(start_date, end_date);
   });
 
   filters = {};

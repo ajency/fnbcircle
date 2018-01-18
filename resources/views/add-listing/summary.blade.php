@@ -111,6 +111,7 @@
                                 <div class="relative date-icon">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                     <input type="text" class="form-control fnb-input requestDate stat-filter default-size" placeholder="Request Date" id="submissionDate">
+                                    <a href="#" id="clear-stats-date-filter">Clear</a>
                                 </div>
                             </div>
                         </div>

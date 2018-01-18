@@ -43,9 +43,7 @@ if $('.post-gallery').length
       duration: 300
 
 
-$('.requestDate').on 'apply.daterangepicker', (ev, picker) ->
-	start_date = picker.startDate.format('YYYY-MM-DD')
-	end_date = picker.endDate.format('YYYY-MM-DD')
+updateStat = (start_date,end_date)->
 	url = document.head.querySelector('[property="listing-stats"]').content
 	$.ajax
 		url:url
@@ -59,6 +57,20 @@ $('.requestDate').on 'apply.daterangepicker', (ev, picker) ->
 			$('#direct-count').html response['direct']
 			$('#shared-count').html response['shared']
 			$('#contact-count').html response['contact']
+
+$('.requestDate').on 'apply.daterangepicker', (ev, picker) ->
+	start_date = picker.startDate.format('YYYY-MM-DD')
+	end_date = picker.endDate.format('YYYY-MM-DD')
+	updateStat(start_date,end_date)
+	
+
+$('body').on 'click','#clear-stats-date-filter', () ->
+	$('#submissionDate').data('daterangepicker').setStartDate(moment().subtract(1, 'months'));
+	$('#submissionDate').data('daterangepicker').setEndDate(moment());
+	start_date = moment().subtract(1, 'months').format('YYYY-MM-DD')
+	end_date = moment().format('YYYY-MM-DD')
+	updateStat(start_date,end_date)
+
 
 
 filters = {}

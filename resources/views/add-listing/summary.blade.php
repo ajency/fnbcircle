@@ -126,7 +126,7 @@
                     <div class="list-cols views">
                         <p class="default-size text-uppercase text-color heavier">Contact requests</p>
                         <h3 class="m-t-15 heavier">{{$stats['contact']}}</h3>
-                        <p class="text-lighter default-size">Number of requests sent for the contact details of the listing.</p>
+                        <p class="text-lighter default-size">Number of requests sent for the contact details of the listing.</p><a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=contact-request" class="x-small primary-link">View</a>
                     </div>
                     <div class="list-cols views">
                         <p class="default-size text-uppercase text-color heavier">Direct enquiries</p>

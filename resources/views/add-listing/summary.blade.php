@@ -179,11 +179,11 @@
         <thead>
             <tr>
                 <th class="no-sort" style="min-width: 110px;">Type</th>
-                <th class="width-control" style="min-width: 80px;width: 130px !important;">Name</th>
+                <th class="width-control" style="min-width: 80px;width: 100px !important;">Name</th>
                 <th class="width-control" style="min-width: 80px;width: 130px !important;">Email</th>
                 <th class="width-control" style="min-width: 80px;width: 130px !important;">Phone</th>
-                <th style="min-width: 160px">What describes you the best?</th>
-                <th style="min-width: 30px;">Action</th>
+                <th style="min-width: 120px">What describes you the best?</th>
+                <th style="min-width: 90px;">Action</th>
             </tr>
             
         </thead>

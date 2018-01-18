@@ -124,3 +124,14 @@ $('#listing-leads tbody').on 'click', '.details-control', ->
 		tr.addClass 'shown'
 		$(this).find('.more-less-text').text 'Less details'
 	return
+
+
+$('.update-desc').readmore
+  speed: 25
+  collapsedHeight: 95
+  moreLink: '<a href="#" class="more default-size primary-link x-small">View more</a>'
+  lessLink: '<a href="#" class="default-size less primary-link x-small">View Less</a>'	
+
+
+
+

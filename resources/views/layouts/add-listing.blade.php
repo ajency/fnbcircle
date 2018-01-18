@@ -205,13 +205,12 @@
                                                     <a href="#" class="review-submit-link" >Submit Listing</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "1"))
-                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Archive</a>
+                                                    @if($step != 'summary' and $step != 'manage-leads' and $step != 'post-an-update')
+                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Archive</a><i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Remove this Listing." ></i>
+                                                    @endif
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "4"))
                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Publish</a>
-                                                @endif
-                                                @if($listing->status == '1')
-                                                    <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Remove this Listing." ></i>
                                                 @endif
                                                 </div>
                                             </div>

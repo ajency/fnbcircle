@@ -52,7 +52,7 @@ class UpdateViewCount implements ShouldQueue
                     'views' => (int) $dateRow[1],
                 ];
             })->pluck('views','slug')->toArray();
-            // Log::info($views);
+            Log::info($views);
             $listings = Listing::where('status',1)->whereIn('slug',array_keys($views))->get();
             foreach ($listings as $listing) {
                 $lc = new ListingController;

@@ -67,19 +67,19 @@
       $('#locationForm select').val("");
       $('.select_city select').removeAttr('required');
       $('select[name="status"] option[value="1"]').attr("hidden", "hidden");
-      $('.namelabel').html("City");
-      $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the city name');
-      $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the city slug');
-      $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the city is required');
+      $('.namelabel').html("State");
+      $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the state name');
+      $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the state slug');
+      $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the state is required');
     } else if (this.value === '1') {
       $('.select_city').removeClass('hidden');
       $('.select_city select').attr('required', 'required');
       $('select[name="status"] option[value="1"]').removeAttr("hidden");
-      $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the area name');
-      $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the area slug');
+      $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the city name');
+      $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the city slug');
       $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the area is required');
       $('#add_location_modal select').val('');
-      $('.namelabel').html("Area");
+      $('.namelabel').html("City");
     }
     $('input[type="text"]').val('');
     $('input[type="number"]').val('1');
@@ -98,10 +98,10 @@
     $('input[type="text"]').val('');
     $('input[type="number"]').val('1');
     $('select[name="status"] option[value="1"]').attr("hidden", "hidden");
-    $('.namelabel').html("City");
-    $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the city name');
-    $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the city slug');
-    $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the city is required');
+    $('.namelabel').html("State");
+    $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the state name');
+    $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the state slug');
+    $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the state is required');
     $('#add_location_modal .save-btn').prop('disabled', false);
   });
 
@@ -232,19 +232,19 @@
       $('#edit_location_modal .select_city select').removeAttr('required');
       $('#edit_location_modal input[name="area_id"]').val("");
       $('#edit_location_modal select#allcities').val(loc['id']);
-      $('.namelabel').html("City");
+      $('.namelabel').html("State");
       $('#edit_location_modal input#city').prop('checked', true);
+      $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the state name');
+      $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the state slug');
+      $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the state is required');
+    } else {
+      $('#edit_location_modal .select_city select').attr('required', 'required');
+      $('.namelabel').html("City");
+      $('#edit_location_modal .select_city').removeClass('hidden');
+      $('#edit_location_modal input#area').prop('checked', true);
       $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the city name');
       $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the city slug');
       $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the city is required');
-    } else {
-      $('#edit_location_modal .select_city select').attr('required', 'required');
-      $('.namelabel').html("Area");
-      $('#edit_location_modal .select_city').removeClass('hidden');
-      $('#edit_location_modal input#area').prop('checked', true);
-      $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the area name');
-      $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the area slug');
-      $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the area is required');
     }
     $('#edit_location_modal input[name="name"]').val(loc['name']);
     $('#edit_location_modal input[name="slug"]').val(loc['slug']);

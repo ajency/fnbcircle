@@ -232,10 +232,10 @@ class ListingViewController extends Controller
         if (isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) {
             $pagedata['overview'] = true;
         }
-        if(!hasAccess('edit_permission_element_cls',$listing['reference'],'listing')){
-            $listing->views_count++;
-            $listing->save();
-        }
+        // if(!hasAccess('edit_permission_element_cls',$listing['reference'],'listing')){
+        //     $listing->views_count++;
+        //     $listing->save();
+        // }
         return $pagedata;
     }
 

@@ -302,7 +302,7 @@ class UserController extends Controller
 
     public function getMyListingData($listing_obj){
         try{
-            $listing_obj = $listing_obj->orderBy('updated_at', 'desc')->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug', 'updated_at']);
+            $listing_obj = $listing_obj->orderBy('updated_at', 'desc')->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug', 'updated_at','views_count','contact_request_count','enquiries_count']);
             $listing_obj = $listing_obj->each(function($list){ // Get following data for each list
                     $list["area"] = $list->location()->where('status', 1)->get(["id", "name", "slug", "city_id"])->first(); // Get the Primary area
                     $list["city"] = ($list["area"]) ? $list['area']->city()->get(["id", "name", "slug"])->first() : "";
@@ -311,7 +311,7 @@ class UserController extends Controller
                     // $list["business_type"]['name'] = Listing::listing_business_type[$list["type"]]; // Get the string of the Listing Type
 
                     $list["business_type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
-
+                    $list['counts'] = ['views'=>displayCount($list['views_count']),'contact'=>displayCount($list['contact_request_count']), 'enquiries'=>displayCount($list['enquiries_count'])];
                     // Get list of areas under that Listing
                     $areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
                     $city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');

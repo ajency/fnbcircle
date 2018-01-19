@@ -35,21 +35,21 @@
                       <th>Name</th>
                       <th>slug</th>
                       <th class="no-sort text-center" data-col="3">
-                        isCity
+                        isState
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
                       <th class="no-sort text-center" data-col="4">
-                        isArea
+                        isCity
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
                       <th class="no-sort" data-col="5">
-                          City
+                          State
                           <select multiple class="form-control multi-dd" id="filtercities">
                             @foreach ($cities as $city)
                             <option>{{$city->name}}</option>
@@ -102,17 +102,17 @@
                   <label>Type of Location <span class="text-danger">*</span></label>
                   <div class="form-group ">
                     <label class="radio-inline">
-                      <input type="radio" name="locationType" id="city" value="0" class="fnb-radio"> City
+                      <input type="radio" name="locationType" id="city" value="0" class="fnb-radio"> State
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="locationType" id="area" value="1" class="fnb-radio" checked=""> Area
+                      <input type="radio" name="locationType" id="area" value="1" class="fnb-radio" checked=""> City
                     </label>
                   </div>
 
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group select_city">
-                        <label>Select the City <span class="text-danger">*</span></label>
+                        <label>Select the State <span class="text-danger">*</span></label>
                         <select class="form-control fnb-select w-border" id="allcities" required data-parsley-required-message="Please select the city">
                           <option value="">Select City</option>
                           @foreach ($cities as $city)
@@ -178,10 +178,10 @@
                   <label>Type of Location <span class="text-danger">*</span></label>
                   <div class="form-group ">
                     <label class="radio-inline">
-                      <input type="radio" name="locationType" id="city" value="0" class="fnb-radio" disabled=""> City
+                      <input type="radio" name="locationType" id="city" value="0" class="fnb-radio" disabled=""> State
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="locationType" id="area" value="1" class="fnb-radio" checked="" disabled="disabled"> Area
+                      <input type="radio" name="locationType" id="area" value="1" class="fnb-radio" checked="" disabled="disabled"> City
                     </label>
                   </div>
                   <div class="row">
@@ -189,7 +189,7 @@
                       <div class="form-group select_city">
                         <label>Select the City <span class="text-danger">*</span></label>
                         <select class="form-control fnb-select w-border" id="allcities" data-parsley-required-message="Please select the city" required>
-                          <option value="">Select City</option>
+                          <option value="">Select State</option>
                           @foreach ($cities as $city)
                             <option value="{{$city->id}}">{{$city->name}}</option>
                           @endforeach

@@ -15,7 +15,7 @@
         <div style="margin-top: 1.5em;">
           <div style="margin-bottom: 0.8em;">
 
-            Following listing(s) of your's are in draft status. Please log in to your account and complete these listings.<br>
+            Following listing(s) are in draft status. Please log in to your account and complete these listings.<br>
             <br>
             <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">
               <b style="display: block;padding-bottom: 5px;font-size: 14px;margin-bottom: 5px;text-transform: uppercase;border-bottom: 1px solid #c7c3c3;color: #ec6d4b;">Details of the Listing(s)</b>

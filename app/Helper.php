@@ -647,7 +647,7 @@ function getFileMimeType($ext){
 	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
 
 	$mimeType = $mimeTypes[$ext];
-
+	return $mimeType;
 }
 
  

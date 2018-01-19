@@ -1039,8 +1039,7 @@
                 </div>
             </div>
          </div>
-        </div>
-        <div class="pos-fixed fly-out side-toggle">
+        <!--  <div class="pos-fixed fly-out side-toggle">
             <div class="mobile-back desk-hide mobile-flex">
                 <div class="left mobile-flex">
                     <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -1048,7 +1047,9 @@
                 </div>
                 <div class="right"></div>
             </div>
-        </div>
+        </div> -->
+
+        
         @if($data['status']['id']==1)
             <!-- Enquiry modal -->
             <input type="hidden" name="enquiry_slug" id="enquiry_slug" value="{{ $data['title']['slug'] }}">
@@ -1060,6 +1061,55 @@
             <!-- Enquiry ends -->
         @endif
      </div>
+      <div class="pos-fixed fly-out side-toggle">
+        <div class="mobile-back desk-hide mobile-flex">
+            <div class="left mobile-flex">
+                <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                <p class="element-title heavier m-b-0">Back</p>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="fly-out__content">
+            <div class="sidebar-updates page-sidebar">
+                <div class="page-sidebar__header flex-row space-between mobile-hide">
+                    <div class="backLink flex-row">
+                        <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                        <div class="element-title bolder">Updates of {{$data['title']['name']}}</div>
+                    </div>
+                   <div class="sort flex-row">
+                       <p class="m-b-0 text-lighter default-size">Sort</p>
+                       <select name="" id="" class="fnb-select">
+                           <option>Recent</option>
+                           <option>Newer</option>
+                           <option>Older</option>
+                       </select>
+                   </div>
+                </div>
+            </div>
+            <div class="fly-out__content">
+                <div class="sidebar-updates page-sidebar">
+                    <div class="page-sidebar__header flex-row space-between mobile-hide">
+                        <div class="backLink flex-row">
+                            <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                            <div class="element-title bolder">Updates of {{$data['title']['name']}}</div>
+                        </div>
+                       <div class="sort flex-row">
+                           <p class="m-b-0 text-lighter default-size">Sort</p>
+                           <select name="update-sort" id="" class="fnb-select">
+                               <option value="0">Recent</option>
+                               <option value="1">Older</option>
+                           </select>
+                       </div>
+                    </div>
+                    <div class="page-sidebar__body update-display-section">
+
+                    </div>
+                    <div class="page-sidebar__footer"></div>
+                </div>  
+            </div>
+        </div>
+        </div>
      <!-- <div class="pos-fixed fly-out side-toggle"> -->
         <!-- <div class="mobile-back desk-hide mobile-flex">
             <div class="left mobile-flex">

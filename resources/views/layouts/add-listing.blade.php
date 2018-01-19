@@ -77,19 +77,19 @@
                         </li>
                         @else
                         <li class="fnb-breadcrums__section">
-                            <a href="/listing/{{$listing->reference}}" class="breadcrum-link">
+                            <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="breadcrum-link">
                                 <p class="fnb-breadcrums__title">{{$listing->title}}</p>
                             </a>
                         </li>
                         <li class="fnb-breadcrums__section">
-                            <a href="">
+                            
                                 <p class="fnb-breadcrums__title">/</p>
-                            </a>
+                            
                         </li>
                         <li class="fnb-breadcrums__section">
-                            <a href="#">
+                            
                                 <p class="fnb-breadcrums__title">Edit Listing</p>
-                            </a>
+                            
                         </li>
                         @endif
                     </ul>

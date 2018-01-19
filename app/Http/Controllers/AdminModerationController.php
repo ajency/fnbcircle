@@ -284,7 +284,7 @@ class AdminModerationController extends Controller
         foreach ($listings as $listing) {
             // $output->writeln($listing->submission);
             // dd($listing);
-            if($listing->owner and $listing->owner->status == 'active'){
+            if($listing->owner and $listing->owner->status == 'active' and $listing->verified == 0){
                 $listing->verified = 1;
                 $listing->save();
             }
@@ -439,6 +439,7 @@ class AdminModerationController extends Controller
                                 'template_data' => [
                                     'owner_name' => $owner->name,
                                     'listing_name' => $listing->title,
+                                    'listing_link' => url('/listing/'.$listing->reference.'/edit'),
                                 ],
                             ];
                             sendEmail('listing-rejected',$email);

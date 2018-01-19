@@ -14,9 +14,9 @@ yarn-error.log
 /public/node_modules/*
 /public/bower_components/*
 app/Http/Controllers/TestController\.php
+storage/debugbar/
 public/bower_components/
 /public/news/wp-content/uploads
 /public/news/wp-config.php
 resources/views/errors/error.blade.php
-
 

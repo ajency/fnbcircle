@@ -350,6 +350,7 @@ $('body').on 'click','button#resetAll', (e)->
         'external'
       ]
   sendRequest()
+  showBulk()
   return
 
 $('body').on 'click','a#clearSubDate', ->

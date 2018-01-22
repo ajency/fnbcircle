@@ -131,13 +131,13 @@
                       <th class="" style="width:70px;">
                         Views
                       </th>
-                      <th class="no-sort" style="width:120px;">
+                      <th class="no-sort" style="width:100px;">
                         Contact Requests
                       </th>
-                      <th class="no-sort" style="width:120px;">
+                      <th class="no-sort" style="width:100px;">
                         Direct Enquiries
                       </th>
-                      <th class="no-sort" style="width:120px;">
+                      <th class="no-sort" style="width:100px;">
                         Shared Enquiries
                       </th>
 

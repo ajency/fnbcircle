@@ -195,6 +195,41 @@ class EnquiryController extends Controller {
 	}
 
 	/**
+	*
+	*/
+	public function secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, $send_email=false) {
+		foreach ($listing_final_ids as $op_key => $op_value) {
+			$enquiry_sent["enquiry_to_id"] = $op_value;
+			if(in_develop()) { // If in Dev mode
+				if($op_key === 0) { // If 1st Enq
+					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+				} else { // Else just save the Enq
+					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, false);
+					
+					if($send_email && $op_key === sizeof($listing_final_ids) - 1) { // Else if on Last Enq -> Send a Dump
+						$listing_enq_obj = Listing::whereIn('id', $listing_final_ids);
+						$owner_ids = array_unique($listing_enq_obj->distinct('owner_id')->get()->pluck('owner_id')->toArray());
+						$email_ids = array_unique(UserCommunication::where([['object_type', 'App\User'], ['type', 'email']])->whereIn('object_id', $owner_ids)->get()->pluck('value')->toArray());
+
+						$data['to'] = $email_ids;
+						$data['cc'] = [];
+						$data['subject'] = "Found " . strVal(sizeof($listing_final_ids)) . " listings matching the enquiry";
+
+						$data["content"] = $listing_enq_obj->get()->pluck('title')->toArray();
+
+						$data["data"] = $data;
+						$data_content = ["to" => $data["to"], "cc" => $data["cc"], "subject" => $data["subject"], "template_data" => $data];
+
+						sendEmail('dev-dump', $data_content);
+					}
+				}
+			} else {
+				$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+			}
+		}
+	}
+
+	/**
 	* This function is used to create Enquiry data
 	* This function will @return the following Enquiry objects
 	*	Enquiry, EnquirySent, EnquiryCategory & EnquiryArea
@@ -847,7 +882,8 @@ class EnquiryController extends Controller {
 					}
 				}
 
-				foreach ($listing_final_ids as $op_key => $op_value) {
+				$this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, true);
+				/*foreach ($listing_final_ids as $op_key => $op_value) {
 					$enquiry_sent["enquiry_to_id"] = $op_value;
 					if(in_develop()) { // If in Dev mode
 						if($op_key === 0) { // If 1st Enq
@@ -875,7 +911,7 @@ class EnquiryController extends Controller {
 					} else {
 						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
 					}
-				}
+				}*/
 
 				$this->createEnquiry($enquiry_data, [], $enquiry_categories, $enquiry_areas, true, false);
 
@@ -1058,14 +1094,15 @@ class EnquiryController extends Controller {
 							}
 
 							$this->createEnquiry($secondary_enquiry_data['enquiry_data'], [], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
-							foreach ($listing_operations_ids as $op_key => $op_value) {
+							/*foreach ($listing_operations_ids as $op_key => $op_value) {
 								$secondary_enquiry_data['enquiry_sent']["enquiry_to_id"] = $op_value;
 								if($op_key === sizeof($listing_operations_ids)) {
 									$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], [], [], true);
 								} else {
 									$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], [], [], false);
 								}
-							}
+							}*/
+							$this->secondaryEnquiryQueue(($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_operations_ids, false);
 
 	    					/*unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
 	    					unset($session_payload["enquiry_to_id"]);

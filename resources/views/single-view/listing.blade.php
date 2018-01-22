@@ -1061,7 +1061,7 @@
             <!-- Enquiry ends -->
         @endif
      </div>
-      <div class="pos-fixed fly-out side-toggle">
+      <div class="pos-fixed fly-out side-toggle updates-toggle">
         <div class="mobile-back desk-hide mobile-flex">
             <div class="left mobile-flex">
                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -1071,8 +1071,8 @@
             </div>
         </div>
         <div class="fly-out__content">
-            <div class="sidebar-updates page-sidebar">
-                <div class="page-sidebar__header flex-row space-between mobile-hide">
+            <div class="sidebar-updates page-sidebar mobile-hide">
+                <div class="page-sidebar__header flex-row space-between">
                     <div class="backLink flex-row">
                         <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                         <div class="element-title bolder">Updates of {{$data['title']['name']}}</div>
@@ -1087,7 +1087,7 @@
                    </div>
                 </div>
             </div>
-            <div class="fly-out__content">
+            <div class="">
                 <div class="sidebar-updates page-sidebar">
                     <div class="page-sidebar__header flex-row space-between mobile-hide">
                         <div class="backLink flex-row">

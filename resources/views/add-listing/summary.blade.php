@@ -108,10 +108,10 @@
                         <div class="col-sm-7">
                             <div class="flex-row period-filter space-between flex-wrap align-top">
                                 <p class="m-b-0 default-size text-color title ">Filter your stats for a particular<br> time period</p>   
-                                <div class="relative date-icon">
+                                <div class="relative date-icon flex-row">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                     <input type="text" class="form-control fnb-input requestDate stat-filter default-size" placeholder="Request Date" id="submissionDate">
-                                    <a href="#" id="clear-stats-date-filter">Clear</a>
+                                    <a href="#" id="clear-stats-date-filter" class="primary-link">Clear</a>
                                 </div>
                             </div>
                         </div>

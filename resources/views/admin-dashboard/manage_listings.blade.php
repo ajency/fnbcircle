@@ -102,16 +102,16 @@
                         </select>
                       </th>
                       <th style="width:120px;">Listing Name</th>
-                      <th class="no-sort" style="width:150px;">
+                      <th class="no-sort" style="width:130px;">
                         Categories
                       </th>
-                      <th class="" style="width:150px;">
+                      <th class="" style="width:160px;">
                         Date of Submission
                       </th>
                       <th class="" style="width:120px;">
                         Date of Approval
                       </th>
-                      <th class="no-sort" style="width:50px;">
+                      <th class="no-sort" style="width:80px;">
                         Paid
                         <select multiple class="form-control multi-dd" id="paidFilter">
                           <option value="1">Yes</option>

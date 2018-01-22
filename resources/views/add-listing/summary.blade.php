@@ -176,7 +176,7 @@
     <div class="m-t-30 relative leads-tab-section">
         <h5>My Recent Leads <span class="p-l-10"><a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true" class="primary-link x-small">View All</a></span></h5>
 
-    <table id="listing-leads" class="table table-striped listing-lead" cellspacing="0" width="100%">
+    <table id="listing-leads" class="table table-striped listing-lead summary-leads" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th class="no-sort" style="min-width: 110px;">Type</th>

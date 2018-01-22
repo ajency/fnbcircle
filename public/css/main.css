@@ -13025,6 +13025,9 @@ input[type='checkbox'].remove-addr {
   -webkit-transition: all .5s ease;
           transition: all .5s ease;
 }
+.summary-leads .details-control {
+  margin-left: 0;
+}
 .leads-filter-action {
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;

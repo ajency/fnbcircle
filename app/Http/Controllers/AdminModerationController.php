@@ -133,19 +133,19 @@ class AdminModerationController extends Controller
                 $sort_by = 'created_at';
                 $order   = 'desc';
                 break;
-            case '1':
+            case '2':
                 $sort_by = 'title';
                 $order   = $request->order['0']['dir'];
                 break;
-            case '3':
+            case '4':
                 $sort_by = 'submission_date';
                 $order   = $request->order['0']['dir'];
                 break;
-            case '4':
+            case '5':
                 $sort_by = "published_on";
                 $order   = $request->order['0']['dir'];
                 break;
-            case '7':
+            case '8':
                 $sort_by = "views_count";
                 $order   = $request->order['0']['dir'];
                 break;
@@ -165,7 +165,12 @@ class AdminModerationController extends Controller
             $listing['views'] = $listing['listing_obj']->views_count;
             $listing['paid'] = ($listing['listing_obj']->premium)? "Yes":"No";
             $lc=new ListingController;
-            $stats = $lc->getListingStats($listing['listing_obj']);
+            if(!isset($filters['stats_date']) or !isset($filters['stats_date']['start']) or !isset($filters['stats_date']['end'])){
+                $stats = $lc->getListingStats($listing['listing_obj']);
+            }else{
+                $end = new Carbon($filters['stats_date']['end']);
+                $stats = $lc->getListingStats($listing['listing_obj'],$filters['stats_date']['start'], $end->endOfDay()->toDateTimeString());
+            }
             $listing['approval'] = ($listing['listing_obj']->published_on != null)? $listing['listing_obj']->published_on->toDateTimeString():'';
             $listing['contact-count'] = $stats['contact'];
             $listing['direct-count'] = $stats['direct'];
@@ -224,7 +229,13 @@ class AdminModerationController extends Controller
         if(isset($filters['submission_date'])){
             $end = new Carbon($filters['submission_date']['end']);
             if ($filters['submission_date']['start'] != "") {
-                $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
+                $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->endOfDay()->toDateTimeString());
+            }
+        }
+        if(isset($filters['approval_date'])){
+            $end = new Carbon($filters['approval_date']['end']);
+            if ($filters['approval_date']['start'] != "") {
+                $listings->where('published_on', '>', $filters['approval_date']['start'])->where('published_on', '<', $end->endOfDay()->toDateTimeString());
             }
         }
         if($search!="") $listings = $listings->where('title','like','%'.$search.'%');
@@ -243,6 +254,10 @@ class AdminModerationController extends Controller
             if($filters["premium"][0] == 1) $listings->whereIn('id',$request_senders);
             if($filters["premium"][0] == 0) $listings->whereNotIn('id',$request_senders);
            }
+        }
+        if(isset($filters["paid"]) and count($filters["paid"]) == 1){
+            if($filters["paid"][0] == 1) $listings->where('premium',1);
+            if($filters["paid"][0] == 0) $listings->where('premium',0);  
         }
         if(isset($filters['source'])){
             $listings = $listings->whereIn('source', $filters['source']);
@@ -263,6 +278,24 @@ class AdminModerationController extends Controller
         if (isset($filters['category_nodes'])) {
             $category = ListingCategory::whereIn('category_id',$filters['category_nodes'])->select('listing_id')->distinct()->pluck('listing_id')->toArray();
             $listings = $listings->whereIn('id',$category);
+        }
+        if(isset($filters['categories'])){
+            $filter_nodes = [];
+            $filters['categories'] = json_decode($filters['categories']);
+            if(count($filters['categories'])!=0){
+                foreach($filters['categories'] as $category_id){
+                    $category = Category::find($category_id);
+                    if($category->level == 3){
+                        $filter_nodes[] = $category->id;
+                    }else{
+                        $nodes = Category::where('path','like',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT)."%")->where('level',3)->pluck('id')->toArray();
+                        $filter_nodes = array_merge($filter_nodes,$nodes);
+                    }
+                }
+                $filter_listings = array_unique(ListingCategory::whereIn('category_id',$filter_nodes)->pluck('listing_id')->toArray());
+                $listings = $listings->whereIn('id',$filter_listings);
+
+            }
         }
         $filtered = $listings->count();
         $listings = $listings->skip($start)->take($display_limit);

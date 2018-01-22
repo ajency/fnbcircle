@@ -183,7 +183,7 @@
     });
 
     /* --- On Category Modal Shown --- */
-    $(document).on("show.bs.modal", "#category-select", function(event) {
+    $(document).on("shown.bs.modal", "#category-select", function(event) {
       var get_core_cat_checked;
       $("#category-select #level-two-category").addClass("hidden");
       $("#category-select #level-one-category").removeClass("hidden");

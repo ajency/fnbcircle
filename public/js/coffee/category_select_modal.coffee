@@ -203,7 +203,7 @@ $(document).ready () ->
 	  change_view()
 
 	### --- On Category Modal Shown --- ###
-	$(document).on "show.bs.modal", "#category-select", (event) ->
+	$(document).on "shown.bs.modal", "#category-select", (event) ->
 		#$("#category-select #level-one-category-dom")
 		$("#category-select #level-two-category").addClass "hidden"
 		$("#category-select #level-one-category").removeClass "hidden"

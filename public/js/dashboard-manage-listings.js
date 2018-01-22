@@ -70,4 +70,87 @@
     listing_table.columns(1).search(this.value).draw();
   });
 
+  $('body').on('change', 'select#citySelect', function() {
+    filters['city'] = $(this).val();
+    return listing_table.ajax.reload();
+  });
+
+  $('body').on('change', 'select#paidFilter', function() {
+    filters['paid'] = $(this).val();
+    return listing_table.ajax.reload();
+  });
+
+  $('body').on('change', 'select#status-filter', function() {
+    filters['status'] = $(this).val();
+    return listing_table.ajax.reload();
+  });
+
+  $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
+    filters['submission_date'] = {};
+    filters['submission_date']['start'] = picker.startDate.format('YYYY-MM-DD');
+    filters['submission_date']['end'] = picker.endDate.format('YYYY-MM-DD');
+    $('#submissionDate').val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
+    listing_table.ajax.reload();
+  });
+
+  $('body').on('click', 'a#clearSubDate', function() {
+    $('#submissionDate').val('');
+    filters['submission_date'] = {};
+    return listing_table.ajax.reload();
+  });
+
+  $('#approvalDate').on('apply.daterangepicker', function(ev, picker) {
+    filters['approval_date'] = {};
+    filters['approval_date']['start'] = picker.startDate.format('YYYY-MM-DD');
+    filters['approval_date']['end'] = picker.endDate.format('YYYY-MM-DD');
+    $('#approvalDate').val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
+    listing_table.ajax.reload();
+  });
+
+  $('body').on('click', 'a#clearAppDate', function() {
+    $('#approvalDate').val('');
+    filters['approval_date'] = {};
+    return listing_table.ajax.reload();
+  });
+
+  $('#statsDate').on('apply.daterangepicker', function(ev, picker) {
+    filters['stats_date'] = {};
+    filters['stats_date']['start'] = picker.startDate.format('YYYY-MM-DD');
+    filters['stats_date']['end'] = picker.endDate.format('YYYY-MM-DD');
+    $('#statsDate').val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
+    listing_table.ajax.reload();
+  });
+
+  $('body').on('click', 'a#clearStatDate', function() {
+    $('#statsDate').val('');
+    filters['stats_date'] = {};
+    return listing_table.ajax.reload();
+  });
+
+  $('body').on('show.bs.modal', '#category-select', function() {
+    return getCategoryDom("#category-select #level-one-category-dom", "level_1");
+  });
+
+  $('body').on('click', 'button#applyCategFilter', function(e) {
+    filters['categories'] = JSON.stringify(getLeafNodes());
+    return listing_table.ajax.reload();
+  });
+
+  $('body').on('click', 'button#resetAll', function(e) {
+    var categories, filters;
+    $('#listingNameSearch').val('');
+    $('#submissionDate').val('');
+    $('#approvalDate').val('');
+    $('#statsDate').val('');
+    $('.multi-dd').each(function() {
+      return $(this).multiselect('deselectAll', false);
+    });
+    $('div#categories.node-list').html('');
+    categories = {
+      'parents': []
+    };
+    filters = {};
+    return listing_table.ajax.reload();
+  });
+
 }).call(this);

@@ -23,4 +23,7 @@ return [
     ],
     'region' => env('AWS_REGION'),
     'version' => 'latest',
+    'Ses' => [
+        'region' => 'us-east-1',
+    ],
 ];

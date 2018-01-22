@@ -23,7 +23,7 @@ Please find below contact details of the listing.<br>
 @if(count($contacts['email']))        
   <b>Email</b>: 
   @foreach($contacts['email'] as $email)
-    <a href="mailto:{{$email['email']}}"> {{$email['email']}} </a> @if($email['is_verified'])(verified) @else (unverified) @endif 
+    <a href="mailto:{{$email['email']}}"> {{$email['email']}} </a> @if($email['is_verified'])(verified) @else (unverified) @endif <br>
   @endforeach
 @endif
 @if(count($contacts['mobile']))
@@ -51,7 +51,7 @@ When you contact the listing, don't forget to mention that you found it on FnB C
 @else
 <p class="element-title heavier text-darker">No Similar suppliers found</p>
 @endif
-						Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
+						<div style="font-size: 0.9em;">Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
 						<div>
 	          				Regards,<br>
 	          				Team FnB Circle<br>

@@ -217,7 +217,7 @@
                                         <!-- <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button> -->
 
                                         <!-- <p class="m-b-0">20</p> -->
-                                        <p class="contact__title lighter">This lisiting got <b>{{$data['contact']['requests']}}</b> contact requests</p>
+                                        <p class="contact__title lighter">This lisiting got <b> {{$data['contact']['requests']}} </b> contact requests</p>
                                     </div>
                                     <!-- <div class="contact__date">
                                         <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
@@ -906,7 +906,8 @@
                                         <div class="enquiry-form__header flex-row space-between">
                                             <div class="enquiry-title">
                                                 <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
-                                                <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p>
+                                                <!-- <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p> -->
+                                                <p class="m-b-0 text-lighter m-t-5">{{ $data['title']['name'] }}</p>
                                             </div>
                                             <span class="fnb-icons enquiry"></span>
                                         </div>

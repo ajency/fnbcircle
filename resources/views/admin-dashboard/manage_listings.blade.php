@@ -93,7 +93,7 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th class="no-sort" style="width:50px;" >
+                      <th class="no-sort" style="width:80px;" >
                         State
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)
@@ -101,7 +101,7 @@
                         @endforeach
                         </select>
                       </th>
-                      <th style="width:100px;">Listing Name</th>
+                      <th style="width:120px;">Listing Name</th>
                       <th class="no-sort" style="width:150px;">
                         Categories
                       </th>

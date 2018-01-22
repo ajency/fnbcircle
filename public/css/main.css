@@ -8710,7 +8710,7 @@ input[type=checkbox].custom-checkbox:before {
   .preview-header {
     position: fixed;
     width: 100%;
-    z-index: 11;
+    z-index: 9999;
   }
   .preview-header.active {
     top: 0;

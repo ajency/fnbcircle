@@ -27,13 +27,13 @@
                   <b class="element-title">Also Listed In</b><br>
                   @foreach($listing_categories as $category)
                   <div class="listed__section flex-row">
-                      <div class="parent-cat flex-row" style="float: left;min-width: 150px;">
+                      <div class="parent-cat flex-row" style="float: left;min-width: 130px;">
                           <span class="m-r-10" style="display: inline-block;">
                               <img src="{{$category['image-url']}}" width="40" style="vertical-align: middle;">
                           </span>
                           <p class="parent-cat__title cat-size" style=" display: inline-block;margin: 0;">{{$category['parent']}}</p>
                       </div>
-                      <div class="child-cat" style="float: left;width: 60px;text-align: center;">
+                      <div class="child-cat" style="float: left;width: 80px;text-align: center;">
                           <p class="child-cat__title cat-size" style="margin-bottom: 0;margin-top: 7px;">{{$category['branch']}}</p>
                       </div>
                       <ul class="fnb-cat flex-row" style="padding-left: 0;margin-left: 0;list-style: none;float: left;margin-top: 5px;">

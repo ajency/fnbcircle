@@ -52,7 +52,7 @@ When you contact the listing, don't forget to mention that you found it on FnB C
 @else
 <p class="element-title heavier text-darker">No Similar suppliers found</p>
 @endif
-						<div style="font-size: 0.9em;">Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
+						<div style="font-size: 0.9em;"><b>Disclaimer:</b> FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
 						<div>
 	          				Regards,<br>
 	          				Team FnB Circle<br>

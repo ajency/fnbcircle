@@ -45,7 +45,7 @@
 
 
 
-						Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
+						<div style="font-size: 0.9em;"><b>Disclaimer:</b> FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
 						<div>
 	          				Regards,<br>
 	          				Team FnB Circle<br>

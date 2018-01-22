@@ -101,11 +101,11 @@
                         @endforeach
                         </select>
                       </th>
-                      <th style="width:120px;">Listing Name</th>
-                      <th class="no-sort" style="width:130px;">
+                      <th style="width:140px;">Listing Name</th>
+                      <th class="no-sort" style="width:100px;">
                         Categories
                       </th>
-                      <th class="" style="width:160px;">
+                      <th class="" style="width:180px;">
                         Date of Submission
                       </th>
                       <th class="" style="width:120px;">

@@ -40,6 +40,7 @@ Please find below contact details of the listing.<br>
 @endif
 <br><br>
 You may now contact the owner directly.
+<br><br>
 When you contact the listing, don't forget to mention that you found it on FnB Circle.
 
 <br><br>

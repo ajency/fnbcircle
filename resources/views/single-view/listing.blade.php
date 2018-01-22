@@ -93,8 +93,8 @@
                             
                             <img src="/img/power-icon.png" class="img-repsonsive" width="50">
                             <div class="pre-benefits__content">
-                                <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
-                                <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of FnB Circle to upgrade to the premium version</p>
+                                <h5 class="section-title pre-benefits__title m-b-0">What are the benefits of registering as premium?</h5>
+                                <!-- <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of FnB Circle to upgrade to the premium version</p> -->
                             </div>
 
                         </div>

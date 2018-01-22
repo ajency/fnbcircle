@@ -105,7 +105,7 @@
                       <th class="no-sort" style="width:100px;">
                         Categories
                       </th>
-                      <th class="" style="width:180px;">
+                      <th class="" style="width:200px;">
                         Date of Submission
                       </th>
                       <th class="" style="width:120px;">
@@ -131,13 +131,13 @@
                       <th class="" style="width:70px;">
                         Views
                       </th>
-                      <th class="no-sort" style="width:100px;">
+                      <th class="no-sort" style="width:80px;">
                         Contact Requests
                       </th>
-                      <th class="no-sort" style="width:100px;">
+                      <th class="no-sort" style="width:80px;">
                         Direct Enquiries
                       </th>
-                      <th class="no-sort" style="width:100px;">
+                      <th class="no-sort" style="width:80px;">
                         Shared Enquiries
                       </th>
 

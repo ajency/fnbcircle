@@ -5,6 +5,7 @@ use App\Area;
 use App\City;
 use App\Category;
 use App\Plan;
+use App\InvalidEmail;
 use App\Job;
 use App\Listing;
 use App\PlanAssociation;
@@ -337,5 +338,13 @@ class CommonController extends Controller
             $user->getUserDetails()->update($details);
             return;
         }
+    }
+
+    public function handleEmailBounce(Request $request){
+        $email = new InvalidEmail;
+        $email->email = 'test@fnbcircle.com';
+        $email->type = 'bounce';
+        $email->bounce_data = serialize($request->all());
+        $email->save();
     }
 }

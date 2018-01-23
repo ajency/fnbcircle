@@ -20,7 +20,7 @@ Route::get('/', function () {
 // Route::get('/test','TestController@index');
 // Forgot Password
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
-Route::get('/emails/bounces','CommonController@handleEmailBounce');
+Route::post('/emails/bounces','CommonController@handleEmailBounce');
  
 /****
 api

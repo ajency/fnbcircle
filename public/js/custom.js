@@ -1225,7 +1225,7 @@ $(function(){
 				event.preventDefault();
 				$('.side-toggle').toggleClass('active');
 				var sort = $('.page-sidebar .sort').detach();
-				$('.page-sidebar').closest('.fly-out').find('.right').append(sort);
+				$('.page-sidebar').closest('.fly-out').find('.right').append(sort).addClass('sort-action');
 			});
 			// adding class and css on load
 			$(document).ready(function(){

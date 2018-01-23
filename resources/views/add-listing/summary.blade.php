@@ -108,10 +108,10 @@
                         <div class="col-sm-7">
                             <div class="flex-row period-filter space-between flex-wrap align-top">
                                 <p class="m-b-0 default-size text-color title ">Filter your stats for a particular<br> time period</p>   
-                                <div class="relative date-icon">
+                                <div class="relative date-icon flex-row">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                     <input type="text" class="form-control fnb-input requestDate stat-filter default-size" placeholder="Request Date" id="submissionDate">
-                                    <a href="#" id="clear-stats-date-filter">Clear</a>
+                                    <a href="#" id="clear-stats-date-filter" class="primary-link">Clear</a>
                                 </div>
                             </div>
                         </div>
@@ -129,12 +129,12 @@
                         <p class="text-lighter default-size">Number of requests sent for the contact details of the listing.</p><a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=contact-request" class="x-small primary-link">View</a>
                     </div>
                     <div class="list-cols views">
-                        <p class="default-size text-uppercase text-color heavier">Direct enquiries</p>
+                        <p class="default-size text-uppercase text-color heavier">Direct enquiries <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A Direct Enquiry is an enquiry which is directly made to your listing by a customer."></i></p>
                         <h3 class="m-t-15 heavier">{{$stats['direct']}}</h3>
                         <p class="text-lighter default-size">Number of direct enquiries sent to this listing. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=direct" class="x-small primary-link">View</a></p>
                     </div>
                     <div class="list-cols views">
-                        <p class="default-size text-uppercase text-color heavier">Shared enquiries</p>
+                        <p class="default-size text-uppercase text-color heavier">Shared enquiries <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A Shared Enquiry is an enquiry which is sent to all business listings that match a customer's requirements."></i></p>
                         <h3 class="m-t-15 heavier">{{$stats['shared']}}</h3>
                         <p class="text-lighter default-size">Number of indirect enquiries sent to this listing based on the category and area the listing belongs to. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=shared" class="x-small primary-link">View</a></p>
                     </div>
@@ -173,10 +173,10 @@
     </div> -->
 
 
-    <div class="m-t-50 relative leads-tab-section">
+    <div class="m-t-30 relative leads-tab-section">
         <h5>My Recent Leads <span class="p-l-10"><a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true" class="primary-link x-small">View All</a></span></h5>
 
-    <table id="listing-leads" class="table table-striped listing-lead" cellspacing="0" width="100%">
+    <table id="listing-leads" class="table table-striped listing-lead summary-leads" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th class="no-sort" style="min-width: 110px;">Type</th>

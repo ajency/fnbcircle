@@ -5896,9 +5896,15 @@ input[type=checkbox].custom-checkbox:before {
     font-size: 0.9em;
     margin-left: 1em;
   }
+  .side-toggle .fly-out__content {
+    height: auto;
+  }
   .details-fill-col.details-fill-col {
     margin-top: 1em;
   }
+}
+.sort-action .sort:nth-child(2n) {
+  display: none;
 }
 .sidebar-article {
   box-shadow: none;
@@ -8710,7 +8716,7 @@ input[type=checkbox].custom-checkbox:before {
   .preview-header {
     position: fixed;
     width: 100%;
-    z-index: 11;
+    z-index: 9999;
   }
   .preview-header.active {
     top: 0;
@@ -13024,6 +13030,9 @@ input[type='checkbox'].remove-addr {
 .details-control i {
   -webkit-transition: all .5s ease;
           transition: all .5s ease;
+}
+.summary-leads .details-control {
+  margin-left: 0;
 }
 .leads-filter-action {
   -webkit-box-pack: end;

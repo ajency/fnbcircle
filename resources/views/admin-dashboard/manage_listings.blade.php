@@ -93,7 +93,7 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th class="no-sort" style="width:50px;" >
+                      <th class="no-sort" style="width:80px;" >
                         State
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)
@@ -101,17 +101,17 @@
                         @endforeach
                         </select>
                       </th>
-                      <th style="width:100px;">Listing Name</th>
-                      <th class="no-sort" style="width:150px;">
+                      <th style="width:140px;">Listing Name</th>
+                      <th class="no-sort" style="width:100px;">
                         Categories
                       </th>
-                      <th class="" style="width:150px;">
+                      <th class="" style="width:200px;">
                         Date of Submission
                       </th>
                       <th class="" style="width:120px;">
                         Date of Approval
                       </th>
-                      <th class="no-sort" style="width:50px;">
+                      <th class="no-sort" style="width:80px;">
                         Paid
                         <select multiple class="form-control multi-dd" id="paidFilter">
                           <option value="1">Yes</option>
@@ -131,13 +131,13 @@
                       <th class="" style="width:70px;">
                         Views
                       </th>
-                      <th class="no-sort" style="width:120px;">
+                      <th class="no-sort" style="width:80px;">
                         Contact Requests
                       </th>
-                      <th class="no-sort" style="width:120px;">
+                      <th class="no-sort" style="width:80px;">
                         Direct Enquiries
                       </th>
-                      <th class="no-sort" style="width:120px;">
+                      <th class="no-sort" style="width:80px;">
                         Shared Enquiries
                       </th>
 

@@ -38,7 +38,7 @@ class UpdateViewCount implements ShouldQueue
     {
         try{
             $response = Analytics::performQuery(
-                Period::days(30),
+                Period::months(6),
                 'ga:pageviews',
                 [
                     'dimensions'=>'ga:pagepathlevel2',

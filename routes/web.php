@@ -93,7 +93,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/listing','ListingController@store');
 	Route::post('/contact_save','ListingController@saveContact');
 	Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
-	Route::get('/premium/{type}/{reference_id}/cancel-request', 'CommonController@canclePremiumRequest' );//edit jobs
+	Route::get('/premium/{type}/{reference_id}/cancle-request', 'CommonController@cancelPremiumRequest' );//edit jobs
 	
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');

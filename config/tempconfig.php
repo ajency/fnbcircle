@@ -28,8 +28,8 @@ return [
 	'add-listing-updates-max-photos' => 5,
 	'default-updates-number' => 5,
 	'email' => [
-		'defaultID'=>'shashank@ajency.in',
-		'defaultName' => 'FnB Circle'
+		'defaultID'=>'admin@fnbcircle.com',
+		'defaultName' => 'FnBCircle Admin'
 	],
 	'activity-display-classes' => ['enquiry-created','contact-request-created'],
 	'activity-display-number' => 10,

@@ -346,7 +346,7 @@ function init_daterangepicker_submission() {
     if (typeof($.fn.daterangepicker) === 'undefined') {
         return;
     }
-    $('#submissionDate,#loginDate').daterangepicker({
+    $('#submissionDate,#loginDate,#approvalDate,#statsDate').daterangepicker({
         autoUpdateInput:false,
         maxDate: moment()
     });

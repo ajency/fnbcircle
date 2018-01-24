@@ -91,12 +91,6 @@
     });
   });
 
-  $('body').on('show.bs.modal', '#category-select', function(e) {
-    return setTimeout((function() {
-      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
-    }), 500);
-  });
-
   $('body').on('change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', function() {
     var cityID;
     if (this.checked) {

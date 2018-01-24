@@ -18,9 +18,12 @@ use Session;
 use Carbon\Carbon;
 use App\Plan;
 use App\PlanAssociation;
+use App\Enquiry;
+use App\EnquirySent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
+use App\Jobs\UpdateViewCount;
 /*
  *    This class defines the actions required for adding a listing to the database and editing it.
  *    This can be used as a route or as a resource.
@@ -967,8 +970,43 @@ class ListingController extends Controller
                 $cities       = City::where('status', '1')->get();
                 return view('add-listing.manage-leads')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('parents', $parent_categ)->with('cities', $cities);
             }
+            if ($step == 'summary'){
+                $updates = $listing->updates()->orderBy('updated_at', 'desc')->first();
+                $stats = $this->getListingStats($listing,Carbon::now()->subMonth()->toDateString(),Carbon::now()->toDateString());
+                return view('add-listing.summary')->with('listing', $listing)->with('step', 'summary')->with('back', 'business-premium')->with('cityy',$cityy)->with('updates',$updates)->with('stats',$stats);
+            }
         }
         abort(404);
+    }
+
+    public function getListingStatsByDate(Request $request){
+        $listing = Listing::where('reference', $request->reference)->firstorFail();
+        $stats = $this->getListingStats($listing,$request->start,$request->end);
+        return response()->json($stats);
+
+    }
+
+    public function getListingStats($listing,$start="",$end=""){
+        $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        $enquiries1 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
+        $enquiries2 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
+        $enquiries3 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
+        if($start!="" and $end != ""){
+            $end = new Carbon($end);
+            $start_date = new Carbon($start);
+            $enquiries1 = $enquiries1->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
+            $enquiries2 = $enquiries2->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
+            $enquiries3 = $enquiries3->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
+        }
+        $direct = EnquirySent::where('enquiry_type','direct')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        $shared = EnquirySent::where('enquiry_type','shared')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        $contact = EnquirySent::where('enquiry_type','contact-request')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        // dd($direct,$shared,$contact);
+        $direct_count = $enquiries1->whereIn('id',$direct)->count();
+        $shared_count = $enquiries2->whereIn('id',$shared)->count();
+        $contact_count = $enquiries3->whereIn('id',$contact)->count();
+        return ['direct' => $direct_count, 'shared'=> $shared_count, 'contact'=>$contact_count];
+        
     }
 
     public function submitForReview(Request $request)
@@ -1064,6 +1102,46 @@ class ListingController extends Controller
         } else {
             return \Redirect::back()->withErrors(array('PUBLISHED' => 'You can only publish an archived listing'));
         }
+    }
+
+    public function updateViewCount(){
+        $startIndex = 1;
+        Listing::where('views_count','>',0)->update(['views_count'=>0]);
+        UpdateViewCount::dispatch($startIndex)->onQueue('low');
+        // //create a job, if response next != null dispatch next job
+
+        // do{
+        //     $response = Analytics::performQuery(
+        //         Period::days(30),
+        //         'ga:pageviews',
+        //         [
+        //             // 'dimensions'=>'ga:pagepath,ga:pagepathlevel2',
+        //             'dimensions'=>'ga:pagepathlevel2',
+        //             'max-results' =>10000,
+        //             'start-index' => $startIndex,
+        //         ]
+        //     );
+        //     $views = collect($response['rows'] ?? [])->map(function (array $dateRow) {
+        //         return [
+        //             // 'url' => $dateRow[0],
+        //             'slug' => substr($dateRow[0], 1),
+        //             'views' => (int) $dateRow[1],
+        //         ];
+        //     })->pluck('views','slug')->toArray();
+        //     $listings = Listing::where('status',1)->whereIn('slug',array_keys($views))->get();
+        //     // $cities = City::all()->pluck('slug','id')->toArray();
+        //     foreach ($listings as $listing) {
+        //         // $url = '/'.$cities[$listing->location['city_id']].'/'.$listing->slug;
+        //         $stats = $this->getListingStats($listing,Carbon::now()->subMonth()->toDateString(),Carbon::now()->toDateString());
+        //         $listing->contact_request_count = $stats['contact'];
+        //         if(isset($views[$listing->slug])){
+        //             $listing->views_count = $views[$listing->slug];
+                     
+        //         }
+        //         $listing->save();            
+        //     }
+        //     $startIndex+=10000;
+        // }while($response->nextLink != null);
     }
 
 }

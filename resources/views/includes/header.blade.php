@@ -113,7 +113,7 @@
                                 <button class="btn fnb-btn outline full border-btn modify-search"><i class="fa fa-search p-r-5" aria-hidden="true"></i> Modify Search</button>
                             </li>
                             <li>
-                                <!-- <button class="btn fnb-btn primary-btn full border-btn send-enq">Send Enquiry</button> -->
+                                <button class="btn fnb-btn primary-btn full border-btn send-enq">Send Enquiry</button>
                             </li>
                         </ul>
                     </div>

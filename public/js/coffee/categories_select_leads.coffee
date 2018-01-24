@@ -152,8 +152,17 @@ window.getLeafNodes = () ->
       leaf_nodes.push(categories['parents'][parent]['id'])
   return leaf_nodes
 
+
+  
+
+
+
 $(document).ready ()->
   $(document).on "show.bs.modal", "#category-select", (event) ->
+    setTimeout (->
+      $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+      return
+    ), 500
     enquiry_categories = getLeafNodes()
     enquiry_categories_string = []
     enquiry_categories.forEach (element) ->

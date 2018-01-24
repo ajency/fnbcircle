@@ -59,6 +59,7 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::get('listing/create','ListingController@create');
 	//edit listing
 	Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
+	Route::post('/listing/stats','ListingController@getListingStatsByDate');
 	//manage categories 
 	Route::post('/list-categories','AdminConfigurationController@categConfigList');
 	Route::post('/save-category','AdminConfigurationController@saveCategory');
@@ -76,6 +77,7 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	
 	Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
 	Route::post('/all-listing','AdminModerationController@displayListingsDum');
+	Route::post('/show-listings','AdminModerationController@manageListingData');
 
 	Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');
 
@@ -91,7 +93,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/listing','ListingController@store');
 	Route::post('/contact_save','ListingController@saveContact');
 	Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
-	Route::get('/premium/{type}/{reference_id}/cancel-request', 'CommonController@canclePremiumRequest' );//edit jobs
+	Route::get('/premium/{type}/{reference_id}/cancle-request', 'CommonController@cancelPremiumRequest' );//edit jobs
 	
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
@@ -181,6 +183,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::post('internal-mail-send','AdminModerationController@sendSelectedUsersMail');
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
+		Route::get('manage-listings','AdminModerationController@manageListings');
 		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');
 		Route::get('listing-sheet','AdminModerationController@getFile');
 		Route::get('data-sheet','AdminModerationController@generateFile');

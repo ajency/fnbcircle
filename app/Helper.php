@@ -479,10 +479,10 @@ function sendEmail($event='new-user', $data=[]) {
 				$data['to'] = [$data['to']];
 		$to = sendEmailTo($data['to'], 'to');
 
-		foreach ($to as $key => $email) {
-			if(InvalidEmail::where('email',$email)->count() != 0){
+		foreach ($to as $key => $emailID) {
+			if(InvalidEmail::where('email',$emailID)->count() != 0){
 				unset($to[$key]);
-				\Log::error('Not sending Invalid email '.$email);
+				\Log::error('Not sending Invalid email '.$emailID);
 			}
 		}
 		$email->setTo($to);
@@ -496,10 +496,10 @@ function sendEmail($event='new-user', $data=[]) {
 			$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
 			$cc = array_merge($cc,$notify_data);
 		}
-		foreach ($cc as $key => $email) {
-			if(InvalidEmail::where('email',$email)->count() != 0){
+		foreach ($cc as $key => $emailID) {
+			if(InvalidEmail::where('email',$emailID)->count() != 0){
 				unset($cc[$key]);
-				\Log::error('Not sending Invalid email '.$email);
+				\Log::error('Not sending Invalid email '.$emailID);
 			}
 		}
 		$email->setCc($cc);
@@ -507,10 +507,10 @@ function sendEmail($event='new-user', $data=[]) {
 		/* bcc */
 		if(isset($data['bcc'])) {
 			$bcc = sendEmailTo($data['bcc'], 'bcc');
-			foreach ($bcc as $key => $email) {
-				if(InvalidEmail::where('email',$email)->count() != 0){
+			foreach ($bcc as $key => $emailID) {
+				if(InvalidEmail::where('email',$emailID)->count() != 0){
 					unset($bcc[$key]);
-					\Log::error('Not sending Invalid email '.$email);
+					\Log::error('Not sending Invalid email '.$emailID);
 				}
 			}
 			$email->setCc($bcc);

@@ -354,11 +354,16 @@ class CommonController extends Controller
             $email->bounce_data = serialize($resp);
             $email->save();
         }else{
-            $email = new InvalidEmail;
-            $email->email = 'test@fnbcircle.com';
-            $email->type = 'bounce';
-            $email->bounce_data = $request->getContent();
-            $email->save();    
+            $req = json_decode($request->getContent(),true);
+            $bounce = json_decode(str_replace('\\','',$req['Message']),true);
+            foreach ($bounce['bounce']['bouncedRecipients'] as  $mail) {
+               $email = new InvalidEmail;
+                $email->email = $mail['emailAddress'];
+                $email->type = 'bounce';
+                $email->bounce_data = $request->getContent();
+                $email->save();
+            }
+                
         }
     }
 }

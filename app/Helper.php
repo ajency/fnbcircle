@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\View;
 use App\Category;
 use App\Defaults;
 use App\User;
+use App\InvalidEmail;
 use Spatie\Activitylog\Models\Activity;
 // use AjComm;
 
@@ -477,6 +478,13 @@ function sendEmail($event='new-user', $data=[]) {
 			if(!is_array($data['to'])) // If not in array format
 				$data['to'] = [$data['to']];
 		$to = sendEmailTo($data['to'], 'to');
+
+		foreach ($to as $key => $email) {
+			if(InvalidEmail::where('email',$email)->count() != 0){
+				unset($to[$key]);
+				\Log::error('Not sending Invalid email '.$value);
+			}
+		}
 		$email->setTo($to);
 
 		/* cc */
@@ -488,14 +496,28 @@ function sendEmail($event='new-user', $data=[]) {
 			$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
 			$cc = array_merge($cc,$notify_data);
 		}
+		foreach ($cc as $key => $email) {
+			if(InvalidEmail::where('email',$email)->count() != 0){
+				unset($cc[$key]);
+				\Log::error('Not sending Invalid email '.$value);
+			}
+		}
 		$email->setCc($cc);
 
 		/* bcc */
 		if(isset($data['bcc'])) {
 			$bcc = sendEmailTo($data['bcc'], 'bcc');
+			foreach ($bcc as $key => $email) {
+				if(InvalidEmail::where('email',$email)->count() != 0){
+					unset($bcc[$key]);
+					\Log::error('Not sending Invalid email '.$value);
+				}
+			}
 			$email->setCc($bcc);
 		}
 		
+
+
 		$params = (isset($data['template_data']))? $data['template_data']:[];
 		if(!is_array($params)) $params = [$params];
 		$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";

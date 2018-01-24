@@ -141,7 +141,7 @@
 
                                 <div class="location flex-row">
                                     <span class="fnb-icons map-icon"></span>
-                                    <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
+                                    <p class="location__title c-title"> {{$data['city']['area']}}, {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
                                 </div>
                                 <div class="stats flex-row m-t-10 stat-section">
                                     <div class="rating-view flex-row">

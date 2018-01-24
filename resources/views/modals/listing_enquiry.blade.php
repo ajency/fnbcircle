@@ -266,7 +266,7 @@
                                 </p>
                                 <div class="location flex-row mobile-hide">
                                     <span class="fnb-icons map-icon"></span>
-                                    <p class="location__title m-b-0 text-lighter">{{$data['city']['name']}}</p>
+                                    <p class="location__title m-b-0 text-lighter">{{$data['city']['area']}}, {{$data['city']['name']}}</p>
                                 </div>
                                 <div class="rat-view flex-row mobile-hide">
                                     <div class="rating">

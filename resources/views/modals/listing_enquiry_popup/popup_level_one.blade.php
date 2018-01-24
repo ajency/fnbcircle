@@ -31,17 +31,25 @@
                 <div class="form-group @if(isset($mobile_view) && $mobile_view) p-t-10 @endif m-b-0">
                     <label class="m-b-0 text-lighter float-label required filled lab-color dis-block phone-label" for="number">Phone</label>
                     @if(!Auth::guest())
-                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ !Auth::guest() ? ( '+' . Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
+                        <!-- <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ !Auth::guest() ? ( '+' . Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/> -->
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ !Auth::guest() ? ( '+' . Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }} @if(isset($is_multi_select_dropdown) && $is_multi_select_dropdown) data-parsley-errors-container="#errorfield" @else data-parsley-errors-container="#contactfield" @endif/>
                         <input type="hidden" name="contact_locality" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region']) : '' }}"/>
                     @elseif(isset($enquiry_data) && isset($enquiry_data['contact']))
-                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? '+' . $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required>
+                        <!-- <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? '+' . $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required> -->
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? '+' . $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required @if(isset($is_multi_select_dropdown) && $is_multi_select_dropdown) data-parsley-errors-container="#errorfield" @else data-parsley-errors-container="#contactfield" @endif>
                         <input type="hidden" name="contact_locality" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}">
                     @else
-                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="" required="">
+                        <!-- <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="" required=""> -->
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" value="" required="" @if(isset($is_multi_select_dropdown) && $is_multi_select_dropdown) data-parsley-errors-container="#errorfield" @else data-parsley-errors-container="#contactfield" @endif>
                         <input type="hidden" name="contact_locality" value="">
                     @endif
                 </div>
-                <div id="errorfield" class="fnb-errors"></div>
+
+                @if(isset($is_multi_select_dropdown) && $is_multi_select_dropdown)
+                    <div id="errorfield" class="fnb-errors"></div>
+                @else
+                    <div id="contactfield" class="fnb-errors"></div>
+                @endif
             </div>
             <div class="@if(isset($mobile_view) && $mobile_view) col-sm-11 @else col-sm-6 @endif">
                 <div class="form-group @if(isset($mobile_view) && $mobile_view) p-t-10 @endif m-b-0">
@@ -79,12 +87,15 @@
                     @endphp
                     <div class="col-sm-12 flex-row flex-wrap describe-section">
                         <label class="flex-row points">
-                            <select class="fnb-select select-variant" multiple="multiple" name="description" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#describes-best-error" >
+                            <select class="fnb-select select-variant" multiple="multiple" name="description" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#describes-best-dropdown-error">
                                 @foreach($describes_best_html as $keyContent => $valueContent)
                                     {!! $valueContent["html"] !!}
                                 @endforeach
                             </select>
                         </label>
+                    </div>
+                    <div class="col-sm-12">
+                        <div id="describes-best-dropdown-error" class="fnb-error"></div>
                     </div>
                 @else
                     @php
@@ -103,10 +114,10 @@
                             </label>
                         @endforeach
                     </div>
+                    <div class="col-sm-12">
+                        <div id="describes-best-error" class="fnb-error"></div>
+                    </div>
                 @endif
-                <div class="col-sm-12">
-                    <div id="describes-best-error" class="fnb-error"></div>
-                </div>
             </div>
         </div>
         <!-- describes best ends -->

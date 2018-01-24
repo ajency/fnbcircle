@@ -136,7 +136,7 @@ $('body').on 'click','button#exportListings', (e)->
   parameters = {}
   parameters['order'] = order
   parameters['search'] = search
-  parameters['filters'] = filters
+  parameters['filters'] = JSON.stringify filters
   $.each parameters, (key, value) ->
     field = $('<input></input>')
     field.attr 'type', 'hidden'

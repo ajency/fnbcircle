@@ -163,7 +163,7 @@
     parameters = {};
     parameters['order'] = order;
     parameters['search'] = search;
-    parameters['filters'] = filters;
+    parameters['filters'] = JSON.stringify(filters);
     $.each(parameters, function(key, value) {
       var field;
       field = $('<input></input>');

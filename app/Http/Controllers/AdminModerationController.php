@@ -1129,7 +1129,7 @@ class AdminModerationController extends Controller
     }
 
     public function exportManageListings(Request $request){
-        $filters = $request->filters;
+        $filters = json_decode($request->filters,true);
         switch ($request->order['0']['0']) {
             case '0':
                 $sort_by = 'created_at';
@@ -1240,7 +1240,7 @@ class AdminModerationController extends Controller
             }
         }
         $listings = ($sort == "") ? $listings : $listings->orderBy($sort, $order);
-        // $listings = $listings->take('10');
+        \Log::info('listings exported = '.$listings->count());
         $listings = $listings->get();
         $response = array();
         foreach ($listings as $listing) {

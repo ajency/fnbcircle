@@ -1243,6 +1243,7 @@ class AdminModerationController extends Controller
         \Log::info('listings exported = '.$listings->count());
         $listings = $listings->get();
         $response = array();
+        $cities = City::pluck('name','id')->toArray();
         foreach ($listings as $listing) {
             if($listing->owner and $listing->owner->status == 'active' and $listing->verified == 0){
                 $listing->verified = 1;
@@ -1251,12 +1252,11 @@ class AdminModerationController extends Controller
             
             $response[$listing->id]                    = array();
             //col 1 = city
-            $city = City::find($listing->location['city_id']);
-            $response[$listing->id][] = $city['name'];
+            $response[$listing->id][] = $cities[$listing->location['city_id']];
             //col2 = name
             $response[$listing->id][] = $listing->title;
             //col3 = categories
-            $categories = ListingCategory::getCategories($listing->id);
+            /*$categories = ListingCategory::getCategories($listing->id);
             $i    = 0;
             $temp = '';
             foreach ($categories as $key => $value) {
@@ -1279,6 +1279,7 @@ class AdminModerationController extends Controller
                 $i++;
             }
             $response[$listing->id][] = $temp;
+            */
             //col4 = submission date
             $sub = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
             $response[$listing->id][] = $sub;
@@ -1309,7 +1310,7 @@ class AdminModerationController extends Controller
             $excel->sheet('Listings', function ($sheet) use ($response){
                 $sheet->fromArray($response, null, 'A2', true, false);
                 $sheet->row(1, array(
-                    'State', 'Listing Name', 'Categories','Date of Submission','Date of Approval','Paid','Status','Views','Contact Requests', 'Direct Enquiries', 'Shared Enquiries'
+                    'State', 'Listing Name','Date of Submission','Date of Approval','Paid','Status','Views','Contact Requests', 'Direct Enquiries', 'Shared Enquiries'
                 ));
             });
         })->export('xls');

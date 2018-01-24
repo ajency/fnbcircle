@@ -394,7 +394,7 @@ $(document).ready () ->
 			if ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#rhs-enquiry-form").find("select[name='description']").length) # if the RHS single enquiry form exist & has description Dropdown
 				$(this).closest("#rhs-enquiry-form").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error') # Add the error-container
 
-			if ($(this).closest("#rhs-enquiry-form").length < 0 or ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#level-one-enquiry").parsley().validate()))
+			if ($(this).closest("#rhs-enquiry-form").length <= 0 or ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#level-one-enquiry").parsley().validate()))
 				if $(this).data("value")
 					enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id")
 					page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
@@ -410,7 +410,8 @@ $(document).ready () ->
 					resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
 					resetPlugins(modal_id)
 			else # else fail the response
-				$(modal_id).modal 'hide'
+				if $(this).closest("#rhs-enquiry-form").length > 0
+					$(modal_id).modal 'hide'
 
 			# $(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			# 	if modal_id == "#enquiry-modal"

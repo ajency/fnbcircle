@@ -344,10 +344,10 @@ class CommonController extends Controller
         $type = $request->header('x-amz-sns-message-type');
         if($type == 'SubscriptionConfirmation'){
             $resp = ["sns"=>$request->getContent()];
-            $req = json_decode($request->getContent());
-            $ch = curl_init($req->SubscribeURL);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $resp['curl'] = curl_exec($ch);
+            //$req = json_decode($request->getContent());
+            //$ch = curl_init($req->SubscribeURL);
+            //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $resp['curl'] = '';// curl_exec($ch);
             $email = new InvalidEmail;
             $email->email = 'test@fnbcircle.com';
             $email->type = 'bounce';

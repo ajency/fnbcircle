@@ -275,13 +275,15 @@
                                                 <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                             </ul>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="text-center">
-                                                @if(!(Auth::user() && (Auth::user()->type=='internal' || Auth::user()->id !== $data['owner_id'])))
-                                                    <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
-                                                @endif
+                                        @if($data['status']['id']==1)
+                                            <div class="col-sm-4">
+                                                <div class="text-center">
+                                                    @if(!(Auth::user() && (Auth::user()->type=='internal' || Auth::user()->id !== $data['owner_id'])))
+                                                        <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
+                                                    @endif
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -885,75 +887,77 @@
                             
                         @endif
                         <!-- enquiry form -->
-                        <div class="sticky-bottom mobile-flex desk-hide active">
-                            <div class="stick-bottom__text">
-                                <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
-                            </div>
-                            <div class="actions">
-                                <button class="btn fnb-btn primary-btn full border-btn send-enquiry">Send Enquiry</button>
-                            </div>
-                        </div>
-
-                        @if(!(Auth::user() && (Auth::user()->type=='internal' || Auth::user()->id !== $data['owner_id'])))
-                            <div class="pos-fixed fly-out enquiry-form-slide">
-                                <div class="mobile-back desk-hide mobile-flex">
-                                    <div class="left mobile-flex">
-                                        <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
-                                        <p class="element-title heavier m-b-0">Enquiry</p>
-                                    </div>
-                                    <div class="right">
-                                        <!-- <a href="" class="text-primary heavier element-title">Clear All</a> -->
-                                    </div>
+                        @if($data['status']['id']==1)
+                            <div class="sticky-bottom mobile-flex desk-hide active">
+                                <div class="stick-bottom__text">
+                                    <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
                                 </div>
-                                <div class="fly-out__content">
-                                    <div class="enquiry-form card m-t-30 m-b-20">
-                                        <!-- <form method=""> -->
-                                            <div class="enquiry-form__header flex-row space-between">
-                                                <div class="enquiry-title">
-                                                    <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
-                                                    <!-- <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p> -->
-                                                    <p class="m-b-0 text-lighter m-t-5">{{ $data['title']['name'] }}</p>
-                                                </div>
-                                                <span class="fnb-icons enquiry"></span>
-                                            </div>
-                                            <div class="enquiry-form__body m-t-10 send-enquiry-section common-enquiry-form" id="rhs-enquiry-form">
-                                                <!-- <div class="form-group p-t-10 m-b-0">
-                                                    <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
-                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name">
-                                                </div>
-                                                <div class="form-group p-t-10 m-b-0">
-                                                    <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
-                                                    <input type="email" class="form-control fnb-input float-input" id="contact_email">
-                                                </div>
-                                                <div class="form-group p-t-10 m-b-0">
-                                                    <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
-                                                    <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
-                                                </div>
-                                                <div class="form-group p-t-20 p-b-10 m-b-0">
-                                                    <label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
-                                                    <p class="x-small text-lighter lighter">(Please select atleast one)</p>
-                                                    <select class="form-control fnb-select" id="describe">
-                                                        <option>--Select--</option>
-                                                        <option>I work in the F&amp;B industry</option>
-                                                        <option>I work in the F&amp;B industry</option>
-                                                        <option>I work in the F&amp;B industry</option>
-                                                        <option>I work in the F&amp;B industry</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group p-t-10 p-b-20 m-b-0">
-                                                    <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
-                                                    <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
-                                                </div>
-                                                <div class="form-group p-t-10 m-b-0">
-                                                    <button class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#enquiry-modal">Send an Enquiry</button>
-                                                </div> -->
-                                                @include('modals.listing_enquiry_popup.popup_level_one', array("no_title" => true, "is_multi_select_dropdown" => true, "enquiry_send_button" => true, "enquiry_modal_id" => "#enquiry-modal", "mobile_view" => true))
-                                            </div>
-                                        <!-- </form> -->
-                                        
-                                    </div>
+                                <div class="actions">
+                                    <button class="btn fnb-btn primary-btn full border-btn send-enquiry">Send Enquiry</button>
                                 </div>
-                            </div>  
+                            </div>
+                        
+                            @if(!(Auth::user() && (Auth::user()->type=='internal' || Auth::user()->id !== $data['owner_id'])))
+                                <div class="pos-fixed fly-out enquiry-form-slide">
+                                    <div class="mobile-back desk-hide mobile-flex">
+                                        <div class="left mobile-flex">
+                                            <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                                            <p class="element-title heavier m-b-0">Enquiry</p>
+                                        </div>
+                                        <div class="right">
+                                            <!-- <a href="" class="text-primary heavier element-title">Clear All</a> -->
+                                        </div>
+                                    </div>
+                                    <div class="fly-out__content">
+                                        <div class="enquiry-form card m-t-30 m-b-20">
+                                            <!-- <form method=""> -->
+                                                <div class="enquiry-form__header flex-row space-between">
+                                                    <div class="enquiry-title">
+                                                        <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
+                                                        <!-- <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p> -->
+                                                        <p class="m-b-0 text-lighter m-t-5">{{ $data['title']['name'] }}</p>
+                                                    </div>
+                                                    <span class="fnb-icons enquiry"></span>
+                                                </div>
+                                                <div class="enquiry-form__body m-t-10 send-enquiry-section common-enquiry-form" id="rhs-enquiry-form">
+                                                    <!-- <div class="form-group p-t-10 m-b-0">
+                                                        <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
+                                                        <input type="text" class="form-control fnb-input float-input" id="contact_name">
+                                                    </div>
+                                                    <div class="form-group p-t-10 m-b-0">
+                                                        <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
+                                                        <input type="email" class="form-control fnb-input float-input" id="contact_email">
+                                                    </div>
+                                                    <div class="form-group p-t-10 m-b-0">
+                                                        <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
+                                                        <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
+                                                    </div>
+                                                    <div class="form-group p-t-20 p-b-10 m-b-0">
+                                                        <label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
+                                                        <p class="x-small text-lighter lighter">(Please select atleast one)</p>
+                                                        <select class="form-control fnb-select" id="describe">
+                                                            <option>--Select--</option>
+                                                            <option>I work in the F&amp;B industry</option>
+                                                            <option>I work in the F&amp;B industry</option>
+                                                            <option>I work in the F&amp;B industry</option>
+                                                            <option>I work in the F&amp;B industry</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group p-t-10 p-b-20 m-b-0">
+                                                        <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
+                                                        <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
+                                                    </div>
+                                                    <div class="form-group p-t-10 m-b-0">
+                                                        <button class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#enquiry-modal">Send an Enquiry</button>
+                                                    </div> -->
+                                                    @include('modals.listing_enquiry_popup.popup_level_one', array("no_title" => true, "is_multi_select_dropdown" => true, "enquiry_send_button" => true, "enquiry_modal_id" => "#enquiry-modal", "mobile_view" => true))
+                                                </div>
+                                            <!-- </form> -->
+                                            
+                                        </div>
+                                    </div>
+                                </div>  
+                            @endif
                         @endif
                         <!-- enquiry form ends-->
                         

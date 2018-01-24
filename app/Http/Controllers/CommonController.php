@@ -365,7 +365,7 @@ class CommonController extends Controller
                     $email->save();
                 }
             }
-            if($notification['notificationType'] == 'Complaint'){
+            elseif($notification['notificationType'] == 'Complaint'){
                 foreach ($notification['complaint']['complainedRecipients'] as  $mail) {
                    $email = new InvalidEmail;
                     $email->email = $mail['emailAddress'];
@@ -373,6 +373,12 @@ class CommonController extends Controller
                     $email->bounce_data = $request->getContent();
                     $email->save();
                 }
+            }else{
+                $email = new InvalidEmail;
+                $email->email = "unknown";
+                $email->type = "unsigned";
+                $email->bounce_data = $request->getContent();
+                $email->save();
             }
         }
     }

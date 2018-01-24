@@ -359,7 +359,7 @@ class CommonController extends Controller
             foreach ($bounce['bounce']['bouncedRecipients'] as  $mail) {
                $email = new InvalidEmail;
                 $email->email = $mail['emailAddress'];
-                $email->type = 'bounce';
+                $email->type = $bounce['notificationType'].' - '.$bounce['bounce']['bounceType'];
                 $email->bounce_data = $request->getContent();
                 $email->save();
             }

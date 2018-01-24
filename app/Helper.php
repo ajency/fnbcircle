@@ -482,7 +482,7 @@ function sendEmail($event='new-user', $data=[]) {
 		foreach ($to as $key => $email) {
 			if(InvalidEmail::where('email',$email)->count() != 0){
 				unset($to[$key]);
-				\Log::error('Not sending Invalid email '.$value);
+				\Log::error('Not sending Invalid email '.$email);
 			}
 		}
 		$email->setTo($to);
@@ -499,7 +499,7 @@ function sendEmail($event='new-user', $data=[]) {
 		foreach ($cc as $key => $email) {
 			if(InvalidEmail::where('email',$email)->count() != 0){
 				unset($cc[$key]);
-				\Log::error('Not sending Invalid email '.$value);
+				\Log::error('Not sending Invalid email '.$email);
 			}
 		}
 		$email->setCc($cc);
@@ -510,7 +510,7 @@ function sendEmail($event='new-user', $data=[]) {
 			foreach ($bcc as $key => $email) {
 				if(InvalidEmail::where('email',$email)->count() != 0){
 					unset($bcc[$key]);
-					\Log::error('Not sending Invalid email '.$value);
+					\Log::error('Not sending Invalid email '.$email);
 				}
 			}
 			$email->setCc($bcc);

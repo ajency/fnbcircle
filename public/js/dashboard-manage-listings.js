@@ -153,4 +153,28 @@
     return listing_table.ajax.reload();
   });
 
+  $('body').on('click', 'button#exportListings', function(e) {
+    var form, order, parameters, search;
+    order = listing_table.order();
+    search = $('#listingNameSearch').val();
+    form = $('<form></form>');
+    form.attr('method', 'post');
+    form.attr('action', '/download-listings');
+    parameters = {};
+    parameters['order'] = order;
+    parameters['search'] = search;
+    parameters['filters'] = filters;
+    $.each(parameters, function(key, value) {
+      var field;
+      field = $('<input></input>');
+      field.attr('type', 'hidden');
+      field.attr('name', key);
+      field.attr('value', value);
+      form.append(field);
+      console.log(key + '=>' + value);
+    });
+    $(document.body).append(form);
+    return form.submit();
+  });
+
 }).call(this);

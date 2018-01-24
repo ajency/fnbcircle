@@ -79,6 +79,7 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
 	Route::post('/all-listing','AdminModerationController@displayListingsDum');
 	Route::post('/show-listings','AdminModerationController@manageListingData');
+	Route::post('/download-listings','AdminModerationController@exportManageListings');
 
 	Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');
 

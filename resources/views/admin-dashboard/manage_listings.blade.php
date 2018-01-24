@@ -32,6 +32,7 @@
         <div class="page-title">
           <div class="title_left">
             <h5>Manage Listings
+              <button type="button" class="btn btn-link btn-sm" id="exportListings">Export selected listings</button>
               <button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button>
             </h5>
           </div>

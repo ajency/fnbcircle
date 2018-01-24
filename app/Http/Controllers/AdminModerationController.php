@@ -1127,5 +1127,192 @@ class AdminModerationController extends Controller
         $cities       = City::where('status', '1')->get();
         return view('admin-dashboard.manage_listings')->with('parents', $parent_categ)->with('cities', $cities);
     }
+
+    public function exportManageListings(Request $request){
+        $filters = $request->filters;
+        switch ($request->order['0']['0']) {
+            case '0':
+                $sort_by = 'created_at';
+                $order   = 'desc';
+                break;
+            case '2':
+                $sort_by = 'title';
+                $order   = $request->order['0']['1'];
+                break;
+            case '4':
+                $sort_by = 'submission_date';
+                $order   = $request->order['0']['1'];
+                break;
+            case '5':
+                $sort_by = "published_on";
+                $order   = $request->order['0']['1'];
+                break;
+            case '8':
+                $sort_by = "views_count";
+                $order   = $request->order['0']['1'];
+                break;
+            default:
+                $sort_by = "";
+                $order   = "";
+        }        
+        $sort = $sort_by;
+        $search=$request->search['value'];
+        $listings = Listing::where(function ($sql) use ($filters) {
+            $i = 0;
+            if (isset($filters['status'])) {
+                foreach ($filters['status'] as $status) {
+                    if ($i == 0) {
+                        $sql->where('status', $status);
+                    } else { $sql->orWhere('status', $status);}
+                    $i++;
+                }
+            }
+        });
+        if(isset($filters['submission_date'])){
+            $end = new Carbon($filters['submission_date']['end']);
+            if ($filters['submission_date']['start'] != "") {
+                $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->endOfDay()->toDateTimeString());
+            }
+        }
+        if(isset($filters['approval_date'])){
+            $end = new Carbon($filters['approval_date']['end']);
+            if ($filters['approval_date']['start'] != "") {
+                $listings->where('published_on', '>', $filters['approval_date']['start'])->where('published_on', '<', $end->endOfDay()->toDateTimeString());
+            }
+        }
+        if($search!="") $listings = $listings->where('title','like','%'.$search.'%');
+        if (isset($filters['city'])) {
+            $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('locality_id',$areas);
+        }
+        if(isset($filters["updated_by"]) and count($filters["updated_by"]['user_type']) ==1){
+            $users  = User::whereIn('type',$filters["updated_by"]['user_type'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('last_updated_by',$users);
+        }
+        if(isset($filters["premium"])){
+            $request_senders = array_unique(PlanAssociation::where('premium_type','App\\Listing')->pluck('premium_id')->toArray());
+           $prem = [];
+           if(count($filters["premium"]) == 1){
+            if($filters["premium"][0] == 1) $listings->whereIn('id',$request_senders);
+            if($filters["premium"][0] == 0) $listings->whereNotIn('id',$request_senders);
+           }
+        }
+        if(isset($filters["paid"]) and count($filters["paid"]) == 1){
+            if($filters["paid"][0] == 1) $listings->where('premium',1);
+            if($filters["paid"][0] == 0) $listings->where('premium',0);  
+        }
+        if(isset($filters['source'])){
+            $listings = $listings->whereIn('source', $filters['source']);
+        }
+        if(isset($filters['user-status'])){
+            $users = User::whereIn('status',$filters['user-status'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('owner_id',$users);
+        }
+        if(isset($filters['type'])){
+            $listings = $listings->where(function ($listings) use ($filters){
+                foreach($filters['type'] as $type ){
+                    $listings->whereNull('id');
+                    if($type == 'orphan') $listings->orWhereNull('verified')->orWhere('verified',0);
+                    if($type == 'verified') $listings->orWhere('verified',1);
+                }
+            });
+        }
+        if (isset($filters['category_nodes'])) {
+            $category = ListingCategory::whereIn('category_id',$filters['category_nodes'])->select('listing_id')->distinct()->pluck('listing_id')->toArray();
+            $listings = $listings->whereIn('id',$category);
+        }
+        if(isset($filters['categories'])){
+            $filter_nodes = [];
+            $filters['categories'] = json_decode($filters['categories']);
+            if(count($filters['categories'])!=0){
+                foreach($filters['categories'] as $category_id){
+                    $category = Category::find($category_id);
+                    if($category->level == 3){
+                        $filter_nodes[] = $category->id;
+                    }else{
+                        $nodes = Category::where('path','like',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT)."%")->where('level',3)->pluck('id')->toArray();
+                        $filter_nodes = array_merge($filter_nodes,$nodes);
+                    }
+                }
+                $filter_listings = array_unique(ListingCategory::whereIn('category_id',$filter_nodes)->pluck('listing_id')->toArray());
+                $listings = $listings->whereIn('id',$filter_listings);
+
+            }
+        }
+        $listings = ($sort == "") ? $listings : $listings->orderBy($sort, $order);
+        // $listings = $listings->take('10');
+        $listings = $listings->get();
+        $response = array();
+        foreach ($listings as $listing) {
+            if($listing->owner and $listing->owner->status == 'active' and $listing->verified == 0){
+                $listing->verified = 1;
+                $listing->save();
+            }
+            
+            $response[$listing->id]                    = array();
+            //col 1 = city
+            $city = City::find($listing->location['city_id']);
+            $response[$listing->id][] = $city['name'];
+            //col2 = name
+            $response[$listing->id][] = $listing->title;
+            //col3 = categories
+            $categories = ListingCategory::getCategories($listing->id);
+            $i    = 0;
+            $temp = '';
+            foreach ($categories as $key => $value) {
+                if ($i != 0) {
+                    $temp .= "|";
+                } else {
+                    $temp .= "";
+                }
+
+                $temp .= $value['parent'] . ' > ' . $value['branch'] . ' > ';
+                $j = 0;
+                foreach ($value['nodes'] as $node) {
+                    if ($j != 0) {
+                        $temp .= ', ';
+                    }
+
+                    $temp .= $node['name'];
+                    $j++;
+                }
+                $i++;
+            }
+            $response[$listing->id][] = $temp;
+            //col4 = submission date
+            $sub = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
+            $response[$listing->id][] = $sub;
+            //col5 = approval date
+            $response[$listing->id][] = ($listing->published_on != null)? $listing->published_on->toDateTimeString():'';
+            //col6 = paid
+            $response[$listing->id][] = ($listing->premium)? "Yes":"No";
+            //col7 = status
+            $status = ['3' => 'Draft', '2' => 'Pending Review', '1' => 'Published', '4' => 'Archived', '5' => 'Rejected'];
+            $response[$listing->id][]          = $status[$listing->status];
+            //col8 = views
+            $response[$listing->id][] = $listing->views_count;
+            //col9,10,11 = stats
+            $lc = new ListingController;
+            if(!isset($filters['stats_date']) or !isset($filters['stats_date']['start']) or !isset($filters['stats_date']['end'])){
+                $stats = $lc->getListingStats($listing);
+            }else{
+                $end = new Carbon($filters['stats_date']['end']);
+                $stats = $lc->getListingStats($listing,$filters['stats_date']['start'], $end->endOfDay()->toDateTimeString());
+            }
+            $response[$listing->id][] = $stats['contact'];
+            $response[$listing->id][] = $stats['direct'];
+            $response[$listing->id][] = $stats['shared'];
+        }
+        // dd($response);
+        $excel = App::make('excel');
+        Excel::create('Manage_Listing', function ($excel) use ($response){
+            $excel->sheet('Listings', function ($sheet) use ($response){
+                $sheet->fromArray($response, null, 'A2', true, false);
+                $sheet->row(1, array(
+                    'State', 'Listing Name', 'Categories','Date of Submission','Date of Approval','Paid','Status','Views','Contact Requests', 'Direct Enquiries', 'Shared Enquiries'
+                ));
+            });
+        })->export('xls');
+    }
 }
 

@@ -126,3 +126,24 @@ $('body').on 'click','button#resetAll', (e)->
   categories = 'parents': []
   filters = {}
   listing_table.ajax.reload()
+
+$('body').on 'click','button#exportListings', (e)->
+  order = listing_table.order()
+  search = $('#listingNameSearch').val()
+  form = $('<form></form>')
+  form.attr 'method', 'post'
+  form.attr 'action', '/download-listings'
+  parameters = {}
+  parameters['order'] = order
+  parameters['search'] = search
+  parameters['filters'] = filters
+  $.each parameters, (key, value) ->
+    field = $('<input></input>')
+    field.attr 'type', 'hidden'
+    field.attr 'name', key
+    field.attr 'value', value
+    form.append field
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()

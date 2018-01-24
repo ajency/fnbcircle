@@ -355,15 +355,25 @@ class CommonController extends Controller
             $email->save();
         }else{
             $req = json_decode($request->getContent(),true);
-            $bounce = json_decode(str_replace('\\','',$req['Message']),true);
-            foreach ($bounce['bounce']['bouncedRecipients'] as  $mail) {
-               $email = new InvalidEmail;
-                $email->email = $mail['emailAddress'];
-                $email->type = $bounce['notificationType'].' - '.$bounce['bounce']['bounceType'];
-                $email->bounce_data = $request->getContent();
-                $email->save();
+            $notification = json_decode(str_replace('\\','',$req['Message']),true);
+            if($notification['notificationType'] == 'Bounce'){
+                foreach ($notification['bounce']['bouncedRecipients'] as  $mail) {
+                   $email = new InvalidEmail;
+                    $email->email = $mail['emailAddress'];
+                    $email->type = $notification['notificationType'].' - '.$notification['bounce']['bounceType'];
+                    $email->bounce_data = $request->getContent();
+                    $email->save();
+                }
             }
-                
+            if($notification['notificationType'] == 'Complaint'){
+                foreach ($notification['complaint']['complainedRecipients'] as  $mail) {
+                   $email = new InvalidEmail;
+                    $email->email = $mail['emailAddress'];
+                    $email->type = $notification['notificationType'].' - '.$notification['complaint']['complaintFeedbackType'];
+                    $email->bounce_data = $request->getContent();
+                    $email->save();
+                }
+            }
         }
     }
 }

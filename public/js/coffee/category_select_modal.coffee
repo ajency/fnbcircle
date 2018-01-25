@@ -7,6 +7,7 @@ getBranchNodeCategories = (path, parent_id) ->
 		data: 
 			'category': [parent_id]
 			'is_branch_select': if ($(document).find("#is_branch_category_checkbox").val()) then true else false
+		async: false
 		success: (data) ->
 			key = undefined
 			#$('#' + path + ' select[name="area"]').html html
@@ -32,6 +33,7 @@ getNodeCategories = (path, branch_id, checked_values, is_all_checked) ->
 			url: '/api/get_node_listing_categories'
 			data: 
 				'branch': [branch_id]
+			async: false
 			success: (data) ->
 				key = undefined
 				### --- The HTML skeleton is defined under a <div id="node-skeleton"> --- ###
@@ -107,6 +109,7 @@ window.getCategoryDom = (path, level) ->
 	$.ajax
 		type: 'post'
 		url: '/api/get_categories_modal_dom'
+		async: false
 		data: 
 			'level': level
 			'is_parent_select': if ($(document).find("#is_parent_category_checkbox").val()) then true else false

@@ -9,8 +9,9 @@
       url: '/api/get_listing_categories',
       data: {
         'category': [parent_id],
-        'is_branch_select': ($(document).find("#is_branch_category_checkbox").val()) ? true : false
+        'is_branch_select': $(document).find("#is_branch_category_checkbox").val() ? true : false
       },
+      async: false,
       success: function(data) {
         var key;
         key = void 0;
@@ -38,6 +39,7 @@
         data: {
           'branch': [branch_id]
         },
+        async: false,
         success: function(data) {
           var html_upload, index, key, node_children;
           key = void 0;
@@ -95,9 +97,10 @@
     $.ajax({
       type: 'post',
       url: '/api/get_categories_modal_dom',
+      async: false,
       data: {
         'level': level,
-        'is_parent_select': ($(document).find("#is_parent_category_checkbox").val()) ? true : false
+        'is_parent_select': $(document).find("#is_parent_category_checkbox").val() ? true : false
       },
       success: function(data) {
         $(path).html(data["modal_template"]);

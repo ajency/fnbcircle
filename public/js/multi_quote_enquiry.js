@@ -82,6 +82,7 @@
       url: '/api/send_enquiry',
       data: data,
       dataType: 'json',
+      async: false,
       success: function(data) {
         if (modal_id === "#enquiry-modal" && data.hasOwnProperty("display_full_screen") && data["display_full_screen"]) {
           $("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass("hidden");
@@ -151,6 +152,7 @@
       type: 'post',
       url: '/api/get_enquiry_template',
       data: data,
+      async: false,
       dataType: 'json',
       success: function(data) {
         if (modal_id === "#enquiry-modal" && data.hasOwnProperty("display_full_screen") && data["display_full_screen"]) {
@@ -201,6 +203,7 @@
       url: '/api/verify_enquiry_otp',
       data: data,
       dataType: 'json',
+      async: false,
       success: function(data) {
         if (modal_id === "#enquiry-modal" && data.hasOwnProperty("display_full_screen") && data["display_full_screen"]) {
           $("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass("hidden");
@@ -256,6 +259,7 @@
       data: {
         'city': city
       },
+      async: false,
       success: function(data) {
         var key;
         key = void 0;

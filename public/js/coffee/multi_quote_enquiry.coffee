@@ -79,6 +79,7 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 		url: '/api/send_enquiry'
 		data: data
 		dataType: 'json'
+		async: false
 		success: (data) ->
 			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
 				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass "hidden"
@@ -134,6 +135,7 @@ getTemplate = (modal_id, modal_template, listing_slug = '') ->
 		type: 'post'
 		url: '/api/get_enquiry_template'
 		data: data
+		async: false
 		dataType: 'json'
 		success: (data)->
 			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
@@ -173,6 +175,7 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 		data: 
 			data
 		dataType: 'json'
+		async: false
 		success: (data) ->
 			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
 				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass "hidden"
@@ -221,6 +224,7 @@ getArea = (modal_id, city, path) ->
 		type: 'post'
 		url: '/get_areas'
 		data: 'city': city
+		async: false
 		success: (data) ->
 			key = undefined
 			$(path).addClass "default-area-select"

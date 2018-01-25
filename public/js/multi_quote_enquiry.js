@@ -413,6 +413,9 @@
           $(this).closest("#rhs-enquiry-form").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error');
         }
         if ($(this).closest("#rhs-enquiry-form").length <= 0 || ($(this).closest("#rhs-enquiry-form").length && $(this).closest("#level-one-enquiry").parsley().validate())) {
+          if ($(this).closest("#rhs-enquiry-form").length > 0) {
+            $(modal_id).modal('show');
+          }
           if ($(this).data("value")) {
             enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id");
             page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';

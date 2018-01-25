@@ -139,7 +139,8 @@
         <!-- action -->
         <div class="send-action">
             @if(isset($enquiry_send_button) && $enquiry_send_button)
-                <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" id="level-one-form-btn" data-value="step_1" data-toggle="modal" data-target="{{ isset($enquiry_modal_id) && $enquiry_modal_id ? $enquiry_modal_id  : '#multi-quote-enquiry-modal' }}">Send an Enquiry <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
+                <!-- <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" id="level-one-form-btn" data-value="step_1" data-toggle="modal" data-target="{{ isset($enquiry_modal_id) && $enquiry_modal_id ? $enquiry_modal_id  : '#multi-quote-enquiry-modal' }}">Send an Enquiry <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button> -->
+                <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" id="level-one-form-btn" data-value="step_1" data-target="{{ isset($enquiry_modal_id) && $enquiry_modal_id ? $enquiry_modal_id  : '#multi-quote-enquiry-modal' }}">Send an Enquiry <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
             @else
                 <button class="btn fnb-btn primary-btn full border-btn" type="button" id="level-one-form-btn" data-value="step_1">Send <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
             @endif

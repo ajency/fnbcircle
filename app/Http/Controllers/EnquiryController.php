@@ -1003,6 +1003,7 @@ class EnquiryController extends Controller {
 	*/
     public function verifyOtp(Request $request) {
     	$status = 400; $modal_template_html = '';
+    	$full_screen_display = false;
     	$output = new ConsoleOutput;
 
     	if($request->has('contact') && strlen($request->contact) > 0) {

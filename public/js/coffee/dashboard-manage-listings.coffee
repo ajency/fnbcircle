@@ -124,7 +124,7 @@ $('body').on 'click','button#resetAll', (e)->
     $(this).multiselect('deselectAll',false)
   $('div#categories.node-list').html ''
   categories = 'parents': []
-  filters = {}
+  window.filters = {}
   listing_table.ajax.reload()
 
 $('body').on 'click','button#exportListings', (e)->

@@ -137,7 +137,7 @@
   });
 
   $('body').on('click', 'button#resetAll', function(e) {
-    var categories, filters;
+    var categories;
     $('#listingNameSearch').val('');
     $('#submissionDate').val('');
     $('#approvalDate').val('');
@@ -149,7 +149,7 @@
     categories = {
       'parents': []
     };
-    filters = {};
+    window.filters = {};
     return listing_table.ajax.reload();
   });
 

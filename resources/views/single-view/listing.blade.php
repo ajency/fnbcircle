@@ -278,7 +278,7 @@
                                         @if($data['status']['id']==1)
                                             <div class="col-sm-4">
                                                 <div class="text-center">
-                                                    @if(!(Auth::user() && (Auth::user()->type=='internal' || Auth::user()->id !== $data['owner_id'])))
+                                                    @if(!(Auth::user() && (Auth::user()->type === 'internal' || Auth::user()->id === $data['owner_id'])))
                                                         <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
                                                     @endif
                                                 </div>
@@ -780,7 +780,7 @@
                                                       
                                 @if($data['status']['id']==1)
                                     <p class="contact__title lighter">This listing got <b>{{ $data['contact']['enquiries'] }}</b> enquiries</p>
-                                    @if(!(Auth::user() && (Auth::user()->type=='internal' || Auth::user()->id !== $data['owner_id'])))
+                                    @if(!(Auth::user() && (Auth::user()->type === 'internal' || Auth::user()->id === $data['owner_id'])))
                                         <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
                                     @endif
                                 @endif
@@ -897,7 +897,7 @@
                                 </div>
                             </div>
                         
-                            @if(!(Auth::user() && (Auth::user()->type=='internal' || Auth::user()->id !== $data['owner_id'])))
+                            @if(!(Auth::user() && (Auth::user()->type === 'internal' || Auth::user()->id === $data['owner_id'])))
                                 <div class="pos-fixed fly-out enquiry-form-slide">
                                     <div class="mobile-back desk-hide mobile-flex">
                                         <div class="left mobile-flex">

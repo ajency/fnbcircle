@@ -789,10 +789,13 @@ class JobController extends Controller
     
 
  
-    public function filterJobs($filters,$skip,$length,$orderDataBy){
+    public function filterJobs($filters,$skip,$length,$orderDataBy,$user=""){
 
         $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id'); 
 
+        if(isset($user) and $user!=""){
+            $jobQuery->where('job_creator','!=',$user->id);
+        }
 
         if(isset($filters['job_name']) && $filters['job_name']!="")
         {
@@ -1361,7 +1364,7 @@ class JobController extends Controller
             $length = 5;
             $skip = 0;
             $orderDataBy = ['premium'=>'desc','published_on'=>'desc'];
-            $filterJobs = $this->filterJobs($jobFilters,$skip,$length,$orderDataBy);
+            $filterJobs = $this->filterJobs($jobFilters,$skip,$length,$orderDataBy,$user);
             $jobs = $filterJobs['jobs']; 
             $totalJobs = $filterJobs['totalJobs'];  
 
@@ -1397,7 +1400,7 @@ class JobController extends Controller
                 $notification->event_type = 'job-alert';
                 $notification->subject = "Jobs matching your job alert criteria";
                 $notification->to = [ $userCommDetails['email'] ];
-                $notification->cc = ['prajay@ajency.in'];
+                // $notification->cc = ['prajay@ajency.in'];
                 $notification->bcc = [];
                 $notification->from_name = config('constants.email_from_name');
                 $notification->from_email = config('constants.email_from');

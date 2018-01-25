@@ -857,8 +857,14 @@ class EnquiryController extends Controller {
 			$create_enq_response = null;
 
 			if(!Auth::guest()) { // If logged In user, then Save the Primary Enquiry Data
+				if(isset($session_payload['enquiry_id'])) { // if enquiry_id exist,
+					$enq_sent_obj = EnquirySent::where([['enquiry_id', $session_payload['enquiry_id']], ['enquiry_to_id', $session_payload["enquiry_to_id"]], ['enquiry_to_type', $session_payload["enquiry_to_type"]], ['enquiry_type', 'direct']])->get();
+				} else { // if enquiry_id doesn't exist
+					$enq_sent_obj = null;
+				}
+
 				/*** 1st Enquiry flow ***/
-				if(sizeof($session_payload) > 0) {
+				if(sizeof($session_payload) > 0 && (($enq_sent_obj && $enq_sent_obj->count() <= 0) || (!$enq_sent_obj))) {
 					$enquiry_data = ["user_object_id" => $lead_obj["id"], "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 
 					if($session_payload["enquiry_to_id"]) {
@@ -1068,6 +1074,7 @@ class EnquiryController extends Controller {
 	    				} else {
 	    					$lead_obj = Auth::user();//Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s"), "user_id" => Auth::user()->id]);
 	    					$lead_type = "App\User";
+	    					$lead_comm_obj = $lead_obj->getUserCommunications()->where([['value', $request->contact], ['type', 'mobile']])->update(['is_verified' => 1]); // Update the mobile value to 'Verified'
 	    				}
 
 	    				/* Set UserID & User Type in the Cookie, once verified */

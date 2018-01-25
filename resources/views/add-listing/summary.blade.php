@@ -125,17 +125,17 @@
                     </div>
                     <div class="list-cols views">
                         <p class="default-size text-uppercase text-color heavier">Contact requests</p>
-                        <h3 class="m-t-15 heavier">{{$stats['contact']}}</h3>
+                        <h3 class="m-t-15 heavier" id="contact-count">{{$stats['contact']}}</h3>
                         <p class="text-lighter default-size">Number of requests sent for the contact details of the listing.</p><a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=contact-request" class="x-small primary-link">View</a>
                     </div>
                     <div class="list-cols views">
                         <p class="default-size text-uppercase text-color heavier">Direct enquiries <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A Direct Enquiry is an enquiry which is directly made to your listing by a customer."></i></p>
-                        <h3 class="m-t-15 heavier">{{$stats['direct']}}</h3>
+                        <h3 class="m-t-15 heavier" id="direct-count">{{$stats['direct']}}</h3>
                         <p class="text-lighter default-size">Number of direct enquiries sent to this listing. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=direct" class="x-small primary-link">View</a></p>
                     </div>
                     <div class="list-cols views">
                         <p class="default-size text-uppercase text-color heavier">Shared enquiries <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="A Shared Enquiry is an enquiry which is sent to all business listings that match a customer's requirements."></i></p>
-                        <h3 class="m-t-15 heavier">{{$stats['shared']}}</h3>
+                        <h3 class="m-t-15 heavier" id="shared-count">{{$stats['shared']}}</h3>
                         <p class="text-lighter default-size">Number of indirect enquiries sent to this listing based on the category and area the listing belongs to. <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=shared" class="x-small primary-link">View</a></p>
                     </div>
                 </div>

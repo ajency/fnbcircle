@@ -27,7 +27,7 @@
                   <!-- <b class="element-title">Also Listed In</b> -->
                   <br>
                   @foreach($listing_categories as $category)
-                  <div class="listed__section flex-row">
+                  <div class="listed__section flex-row" style="display:table;">
                       <div class="parent-cat flex-row" style="float: left;min-width: 130px;">
                           <span class="m-r-10" style="display: inline-block;">
                               <img src="{{$category['image-url']}}" width="40" style="vertical-align: middle;">

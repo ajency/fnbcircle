@@ -188,6 +188,28 @@
     return tooltipinit();
   });
 
+  $('body').on('click', 'a#clearAllFilters', function() {
+    var categories;
+    filters = {};
+    $('input#archivefilter').prop('checked', false);
+    $('input#phonefilter').val('');
+    $('input#emailfilter').val('');
+    $('input#namefilter').val('');
+    $('.type-filter').prop('checked', false);
+    $('#submissionDate').val('');
+    $('#disp-operation-areas').html("");
+    $('#categories.node-list').html("");
+    categories = {
+      'parents': []
+    };
+    window.city = [];
+    window.cities = {
+      'cities': []
+    };
+    table.ajax.reload();
+    return tooltipinit();
+  });
+
   $('body').on('click', '.archiveaction', function() {
     var editrow, enquiry;
     editrow = $(this).closest('td');

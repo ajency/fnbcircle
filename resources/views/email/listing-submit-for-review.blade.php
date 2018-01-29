@@ -13,11 +13,11 @@
               <div style="margin-bottom: 0.8em;">        
                   <div style="color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">  
 
-                  Please review “{{$listing_name}}”. ({{$listing_link}}).<br><br>
+                  Please review “<a href="{{$listing_link}}">{{$listing_name}}</a>”.<br><br>
 
                   <b>Details of the Listing</b>:<br/>
 
-                <b>Name</b> : {{$listing_name}} ({{$listing_link}})<br/>
+                <b>Name</b> : <a href="{{$listing_link}}">{{$listing_name}}</a><br/>
                 <b>Type</b> : {{$listing_type}}<br/>
                 <b>State</b> : {{$listing_city}}<br/>
                 <b>City</b> : {{$listing_area}}<br/>

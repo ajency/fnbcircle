@@ -357,10 +357,7 @@
       }
 
       /* --- Share even the Branch value --- */
-      checked_hierarchy_categories = getCategoryHierarchy(selected_categories);
-      if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0) {
-        $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories));
-      }
+      getCategoryHierarchy(selected_categories);
       $("#category-select").modal("hide");
     });
 
@@ -411,11 +408,7 @@
       }
 
       /* --- Share even the Branch value --- */
-      checked_hierarchy_categories = getCategoryHierarchy(selected_categories);
-      console.log(checked_hierarchy_categories);
-      if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0) {
-        $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories));
-      }
+      getCategoryHierarchy(selected_categories);
       $("#category-select").modal("hide");
     });
   });

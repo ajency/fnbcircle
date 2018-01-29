@@ -7,7 +7,14 @@
 
   $('.requestDate').daterangepicker();
 
-  filters = {};
+  if ($_GET['type'] === void 0 || $_GET['type'] === "") {
+    filters = {};
+  } else {
+    filters = {
+      'enquiry_type': [$_GET['type']]
+    };
+    $('input.type-filter[value="' + $_GET['type'] + '"]').prop("checked", true);
+  }
 
   table = $('#listing-leads').DataTable({
     'ordering': false,

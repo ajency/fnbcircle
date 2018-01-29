@@ -19,26 +19,27 @@
 
                 <b>Name</b> : {{$listing_name}} ({{$listing_link}})<br/>
                 <b>Type</b> : {{$listing_type}}<br/>
-                <b>City</b> : {{$listing_city}}<br/>
-                <b>Area</b> : {{$listing_area}}<br/>
+                <b>State</b> : {{$listing_city}}<br/>
+                <b>City</b> : {{$listing_area}}<br/>
                 <b>Categories</b> : <br/>
 
                 <div class="listed p-t-20 p-b-10" id="listed" style="clear: both;display: table;margin-top: 15px;margin-bottom: 20px;">
-                  <b class="element-title">Also Listed In</b><br>
+                  <!-- <b class="element-title">Also Listed In</b> -->
+                  <br>
                   @foreach($listing_categories as $category)
                   <div class="listed__section flex-row">
-                      <div class="parent-cat flex-row" style="float: left;min-width: 150px;">
+                      <div class="parent-cat flex-row" style="float: left;min-width: 130px;">
                           <span class="m-r-10" style="display: inline-block;">
                               <img src="{{$category['image-url']}}" width="40" style="vertical-align: middle;">
                           </span>
                           <p class="parent-cat__title cat-size" style=" display: inline-block;margin: 0;">{{$category['parent']}}</p>
                       </div>
-                      <div class="child-cat" style="float: left;width: 60px;text-align: center;">
+                      <div class="child-cat" style="float: left;width: 80px;text-align: center;">
                           <p class="child-cat__title cat-size" style="margin-bottom: 0;margin-top: 7px;">{{$category['branch']}}</p>
                       </div>
                       <ul class="fnb-cat flex-row" style="padding-left: 0;margin-left: 0;list-style: none;float: left;margin-top: 5px;">
                           @foreach($category['nodes'] as $node)
-                          <li style=" display: inline-block;border: 1px solid #676767;padding: 0.2em 0.6em;margin: 0 0.2em 0.2em 0.2em;border-radius: 4px;font-size: 12px;"><a href="#" class="fnb-cat__title" style="color: inherit;text-decoration: none;">{{$node['name']}}</a></li>
+                          <li style=" display: inline-block;border: 1px solid #676767;padding: 0.2em 0.6em;margin: 0 0.2em 0.2em 0.2em;border-radius: 4px;font-size: 12px;"><a href="#" class="fnb-cat__title" style="color: inherit;text-decoration: none;cursor: inherit;">{{$node['name']}}</a></li>
                           @endforeach
                       </ul>
                   </div>

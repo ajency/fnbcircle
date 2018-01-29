@@ -31,7 +31,10 @@ class Kernel extends ConsoleKernel
             $jobController = new JobController();
             $jobController->sendJobAlert();
         })->daily();  
-
+        $schedule->call(function () {
+            $listingController = new ListingController();
+            $listingController->updateViewCount();
+        })->daily();
         $schedule->call(function () {
             sendNotifications();
         })->everyTenMinutes();  

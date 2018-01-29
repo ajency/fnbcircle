@@ -895,6 +895,11 @@
 		margin-bottom: 0;
 		opacity: 0.5;
 	}
+	.noUpdates{
+		padding: 1em 0;
+    	margin-top: -20px;
+    	background-color: #f1f1f1;
+	}
 }
 
 
@@ -966,6 +971,14 @@
 		}
 		hr{
 			margin: 10px 0;
+		}
+	}
+	.update-sec{
+		.noUpdates{
+    		margin-top: 0;
+    		.sub-title{
+    			font-size: 1em;
+    		}
 		}
 	}
 }
@@ -3196,9 +3209,21 @@ and (max-device-width: 650px) {
 	    	font-size: 0.9em;
 	    	margin-left: 1em;
 		}
+		.fly-out__content{
+			height: auto;
+			// padding-top: 0;
+		}
 	}
 	.details-fill-col.details-fill-col{
 		margin-top: 1em;
+	}
+}
+
+.sort-action{
+	.sort{
+		&:nth-child(2n){
+			display: none;
+		}
 	}
 }
 

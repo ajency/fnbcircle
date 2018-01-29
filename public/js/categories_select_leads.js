@@ -124,6 +124,9 @@
   $(document).ready(function() {
     $(document).on("show.bs.modal", "#category-select", function(event) {
       var enquiry_categories, enquiry_categories_string;
+      setTimeout((function() {
+        $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+      }), 500);
       enquiry_categories = getLeafNodes();
       enquiry_categories_string = [];
       enquiry_categories.forEach(function(element) {

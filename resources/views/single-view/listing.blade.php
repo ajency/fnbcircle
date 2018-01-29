@@ -93,8 +93,8 @@
                             
                             <img src="/img/power-icon.png" class="img-repsonsive" width="50">
                             <div class="pre-benefits__content">
-                                <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
-                                <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of FnB Circle to upgrade to the premium version</p>
+                                <h5 class="section-title pre-benefits__title m-b-0">What are the benefits of registering as premium?</h5>
+                                <!-- <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of FnB Circle to upgrade to the premium version</p> -->
                             </div>
 
                         </div>
@@ -152,9 +152,9 @@
                                         </div>
                                         @endisset
                                         @isset($data['views'])
-                                        <div class="views m-r-20 flex-row">
+                                        <div class="views m-r-20 flex-row" title="Views">
                                             <span class="fnb-icons eye-icon"></span>
-                                            <p class="views__title c-title"><span>{{$data['views']}}</span> Views</p>
+                                            <p class="views__title c-title"><span>{{$data['views']}}</span> </p>
                                         </div>
                                         @endisset
                                         @isset($data['verified'])
@@ -277,7 +277,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="text-center">
-                                                <!-- <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button> -->
+                                                <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
                                             </div>
                                         </div>
                                     </div>
@@ -775,8 +775,8 @@
                                 <div class="contact__enquiry mobile--enquiry text-center">
                                                       
                                 @if($data['status']['id']==1)
-                                    <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
-                                    <!-- <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
+                                    <p class="contact__title lighter">This listing got <b>{{$data['contact']['enquiries']}}</b> enquiries</p>
+                                    <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
                                 @endif
                                     @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                         <div class="approval m-t-20">
@@ -878,10 +878,9 @@
                                 @endisset
                             </div>
                             <!-- documents ends -->
-                            
+                            <!-- enquiry form -->
                         @endif
-                        @if(false)
-                        <!-- enquiry form -->
+
                         <div class="sticky-bottom mobile-flex desk-hide active">
                             <div class="stick-bottom__text">
                                 <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
@@ -948,8 +947,8 @@
                                     
                                 </div>
                             </div>
-                        </div>  
-                        @endif
+                        </div>
+
 
 
                         <!-- enquiry form ends-->
@@ -1062,7 +1061,7 @@
             <!-- Enquiry ends -->
         @endif
      </div>
-      <div class="pos-fixed fly-out side-toggle">
+      <div class="pos-fixed fly-out side-toggle updates-toggle">
         <div class="mobile-back desk-hide mobile-flex">
             <div class="left mobile-flex">
                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -1072,8 +1071,8 @@
             </div>
         </div>
         <div class="fly-out__content">
-            <div class="sidebar-updates page-sidebar">
-                <div class="page-sidebar__header flex-row space-between mobile-hide">
+            <div class="sidebar-updates page-sidebar mobile-hide">
+                <div class="page-sidebar__header flex-row space-between">
                     <div class="backLink flex-row">
                         <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                         <div class="element-title bolder">Updates of {{$data['title']['name']}}</div>
@@ -1088,7 +1087,7 @@
                    </div>
                 </div>
             </div>
-            <div class="fly-out__content">
+            <div class="">
                 <div class="sidebar-updates page-sidebar">
                     <div class="page-sidebar__header flex-row space-between mobile-hide">
                         <div class="backLink flex-row">

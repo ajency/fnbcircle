@@ -114,7 +114,7 @@
                       <div class="form-group select_city">
                         <label>Select the State <span class="text-danger">*</span></label>
                         <select class="form-control fnb-select w-border" id="allcities" required data-parsley-required-message="Please select the city">
-                          <option value="">Select City</option>
+                          <option value="">Select State</option>
                           @foreach ($cities as $city)
                             <option value="{{$city->id}}">{{$city->name}}</option>
                           @endforeach

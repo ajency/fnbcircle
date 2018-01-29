@@ -79,6 +79,7 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 		url: '/api/send_enquiry'
 		data: data
 		dataType: 'json'
+		async: false
 		success: (data) ->
 			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
 				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass "hidden"
@@ -101,9 +102,12 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 				else
 					$(document).find(modal_id + " #listing_popup_fill").html data["popup_template"]
 
-
-				if $(modal_id + " #level-one-enquiry")
-					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
+				if modal_id == "#rhs-enquiry-form"
+					if $("#enquiry-modal" + " #level-one-enquiry")
+						initFlagDrop("#enquiry-modal" + " #level-one-enquiry input[name='contact']")
+				else
+					if $(modal_id + " #level-one-enquiry")
+						initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
 
 				if $(modal_id + " #level-three-enquiry").length > 0
 					# initCatSearchBox()
@@ -112,6 +116,8 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 					return
 		error: (request, status, error) ->
 			#$("#multi-quote-enquiry-modal").modal 'show'
+			$(modal_id + " button").find("i.fa-circle-o-notch").addClass "hidden" # Hide all the circle (load button) if the AJAX failed
+			$(modal_id + " button").removeAttr "disabled" # Enable the button if the AJAX failed
 			console.log error
 	return
 
@@ -129,6 +135,7 @@ getTemplate = (modal_id, modal_template, listing_slug = '') ->
 		type: 'post'
 		url: '/api/get_enquiry_template'
 		data: data
+		async: false
 		dataType: 'json'
 		success: (data)->
 			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
@@ -139,7 +146,7 @@ getTemplate = (modal_id, modal_template, listing_slug = '') ->
 			if data["modal_template"].length > 0
 				$(document).find(modal_id + " #listing_popup_fill").html data["modal_template"]
 				# $(document).find(modal_id).modal 'show'
-				if $(modal_id + " #level-one-enquiry").length > 0
+				if $(modal_id + " #level-one-enquiry").length > 0 # initialize the Flag
 					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
 				return
 		error: (request, status, error) ->
@@ -168,7 +175,13 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 		data: 
 			data
 		dataType: 'json'
+		async: false
 		success: (data) ->
+			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
+				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass "hidden"
+			else
+				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").removeClass "hidden"
+
 			if data["popup_template"].length > 0
 				$(document).find(modal_id + " #listing_popup_fill").html data["popup_template"]
 				# $(document).find(modal_id).modal 'show'
@@ -211,6 +224,7 @@ getArea = (modal_id, city, path) ->
 		type: 'post'
 		url: '/get_areas'
 		data: 'city': city
+		async: false
 		success: (data) ->
 			key = undefined
 			$(path).addClass "default-area-select"
@@ -381,20 +395,30 @@ $(document).ready () ->
 		modal_id = $(this).data("target")
 		
 		if $(modal_id).length > 0
-			if $(this).data("value")
-				enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id")
-				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+			if ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#rhs-enquiry-form").find("select[name='description']").length) # if the RHS single enquiry form exist & has description Dropdown
+				$(this).closest("#rhs-enquiry-form").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error') # Add the error-container
 
-				if modal_id == "#enquiry-modal"
-					listing_slug = $("#enquiry_slug").val()
+			if ($(this).closest("#rhs-enquiry-form").length <= 0 or ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#level-one-enquiry").parsley().validate()))
+				if $(this).closest("#rhs-enquiry-form").length > 0
+					$(modal_id).modal 'show'
+
+				if $(this).data("value")
+					enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id")
+					page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+
+					if modal_id == "#enquiry-modal"
+						listing_slug = $("#enquiry_slug").val()
+					else
+						listing_slug = ""
+
+					getContent(enq_form_id, page_level, listing_slug, true, modal_id)
 				else
-					listing_slug = ""
-
-				getContent(enq_form_id, page_level, listing_slug, true, modal_id)
-			else
-				### --- Reset to Modal 1 on enquiry button Click --- ###
-				resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
-				resetPlugins(modal_id)
+					### --- Reset to Modal 1 on enquiry button Click --- ###
+					resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
+					resetPlugins(modal_id)
+			else # else fail the response
+				if $(this).closest("#rhs-enquiry-form").length > 0
+					$(modal_id).modal 'hide'
 
 			# $(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			# 	if modal_id == "#enquiry-modal"
@@ -482,11 +506,13 @@ $(document).ready () ->
 			$(document).on "click", modal_id + " #level-one-enquiry #level-one-form-btn", (event) ->
 				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
 				$(this).find("i.fa-circle-o-notch").removeClass "hidden"
+				$(this).attr("disabled", "disabled")
 				if $(document).find(modal_id + " #level-one-enquiry").parsley().validate()
 					getContent(modal_id, page_level, $("#enquiry_slug").val(), false, modal_id)
 					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				else
 					$(this).find("i.fa-circle-o-notch").addClass "hidden"
+					$(this).removeAttr "disabled"
 					console.log "forms not complete"
 				return
 
@@ -517,7 +543,7 @@ $(document).ready () ->
 			$(document).on "click", modal_id + " #level-two-enquiry #new-mobile-verify-btn", (event) ->
 				$(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
 				$(document).find(modal_id + " #new-mobile-modal").modal "hide"
-				getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+				getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").val())
 				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 
@@ -561,13 +587,15 @@ $(document).ready () ->
 			$(document).on "click", modal_id + " #level-three-enquiry #level-three-form-btn", (event) ->
 				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
 				$(this).find("i.fa-circle-o-notch").removeClass "hidden"
-				
+				$(this).attr("disabled", "disabled")
+
 				# if $(document).find("#level-three-enquiry #other_details_container").parsley().validate()
 				if $(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find(modal_id + " #level-three-enquiry #area_operations").parsley().validate()
 					getContent(modal_id, page_level, $("#enquiry_slug").val(), false, modal_id)
 					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				else
 					$(this).find("i.fa-circle-o-notch").addClass "hidden"
+					$(this).removeAttr "disabled"
 					console.log "forms not complete"
 				return
 

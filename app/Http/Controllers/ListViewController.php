@@ -489,12 +489,14 @@ class ListViewController extends Controller {
 		    	$listing_ids = ListingCategory::whereIn('category_slug', $filters['categories'])->pluck('listing_id')->toArray();
 	    		$listing_obj = $listing_obj->whereIn("id", $listing_ids);
 	    	}
-
+            
 	    	if(isset($filters["areas"]) && sizeof($filters["areas"]) > 0) { // If list of area is selected, then
 	    		$area_ids = Area::whereIn('slug', $filters["areas"])->pluck("id")->toArray();
     			$listing_obj = $listing_obj->whereIn('locality_id', $area_ids);
+                // $listing_ids = ListingAreasOfOperation::whereIn('area_id', $area_ids)->distinct('listing_id')->pluck("listing_id")->toArray(); // Filter based on Areas of Operation
+                // $listing_obj = $listing_obj->whereIn('id', $listing_ids); // filter out those Listing IDs
     		}
-
+            
 			if(isset($filters["business_type"]) && sizeof($filters["business_type"]) > 0) { // If list of business_type is selected, then
 				$business_type_list = [];
 				foreach ($filters["business_type"] as $type_key => $type_value) {
@@ -521,7 +523,8 @@ class ListViewController extends Controller {
     			$listing_obj = $listing_obj->whereIn('rating', $filters["ratings"]); // [1 - 5 star]
     		}
 
-	    	$filtered_count = $listing_obj->distinct('id')->count('id');
+            $filtered_count = $listing_obj->distinct('id')->count('id');
+            
 	    	
 	    	$listing_obj = $listing_obj->orderBy('premium', 'desc')->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug', 'updated_at','views_count','contact_request_count','enquiries_count']);// , 'rating']);
 

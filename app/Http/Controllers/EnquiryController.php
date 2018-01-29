@@ -36,6 +36,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Spatie\Activitylog\Models\Activity;
 
+use App\Jobs\ProcessEnquiry;
+
 class EnquiryController extends Controller {
 	/**
 	* This function checks if the device the Session is active on is Mobile or Desktop
@@ -191,6 +193,41 @@ class EnquiryController extends Controller {
 
 	        $sms["priority"] = "default";
         	sendSms('verification', $sms);
+		}
+	}
+
+	/**
+	* This function is used to update Enquiry Table with the all the Enquiry details of the specific user
+	*/
+	public function secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, $send_email=false) {
+		foreach ($listing_final_ids as $op_key => $op_value) {
+			$enquiry_sent["enquiry_to_id"] = $op_value;
+			if(in_develop()) { // If in Dev mode
+				if($op_key === 0) { // If 1st Enq
+					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+				} else { // Else just save the Enq
+					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, false);
+					
+					if($send_email && $op_key === sizeof($listing_final_ids) - 1) { // Else if on Last Enq -> Send a Dump
+						$listing_enq_obj = Listing::whereIn('id', $listing_final_ids);
+						$owner_ids = array_unique($listing_enq_obj->distinct('owner_id')->get()->pluck('owner_id')->toArray());
+						$email_ids = array_unique(UserCommunication::where([['object_type', 'App\User'], ['type', 'email']])->whereIn('object_id', $owner_ids)->get()->pluck('value')->toArray());
+
+						$data['to'] = $email_ids;
+						$data['cc'] = [];
+						$data['subject'] = "Found " . strVal(sizeof($listing_final_ids)) . " listings matching the enquiry";
+
+						$data["content"] = $listing_enq_obj->get()->pluck('title')->toArray();
+
+						$data["data"] = $data;
+						$data_content = ["to" => $data["to"], "cc" => $data["cc"], "subject" => $data["subject"], "template_data" => $data];
+
+						sendEmail('dev-dump', $data_content);
+					}
+				}
+			} else {
+				$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+			}
 		}
 	}
 
@@ -395,7 +432,7 @@ class EnquiryController extends Controller {
    				$listing = $listing->first();
 	   			$data = $listing_view_controller->getListingData($listing); // Get the data for the Enquiry Modal template
 
-		   		if($template_config[$template_type] == 'popup_level_one' && strlen($session_id) > 0) {
+		   		if($template_config[$template_type] == 'popup_level_one' && strlen($session_id) > 0) { // Profile Enquiry Template
 		   			$payload_data = Session::get('enquiry_data', []);
 
 	   				if(sizeof($payload_data)) { // If "enquiry_data" is present in the Session's payload
@@ -404,7 +441,7 @@ class EnquiryController extends Controller {
 	   				} else {
 	   					$response_html = View::make('modals.listing_enquiry_popup.popup_level_one')->with(compact('data'))->render();
 	   				}
-		   		} else if ($template_config[$template_type] == 'popup_level_two' && strlen($session_id) > 0) {
+		   		} else if ($template_config[$template_type] == 'popup_level_two' && strlen($session_id) > 0) { // OTP template
 		   			$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
 
 	   				$payload_data["enquiry_data"] = Session::get('enquiry_data', []); //unserialize(base64_decode($session_data));
@@ -417,7 +454,7 @@ class EnquiryController extends Controller {
 		   				$data["contact"] = $payload_data["enquiry_data"]["contact"];
 			   			$response_html = View::make('modals.listing_enquiry_popup.popup_level_two')->with(compact('data'))->render();
 			   		}
-		   		} else if ($template_config[$template_type] == 'popup_level_three' && strlen($session_id) > 0) {
+		   		} else if ($template_config[$template_type] == 'popup_level_three' && strlen($session_id) > 0) { // Extra Enquiry (Area + Category) Template
 		   			$payload_data["enquiry_data"] = Session::get('enquiry_data', []);
 		   			
 		   			$data['current_page'] = $template_type;
@@ -438,13 +475,18 @@ class EnquiryController extends Controller {
 		   				$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $area_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
 						$listing_cat_ids = ListingCategory::whereIn('category_id', $core_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
 
-						if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+						/*if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
 							$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
 							if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
-								$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+								$listing_final_ids = $listing_operations_ids;// array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
 							}
 						} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
-							$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+							$listing_final_ids = $listing_operations_ids;// array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+						} else {
+							$listing_final_ids = [];
+						}*/
+						if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+							$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
 						} else {
 							$listing_final_ids = [];
 						}
@@ -456,21 +498,26 @@ class EnquiryController extends Controller {
 						}
 
 						if (sizeof($listing_final_ids) > 0)  {
-							$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
+							$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where([['premium', 1], ['status', 1]])->pluck('id')->toArray();
 
 							if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
 								$listing_final_ids = $temp_listing_ids;
+							} else {
+								$listing_final_ids = Listing::whereIn('id', $listing_final_ids)->where('status', 1)->pluck('id')->toArray(); // Filter out & get all listings of status 'published'
 							}
 						}
 
 						$listviewObj = new ListViewController;
 						$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
 						$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
-						$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+						# $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+						$filters = ["listing_ids" => $listing_final_ids];
+
 						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 5, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 		   			} else {
 		   				$listing_data = [];
 		   			}
+
 
 		   			$is_premium = $listing->premium;
 		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('listing_data', 'is_premium'))->render();
@@ -561,13 +608,18 @@ class EnquiryController extends Controller {
 	   				$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $area_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
 					$listing_cat_ids = ListingCategory::whereIn('category_id', $core_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
 
-					if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+					/*if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
 						$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
 						if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
-							$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+							$listing_final_ids = $listing_operations_ids;// array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
 						}
 					} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
-						$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+						$listing_final_ids = $listing_operations_ids; // array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+					} else {
+						$listing_final_ids = [];
+					}*/
+					if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+						$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
 					} else {
 						$listing_final_ids = [];
 					}
@@ -629,7 +681,7 @@ class EnquiryController extends Controller {
 	* This function is called by the AJAX to add new Listing Enquiries 
 	*/
 	public function getEnquiry(Request $request) {
-		//$output = new ConsoleOutput;
+		// $output = new ConsoleOutput;
 		$status = 500; $template_name = '';$modal_template_html = '';
 		$listing_obj_type = "App\Listing"; $listing_obj_id = 0; $listing_obj = null;
 		$full_screen_display = false;
@@ -697,67 +749,91 @@ class EnquiryController extends Controller {
 		}
 
 		$verified_session = Session::get('otp_verified', []); // Check if OTP_Verified flag exist, & if so, don't ask the Client to enter OTP till session expires
+
+		// If the OTP_verified contact & the current Enquiry contact is not the same, then mark as "OTP_NOT_VERIFIED"
+		if($verified_session && isset($verified_session["contact"]) && $request->contact && $verified_session["contact"] !== strval($request->contact)) {
+			$verified_session = [];
+		}
+
 		if ($template_config == 'popup_level_one' && strlen($session_id) > 0) {// && $listing_obj->count() == 0) {
 			$session_obj = DB::table('sessions')->where('id', $session_id);
-			$payload_data["enquiry_data"] = Session::get('enquiry_data', []); // Collect the old 'enquiry_data' from the 'Session' if exist, else empty ARRAY
+			if($request->has('email') && $request->email && $request->has('contact') && $request->contact && $request->has('name') && $request->name) {	
+				$payload_data["enquiry_data"] = Session::get('enquiry_data', []); // Collect the old 'enquiry_data' from the 'Session' if exist, else empty ARRAY
 
-			if($session_obj->count() > 0) { // If the session exist, then
-				if($request->has('name') && $request->has('email')) {
-					$payload_data["enquiry_data"]['name'] = $request->name;
-					$payload_data["enquiry_data"]['email'] = $request->email;
-					$payload_data["enquiry_data"]["contact_code"] = (($request->has('contact_locality')) ? $request->contact_locality : "");
-					$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
-					$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
-					$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
-					
-					if(isset($listing_obj_id)) { // Assign the New Listing ID & Listing Type
-						$payload_data["enquiry_data"]["enquiry_to_id"] = $listing_obj_id;
-						$payload_data["enquiry_data"]["enquiry_to_type"] = $listing_obj_type;
-					}
-
-					if(!($cookie_cont_obj->get('user_id') && $cookie_cont_obj->get('user_type'))) { // Set Cookie if it doesn't exist
-						$cookie_cont_obj->generateDefaults();
-					}
-
-					if(!Auth::guest()) { // If logged In User
-						$auth_user_contact = Auth::user()->getPrimaryContact();
-						if($auth_user_contact && isset($auth_user_contact["is_verified"]) && $auth_user_contact["is_verified"]) { // If the Primary Contact No is not Verified
-							$this->setOtpVerified(true, '+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"]);
-						}
-					}
-
-					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // IF user ID exist & Mobile is verified, then save the data in the Enquiry & ENquirySent Table
-						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null, "enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing", "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
-
-						if($listing_obj && $listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
-							$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
-						} else {
-							$enquiry_sent = [];
+				if($session_obj->count() > 0) { // If the session exist, then
+					if($request->has('name') && $request->has('email')) {
+						$payload_data["enquiry_data"]['name'] = $request->name;
+						$payload_data["enquiry_data"]['email'] = $request->email;
+						$payload_data["enquiry_data"]["contact_code"] = (($request->has('contact_locality')) ? $request->contact_locality : "");
+						$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
+						$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
+						$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
+						
+						if(isset($listing_obj_id)) { // Assign the New Listing ID & Listing Type
+							$payload_data["enquiry_data"]["enquiry_to_id"] = $listing_obj_id;
+							$payload_data["enquiry_data"]["enquiry_to_type"] = $listing_obj_type;
 						}
 
-    					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
-    					$payload_data["enquiry_data"]["enquiry_id"] = $create_enq_response["enquiry"]->id;
-    				}
-
-    				Session::put('enquiry_data', $payload_data["enquiry_data"]); // Update the session with New User details
-
-    				/* DOM fetching Section */
-    				if($listing_obj && $listing_obj->count() > 0) { // If in single listing page
-    					if($listing_obj->first()->premium && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // Premium & verified
-							$modal_template_html = $this->getEnquiryTemplate("step_3", $listing_obj->first()->slug, $session_id, false);	
-						} else { // Else take me to next page
-							$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
-							$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id, false);
+						if(!($cookie_cont_obj->get('user_id') && $cookie_cont_obj->get('user_type'))) { // Set Cookie if it doesn't exist
+							$cookie_cont_obj->generateDefaults();
 						}
-    				} else { // If listing_slug is not passed & is "multi_quote" form
-    					$modal_template_html = $this->getEnquiryTemplate("step_2", "", $session_id, true);
-    				}
-    				$status = 200;
-    			} else {
-					$status = 400;
+
+						if(!Auth::guest()) { // If logged In User
+							$auth_user_contact = Auth::user()->getPrimaryContact();
+							if($auth_user_contact && isset($auth_user_contact["is_verified"]) && $auth_user_contact["is_verified"]) { // If the Primary Contact No is not Verified
+								$this->setOtpVerified(true, '+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"]);
+							}
+						}
+
+						if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // IF user ID exist & Mobile is verified, then save the data in the Enquiry & ENquirySent Table
+							$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null, "enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing", "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
+
+							if($listing_obj && $listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
+								$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
+							} else {
+								$enquiry_sent = [];
+							}
+
+	    					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
+	    					$payload_data["enquiry_data"]["enquiry_id"] = $create_enq_response["enquiry"]->id;
+	    				}
+
+	    				Session::put('enquiry_data', $payload_data["enquiry_data"]); // Update the session with New User details
+
+	    				/* DOM fetching Section */
+	    				if($listing_obj && $listing_obj->count() > 0) { // If in single listing page
+	    					if($listing_obj->first()->premium && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // Premium & verified
+								$modal_template_html = $this->getEnquiryTemplate("step_3", $listing_obj->first()->slug, $session_id, false);	
+							} else { // Else take me to next page
+								$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+								$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id, false);
+							}
+	    				} else { // If listing_slug is not passed & is "multi_quote" form
+	    					$modal_template_html = $this->getEnquiryTemplate("step_2", "", $session_id, true);
+	    				}
+	    				$status = 200;
+	    			} else {
+						$status = 400;
+					}
+				} else {
+					$status = 404;
 				}
-			} else {
-				$status = 404;
+			} else { // Email ID & other Personal details are not passed/filled
+				if($session_obj->count() > 0) { // If session is passed / exist, then
+					if($listing_obj && $listing_obj->count() > 0) { // If listing Slug is passed, then it's Single Quote Enquiry
+						$modal_template_html = $this->getEnquiryTemplate("step_1", $listing_obj->first()->slug, $session_id, false);
+					} else { // Else it's a Multi Quote Enquiry
+						$modal_template_html = $this->getEnquiryTemplate("step_1", "", $session_id, true);
+					}
+					$status = 200;
+				} else { 
+					if($listing_obj && $listing_obj->count() > 0) { // If listing Slug is passed, then it's Single Quote Enquiry
+						$modal_template_html = $this->getEnquiryTemplate("step_1", $listing_obj->first()->slug, "", false);
+					} else { // Else it's a Multi Quote Enquiry
+						$modal_template_html = $this->getEnquiryTemplate("step_1", "", "", true);
+					}
+					$status = 200;
+				}
 			}
 		} else if($template_config == "popup_level_three") {
 			$session_payload = Session::get('enquiry_data', []);
@@ -781,8 +857,14 @@ class EnquiryController extends Controller {
 			$create_enq_response = null;
 
 			if(!Auth::guest()) { // If logged In user, then Save the Primary Enquiry Data
+				if(isset($session_payload['enquiry_id'])) { // if enquiry_id exist,
+					$enq_sent_obj = EnquirySent::where([['enquiry_id', $session_payload['enquiry_id']], ['enquiry_to_id', $session_payload["enquiry_to_id"]], ['enquiry_to_type', $session_payload["enquiry_to_type"]], ['enquiry_type', 'direct']])->get();
+				} else { // if enquiry_id doesn't exist
+					$enq_sent_obj = null;
+				}
+
 				/*** 1st Enquiry flow ***/
-				if(sizeof($session_payload) > 0) {
+				if(sizeof($session_payload) > 0 && (($enq_sent_obj && $enq_sent_obj->count() <= 0) || (!$enq_sent_obj))) {
 					$enquiry_data = ["user_object_id" => $lead_obj["id"], "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 
 					if($session_payload["enquiry_to_id"]) {
@@ -823,13 +905,19 @@ class EnquiryController extends Controller {
 				$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $enquiry_areas)->distinct('listing_id')->pluck('listing_id')->toArray();
 				$listing_cat_ids = ListingCategory::whereIn('category_id', $enquiry_categories)->distinct('listing_id')->pluck('listing_id')->toArray();
 
-				if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) {
+				/*if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) {
 					$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
 					if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
-						$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+						$listing_final_ids = $listing_operations_ids;// array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
 					}
 				} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
-					$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+					$listing_final_ids = $listing_operations_ids;// array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+				} else {
+					$listing_final_ids = [];
+				}*/
+				
+				if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) {
+					$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
 				} else {
 					$listing_final_ids = [];
 				}
@@ -839,41 +927,23 @@ class EnquiryController extends Controller {
 					unset($listing_final_ids[$pos]);
 				}
 
-				if (sizeof($listing_final_ids) > 0)  {
-					$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
+				if (sizeof($listing_final_ids) > 0)  { // If 1 or more Listing is found, then
+					$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where([['premium', 1], ['status', 1]])->pluck('id')->toArray(); // filter the Listing which has status 'Premium' & 'Published'
 
 					if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
 						$listing_final_ids = $temp_listing_ids;
+					} else { // If no premium found, then
+						$listing_final_ids = Listing::whereIn('id', $listing_final_ids)->where('status', 1)->pluck('id')->toArray(); // Filter & Get the Listing that are of status 'Published'
 					}
-				}
-
-				foreach ($listing_final_ids as $op_key => $op_value) {
-					$enquiry_sent["enquiry_to_id"] = $op_value;
-					if(in_develop()) { // If in Dev mode
-						if($op_key === 0) { // If 1st Enq
-							$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
-						} else { // Else just save the Enq
-							$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, false);
-							
-							if($op_key === sizeof($listing_final_ids) - 1) { // Else if on Last Enq -> Send a Dump
-								$listing_enq_obj = Listing::whereIn('id', $listing_final_ids);
-								$owner_ids = array_unique($listing_enq_obj->distinct('owner_id')->get()->pluck('owner_id')->toArray());
-								$email_ids = array_unique(UserCommunication::where([['object_type', 'App\User'], ['type', 'email']])->whereIn('object_id', $owner_ids)->get()->pluck('value')->toArray());
-
-								$data['to'] = $email_ids;
-								$data['cc'] = [];
-								$data['subject'] = "Found " . strVal(sizeof($listing_final_ids)) . " listings matching the enquiry";
-
-								$data["content"] = $listing_enq_obj->get()->pluck('title')->toArray();
-
-								$data["data"] = $data;
-								$data_content = ["to" => $data["to"], "cc" => $data["cc"], "subject" => $data["subject"], "template_data" => $data];
-
-								sendEmail('dev-dump', $data_content);
-							}
+					
+					// $this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, true);
+					$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
+					foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
+						if(in_develop()) {
+							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(5 + $listing_ids_id))->onQueue("low");
+						} else {
+							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
 						}
-					} else {
-						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
 					}
 				}
 
@@ -885,8 +955,8 @@ class EnquiryController extends Controller {
 			} else {
 				Session::put('second_enquiry_data', ["enquiry_data" => $enquiry_data, "enquiry_sent" => $enquiry_sent, "enquiry_category" => $enquiry_categories, "enquiry_area" => $enquiry_areas]);
 			}
-
 			/*** End of 2nd Enquiry flow ***/
+
 			if(isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If mobile verified
 				/*if(Auth::guest()) {
 					$next_template_type = "step_4";
@@ -896,6 +966,7 @@ class EnquiryController extends Controller {
 				$next_template_type = "step_4";
 
 				if($listing_obj && $listing_obj->count() > 0) {
+					// $modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id, false);
 					$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id, false);
 				} else {
 					$modal_template_html = $this->getEnquiryTemplate($next_template_type, "", $session_id, true);
@@ -938,7 +1009,9 @@ class EnquiryController extends Controller {
 	*/
     public function verifyOtp(Request $request) {
     	$status = 400; $modal_template_html = '';
-    	
+    	$full_screen_display = false;
+    	$output = new ConsoleOutput;
+
     	if($request->has('contact') && strlen($request->contact) > 0) {
 	    	$session_id = Cookie::get('laravel_session');
 	    	$template_type = $request->has('enquiry_level') && strlen($request->enquiry_level) > 0 ? $request->enquiry_level : 'step_1';
@@ -1001,6 +1074,7 @@ class EnquiryController extends Controller {
 	    				} else {
 	    					$lead_obj = Auth::user();//Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s"), "user_id" => Auth::user()->id]);
 	    					$lead_type = "App\User";
+	    					$lead_comm_obj = $lead_obj->getUserCommunications()->where([['value', $request->contact], ['type', 'mobile']])->update(['is_verified' => 1]); // Update the mobile value to 'Verified'
 	    				}
 
 	    				/* Set UserID & User Type in the Cookie, once verified */
@@ -1037,9 +1111,10 @@ class EnquiryController extends Controller {
 								$auth_user_comm->save();
 							}
 						}
-	    				$this->setOtpVerified(true, $session_payload["contact"]);
+	    				$this->setOtpVerified(true, '+' . $session_payload["contact_code"] . $session_payload["contact"]);
 	    				
 	    				/*** 2nd Enquiry flow ***/
+	    				$full_screen_display = false;
 	    				if(sizeof($secondary_enquiry_data) > 0) { // If the key exist & value is not NULL
 	    					if($enq_obj && isset($enq_obj["enquiry"])) {
 	    						$secondary_enquiry_data['enquiry_data']['enquiry_id'] = $enq_obj["enquiry"]->id;
@@ -1051,23 +1126,61 @@ class EnquiryController extends Controller {
 	    					$secondary_enquiry_data['enquiry_data']["user_object_type"] = $lead_type;
 
 	    					$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $secondary_enquiry_data['enquiry_area'])->distinct('listing_id')->pluck('listing_id')->toArray();
+	    					$listing_cat_ids = ListingCategory::whereIn('category_id', $secondary_enquiry_data['enquiry_category'])->distinct('listing_id')->pluck('listing_id')->toArray();
+
+							/*if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+								$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
+								if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
+									$listing_final_ids = $listing_operations_ids;// array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+								}
+							} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
+								$listing_final_ids = $listing_operations_ids; //array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+							} else {
+								$listing_final_ids = [];
+							}*/
+							
+							if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+								$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
+							} else {
+								$listing_final_ids = [];
+							}
 
 							if(isset($secondary_enquiry_data['enquiry_sent']['enquiry_to_id']) && $secondary_enquiry_data['enquiry_sent']['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
-								$pos = array_search($secondary_enquiry_data['enquiry_sent']['enquiry_to_id'], $listing_operations_ids);
-								unset($listing_operations_ids[$pos]);
+								$pos = array_search($secondary_enquiry_data['enquiry_sent']['enquiry_to_id'], $listing_final_ids);
+								unset($listing_final_ids[$pos]);
+							}
+
+							if (sizeof($listing_final_ids) > 0)  {
+								$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where([['premium', 1], ['status', 1]])->pluck('id')->toArray(); // Filter out & get all the listings that have status 'premium' & 'published'
+
+								if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
+									$listing_final_ids = $temp_listing_ids;
+								} else {
+									$listing_final_ids = Listing::whereIn('id', $listing_final_ids)->where('status', 1)->pluck('id')->toArray(); // Filter out & get all listings of status 'published'
+								}
 							}
 
 							$this->createEnquiry($secondary_enquiry_data['enquiry_data'], [], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
-							foreach ($listing_operations_ids as $op_key => $op_value) {
+							/*foreach ($listing_operations_ids as $op_key => $op_value) {
 								$secondary_enquiry_data['enquiry_sent']["enquiry_to_id"] = $op_value;
 								if($op_key === sizeof($listing_operations_ids)) {
 									$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], [], [], true);
 								} else {
 									$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], [], [], false);
 								}
+							}*/
+							// $this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_operations_ids, false);
+							$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
+							foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
+								if(in_develop()) {
+									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(5 + $listing_ids_id))->onQueue("low");
+								} else { // Process after 1 hour from now
+									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
+								}
 							}
 
-	    					/*unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
+							$full_screen_display = true;
+							/*unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
 	    					unset($session_payload["enquiry_to_id"]);
 							unset($session_payload["enquiry_to_enquiry"]);*/
 	    					//Session::flush('second_enquiry_data'); // Delete this key from the session
@@ -1076,7 +1189,7 @@ class EnquiryController extends Controller {
 
 	    			}
 	    			//$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
-	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
+	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0 && !$full_screen_display) {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
 	    			} else {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, '', $session_id, true);
@@ -1094,7 +1207,13 @@ class EnquiryController extends Controller {
 	    	$user = Auth::user();
 	    	Auth::login($user);
 	    }
-	    return response()->json(["popup_template" => $modal_template_html], $status);
+
+	    if($full_screen_display) {
+	    	return response()->json(["popup_template" => $modal_template_html, 'display_full_screen' => $full_screen_display], $status);
+	    } else {
+	    	return response()->json(["popup_template" => $modal_template_html], $status);
+
+	    }
     }
 
     /**
@@ -1227,4 +1346,18 @@ class EnquiryController extends Controller {
 		}
 		return response()->json(array("modal_template" => $modal_template), 200);
     }
+	
+	public function getCategoryHierarchy(Request $request) {
+		$this->validate($request, [
+	            'category_ids' => 'required',
+	        ]);
+
+		$output = new ConsoleOutput;
+		$category_hierarchy = array();
+		foreach ($request->category_ids as $key => $category_id) {
+			$output->writeln($category_id);
+			array_push($category_hierarchy, generateCategoryHierarchy($category_id));
+		}
+		return response()->json(array("data" => $category_hierarchy), 200);
+	}
 }

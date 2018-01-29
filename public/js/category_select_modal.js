@@ -1,5 +1,5 @@
 (function() {
-  var change_view, getBranchNodeCategories, getNodeCategories, getPreviouslyAvailableCategories;
+  var change_view, getBranchNodeCategories, getCategoryHierarchy, getNodeCategories, getPreviouslyAvailableCategories;
 
   getBranchNodeCategories = function(path, parent_id) {
     var html;
@@ -9,8 +9,9 @@
       url: '/api/get_listing_categories',
       data: {
         'category': [parent_id],
-        'is_branch_select': ($(document).find("#is_branch_category_checkbox").val()) ? true : false
+        'is_branch_select': $(document).find("#is_branch_category_checkbox").val() ? true : false
       },
+      async: false,
       success: function(data) {
         var key;
         key = void 0;
@@ -38,6 +39,7 @@
         data: {
           'branch': [branch_id]
         },
+        async: false,
         success: function(data) {
           var html_upload, index, key, node_children;
           key = void 0;
@@ -77,6 +79,32 @@
     }), 200);
   };
 
+  getCategoryHierarchy = function(ids) {
+    if (ids.length > 0) {
+      $.ajax({
+        type: 'post',
+        url: '/api/get_category_hierarchy',
+        data: {
+          category_ids: ids
+        },
+        async: false,
+        success: function(data) {
+          var key;
+          key = void 0;
+          console.log(data["data"]);
+          if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0) {
+            $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(data["data"]));
+          }
+        },
+        error: function(request, status, error) {
+          throw Error();
+        }
+      });
+    } else {
+      return [];
+    }
+  };
+
   getPreviouslyAvailableCategories = function() {
     var error, get_core_cat_checked;
     get_core_cat_checked = [];
@@ -95,9 +123,10 @@
     $.ajax({
       type: 'post',
       url: '/api/get_categories_modal_dom',
+      async: false,
       data: {
         'level': level,
-        'is_parent_select': ($(document).find("#is_parent_category_checkbox").val()) ? true : false
+        'is_parent_select': $(document).find("#is_parent_category_checkbox").val() ? true : false
       },
       success: function(data) {
         $(path).html(data["modal_template"]);
@@ -221,7 +250,7 @@
       }
     });
 
-    /* --- On change / select of Radio Option, Get the Category LEvel 2 DOM, & Hide Level 1 & display Level 2  --- */
+    /* --- On change / select of Radio Option, Get the Category Level 2 DOM, & Hide Level 1 & display Level 2  --- */
     $(document).on("change", "#category-select #level-one-category input[type='radio'][name='parent-categories']", function(event) {
       var get_core_cat_checked;
       getBranchNodeCategories("#category-select #level-two-category-dom", $(this).val());
@@ -293,25 +322,31 @@
       }
     });
 
-    /* --- On Click of "Add Selected", add those Checked values & close the Popup --- */
-    $(document).on("click", "#category-select #level-two-category button#category-select-btn", function() {
-      var checked_categories, checked_hierarchy_categories, index, main_page_categories;
+    /* --- On Click of "Add Selected", of page 1 (parent) add those Checked values & close the Popup --- */
+    $(document).on("click", "#category-select #level-one-category button#category-select-btn", function() {
+      var checked_categories, checked_hierarchy_categories, index, main_page_categories, selected_categories;
       checked_categories = [];
       main_page_categories = [];
       index = 0;
       checked_hierarchy_categories = [];
+      selected_categories = [];
       main_page_categories = getPreviouslyAvailableCategories();
 
       /* ---- Share only the child values ---- */
-      $.each($("#category-select #level-two-category #cat-dataHolder input[type='checkbox']:checked"), function() {
+      $.each($("#category-select #level-one-category input[type='checkbox']:checked"), function() {
         if (main_page_categories.indexOf($(this).val()) <= -1) {
           checked_categories.push({
             "slug": $(this).val(),
             "name": $(this).parent().find('p#' + $(this).val()).text()
           });
+          selected_categories.push($(this).val());
         }
       });
       while (index < main_page_categories.length) {
+        console.log("In loop2 " + index.toString());
+        if (selected_categories.indexOf(main_page_categories[index]) <= -1) {
+          selected_categories.push(main_page_categories[index]);
+        }
         checked_categories.push({
           "slug": main_page_categories[index]
         });
@@ -322,12 +357,62 @@
       }
 
       /* --- Share even the Branch value --- */
-      $.each($("#category-select input[type='checkbox']:checked"), function() {
-        checked_hierarchy_categories.push({
-          "slug": $(this).val(),
-          "name": $(this).parent().find('p#' + $(this).val()).text()
+      checked_hierarchy_categories = getCategoryHierarchy(selected_categories);
+      if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0) {
+        $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories));
+      }
+      $("#category-select").modal("hide");
+    });
+
+    /* --- On Click of "Add Selected", of page 2 (branch or node) add those Checked values & close the Popup --- */
+    $(document).on("click", "#category-select #level-two-category button#category-select-btn", function() {
+      var checked_categories, checked_hierarchy_categories, index, main_page_categories, selected_categories;
+      checked_categories = [];
+      main_page_categories = [];
+      index = 0;
+      checked_hierarchy_categories = [];
+      selected_categories = [];
+      main_page_categories = getPreviouslyAvailableCategories();
+      if ($("#category-select #level-two-category #branch_categories input[type='checkbox']") && $("#category-select #level-two-category #branch_categories input[type='checkbox']").length > 0) {
+
+        /* ---- Share only the branch values ---- */
+        $.each($("#category-select #level-two-category #branch_categories input[type='checkbox']:checked"), function() {
+          if (main_page_categories.indexOf($(this).val()) <= -1) {
+            checked_categories.push({
+              "slug": $(this).val(),
+              "name": $(this).parent().find('p#' + $(this).val()).text()
+            });
+            selected_categories.push($(this).val());
+          }
         });
+      }
+
+      /* ---- Share only the child values ---- */
+      $.each($("#category-select #level-two-category #cat-dataHolder input[type='checkbox']:checked"), function() {
+        if (main_page_categories.indexOf($(this).val()) <= -1) {
+          checked_categories.push({
+            "slug": $(this).val(),
+            "name": $(this).parent().find('p#' + $(this).val()).text()
+          });
+          selected_categories.push($(this).val());
+        }
       });
+      while (index < main_page_categories.length) {
+        if (selected_categories.indexOf(main_page_categories[index]) <= -1) {
+          selected_categories.push(main_page_categories[index]);
+        }
+        checked_categories.push({
+          "slug": main_page_categories[index]
+        });
+        index++;
+      }
+      if ($(document).find("input[type='hidden']#modal_categories_chosen").length > 0) {
+        $(document).find("input[type='hidden']#modal_categories_chosen").val(JSON.stringify(checked_categories));
+      }
+
+      /* --- Share even the Branch value --- */
+      checked_hierarchy_categories = getCategoryHierarchy(selected_categories);
+      console.log(checked_hierarchy_categories);
       if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0) {
         $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories));
       }

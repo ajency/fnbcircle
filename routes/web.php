@@ -95,7 +95,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/listing','ListingController@store');
 	Route::post('/contact_save','ListingController@saveContact');
 	Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
-	Route::get('/premium/{type}/{reference_id}/cancel-request', 'CommonController@canclePremiumRequest' );//edit jobs
+	Route::get('/premium/{type}/{reference_id}/cancle-request', 'CommonController@cancelPremiumRequest' );//edit jobs
 	
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
@@ -280,4 +280,6 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('get_listing_categories', 'EnquiryController@getListingCategories');
 	Route::post('get_node_listing_categories', 'EnquiryController@getNodeCategories');
 	Route::post('get_categories_modal_dom', 'EnquiryController@getCategoryModalDom');
+	Route::post('get_category_hierarchy', 'EnquiryController@getCategoryHierarchy');
+
 });

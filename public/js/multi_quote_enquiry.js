@@ -163,7 +163,9 @@
         if (data["modal_template"].length > 0) {
           $(document).find(modal_id + " #listing_popup_fill").html(data["modal_template"]);
           if ($(modal_id + " #level-one-enquiry").length > 0) {
-            initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
+            if ($(document).find(modal_id).hasClass('in') || $(document).find(modal_id).is('visible')) {
+              initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
+            }
           }
         }
       },
@@ -172,6 +174,9 @@
       }
     });
   };
+
+
+  /* ---  --- */
 
   getVerification = function(modal_id, enquiry_level, listing_slug, regenerate, new_contact, contact_no) {
     var data;
@@ -232,6 +237,9 @@
       }
     });
   };
+
+
+  /* --- --- */
 
   getCookie = function(key) {
     var cookies, i, value;

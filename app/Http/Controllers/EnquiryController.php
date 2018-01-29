@@ -751,7 +751,7 @@ class EnquiryController extends Controller {
 		$verified_session = Session::get('otp_verified', []); // Check if OTP_Verified flag exist, & if so, don't ask the Client to enter OTP till session expires
 
 		// If the OTP_verified contact & the current Enquiry contact is not the same, then mark as "OTP_NOT_VERIFIED"
-		if($verified_session && isset($verified_session["contact"]) && $request->contact && $verified_session["contact"] !== strval($request->contact)) {
+		if($verified_session && isset($verified_session["contact"]) && $request->contact && strpos($verified_session["contact"], strval($request->contact)) === false) {//$verified_session["contact"] !== strval($request->contact)) {
 			$verified_session = [];
 		}
 

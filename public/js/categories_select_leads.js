@@ -21,8 +21,12 @@
       }
     }
     console.log(selected_categ_id);
-    selected_categ = JSON.parse($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val());
     console.log($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val());
+    if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val().length > 0) {
+      selected_categ = JSON.parse($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val());
+    } else {
+      selected_categ = "";
+    }
     console.log(selected_categ);
     categories['parents'].length = 0;
     if (selected_categ && selected_categ.length > 0) {

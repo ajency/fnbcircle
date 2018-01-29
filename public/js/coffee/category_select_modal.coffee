@@ -376,11 +376,12 @@ $(document).ready () ->
 		# 	checked_hierarchy_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
 		# 	return
 		
-		checked_hierarchy_categories = getCategoryHierarchy(selected_categories)
+		# checked_hierarchy_categories = getCategoryHierarchy(selected_categories)
+		getCategoryHierarchy(selected_categories)
 		# console.log checked_hierarchy_categories
 
-		if $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0
-			$(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories))
+		# if $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0
+		# 	$(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories))
 		
 		$("#category-select").modal "hide"
 		return
@@ -426,11 +427,12 @@ $(document).ready () ->
 		# 	checked_hierarchy_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
 		# 	return
 		
-		checked_hierarchy_categories = getCategoryHierarchy(selected_categories)
-		console.log checked_hierarchy_categories
+		# checked_hierarchy_categories = getCategoryHierarchy(selected_categories)
+		getCategoryHierarchy(selected_categories)
+		# console.log checked_hierarchy_categories
 
-		if $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0
-			$(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories))
+		# if $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0
+		# 	$(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories))
 		
 		$("#category-select").modal "hide"
 		return

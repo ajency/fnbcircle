@@ -906,7 +906,7 @@
                                         <div class="enquiry-form__header flex-row space-between">
                                             <div class="enquiry-title">
                                                 <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
-                                                <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p>
+                                                <p class="m-b-0 text-color m-t-5">Mystical the meat and fish store</p>
                                             </div>
                                             <span class="fnb-icons enquiry"></span>
                                         </div>

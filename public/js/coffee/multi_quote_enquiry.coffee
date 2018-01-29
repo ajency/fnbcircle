@@ -147,7 +147,8 @@ getTemplate = (modal_id, modal_template, listing_slug = '') ->
 				$(document).find(modal_id + " #listing_popup_fill").html data["modal_template"]
 				# $(document).find(modal_id).modal 'show'
 				if $(modal_id + " #level-one-enquiry").length > 0 # initialize the Flag
-					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
+					if $(document).find(modal_id).hasClass('in') or $(document).find(modal_id).is('visible') # if the Modal is already Open, then initialize the flag
+						initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
 				return
 		error: (request, status, error) ->
 			## -- Show the enquiry content -- ##
@@ -156,8 +157,9 @@ getTemplate = (modal_id, modal_template, listing_slug = '') ->
 			return
 	return
 
-getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = false, new_contact = false, contact_no = '') ->
+### ---  --- ###
 # getVerification = (enquiry_level, listing_slug, regenerate = false, enquiry_fail_level = '') ->
+getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = false, new_contact = false, contact_no = '') ->
 	data = 
 		'enquiry_level': enquiry_level
 		# 'enquiry_fail_level': enquiry_fail_level
@@ -204,6 +206,7 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 			return
 	return
 
+### --- --- ###
 getCookie = (key) ->
 	value = ''
 	if document.cookie.length > 0 and document.cookie.indexOf(key) > -1
@@ -495,8 +498,7 @@ $(document).ready () ->
 					$(modal_id + " #level-one-enquiry input[name='contact']").val ""
 				
 				# resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
-
-			if $(document).find(modal_id + " #level-one-enquiry").length > 0				
+			if $(document).find(modal_id + " #level-one-enquiry").length > 0
 				$(document).on "countrychange", modal_id + " #level-one-enquiry input[name='contact']", () ->
 					if $(this).val() > 0
 						$(this).val($(this).intlTelInput("getNumber"))

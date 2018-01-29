@@ -23,7 +23,7 @@ $('body').on 'hidden.bs.modal', '#category-select', () ->
   # selected_categ_id = $(document).find("input[type='hidden']#modal_categories_chosen").val()
   console.log selected_categ_id
   
-  selected_categ = $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val()
+  selected_categ = JSON.parse($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val())
   console.log $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val()
 
   console.log selected_categ

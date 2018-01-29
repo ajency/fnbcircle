@@ -1049,12 +1049,12 @@ class ListingController extends Controller
             // Session::flash('statusChange', 'review');
             // return \Redirect::back();
 
-            return redirect()->action(
+            return redirect(action(
                 'ListingController@edit', [
                     'reference' => $listing->reference,
                     'step' => 'business-premium',
                 ]
-            );
+            ).'?step=true');
 
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));

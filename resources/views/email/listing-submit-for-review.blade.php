@@ -50,8 +50,8 @@
 
                   <b>Details of the listing owner </b>:<br/>
                   <b>Name</b> : {{$owner_name}}<br/>
-                  <b>Email</b> : {{$owner_email}} ($email_verified)<br/>
-                  <b>Phone</b> : +{{$owner_phone['contact_region']}}-{{$owner_phone['contact']}} ($phone_verified)<br/>
+                  <b>Email</b> : {{$owner_email}} ({{$email_verified}})<br/>
+                  <b>Phone</b> : +{{$owner_phone['contact_region']}}-{{$owner_phone['contact']}} ({{$phone_verified}})<br/>
 
                   <br>
 

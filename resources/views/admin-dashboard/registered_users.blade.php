@@ -83,7 +83,8 @@
 	                          <option value="email_signup">Email signup</option>
 	                          <option value="google">Google</option>
                             <option value="facebook">Facebook</option>
-	                          <option value="internal_listing_signup">Created by Internal via Listing</option>
+                            <option value="internal_listing_signup">Created by Internal via Listing</option>
+	                          <option value="import">Created via Import</option>
 	                        </select>
 	                      </th>
 	                      <th class="text-center" rowspan="2">Email</th>

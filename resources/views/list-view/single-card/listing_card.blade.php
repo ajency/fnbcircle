@@ -22,7 +22,7 @@
                 <div class="body-left flex-cols">
                     <div>
                         <div class="list-title-container">
-                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}" style="@isset($is_email) margin-bottom: 0;margin-top: 0; @endisset"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" target="_blank" style="@isset($is_email) color: #ec6d4b; @endisset">{{ $list_value->title }}</a></h3>
+                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}" style="@isset($is_email) margin-bottom: 0;margin-top: 0; @endisset"><a class="text-darker" href="{{ url(generateUrl($list_value->city['slug'], $list_value->slug)) }}" target="_blank" style="@isset($is_email) color: #ec6d4b; @endisset">{{ $list_value->title }}</a></h3>
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-10 flex-row">
@@ -157,7 +157,7 @@
                             <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
                         </div>
                         <div class="get-details detail-move" style="@isset($is_email)  margin-top: 15px;text-align: center;margin-bottom: 18px; @endisset">
-                            <a class="btn fnb-btn outline full border-btn fullwidth default-size" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" target="_blank" style="@isset($is_email) background-color: #fff;color: #ec6d4b;border: 2px solid;padding: 1em 1.8em;font-weight: 500;text-transform: capitalize;border-radius: 4px; @endisset">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
+                            <a class="btn fnb-btn outline full border-btn fullwidth default-size" href="{{ url(generateUrl($list_value->city['slug'], $list_value->slug)) }}" target="_blank" style="@isset($is_email) background-color: #fff;color: #ec6d4b;border: 2px solid;padding: 1em 1.8em;font-weight: 500;text-transform: capitalize;border-radius: 4px; @endisset">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>

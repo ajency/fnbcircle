@@ -157,6 +157,7 @@
             <p class="text-color x-small text-uppercase">Categories</p>
             <div class="category-listing m-b-10">
                  <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                 <input type="hidden" id="modal_categories_hierarchy_chosen" value="[]">
                       <div id="categories" class="node-list"></div>
             </div>
             <div class="flex-row flex-wrap add-filter-actions">

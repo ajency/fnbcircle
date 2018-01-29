@@ -941,7 +941,7 @@ class EnquiryController extends Controller {
 					// $this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, true);
 					$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
 					foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
-						if($is_premium_listings) {
+						/*if($is_premium_listings) {
 							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
 						} else {
 							if(in_develop()) {
@@ -949,7 +949,8 @@ class EnquiryController extends Controller {
 							} else {
 								ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
 							}
-						}
+						}*/
+						ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
 					}
 				}
 
@@ -1178,11 +1179,12 @@ class EnquiryController extends Controller {
 							// $this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_operations_ids, false);
 							$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
 							foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
-								if(in_develop()) {
+								ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
+								/*if(in_develop()) {
 									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(5 + $listing_ids_id))->onQueue("low");
 								} else { // Process after 1 hour from now
 									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
-								}
+								}*/
 							}
 
 							$full_screen_display = true;

@@ -513,7 +513,7 @@ class EnquiryController extends Controller {
 						# $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
 						$filters = ["listing_ids" => $listing_final_ids];
 
-						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 5, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 		   			} else {
 		   				$listing_data = [];
 		   			}
@@ -642,7 +642,7 @@ class EnquiryController extends Controller {
 					$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
 					$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
 					$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
-					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 5, "updated_at", "desc")["data"]->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"]->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 	   			} else {
 	   				$listing_data = [];
 	   			}
@@ -681,7 +681,7 @@ class EnquiryController extends Controller {
 	* This function is called by the AJAX to add new Listing Enquiries 
 	*/
 	public function getEnquiry(Request $request) {
-		// $output = new ConsoleOutput;
+		$output = new ConsoleOutput;
 		$status = 500; $template_name = '';$modal_template_html = '';
 		$listing_obj_type = "App\Listing"; $listing_obj_id = 0; $listing_obj = null;
 		$full_screen_display = false;
@@ -927,22 +927,28 @@ class EnquiryController extends Controller {
 					unset($listing_final_ids[$pos]);
 				}
 
+				$is_premium_listings = false;
 				if (sizeof($listing_final_ids) > 0)  { // If 1 or more Listing is found, then
 					$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where([['premium', 1], ['status', 1]])->pluck('id')->toArray(); // filter the Listing which has status 'Premium' & 'Published'
 
 					if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
 						$listing_final_ids = $temp_listing_ids;
+						$is_premium_listings = true;
 					} else { // If no premium found, then
-						$listing_final_ids = Listing::whereIn('id', $listing_final_ids)->where('status', 1)->pluck('id')->toArray(); // Filter & Get the Listing that are of status 'Published'
+						$listing_final_ids = Listing::whereIn('id', $listing_final_ids)->where('status', 1)->pluck('id')->toArray(); // Filter & Get the Listing that are of status 'Published', non 'Premium'
 					}
 					
 					// $this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, true);
 					$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
 					foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
-						if(in_develop()) {
-							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(5 + $listing_ids_id))->onQueue("low");
+						if($is_premium_listings) {
+							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
 						} else {
-							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
+							if(in_develop()) {
+								ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(5 + $listing_ids_id))->onQueue("low");
+							} else {
+								ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
+							}
 						}
 					}
 				}

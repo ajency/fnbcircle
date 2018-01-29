@@ -278,4 +278,6 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('get_listing_categories', 'EnquiryController@getListingCategories');
 	Route::post('get_node_listing_categories', 'EnquiryController@getNodeCategories');
 	Route::post('get_categories_modal_dom', 'EnquiryController@getCategoryModalDom');
+	Route::post('get_category_hierarchy', 'EnquiryController@getCategoryHierarchy');
+
 });

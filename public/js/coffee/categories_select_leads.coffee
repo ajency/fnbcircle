@@ -1,58 +1,77 @@
 selected_categ_id = []
 window.categories = 'parents': []
 
-$('body').on 'click','#category-select-btn', ()->
+# $('body').on 'click','#category-select-btn', ()->
+$('body').on 'hidden.bs.modal', '#category-select', () ->
   selected_categ = []
   # categories = 'parents': []
-  $('#category-select input[type="checkbox"]:checked').each ->
-    selected_categ_id.push $(this).val()
-    selected_categ.push JSON.parse $(this).parent().find('input[type="hidden"]#hierarchy').val()
-    return
+  # $('#category-select input[type="checkbox"]:checked').each ->
+  #   selected_categ_id.push $(this).val()
+  #   selected_categ.push JSON.parse $(this).parent().find('input[type="hidden"]#hierarchy').val()
+  #   return
+  
+  ### --- Get the Category ID list --- ###
+  if $(document).find("input[type='hidden']#modal_categories_chosen").val().length > 2 and JSON.parse($(document).find("input[type='hidden']#modal_categories_chosen").val()).length > 0
+    checked_categories = JSON.parse($(document).find("input[type='hidden']#modal_categories_chosen").val())
+
+    # $("#category-select" + " #level-three-enquiry input[name='categories_interested[]']").prop "checked", false
+    index = 0
+    while index < checked_categories.length
+      selected_categ_id.push checked_categories[index]["slug"]
+      index++
+
+  # selected_categ_id = $(document).find("input[type='hidden']#modal_categories_chosen").val()
+  console.log selected_categ_id
+  
+  selected_categ = $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val()
+  console.log $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val()
+
   console.log selected_categ
   categories['parents'].length = 0
-  selected_categ.forEach( (element) ->
-  	parentID = element['parent']['id']
-  	# console.log parentID
-  	if !categories['parents'].hasOwnProperty parentID
-      categories['parents'][parentID] =
-      'id': element['parent']['id']
-      'image-url': element['parent']['icon_url']
-      'name': element['parent']['name']
-      'slug': element['parent']['slug']
-      'selected': 0
-      'branches': []
-    # else
-    #   categories['parents'][parentID]['selected'] = 0
-    if element.hasOwnProperty('branch') and categories['parents'][parentID]['selected'] == 0
-      branchID = element['branch']['id']
-      if !categories['parents'][parentID]['branches'].hasOwnProperty branchID
-        categories['parents'][parentID]['branches'][branchID] =
-        'id': element['branch']['id']
-        'name': element['branch']['name']
-        'slug': element['branch']['slug']
+  if selected_categ and selected_categ.length > 0 
+    selected_categ.forEach( (element) ->
+    	parentID = element['parent']['id']
+    	# console.log parentID
+    	if !categories['parents'].hasOwnProperty parentID
+        categories['parents'][parentID] =
+        'id': element['parent']['id']
+        'image-url': element['parent']['icon_url']
+        'name': element['parent']['name']
+        'slug': element['parent']['slug']
         'selected': 0
-        'nodes': []
+        'branches': []
       # else
-      #   categories['parents'][parentID]['branches'][branchID]['selected'] = 0
-      if element.hasOwnProperty('node') and categories['parents'][parentID]['branches'][branchID]['selected'] == 0
-        nodeID = element['node']['id']
-        if !categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty nodeID
-          categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] =
-          'id': element['node']['id']
-          'name': element['node']['name']
-          'slug': element['node']['slug']
+      #   categories['parents'][parentID]['selected'] = 0
+      if element.hasOwnProperty('branch') and categories['parents'][parentID]['selected'] == 0
+        branchID = element['branch']['id']
+        if !categories['parents'][parentID]['branches'].hasOwnProperty branchID
+          categories['parents'][parentID]['branches'][branchID] =
+          'id': element['branch']['id']
+          'name': element['branch']['name']
+          'slug': element['branch']['slug']
+          'selected': 0
+          'nodes': []
+        # else
+        #   categories['parents'][parentID]['branches'][branchID]['selected'] = 0
+        if element.hasOwnProperty('node') and categories['parents'][parentID]['branches'][branchID]['selected'] == 0
+          nodeID = element['node']['id']
+          if !categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty nodeID
+            categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] =
+            'id': element['node']['id']
+            'name': element['node']['name']
+            'slug': element['node']['slug']
+        else
+          categories['parents'][parentID]['branches'][branchID]['selected'] = 1
+          categories['parents'][parentID]['branches'][branchID]['nodes'] =[]
+          # console.log element
       else
-        categories['parents'][parentID]['branches'][branchID]['selected'] = 1
-        categories['parents'][parentID]['branches'][branchID]['nodes'] =[]
-        # console.log element
-    else
-      categories['parents'][parentID]['selected'] = 1
-      # delete(categories['parents'][parentID]['branches'])
-      # console.log 'parent selected deleting branches'
-      # # categories['parents'][parentID]['branches'] = []
-      # categories['parents'][parentID]['branches'].length = 0
-      # console.log 'parent select ', element
-  )
+        categories['parents'][parentID]['selected'] = 1
+        # delete(categories['parents'][parentID]['branches'])
+        # console.log 'parent selected deleting branches'
+        # # categories['parents'][parentID]['branches'] = []
+        # categories['parents'][parentID]['branches'].length = 0
+        # console.log 'parent select ', element
+    )
   console.log categories
   populate()
   

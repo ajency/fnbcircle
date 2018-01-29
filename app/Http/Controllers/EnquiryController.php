@@ -1346,4 +1346,18 @@ class EnquiryController extends Controller {
 		}
 		return response()->json(array("modal_template" => $modal_template), 200);
     }
+	
+	public function getCategoryHierarchy(Request $request) {
+		$this->validate($request, [
+	            'category_ids' => 'required',
+	        ]);
+
+		$output = new ConsoleOutput;
+		$category_hierarchy = array();
+		foreach ($request->category_ids as $key => $category_id) {
+			$output->writeln($category_id);
+			array_push($category_hierarchy, generateCategoryHierarchy($category_id));
+		}
+		return response()->json(array("data" => $category_hierarchy), 200);
+	}
 }

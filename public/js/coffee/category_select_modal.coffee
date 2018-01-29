@@ -95,6 +95,32 @@ getNodeCategories = (path, branch_id, checked_values, is_all_checked) ->
 	), 200
 	return
 
+getCategoryHierarchy = (ids) ->
+	# console.log "IDs list"
+	# console.log ids
+	if ids.length > 0
+		# setTimeout (->
+		$.ajax
+			type: 'post'
+			url: '/api/get_category_hierarchy'
+			data: 
+				category_ids: ids
+			async: false
+			success: (data) ->
+				key = undefined
+				console.log data["data"]
+				if $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0
+					$(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(data["data"]))
+				return
+			error: (request, status, error) ->
+				throw Error()
+				return
+		# ), 200
+	else
+		return []
+	return
+
+
 getPreviouslyAvailableCategories = () ->
 	get_core_cat_checked = []
 	try
@@ -244,7 +270,7 @@ $(document).ready () ->
 			$("#category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").removeAttr('disabled')
 		return
 
-	### --- On change / select of Radio Option, Get the Category LEvel 2 DOM, & Hide Level 1 & display Level 2  --- ###
+	### --- On change / select of Radio Option, Get the Category Level 2 DOM, & Hide Level 1 & display Level 2  --- ###
 	$(document).on "change", "#category-select #level-one-category input[type='radio'][name='parent-categories']", (event) ->
 		getBranchNodeCategories("#category-select #level-two-category-dom", $(this).val()) # add DOM to this level
 		$(this).closest("div#level-one-category").addClass "hidden"
@@ -316,22 +342,29 @@ $(document).ready () ->
 		
 		return
 
-	### --- On Click of "Add Selected", add those Checked values & close the Popup --- ###
-	$(document).on "click", "#category-select #level-two-category button#category-select-btn", () ->
+	### --- On Click of "Add Selected", of page 1 (parent) add those Checked values & close the Popup --- ###
+	$(document).on "click", "#category-select #level-one-category button#category-select-btn", () ->
 		checked_categories = []
 		main_page_categories = []
 		index = 0
 		checked_hierarchy_categories = []
+		selected_categories = []
 
 		main_page_categories = getPreviouslyAvailableCategories()
 
 		### ---- Share only the child values ---- ###
-		$.each $("#category-select #level-two-category #cat-dataHolder input[type='checkbox']:checked"), ->
+		$.each $("#category-select #level-one-category input[type='checkbox']:checked"), ->
 			if main_page_categories.indexOf($(this).val()) <= -1
 				checked_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+				selected_categories.push $(this).val()
 			return
 
+		# selected_categories = main_page_categories
+		# selected_categories.concat(main_page_categories)
 		while index < main_page_categories.length
+			console.log "In loop2 " +  index.toString()
+			if selected_categories.indexOf(main_page_categories[index]) <= -1
+				selected_categories.push main_page_categories[index]
 			checked_categories.push {"slug": main_page_categories[index]}
 			index++
 		
@@ -339,9 +372,62 @@ $(document).ready () ->
 			$(document).find("input[type='hidden']#modal_categories_chosen").val(JSON.stringify(checked_categories))
 
 		### --- Share even the Branch value --- ###
-		$.each $("#category-select input[type='checkbox']:checked"), ->
-			checked_hierarchy_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+		# $.each $("#category-select input[type='checkbox']:checked"), ->
+		# 	checked_hierarchy_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+		# 	return
+		
+		checked_hierarchy_categories = getCategoryHierarchy(selected_categories)
+		# console.log checked_hierarchy_categories
+
+		if $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0
+			$(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories))
+		
+		$("#category-select").modal "hide"
+		return
+	
+	### --- On Click of "Add Selected", of page 2 (branch or node) add those Checked values & close the Popup --- ###
+	$(document).on "click", "#category-select #level-two-category button#category-select-btn", () ->
+		checked_categories = []
+		main_page_categories = []
+		index = 0
+		checked_hierarchy_categories = []
+		selected_categories = []
+
+		main_page_categories = getPreviouslyAvailableCategories()
+
+		if $("#category-select #level-two-category #branch_categories input[type='checkbox']") and $("#category-select #level-two-category #branch_categories input[type='checkbox']").length > 0
+			### ---- Share only the branch values ---- ###
+			$.each $("#category-select #level-two-category #branch_categories input[type='checkbox']:checked"), ->
+				if main_page_categories.indexOf($(this).val()) <= -1 # if ID doesn't exist, then push that ID
+					checked_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+					selected_categories.push $(this).val()
+				return
+
+		### ---- Share only the child values ---- ###
+		$.each $("#category-select #level-two-category #cat-dataHolder input[type='checkbox']:checked"), ->
+			if main_page_categories.indexOf($(this).val()) <= -1 # if ID doesn't exist, then push that ID
+				checked_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+				selected_categories.push $(this).val()
 			return
+
+		# selected_categories = main_page_categories
+		# selected_categories.concat(main_page_categories)
+		while index < main_page_categories.length
+			if selected_categories.indexOf(main_page_categories[index]) <= -1
+				selected_categories.push main_page_categories[index]
+			checked_categories.push {"slug": main_page_categories[index]}
+			index++
+		
+		if $(document).find("input[type='hidden']#modal_categories_chosen").length > 0
+			$(document).find("input[type='hidden']#modal_categories_chosen").val(JSON.stringify(checked_categories))
+
+		### --- Share even the Branch value --- ###
+		# $.each $("#category-select input[type='checkbox']:checked"), ->
+		# 	checked_hierarchy_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+		# 	return
+		
+		checked_hierarchy_categories = getCategoryHierarchy(selected_categories)
+		console.log checked_hierarchy_categories
 
 		if $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0
 			$(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories))

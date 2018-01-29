@@ -7,56 +7,67 @@
     'parents': []
   };
 
-  $('body').on('click', '#category-select-btn', function() {
-    var selected_categ;
+  $('body').on('hidden.bs.modal', '#category-select', function() {
+    var checked_categories, index, selected_categ;
     selected_categ = [];
-    $('#category-select input[type="checkbox"]:checked').each(function() {
-      selected_categ_id.push($(this).val());
-      selected_categ.push(JSON.parse($(this).parent().find('input[type="hidden"]#hierarchy').val()));
-    });
+
+    /* --- Get the Category ID list --- */
+    if ($(document).find("input[type='hidden']#modal_categories_chosen").val().length > 2 && JSON.parse($(document).find("input[type='hidden']#modal_categories_chosen").val()).length > 0) {
+      checked_categories = JSON.parse($(document).find("input[type='hidden']#modal_categories_chosen").val());
+      index = 0;
+      while (index < checked_categories.length) {
+        selected_categ_id.push(checked_categories[index]["slug"]);
+        index++;
+      }
+    }
+    console.log(selected_categ_id);
+    selected_categ = $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val();
+    console.log($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val());
     console.log(selected_categ);
     categories['parents'].length = 0;
-    selected_categ.forEach(function(element) {
-      var branchID, nodeID, parentID;
-      parentID = element['parent']['id'];
-      if (!categories['parents'].hasOwnProperty(parentID)) {
-        categories['parents'][parentID] = {
-          'id': element['parent']['id'],
-          'image-url': element['parent']['icon_url'],
-          'name': element['parent']['name'],
-          'slug': element['parent']['slug'],
-          'selected': 0,
-          'branches': []
-        };
-      }
-      if (element.hasOwnProperty('branch') && categories['parents'][parentID]['selected'] === 0) {
-        branchID = element['branch']['id'];
-        if (!categories['parents'][parentID]['branches'].hasOwnProperty(branchID)) {
-          categories['parents'][parentID]['branches'][branchID] = {
-            'id': element['branch']['id'],
-            'name': element['branch']['name'],
-            'slug': element['branch']['slug'],
+    if (selected_categ && selected_categ.length > 0) {
+      selected_categ.forEach(function(element) {
+        var branchID, nodeID, parentID;
+        parentID = element['parent']['id'];
+        if (!categories['parents'].hasOwnProperty(parentID)) {
+          categories['parents'][parentID] = {
+            'id': element['parent']['id'],
+            'image-url': element['parent']['icon_url'],
+            'name': element['parent']['name'],
+            'slug': element['parent']['slug'],
             'selected': 0,
-            'nodes': []
+            'branches': []
           };
         }
-        if (element.hasOwnProperty('node') && categories['parents'][parentID]['branches'][branchID]['selected'] === 0) {
-          nodeID = element['node']['id'];
-          if (!categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty(nodeID)) {
-            return categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] = {
-              'id': element['node']['id'],
-              'name': element['node']['name'],
-              'slug': element['node']['slug']
+        if (element.hasOwnProperty('branch') && categories['parents'][parentID]['selected'] === 0) {
+          branchID = element['branch']['id'];
+          if (!categories['parents'][parentID]['branches'].hasOwnProperty(branchID)) {
+            categories['parents'][parentID]['branches'][branchID] = {
+              'id': element['branch']['id'],
+              'name': element['branch']['name'],
+              'slug': element['branch']['slug'],
+              'selected': 0,
+              'nodes': []
             };
           }
+          if (element.hasOwnProperty('node') && categories['parents'][parentID]['branches'][branchID]['selected'] === 0) {
+            nodeID = element['node']['id'];
+            if (!categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty(nodeID)) {
+              return categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] = {
+                'id': element['node']['id'],
+                'name': element['node']['name'],
+                'slug': element['node']['slug']
+              };
+            }
+          } else {
+            categories['parents'][parentID]['branches'][branchID]['selected'] = 1;
+            return categories['parents'][parentID]['branches'][branchID]['nodes'] = [];
+          }
         } else {
-          categories['parents'][parentID]['branches'][branchID]['selected'] = 1;
-          return categories['parents'][parentID]['branches'][branchID]['nodes'] = [];
+          return categories['parents'][parentID]['selected'] = 1;
         }
-      } else {
-        return categories['parents'][parentID]['selected'] = 1;
-      }
-    });
+      });
+    }
     console.log(categories);
     return populate();
   });

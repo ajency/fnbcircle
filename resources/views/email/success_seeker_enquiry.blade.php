@@ -13,7 +13,7 @@
 				<div style="margin-bottom: 0.8em;">        
 					<div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
 						@if(isset($is_premium) && $is_premium)
-							Thank you for showing your interest in {{ $listing_name }}. Your details have been shared via email and sms with the listing owner of this business. They would contact you soon.<br>
+							Thank you for showing your interest in {{ $listing_name }}. Your details have been shared via email and sms with the owner of this business. They would contact you soon.<br>
 						@else
 							Thank you for showing your interest.<br>
 							We have sent your enquiry details via email and sms to {{ $listing_name }} &amp; all the few similar businesses matching your requirements. They would contact you soon. Incase you do not wish to be contacted by any other similar businesses, <label><a href="#" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a></label><br><br>
@@ -29,9 +29,8 @@
 							@foreach($listing_data as $listing_index => $listing_value)
 								Name:  {{ isset($listing_value['name']) ? $listing_value['name'] : $listing_name }}<br>
 								Type:  {{ isset($listing_value['type']) ? $listing_value['type']['name'] : '' }}<br>
-							 	(Featured Indication)
 							 	@if(isset($listing_value['cores']) && sizeof($listing_value['cores']) > 0)
-									Core Categories:<br>
+									Core Categories:
 										@foreach($listing_value['cores'] as $core_index => $core_value)
 											{{ $core_value["name"] }}{{ $core_index < (sizeof($listing_value['cores']) - 1) ? ', ' : '' }}
 										@endforeach
@@ -47,12 +46,13 @@
 											<br>
 										@endforeach
 								@endif
-								Rating: -<br>
+								Rating: - <br><br>
 							@endforeach
 						@endif
 
 
 						<div style="font-size: 0.9em;">Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
+						<br><br>
 						<div>
 	          				Regards,<br>
 	          				Team FnB Circle<br>

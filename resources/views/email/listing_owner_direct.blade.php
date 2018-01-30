@@ -13,7 +13,7 @@
 				<div style="margin-bottom: 0.8em;">        
 					<div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
 
-					There is an enquiry for <a href="#">{{ $listing_name }}</a><br><br>
+					There is an enquiry for <a href="{{ $listing_url }}">{{ $listing_name }}</a><br><br>
 
 					Please find below details of the seeker.<br>
 					<b>Name:</b> {{ $customer_name }}<br>
@@ -34,8 +34,10 @@
                     </ul>
 					<b>Message:</b> {{ $customer_message }}<br><br>
 
-					<a href="{{ $customer_dashboard_url }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a> to view the profile of {{ $customer_name }}.
-					<br>
+					@if(isset($is_user) && $is_user)
+						<a href="{{ $customer_dashboard_url }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a> to view the profile of {{ $customer_name }}.
+						<br>
+					@endif
 					You may now contact the seeker directly.<br><br>
 
 

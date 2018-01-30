@@ -16,7 +16,7 @@
 							Thank you for showing your interest in <a href="{{ $listing_url }}" target="_blank">{{ $listing_name }}</a>. Your details have been shared via email and sms with the listing owner of this business. They would contact you soon.<br>
 						@else
 							Thank you for showing your interest.<br>
-							We have sent your enquiry details via email and sms to {{ $listing_name }} &amp; all the few similar businesses matching your requirements. They would contact you soon. Incase you do not wish to be contacted by any other similar businesses, <label><a href="#" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a></label><br><br>
+							We have sent your enquiry details via email and sms to <a href="{{ $listing_url }}" target="_blank">{{ $listing_name }}</a> &amp; all the few similar businesses matching your requirements. They would contact you soon. Incase you do not wish to be contacted by any other similar businesses, <label><a href="{{ config('app')['url'] }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a></label><br><br>
 						@endif
 						
 						@if(isset($is_premium) && $is_premium)

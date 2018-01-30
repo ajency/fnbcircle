@@ -23,19 +23,21 @@ Please find below contact details of the listing.<br>
 @if(count($contacts['email']))        
   <b>Email</b>: 
   @foreach($contacts['email'] as $email)
-    <a href="mailto:{{$email['email']}}"> {{$email['email']}} </a> @if($email['is_verified'])(verified) @else (unverified) @endif <br>
+    <a href="mailto:{{$email['email']}}"> {{$email['email']}} </a> @if($email['is_verified'])(verified) @else (unverified) @endif
   @endforeach
 @endif
+<br>
 @if(count($contacts['mobile']))
   <b>Phone</b>: 
   @foreach($contacts['mobile'] as $mobile)
-    <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif <br>
+    <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif
   @endforeach
 @endif
+<br>
 @if(count($contacts['landline']))
   <b>Landline</b>: 
   @foreach($contacts['landline'] as $mobile)
-    <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif <br>
+    <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif
   @endforeach 
 @endif
 <br><br>

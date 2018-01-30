@@ -27,7 +27,7 @@
                   <!-- <b class="element-title">Also Listed In</b> -->
                   <br>
                   @foreach($listing_categories as $category)
-                  <div class="listed__section flex-row">
+                  <div class="listed__section flex-row" style="display:table;">
                       <div class="parent-cat flex-row" style="float: left;min-width: 130px;">
                           <span class="m-r-10" style="display: inline-block;">
                               <img src="{{$category['image-url']}}" width="40" style="vertical-align: middle;">
@@ -39,7 +39,7 @@
                       </div>
                       <ul class="fnb-cat flex-row" style="padding-left: 0;margin-left: 0;list-style: none;float: left;margin-top: 5px;">
                           @foreach($category['nodes'] as $node)
-                          <li style=" display: inline-block;border: 1px solid #676767;padding: 0.2em 0.6em;margin: 0 0.2em 0.2em 0.2em;border-radius: 4px;font-size: 12px;"><a href="#" class="fnb-cat__title" style="color: inherit;text-decoration: none;cursor: inherit;">{{$node['name']}}</a></li>
+                          <li style=" display: inline-block;border: 1px solid #676767;padding: 0.2em 0.6em;margin: 0 0.2em 0.2em 0.2em;border-radius: 4px;font-size: 12px;"><a href="#" class="fnb-cat__title" style="color: inherit;text-decoration: none;cursor: default;">{{$node['name']}}</a></li>
                           @endforeach
                       </ul>
                   </div>

@@ -309,7 +309,7 @@
           includeSelectAllOption: true,
           numberDisplayed: 2,
           delimiterText: ',',
-          nonSelectedText: 'Select Experience'
+          nonSelectedText: 'Select description'
         });
       }
     }), 800);

@@ -123,7 +123,7 @@ $('body').on 'click','button#resetAll', (e)->
     # console.log this
     $(this).multiselect('deselectAll',false)
   $('div#categories.node-list').html ''
-  categories = 'parents': []
+  window.categories = 'parents': []
   window.filters = {}
   listing_table.ajax.reload()
 

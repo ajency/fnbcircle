@@ -137,7 +137,6 @@
   });
 
   $('body').on('click', 'button#resetAll', function(e) {
-    var categories;
     $('#listingNameSearch').val('');
     $('#submissionDate').val('');
     $('#approvalDate').val('');
@@ -146,7 +145,7 @@
       return $(this).multiselect('deselectAll', false);
     });
     $('div#categories.node-list').html('');
-    categories = {
+    window.categories = {
       'parents': []
     };
     window.filters = {};

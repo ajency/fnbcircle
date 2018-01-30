@@ -788,7 +788,7 @@
                                         <div class="approval m-t-20">
                                             <p class="contact__title lighter">{{$data['status']['text']}}</p>
                                             <div class="heavier sub-title m-b-10 pending-stuff">{!! $data['status']['status'] !!} </div>
-                                            @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
+                                            @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                         </div>
                                     @endif
                                 
@@ -896,6 +896,7 @@
                                     <button class="btn fnb-btn primary-btn full border-btn send-enquiry">Send Enquiry</button>
                                 </div>
                             </div>
+
                         
                             @if(!(Auth::user() && (Auth::user()->type === 'internal' || Auth::user()->id === $data['owner_id'])))
                                 <div class="pos-fixed fly-out enquiry-form-slide">
@@ -915,7 +916,7 @@
                                                     <div class="enquiry-title">
                                                         <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
                                                         <!-- <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p> -->
-                                                        <p class="m-b-0 text-lighter m-t-5">{{ $data['title']['name'] }}</p>
+                                                        <p class="m-b-0 text-color m-t-5">{{ $data['title']['name'] }}</p>
                                                     </div>
                                                     <span class="fnb-icons enquiry"></span>
                                                 </div>

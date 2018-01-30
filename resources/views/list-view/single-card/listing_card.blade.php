@@ -21,9 +21,17 @@
             <div class="seller-info__body filter-cards__body flex-row white-space list-new-changes" style="@isset($is_email) border: 1px solid #ddd;padding: 15px;margin-top: 20px; @endisset">
                 <div class="body-left flex-cols">
                     <div>
-                        <div class="list-title-container">
-                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}" style="@isset($is_email) margin-bottom: 0;margin-top: 0; @endisset"><a class="text-darker" href="{{ url(generateUrl($list_value->city['slug'], $list_value->slug)) }}" target="_blank" style="@isset($is_email) color: #ec6d4b; @endisset">{{ $list_value->title }}</a></h3>
-                            <div class="power-seller-container"></div>
+
+                        <div class="list-title-container" style="@isset($is_email) clear: both; display: table; @endisset">
+                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}" style="@isset($is_email) margin-bottom: 0;margin-top: 0;float:left; @endisset"><a class="text-darker" href="{{ url(generateUrl($list_value->city['slug'], $list_value->slug)) }}" target="_blank" style="@isset($is_email) color: #ec6d4b; @endisset">{{ $list_value->title }}</a></h3>
+                            <div class="power-seller-container" style="@isset($is_email) float: left; padding-left: 15px; @endisset">
+                                @isset($is_email)
+                                    @if($list_value->premium)
+                                        <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                                    @endif
+                                @endisset    
+                            </div>
+
                         </div>
                         <div class="location p-b-10 flex-row">
                             <!-- <span class="fnb-icons map-icon"></span> -->
@@ -83,7 +91,7 @@
                     @if($list_value->premium || sizeof($list_value->areas_operation) > 0)
                         <div class="operations">
                             @if($list_value->premium)
-                                <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                                <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120" style="@isset($is_email) display: none; @endisset">
                             @endif
                             @if(sizeof($list_value->areas_operation) > 0)
                                 <p class="operations__title default-size text-lighter m-t-5" style="@isset($is_email) margin-top: 0;margin-bottom: 0; @endisset">Areas of Operation:</p>

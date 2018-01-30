@@ -379,7 +379,8 @@ class EnquiryController extends Controller {
 					}
 
 					if(!in_develop() || (in_develop() && $send_owner_mail)) { // If Prod Mode, then send Email else if in Dev MOde && The Send owner flag is true, then send the Email
-						if($listing_obj->premium && $enquiry_sent["enquiry_type"] == "direct") { // If Premium & Direct, then send a mail to the Seeker saying that specific Enquiry is sent
+						//if($listing_obj->premium && $enquiry_sent["enquiry_type"] == "direct") { // If Premium & Direct, then send a mail to the Seeker saying that specific Enquiry is sent
+						if($enquiry_sent["enquiry_type"] == "direct") { // If Direct, then send a mail to the Seeker saying that specific Enquiry is sent
 							$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, true);
 						} else {
 							$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, $send_seeker_email);

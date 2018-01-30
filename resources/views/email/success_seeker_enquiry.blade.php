@@ -13,7 +13,7 @@
 				<div style="margin-bottom: 0.8em;">        
 					<div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
 						@if(isset($is_premium) && $is_premium)
-							Thank you for showing your interest in {{ $listing_name }}. Your details have been shared via email and sms with the listing owner of this business. They would contact you soon.<br>
+							Thank you for showing your interest in <a href="{{ $listing_url }}" target="_blank">{{ $listing_name }}</a>. Your details have been shared via email and sms with the listing owner of this business. They would contact you soon.<br>
 						@else
 							Thank you for showing your interest.<br>
 							We have sent your enquiry details via email and sms to {{ $listing_name }} &amp; all the few similar businesses matching your requirements. They would contact you soon. Incase you do not wish to be contacted by any other similar businesses, <label><a href="#" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a></label><br><br>
@@ -27,7 +27,7 @@
 
 						@if(isset($listing_data))
 							@foreach($listing_data as $listing_index => $listing_value)
-								Name:  {{ isset($listing_value['name']) ? $listing_value['name'] : $listing_name }}<br>
+								Name:  <a href="{{ isset($listing_value['link']) ? $listing_value['link'] : $listing_url }}" target="_blank">{{ isset($listing_value['name']) ? $listing_value['name'] : $listing_name }}</a><br>
 								Type:  {{ isset($listing_value['type']) ? $listing_value['type']['name'] : '' }}<br>
 							 	(Featured Indication)
 							 	@if(isset($listing_value['cores']) && sizeof($listing_value['cores']) > 0)

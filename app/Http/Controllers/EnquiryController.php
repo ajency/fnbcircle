@@ -137,12 +137,15 @@ class EnquiryController extends Controller {
 		$data['bcc'] = isset($email_details['bcc']) ? $email_details['bcc'] : [];
 		$data['subject'] = 'Your enquiry has been sent successfully';
 		
+		$short_listing_url = urlShortner($email_content["listing_url"], true)["id"];
+		$short_customer_dashboard_url = urlShortner($email_details['dashboard_url'], true)["id"];
+
 		/* Email to Seeker / Enquired Person */
 		if($send_seeker_email) { // Send Seeker, the mail only if the Flag is true
 			if($is_premium) { // Send mail to the seeker with only that enquiry
-				$data['template_data'] = ["name" => $email_details['name'], "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "is_premium" => true];
+				$data['template_data'] = ["name" => $email_details['name'], "customer_dashboard_url" => $short_customer_dashboard_url, "listing_url" => $short_listing_url, "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "is_premium" => true];
 			}  else { // Send email to the seeker with other enquiries
-				$data['template_data'] = ["name" => $email_details['name'], "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "cancel_other_enquiry_contacts" => "", "is_premium" => false];
+				$data['template_data'] = ["name" => $email_details['name'], "customer_dashboard_url" => $short_customer_dashboard_url, "listing_url" => $short_listing_url, "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "cancel_other_enquiry_contacts" => "", "is_premium" => false];
 			}
 			$data['priority'] = 'default';
 			sendEmail("seeker-email-enquiry", $data);
@@ -152,14 +155,12 @@ class EnquiryController extends Controller {
 		/* Email & SMS to Listing owners */
 		$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 		$sms['to'] = $email_content["listing_owner"]["mobile"];
-		$short_listing_url = urlShortner($email_content["listing_url"], true)["id"];
-		$short_customer_dashboard_url = urlShortner($email_details['dashboard_url'], true)["id"];
 
 		if($enquiry_type == 'direct') { // If listing enquiry type is DIRECT, then
 			/* Send Email */
 			// $data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'You just received an enquiry for your listing';
-			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $short_listing_url, "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $short_customer_dashboard_url];
+			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $short_listing_url, "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $short_customer_dashboard_url, "is_user" => (isset($email_details["seeker"]) && $email_details["seeker"] === "user") ? true : false];
 			
 			if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
 				$data['delay'] = 60;
@@ -232,6 +233,18 @@ class EnquiryController extends Controller {
 	}
 
 	/**
+	* This function is used to generate the Single Listing URL
+	*/
+	public function getListingUrl($listing_obj, $is_id=false) {
+		if ($is_id) {
+			$listing_obj = Listing::find($listing_obj);
+		}
+
+		// return env('APP_URL') . "/" . Area::find($listing_obj->locality_id)->city()->first()->slug . "/" . $listing_obj->slug;
+		return config('app')['url'] . "/" . Area::find($listing_obj->locality_id)->city()->first()->slug . "/" . $listing_obj->slug;
+	}
+
+	/**
 	* This function is used to create Enquiry data
 	* This function will @return the following Enquiry objects
 	*	Enquiry, EnquirySent, EnquiryCategory & EnquiryArea
@@ -300,11 +313,11 @@ class EnquiryController extends Controller {
 						"mobile" => ($owner_data["user_comm"]->where('type', 'mobile')->where('is_primary', true)->count() > 0) ? $owner_data["user_comm"]->where('type', 'mobile')->where('is_primary', true)->first()->value : ($owner_data["user_comm"]->where('type', 'mobile')->first() ? $owner_data["user_comm"]->where('type', 'mobile')->first()->value : null)
 					];
 
-					$listing_url = env('APP_URL') . "/" . Area::find($listing_obj->locality_id)->city()->first()->slug . "/" . $listing_obj->slug;
+					$listing_url = $this->getListingUrl($listing_obj, false);
 					$email_content = ["listing_name" => $listing_obj->title, "listing_owner" => $listing_owner, "listing_url" => $listing_url, "listing_data" => []];
 
 					if($listing_obj->premium && $enquiry_sent_obj->enquiry_type == "direct") { // If enquiry is of "Premium" listing & is Direct enquiry, then send that Mail to Customer regarding that Direct Enquiry
-						$listing_content = array("name" => $listing_obj->title, "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "");
+						$listing_content = array("name" => $listing_obj->title, "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "", "link" => $this->getListingUrl($listing_obj, false));
 						$listing_content["type"] = ['name' => Listing::listing_business_type[$listing_obj["type"]], 'slug' => Listing::listing_business_type_slug[$listing_obj["type"]]];
 
 						$listing_content["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $listing_obj->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
@@ -321,11 +334,38 @@ class EnquiryController extends Controller {
 			    		}
 			    		$listing_content["operation_areas"] = $areas_operation; // Array of cities & areas under that city
 			    		array_push($email_content["listing_data"], $listing_content);
+
+			    		$listing_ids = EnquirySent::where([['enquiry_to_type', 'App\Listing'], ['enquiry_to_id', $enquiry_obj->id]])->pluck('enquiry_to_id')->toArray();
+
+			    		$enq_data_obj = Listing::whereIn('id', $listing_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) use ($email_content) {
+							$listing_content = array("name" => $list["name"], "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "", "link" => $this->getListingUrl($list["id"], true));
+							$listing_content["type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
+							
+							$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
+				    		$city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
+
+				    		$areas_operation = [];
+				    		foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+				    			array_push($areas_operation, 
+				    				array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(),
+				    				"areas" => $city_areas->toArray()
+				    			));
+				    		}
+
+				    		$list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+				    		$list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
+									$listViewCont_obj = new ListViewController;
+			                        $cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+			                });
+
+				    		// array_push($email_content["listing_data"], $listing_content);
+						});
+
 					} else {
 						$listing_ids = EnquirySent::where([['enquiry_to_type', 'App\Listing'], ['enquiry_to_id', $enquiry_obj->id]])->pluck('enquiry_to_id')->toArray();
 
 						$enq_data_obj = Listing::whereIn('id', $listing_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) use ($email_content) {
-							$listing_content = array("name" => $list["name"], "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "");
+							$listing_content = array("name" => $list["name"], "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "", "link" => $this->getListingUrl($list["id"], true));
 							$listing_content["type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
 							
 							$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
@@ -349,8 +389,7 @@ class EnquiryController extends Controller {
 						});
 					}
 
-
-					$customer_dashboard_url = env('APP_URL');
+					// $customer_dashboard_url = config('app')['url'] + "/profile/basic-details/";
 					/* Get User / Customer (the guy who did enquiry) Details */
 					if($enquiry_obj->user_object_type == "App\User") { // If logged In user
 						$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
@@ -360,8 +399,11 @@ class EnquiryController extends Controller {
 							"contact" => ($customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->count() > 0) ? '+' . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->country_code . $customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
 							"describes_best" => unserialize($customer_data["user_details"]->first()->subtype), 
 							"message" => $enquiry_obj->enquiry_message,
-							"dashboard_url" => $customer_dashboard_url
+							"dashboard_url" => "",
+							"seeker" => "user",
 						];
+						
+						$email_details["dashboard_url"] = config('app')['url'] . "/profile/basic-details/" . $email_details['email'];
 
 						$email_details["to"] = $email_details["email"];
 						$email_details["listing_to"] = $email_details["email"];
@@ -373,9 +415,12 @@ class EnquiryController extends Controller {
 							"contact" => '+' . implode(explode("-", $lead_obj->mobile)), 
 							"describes_best" => unserialize($lead_obj->user_details_meta)["describes_best"], 
 							"message" => $enquiry_obj->enquiry_message,
-							"dashboard_url" => $customer_dashboard_url,
-							"to" => $lead_obj->email
+							"dashboard_url" => "",
+							"to" => $lead_obj->email,
+							"seeker" => "lead",
 						];
+						
+						$email_details["dashboard_url"] = config('app')['url'] . "/profile/basic-details/" . $email_details['email'];
 					}
 
 					if(!in_develop() || (in_develop() && $send_owner_mail)) { // If Prod Mode, then send Email else if in Dev MOde && The Send owner flag is true, then send the Email
@@ -682,7 +727,7 @@ class EnquiryController extends Controller {
 	* This function is called by the AJAX to add new Listing Enquiries 
 	*/
 	public function getEnquiry(Request $request) {
-		$output = new ConsoleOutput;
+		// $output = new ConsoleOutput;
 		$status = 500; $template_name = '';$modal_template_html = '';
 		$listing_obj_type = "App\Listing"; $listing_obj_id = 0; $listing_obj = null;
 		$full_screen_display = false;
@@ -1018,7 +1063,7 @@ class EnquiryController extends Controller {
     public function verifyOtp(Request $request) {
     	$status = 400; $modal_template_html = '';
     	$full_screen_display = false;
-    	$output = new ConsoleOutput;
+    	// $output = new ConsoleOutput;
 
     	if($request->has('contact') && strlen($request->contact) > 0) {
 	    	$session_id = Cookie::get('laravel_session');

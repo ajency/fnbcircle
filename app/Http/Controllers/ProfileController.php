@@ -139,7 +139,7 @@ class ProfileController extends Controller
                                 <div class="enquire-container">
                                     <h6 class="enquiry-made-by text-medium">
                                         '.$details['made-by-name'].' made a
-                                        <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="Direct Enquiry is the enquiry which is directly done against your listing by the customer.">
+                                        <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="A Direct Enquiry is an enquiry which is directly made to your listing by a customer.">
                                             Direct Enquiry
                                         </label>
                                         to
@@ -219,7 +219,7 @@ class ProfileController extends Controller
                                     <div class="enquire-container">
                                         <h6 class="enquiry-made-by text-medium">
                                             '.$details['made-by-name'].' made a
-                                            <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="Shared Enquiry is the enquiry which is sent to all the business listings matching customer\'s requirements.">
+                                            <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="A Shared Enquiry is an enquiry which is sent to all business listings that match a customer\'s requirements.">
                                                 Shared Enquiry
                                             </label>on '.$details['date'].'';
 
@@ -441,7 +441,7 @@ class ProfileController extends Controller
                                 <div class="enquire-container">
                                     <h6 class="enquiry-made-by text-medium">
                                         '.$name.' made a
-                                        <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="Direct Enquiry is the enquiry which is directly done against your listing by the customer.">
+                                        <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="A Direct Enquiry is an enquiry which is directly made to your listing by a customer.">
                                             Direct Enquiry
                                         </label>
                                         to
@@ -520,7 +520,7 @@ class ProfileController extends Controller
                                     <div class="enquire-container">
                                         <h6 class="enquiry-made-by text-medium">
                                             '.$name.' made a
-                                            <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="Shared Enquiry is the enquiry which is sent to all the business listings matching customer\'s requirements.">
+                                            <label class="fnb-label" data-toggle="tooltip" data-placement="top" title="A Shared Enquiry is an enquiry which is sent to all business listings that match a customer\'s requirements.">
                                                 Shared Enquiry
                                             </label>';
                                 if (isset($temp['enquiree_name'])) {

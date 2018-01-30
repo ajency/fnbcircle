@@ -87,7 +87,7 @@
                     @endphp
                     <div class="col-sm-12 flex-row flex-wrap describe-section">
                         <label class="flex-row points">
-                            <select class="fnb-select select-variant" multiple="multiple" name="description" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#describes-best-dropdown-error">
+                            <select class="fnb-select select-variant" multiple="multiple" name="description" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#describes-best-dropdown-error" required>
                                 @foreach($describes_best_html as $keyContent => $valueContent)
                                     {!! $valueContent["html"] !!}
                                 @endforeach

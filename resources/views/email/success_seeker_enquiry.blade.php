@@ -29,9 +29,8 @@
 							@foreach($listing_data as $listing_index => $listing_value)
 								Name:  <a href="{{ isset($listing_value['link']) ? $listing_value['link'] : $listing_url }}" target="_blank">{{ isset($listing_value['name']) ? $listing_value['name'] : $listing_name }}</a><br>
 								Type:  {{ isset($listing_value['type']) ? $listing_value['type']['name'] : '' }}<br>
-							 	(Featured Indication)
 							 	@if(isset($listing_value['cores']) && sizeof($listing_value['cores']) > 0)
-									Core Categories:<br>
+									Core Categories:
 										@foreach($listing_value['cores'] as $core_index => $core_value)
 											{{ $core_value["name"] }}{{ $core_index < (sizeof($listing_value['cores']) - 1) ? ', ' : '' }}
 										@endforeach
@@ -47,12 +46,13 @@
 											<br>
 										@endforeach
 								@endif
-								Rating: -<br>
+								Rating: - <br><br>
 							@endforeach
 						@endif
 
 
 						<div style="font-size: 0.9em;">Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
+						<br><br>
 						<div>
 	          				Regards,<br>
 	          				Team FnB Circle<br>

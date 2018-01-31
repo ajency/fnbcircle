@@ -26,7 +26,8 @@
 						@endif
 
 						@if(isset($listing_data))
-							@foreach($listing_data as $listing_index => $listing_value)
+							@foreach(array_slice($listing_data, 0, 3) as $listing_index => $listing_value)
+								<br>
 								Name:  <a href="{{ isset($listing_value['link']) ? $listing_value['link'] : $listing_url }}" target="_blank">{{ isset($listing_value['name']) ? $listing_value['name'] : $listing_name }}</a><br>
 								Type:  {{ isset($listing_value['type']) ? $listing_value['type']['name'] : '' }}<br>
 							 	(Featured Indication)
@@ -49,6 +50,11 @@
 								@endif
 								Rating: -<br>
 							@endforeach
+
+							@if(sizeof($listing_data) - 3 > 0)
+								<br/>
+								and {{ sizeof($listing_data) - 3 }} more listings..
+							@endif
 						@endif
 
 

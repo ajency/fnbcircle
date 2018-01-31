@@ -676,6 +676,14 @@ class EnquiryController extends Controller {
 						unset($listing_final_ids[$pos]);
 					}
 
+					if(Auth::user()) { // If User is logged In, check if s/he owns a listing, then exclude the listings from recommended Listings
+						$user_id = Auth::user()->id;
+						$owned_listing_ids = Listing::where(function ($query) use ($user_id) {
+							return $query->where('owner_id', $user_id)->orWhere('created_by', $user_id); 
+						})->where('status', 1)->pluck('id')->toArray();
+						$listing_final_ids = array_diff($listing_final_ids, $owned_listing_ids); // exclude the owner's listings from the filtered Listings => A = A - B
+					}
+
 					if (sizeof($listing_final_ids) > 0)  {
 						$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
 
@@ -689,7 +697,7 @@ class EnquiryController extends Controller {
 					$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
 					# $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
 					$filters = ["listing_ids" => $listing_final_ids];
-					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"]->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 	   			} else {
 	   				$listing_data = [];
 	   			}

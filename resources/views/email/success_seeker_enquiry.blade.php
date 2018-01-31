@@ -15,14 +15,14 @@
 						@if(isset($is_premium) && $is_premium)
 							Thank you for showing your interest in <a href="{{ $listing_url }}" target="_blank">{{ $listing_name }}</a>. Your details have been shared via email and sms with the listing owner of this business. They would contact you soon.<br>
 						@else
-							Thank you for showing your interest.<br>
-							We have sent your enquiry details via email and sms to <a href="{{ $listing_url }}" target="_blank">{{ $listing_name }}</a> &amp; all the few similar businesses matching your requirements. They would contact you soon. Incase you do not wish to be contacted by any other similar businesses, <label><a href="{{ config('app')['url'] }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a></label><br><br>
+							Thank you for showing your interest.<br><br>
+							We have sent your enquiry details via email and sms to <a href="{{ $listing_url }}" target="_blank" style="color: #ec6d4b;">{{ $listing_name }}</a> &amp; few similar businesses matching your requirements. They would contact you soon.<br><br>
 						@endif
 						
 						@if(isset($is_premium) && $is_premium)
 							<b>Listing Details:</b><br>
 						@else
-							Based on your enquiry, here are a few similar listings:
+							Based on your enquiry, here are a few similar listings: <br><br>
 						@endif
 
 						@if(isset($listing_data))
@@ -49,10 +49,11 @@
 								Rating: - <br><br>
 							@endforeach
 						@endif
-
-
-						<div style="font-size: 0.9em;">Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
+					
+						<div style="font-size: 0.9em;"><b>Disclaimer:</b> FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
 						<br><br>
+
+
 						<div>
 	          				Regards,<br>
 	          				Team FnB Circle<br>

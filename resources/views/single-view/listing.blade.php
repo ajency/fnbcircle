@@ -217,7 +217,7 @@
                                         <!-- <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button> -->
 
                                         <!-- <p class="m-b-0">20</p> -->
-                                        <p class="contact__title lighter">This lisiting got <b> {{$data['contact']['requests']}} </b> contact requests</p>
+                                        <p class="contact__title heavier">This lisiting got <b> {{$data['contact']['requests']}} </b> contact requests</p>
                                     </div>
                                     <!-- <div class="contact__date">
                                         <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
@@ -779,7 +779,7 @@
                                 <div class="contact__enquiry mobile--enquiry text-center">
                                                       
                                 @if($data['status']['id']==1)
-                                    <p class="contact__title lighter">This listing got <b>{{ $data['contact']['enquiries'] }}</b> enquiries</p>
+                                    <p class="contact__title heavier">This listing got <b>{{ $data['contact']['enquiries'] }}</b> enquiries</p>
                                     @if(!(Auth::user() && (Auth::user()->type === 'internal' || Auth::user()->id === $data['owner_id'])))
                                         <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
                                     @endif

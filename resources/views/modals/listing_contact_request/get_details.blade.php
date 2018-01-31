@@ -30,7 +30,7 @@
                <a href="#" class="primary-link heavier text-decor" data-dismiss="modal" data-toggle="modal" data-target="#login-modal">Login if already registered</a>
             </div>
             @isset($error)
-             {{$error}}
+             <p class="fnb-errors m-t-20 sub-title">{{$error}}</p>
             @endisset
          </div>
       </div>

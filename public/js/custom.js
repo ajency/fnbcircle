@@ -1188,6 +1188,7 @@ $(function(){
 			
 				$('.open-sidebar').click(function(){
 					event.preventDefault();
+					$('.animate-row').removeClass('overflow-hidden');
 					$('.animate-row').addClass('body-slide');
 					// setTimeout((function() {
 					// 	if ($('.post-gallery').length) {
@@ -1208,6 +1209,7 @@ $(function(){
 
 			$('.article-back').click(function(){
 				event.preventDefault();
+				$('.animate-row').addClass('overflow-hidden');
 				$('.animate-row').removeClass('body-slide');
 			});
 

@@ -676,6 +676,14 @@ class EnquiryController extends Controller {
 						unset($listing_final_ids[$pos]);
 					}
 
+					if(Auth::user()) { // If User is logged In, check if s/he owns a listing, then exclude the listings from recommended Listings
+						$user_id = Auth::user()->id;
+						$owned_listing_ids = Listing::where(function ($query) use ($user_id) {
+							return $query->where('owner_id', $user_id)->orWhere('created_by', $user_id); 
+						})->where('status', 1)->pluck('id')->toArray();
+						$listing_final_ids = array_diff($listing_final_ids, $owned_listing_ids); // exclude the owner's listings from the filtered Listings => A = A - B
+					}
+
 					if (sizeof($listing_final_ids) > 0)  {
 						$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
 

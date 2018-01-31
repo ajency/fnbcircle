@@ -689,7 +689,7 @@ class EnquiryController extends Controller {
 					$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
 					# $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
 					$filters = ["listing_ids" => $listing_final_ids];
-					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"]->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 	   			} else {
 	   				$listing_data = [];
 	   			}

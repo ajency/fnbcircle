@@ -153,6 +153,25 @@ $ajimport_config['childtables'][] = array(
     ), 
 ); 
 
+//user details for area after user entry
+$ajimport_config['childtables'][] = array(
+    'name'                  => 'user_details',
+    'is_mandatary_insertid' => 'no',
+    'fields_map'            => array(
+        "City_id"    => "area", 
+        "users_id"  => "user_id"
+    ),
+    'default_values'        => array(
+        "has_previously_login"       => "0", 
+        "total_listings"              => "0",
+        "published_listings"        => "0",
+        "total_jobs"  => "0",
+        "published_jobs"       => "0",
+        "jobs_applied"        => "0",
+    ), 
+);
+
+
 // user communication one for email after user entry
 
 $ajimport_config['childtables'][] = array(

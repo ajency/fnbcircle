@@ -662,6 +662,14 @@ class AdminModerationController extends Controller
             $listing->slug = $slug1;
             $listing->save();
         }
+        $areaCity = Area::where('status',1)->pluck('city_id','id')->toArray();
+        $userDetailSql = 'UPDATE user_details SET city = (CASE ';
+        foreach ($areaCity as $area => $city) {
+            $userDetailSql.= 'WHEN area = '.$area.' THEN \''.$city.'\'';
+        }
+        $userDetailSql .= ' END) WHERE area IS NOT NULL AND city IS NULL';
+        \Log::info('UserDetailQuery: '.$userDetailSql);
+        \DB::statement($userDetailSql);
         $common = new CommonController;
         $common->updateUserDetails();
     }

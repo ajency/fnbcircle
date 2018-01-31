@@ -217,6 +217,10 @@
         }
         if (data["popup_template"].length > 0) {
           $(document).find(modal_id + " #listing_popup_fill").html(data["popup_template"]);
+          return;
+        }
+        if ($(modal_id + " #level-three-enquiry").length > 0) {
+          multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false);
         }
       },
       error: function(request, status, error) {

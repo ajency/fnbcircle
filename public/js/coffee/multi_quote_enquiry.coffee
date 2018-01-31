@@ -188,6 +188,12 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 				$(document).find(modal_id + " #listing_popup_fill").html data["popup_template"]
 				# $(document).find(modal_id).modal 'show'
 				return
+			
+			if $(modal_id + " #level-three-enquiry").length > 0
+				# initCatSearchBox()
+				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
+				# multiSelectInit(modal_id + " #level-three-enquiry", false)
+				return
 		error: (request, status, error) ->
 			#$(modal_id + "").modal 'show'
 			if request.status == 410

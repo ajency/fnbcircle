@@ -157,6 +157,9 @@ $ajimport_config['childtables'][] = array(
 $ajimport_config['childtables'][] = array(
     'name'                  => 'user_details',
     'is_mandatary_insertid' => 'no',
+    'fields_map_to_update_temptable_child_id' => array(
+        "users_id"  => "user_id",
+    ),
     'fields_map'            => array(
         "City_id"    => "area", 
         "users_id"  => "user_id"
@@ -177,6 +180,10 @@ $ajimport_config['childtables'][] = array(
 $ajimport_config['childtables'][] = array(
     'name'                  => 'user_communications',
     'is_mandatary_insertid' => 'no',
+    'default_fields_map_to_update_temptable_child_id' => array(
+        "type" => "email", 
+        "object_type" => "App\User"
+    ),
     'fields_map'            => array(
         "Email1"    => "value", 
         "users_id"  => "object_id"
@@ -195,6 +202,10 @@ $ajimport_config['childtables'][] = array(
 $ajimport_config['childtables'][] = array(
     'name'                  => 'user_communications',
     'is_mandatary_insertid' => 'no',
+    'default_fields_map_to_update_temptable_child_id' => array(
+        "type" => "mobile", 
+        "object_type" => "App\User"
+    ),
     'fields_map'            => array(
         "Mobile1"    => "value", 
         "users_id"  => "object_id"

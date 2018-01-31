@@ -12,6 +12,7 @@ use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\ListingOperationTime;
 use App\User;
+use App\UserDetail;
 use App\UserCommunication;
 use Auth;
 use Session;
@@ -97,12 +98,17 @@ class ListingController extends Controller
                     $request_data["user"]["roles"] = "customer";
                     $request_data["user"]["type"] = "external";
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
-                }
-                if($user_details->phone != "" && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
-                    $usercomm_obj = UserCommunication::create([
-                        "type" => "mobile", "country_code" => ($user_details->locality) ? $user_details->locality : "91",
-                        "value" => $user_details->phone, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
-                    ]);
+                    if($user_details->phone != "" && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
+                        $usercomm_obj = UserCommunication::create([
+                            "type" => "mobile", "country_code" => ($user_details->locality) ? $user_details->locality : "91",
+                            "value" => $user_details->phone, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
+                        ]);
+                    }
+                    $ud = new UserDetail;
+                    $ud->city = Area::find($user_details->area)->city_id;
+                    $ud->area = $user_details->area;
+                    $ud->user_id = $user_resp["user"]->id;
+                    $ud->save();
                 }
                 $listing->owner_id = $user_resp["user"]->id;
                 $listing->save();
@@ -150,6 +156,8 @@ class ListingController extends Controller
             'change'        => 'nullable|boolean',
 
         ]);
+        $user = json_decode($data->user);
+        $user->area = $data->area;
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
         foreach ($contacts_json as $contact) {
@@ -174,7 +182,7 @@ class ListingController extends Controller
             $com->save();
         }
 
-        $user = json_decode($data->user);
+        
         if($listing->owner_id == null and $user->email != "") $this->createUserAndAssignListing($user,$listing);
 
         $change = "";

@@ -2,7 +2,7 @@
 
 <div class="level-three levels" id="level-three-enquiry">
     @if(isset($data["premium"]) && $data["premium"])
-        <div class="enquiry-success flex-row" style="padding: 0em">
+        <div class="enquiry-success flex-row" style="padding: 1em">
             <i class="fa fa-check-circle" aria-hidden="true"></i>
             <h6 class="text-color text-medium enquiry-success__text" style="padding-right: 0em">Email &amp; SMS with your details has been sent to the owner of {{ $data["title"]["name"] }}.</h6>
         </div>

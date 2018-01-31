@@ -37,7 +37,7 @@
  
 <body class="nav-md overflow-hidden">
  
-    <div class="page-shifter animate-row">
+    <div class="page-shifter animate-row overflow-hidden">
  
     <!-- header -->
  

@@ -34,6 +34,7 @@ class FnbAuthController extends Controller {
                     $userState = getSinglePopularCity()->slug;
                     session(['user_location' => $userState]);
                     $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
+                    $redirect_url = "/admin-dashboard/moderation/listing-approval";
                 }
 
              //    if(!$redirect_url) { // If redirect URL is Empty

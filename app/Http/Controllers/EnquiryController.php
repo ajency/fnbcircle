@@ -59,11 +59,11 @@ class EnquiryController extends Controller {
             'otp' => 'integer|min:1000|max:9999',
             //'id'  => 'integer|min:1',
         ]);*/
-
-        if(isset($contact_values['otp']) && strlen($contact_values['otp']) !== 4) {
+        
+        if(isset($contact_values['otp']) && strlen($contact_values['otp']) < 0) { // If OTP value not passed
         	$status = 404;
         	$message = 'no_otp';
-        } else if(isset($contact_values['otp']) && (intval($contact_values['otp']) >= 1000 && intval($contact_values['otp']) <= 9999)) {
+        } else if(isset($contact_values['otp']) && (intval($contact_values['otp']) >= 1000 && intval($contact_values['otp']) <= 9999)) { // If value passed & is within the range [1000, 9999]
 	        $json = Session::get($key);
 	        
 	        if ($json == null) {

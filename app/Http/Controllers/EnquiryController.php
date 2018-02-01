@@ -63,7 +63,7 @@ class EnquiryController extends Controller {
         if(isset($contact_values['otp']) && strlen($contact_values['otp']) !== 4) {
         	$status = 404;
         	$message = 'no_otp';
-        } else if(isset($contact_values['otp']) && ($contact_values['otp'] >= 1000 && $contact_values['otp'] <= 9999)) {
+        } else if(isset($contact_values['otp']) && (intval($contact_values['otp']) >= 1000 && intval($contact_values['otp']) <= 9999)) {
 	        $json = Session::get($key);
 	        
 	        if ($json == null) {
@@ -1185,7 +1185,7 @@ class EnquiryController extends Controller {
     				$modal_template_html = $this->getEnquiryTemplate($template_type, '', $session_id, true);
     			}
     			$status = 200;
-    		} else if($request->has('otp')) { // Verify OTP
+    		} else if($request->has('otp') && $request->otp) { // Verify OTP
     			$contact_data = ["contact" => $request->contact, "otp" => $request->otp];
 	    		$validation_status = $this->validateContactOtp($contact_data, "contact_info");
 	    		
@@ -1336,6 +1336,8 @@ class EnquiryController extends Controller {
 	    			$status = $validation_status["status"];
 	    			$modal_template_html = "";
 	    		}
+	    	} else {
+	    		$status = 404;
 	    	}
 	    } else {
 	    	$modal_template_html = "";

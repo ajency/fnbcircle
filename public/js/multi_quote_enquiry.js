@@ -557,10 +557,11 @@
 
         /* --- Change the Contact No & Regenarate OTP --- */
         $(document).on("click", modal_id + " #level-two-enquiry #new-mobile-verify-btn", function(event) {
-          $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
-          $(document).find(modal_id + " #new-mobile-modal").modal("hide");
-          getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").val());
-          event.stopImmediatePropagation();
+          if ($(this).closest("#change-contact-form").parsley().validate()) {
+            $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").val());
+            $(document).find(modal_id + " #new-mobile-modal").modal("hide");
+            event.stopImmediatePropagation();
+          }
         });
         $(document).on("change", modal_id + " #level-three-enquiry #area_section select[name='city']", function(event) {
           var city_vals, i;

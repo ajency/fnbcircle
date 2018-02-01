@@ -179,6 +179,7 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 		dataType: 'json'
 		async: false
 		success: (data) ->
+			console.log "----- Testing -----"
 			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
 				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass "hidden"
 			else
@@ -187,8 +188,8 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 			if data["popup_template"].length > 0
 				$(document).find(modal_id + " #listing_popup_fill").html data["popup_template"]
 				# $(document).find(modal_id).modal 'show'
-				return
-			
+				# return
+
 			if $(modal_id + " #level-three-enquiry").length > 0
 				# initCatSearchBox()
 				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)

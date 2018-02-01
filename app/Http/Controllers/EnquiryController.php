@@ -238,6 +238,7 @@ class EnquiryController extends Controller {
 
 		$enquiry_obj = Enquiry::find($enquiry_data["enquiry_id"]);
 		if($enquiry_obj->user_object_type == "App\User") { // If logged In user
+			$userauth_obj = new UserAuth;
 			$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
 			$email_details = [
 				"name" => $customer_data["user"]->name, 
@@ -275,7 +276,10 @@ class EnquiryController extends Controller {
 			$listing_obj = NULL;
 		}
 
-		$email_content = ["listing_name" => $listing_obj->title, "listing_owner" => [], "listing_url" => $this->getListingUrl($listing_obj, false), "listing_data" => []];
+		if($listing_obj)
+			$email_content = ["listing_name" => $listing_obj->title, "listing_owner" => [], "listing_url" => $this->getListingUrl($listing_obj, false), "listing_data" => []];
+		else
+			$email_content = ["listing_name" => "", "listing_owner" => [], "listing_url" => "", "listing_data" => []];
 		
 		$enq_data_obj = Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) use (&$email_content) {
 			$listing_content = array("name" => $list["title"], "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "", "link" => $this->getListingUrl($list["id"], true));
@@ -1067,7 +1071,6 @@ class EnquiryController extends Controller {
 						$listing_final_ids = Listing::whereIn('id', $listing_final_ids)->where('status', 1)->pluck('id')->toArray(); // Filter & Get the Listing that are of status 'Published', non 'Premium'
 					}
 					
-					// $this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, true);
 					$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
 					foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
 						/*if($is_premium_listings) {
@@ -1079,8 +1082,8 @@ class EnquiryController extends Controller {
 								ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
 							}
 						}*/
-						// ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
-						$this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_ids_value, true);
+						ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
+						// $this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_ids_value, true);
 					}
 				}
 

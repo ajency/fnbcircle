@@ -77,6 +77,8 @@
     @if(Auth::guest() || Auth::user()->type == "external")
         <!-- Multi quote Enquiry Modal -->
         @include('modals.multi_quote_enquiry')
+        <!-- Flag to display checkbox for Branch categories -->
+        <!-- <input type="hidden" name="" id="is_branch_category_checkbox" value="true"/> -->
     @endif
 
     </div>

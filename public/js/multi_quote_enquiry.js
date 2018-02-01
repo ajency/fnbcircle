@@ -210,6 +210,7 @@
       dataType: 'json',
       async: false,
       success: function(data) {
+        console.log("----- Testing -----");
         if (modal_id === "#enquiry-modal" && data.hasOwnProperty("display_full_screen") && data["display_full_screen"]) {
           $("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass("hidden");
         } else {
@@ -217,7 +218,6 @@
         }
         if (data["popup_template"].length > 0) {
           $(document).find(modal_id + " #listing_popup_fill").html(data["popup_template"]);
-          return;
         }
         if ($(modal_id + " #level-three-enquiry").length > 0) {
           multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false);

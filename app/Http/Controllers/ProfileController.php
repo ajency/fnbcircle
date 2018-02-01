@@ -91,12 +91,13 @@ class ProfileController extends Controller
         $listings_id = Listing::where('owner_id',Auth::user()->id)->pluck('id')->toArray();
         $enquiry_sent = EnquirySent::whereIn('enquiry_to_id',$listings_id)->where('enquiry_to_type','App\\Listing')->pluck('enquiry_id')->toArray();
         $enquiries = Enquiry::whereIn('id', $enquiry_sent)->where('user_object_id',$user->id)->where('user_object_type','App\\User')->orderBy('created_at','desc')->get();
+        // dd($enquiries);
         $data="";
         foreach ($enquiries as $enquiry) {
             $details = [];
             $details['date'] = $enquiry->created_at->format('j F Y');
             $details['type'] = $enquiry->sentTo()->whereIn('enquiry_to_id',$listings_id)->where('enquiry_to_type','App\\Listing')->first()->enquiry_type;
-            if($details['type']=='direct') {
+            if($details['type']=='direct' or $details['type'] == 'contact-request') {
                 $details['enquiree']      = $enquiry->enquiry_to()->first();
                 $details['enquiree_name'] = $details['enquiree']->title;
                 $against_city          = Area::with('city')->find($details['enquiree']->locality_id);
@@ -328,6 +329,75 @@ class ProfileController extends Controller
                                     </div>
 
                                 ';
+                                break;
+                        case 'contact-request':
+                                $details['html'] = '<div class="enquire-container">
+                                            <h6 class="enquiry-made-by text-medium">
+                                                '.$details['made-by-name'].' viewed the
+                                                <label class="fnb-label">
+                                                    Contact Details
+                                                </label>
+                                                of
+                                                <a class=" text-decor" target="_blank" href="' . $details['enquiree_link'] . '">
+                                                   ' . $details['enquiree_name'] . '
+                                                </a>
+                                                 on '.$details['date'].'
+                                            </h6>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <dl class="flex-row flex-wrap enquiriesRow">
+                                                        <div class="enquiriesRow__cols">
+                                                            <dt>
+                                                                Name
+                                                            </dt>
+                                                            <dd>
+                                                                ' . $details['made-by-name'] . '
+                                                            </dd>
+                                                        </div>
+                                                        <div class="enquiriesRow__cols">
+                                                            <dt>
+                                                                Email address
+                                                            </dt>
+                                                             <dd>
+                                                           ' . $details['made-by-email']['email'] ;
+
+                                                            if ($details['made-by-email']['is_verified'] == 1) {
+                                                                $details['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                                            } else {
+                                                                $details['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
+                                                            }
+
+                                $details['html'] .= '</dd>
+                                                        </div>
+
+                                                        <div class="enquiriesRow__cols">
+                                                            <dt>
+                                                                Phone number
+                                                            </dt>
+                                                            <dd>+' . $details['made-by-phone']['contact_region'] . ' ' . $details['made-by-phone']['contact'];
+
+                                if ($details['made-by-phone']['is_verified'] == 1) {
+                                    $details['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                } else {
+                                    $details['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
+                                }
+
+                                $details['html'] .= '</dd>
+                                                        </div>
+                                                        <div class="enquiriesRow__cols">
+                                                    <dt>
+                                                        What describe you best?
+                                                    </dt>
+                                                    <dd>';
+                                foreach ($details['made-by-description'] as $value) {
+                                    $details['html'] .= '<p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> ' . $value . '</p>';
+                                }
+                                $details['html'] .= '</dd>
+                                                </div>
+                                                    </dl>
+                                                </div>
+                                            </div>                                                
+                                        </div>';
                                 break;
                         }
             $data .=$details['html'];

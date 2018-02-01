@@ -179,7 +179,6 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 		dataType: 'json'
 		async: false
 		success: (data) ->
-			console.log "----- Testing -----"
 			if modal_id == "#enquiry-modal" and data.hasOwnProperty("display_full_screen") and data["display_full_screen"]
 				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass "hidden"
 			else

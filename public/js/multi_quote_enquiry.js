@@ -210,7 +210,6 @@
       dataType: 'json',
       async: false,
       success: function(data) {
-        console.log("----- Testing -----");
         if (modal_id === "#enquiry-modal" && data.hasOwnProperty("display_full_screen") && data["display_full_screen"]) {
           $("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").addClass("hidden");
         } else {

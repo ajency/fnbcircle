@@ -66,7 +66,7 @@
   getContent = function(modal_id, enquiry_level, listing_slug, trigger_modal, target_modal_id) {
     var areas, data;
     data = getFilters(modal_id, enquiry_level, listing_slug);
-    if (trigger_modal && target_modal_id === "#multi-quote-enquiry-modal") {
+    if ((modal_id === "#multi-quote-enquiry-modal") || (trigger_modal && target_modal_id === "#multi-quote-enquiry-modal")) {
       data["multi-quote"] = true;
       if ($("#listing_filter_view").length) {
         data['category'] = $(document).find("#listing_filter_view #current_category").val().split("|")[0];

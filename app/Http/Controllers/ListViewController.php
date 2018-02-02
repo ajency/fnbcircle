@@ -99,7 +99,7 @@ class ListViewController extends Controller {
     */
     public function searchData($keyword, $model, $search_key='name', $columns_needed = ['id'], $min_str_len = 0, $return_filterable_obj = false) {
     	$keywords = explode(" ", $keyword); // Split String to Keywords
-    	$output = new ConsoleOutput;
+    	// $output = new ConsoleOutput;
 
     	foreach ($keywords as $key => $value) {
     		$temp = null;
@@ -184,7 +184,7 @@ class ListViewController extends Controller {
     	//$is_parent = false;
 		$category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
 
-		$output = new ConsoleOutput;
+		// $output = new ConsoleOutput;
 
         if($request->has('category_level') && $request->category_level) {
             $category_obj = $category_obj->where('level', $request->category_level);
@@ -210,7 +210,7 @@ class ListViewController extends Controller {
     	$response_data = $response_data->get(['id', 'name', 'slug', 'level']);//$response_data->distinct('id')->get(['id', 'name', 'slug', 'level']);
 
     	$response_data->each(function($category) {
-			$output = new ConsoleOutput;
+			// $output = new ConsoleOutput;
 
 			if($category["level"] != 1) {
 				$temp = Category::where("id", $category["id"])->first();
@@ -244,7 +244,7 @@ class ListViewController extends Controller {
     	if(($request->has("search") && $request->search) || ($request->has("load") && $request->load)) { 
     		$business_obj = Listing::where('status', 1);// new Listing;
 
-    		$output = new ConsoleOutput;
+    		// $output = new ConsoleOutput;
     		/*$output->writeln("City");
     		$output->writeln($request->has("city"));
 
@@ -442,7 +442,7 @@ class ListViewController extends Controller {
     public function getListingSummaryData($city, $filters=[], $start = 1, $page_limit = 10, $sort_by = "published_on", $sort_order = "desc") {
     	try {
 	    	$filter_mapping = array("published" => "updated_at", "rank" => "", "views" => "views_count");
-	    	//$output = new ConsoleOutput;
+	    	// $output = new ConsoleOutput;
 
 	    	if(isset($city) && !($city == "all" || $city == "")) { // If city filter is added, then
 				$area_list = City::where('slug', $city);
@@ -486,8 +486,8 @@ class ListViewController extends Controller {
 			    	$array_id_list = array_unique($array_id_list); // Remove duplicate IDs
 		    	*/
 
-		    	$listing_ids = ListingCategory::whereIn('category_slug', $filters['categories'])->pluck('listing_id')->toArray();
-	    		$listing_obj = $listing_obj->whereIn("id", $listing_ids);
+                $listing_ids = ListingCategory::whereIn('category_slug', $filters['categories'])->distinct('listing_id')->pluck('listing_id')->toArray();
+                $listing_obj = $listing_obj->whereIn("id", $listing_ids);
 	    	}
             
 	    	if(isset($filters["areas"]) && sizeof($filters["areas"]) > 0) { // If list of area is selected, then
@@ -506,7 +506,7 @@ class ListViewController extends Controller {
     		}
 
     		if(isset($filters["listing_ids"]) && sizeof($filters["listing_ids"]) > 0) {
-    			$listing_obj = $listing_obj->whereIn('id', $filters["listing_ids"]);
+    			$listing_obj = $listing_obj->whereIn('id', array_unique($filters["listing_ids"]));
     		}
 
     		if(isset($filters["listing_status"]) && sizeof($filters["listing_status"]) > 0) { // If list of listing_status is selected, then
@@ -578,7 +578,7 @@ class ListViewController extends Controller {
     	$status = 200; $filter_filters = [];
     	$filter_mapping = array("published" => "updated_at", "rank" => "", "views" => "views_count");
 
-    	$output = new ConsoleOutput;
+    	// $output = new ConsoleOutput;
     	//$output->writeln(json_encode($request->all()));
 
     	if($request->has("filters")) {
@@ -718,7 +718,6 @@ class ListViewController extends Controller {
     		$filter_filters["state"] = "";
     	}
 
-    	//$output->writeln(json_encode($filter_filters));
 
     	/* Get the Filter DOM template */
     	$filter_view_html = $this->getListFilterData($filter_filters, true);

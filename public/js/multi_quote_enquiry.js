@@ -602,7 +602,7 @@
           page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
           $(this).find("i.fa-circle-o-notch").removeClass("hidden");
           $(this).attr("disabled", "disabled");
-          if ($(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() && $(document).find(modal_id + " #level-three-enquiry #area_operations").parsley().validate()) {
+          if ($(document).find(modal_id + " #level-three-enquiry #other_details_container").parsley().validate()) {
             getContent(modal_id, page_level, $("#enquiry_slug").val(), false, modal_id);
             event.stopImmediatePropagation();
           } else {

@@ -21,7 +21,6 @@
             <div class="seller-info__body filter-cards__body flex-row white-space list-new-changes" style="@isset($is_email) border: 1px solid #ddd;padding: 15px;margin-top: 20px; @endisset">
                 <div class="body-left flex-cols">
                     <div>
-
                         <div class="list-title-container" style="@isset($is_email) clear: both; display: table; @endisset">
                             <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}" style="@isset($is_email) margin-bottom: 0;margin-top: 0;float:left; @endisset"><a class="text-darker" href="{{ url(generateUrl($list_value->city['slug'], $list_value->slug)) }}" target="_blank" style="@isset($is_email) color: #ec6d4b; @endisset">{{ $list_value->title }}</a></h3>
                             <div class="power-seller-container" style="@isset($is_email) float: left; padding-left: 15px; @endisset">
@@ -31,7 +30,6 @@
                                     @endif
                                 @endisset    
                             </div>
-
                         </div>
                         <div class="location p-b-10 flex-row">
                             <!-- <span class="fnb-icons map-icon"></span> -->

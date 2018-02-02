@@ -143,7 +143,27 @@
  @include('includes.header')
  
     <?php if(auth()->guest()){ ?>
-             @include('modals.login')
+        @include('modals.login')
+
+        <!-- requirement popup signup -->
+        @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
+            @include('modals.user_requirement')
+        @endif
+
+        <!-- Email Verification popup -->
+        @include('modals.verification.email-modal')
+
+        <!-- Mobile Verification popup -->
+        @include('modals.verification.mobile-modal')
+
+        @include('modals.categories_list')
+        @if(Auth::guest() || Auth::user()->type == "external")
+            <!-- Multi quote Enquiry Modal -->
+            @include('modals.multi_quote_enquiry')
+            <!-- Flag to display checkbox for Branch categories -->
+            <!-- <input type="hidden" name="" id="is_branch_category_checkbox" value="true"/> -->
+        @endif
+
         <?php /* 
         <!-- Login Popup Modal -->
         <div class="modal fnb-modal login-modal modal-center" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -154,7 +174,7 @@
                             <img src='/img/logo-fnb.png' class="img-responsive center-block">
                         </div>
                         <button class="close close-modal" data-dismiss="modal" aria-label="Close">&#10005;</button>
- 
+
                     </div>
                     <div class="modal-body">
                         <div class="login-body">
@@ -298,4 +318,31 @@
                 </div>
             </div>
         </div> */ ?>
+
+        <!-- Parsley text validation -->
+        <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
+        <!-- Internationalization plugin -->
+        <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+        <!-- Multi Select plugin -->
+        <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+        <!-- custom script -->
+        <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
+        @if(Auth::guest() || Auth::user()->type == "external")
+            <script type="text/javascript" src="{{ asset('js/multi_quote_enquiry.js') }}"></script>
+        @endif
+        <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
+
+        @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
+            <!-- This is defined here as the "require" modal is included to this blade -->
+            <script type="text/javascript" src="{{ asset('/bower_components/tether/src/js/utils.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('/js/contact_flag_initialization.js') }}"></script>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("#requirement_form input[name='contact']").intlTelInput();
+                    $("#require-modal").modal('show');
+                });
+            </script>
+        @endif
+
     <?php } ?>

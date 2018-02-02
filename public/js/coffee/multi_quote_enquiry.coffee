@@ -62,7 +62,7 @@ getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal_id) ->
 	data = getFilters(modal_id, enquiry_level, listing_slug)
 
-	if trigger_modal and target_modal_id == "#multi-quote-enquiry-modal"
+	if (modal_id == "#multi-quote-enquiry-modal") or (trigger_modal and target_modal_id == "#multi-quote-enquiry-modal")
 		data["multi-quote"] = true
 		if $("#listing_filter_view").length
 			data['category'] = $(document).find("#listing_filter_view #current_category").val().split("|")[0]

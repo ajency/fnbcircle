@@ -6,6 +6,7 @@ function wp_get_laravel_header(){
 
     $url = get_laravel_site_url() . "/wp-laravel-header";
 
+    // var_dump($url);
     $mch     = curl_init();
     $headers = array(
         'Content-Type: application/json',
@@ -13,19 +14,21 @@ function wp_get_laravel_header(){
     );
 
     curl_setopt($mch, CURLOPT_URL, $url);
-    curl_setopt($mch, CURLOPT_HTTPHEADER, $headers);
+    // curl_setopt($mch, CURLOPT_HTTPHEADER, $headers);
     //curl_setopt($mch, CURLOPT_USERAGENT, 'PHP-MCAPI/2.0');
     curl_setopt($mch, CURLOPT_RETURNTRANSFER, true); 
     curl_setopt($mch, CURLOPT_CUSTOMREQUEST, "GET"); 
-    curl_setopt($mch, CURLOPT_TIMEOUT, 10);
+    // curl_setopt($mch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($mch, CURLOPT_TIMEOUT, 60);
     curl_setopt($mch, CURLOPT_SSL_VERIFYPEER, false); 
     //curl_setopt($mch, CURLOPT_COOKIE, session_name() . '=' . session_id());
     if (isset($_COOKIE['laravel_session'])) {
         curl_setopt($mch, CURLOPT_COOKIE, 'laravel_session=' . $_COOKIE['laravel_session']);
         curl_setopt($mch, CURLOPT_COOKIESESSION, true);
     }
-
+    
     $lara_user_data_json = curl_exec($mch);
+    // var_dump($lara_user_data_json);
 
     return $lara_user_data_json;
 

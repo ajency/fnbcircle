@@ -287,6 +287,6 @@ $(".contact-modal").on 'shown.bs.modal', (e) ->
           includeSelectAllOption: true
           numberDisplayed: 2
           delimiterText:','
-          nonSelectedText: 'Select Experience'
+          nonSelectedText: 'Select description'
   ), 800
 

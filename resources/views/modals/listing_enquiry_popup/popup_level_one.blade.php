@@ -65,7 +65,7 @@
         <!-- form ends -->
         <!-- describes best -->
         <div class="describes gap-separator {{ !Auth::guest() ? 'hidden' : '' }}">
-            <p class="text-darker describes__title heavier required">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></p>
+            <p class="text-darker describes__title"><span class="dis-inline required default-size heavier" style="font-size: 1em;">What describes you the best?</span> <span class="xx-small text-lighter">(Please select atleast one)</span></p>
             <div class="row">
                 <!-- <div class="col-sm-6">
                     <select class="fnb-select select-variant multi-select" multiple="multiple">

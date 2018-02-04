@@ -72,7 +72,8 @@
             <form id="other_details_container" data-parsley-validate="">
                 <!-- categories -->
                 <div class="categories-select gap-separator">
-                    <p class="text-darker describes__title heavier">Categories <span class="xx-small text-lighter">(Select from the list below or add other categories.)</span></p>
+                    <!-- <p class="text-darker describes__title heavier">Categories <span class="xx-small text-lighter">(Select from the list below or add other categories.)</span></p> -->
+                    <p class="text-darker describes__title heavier">Categories <span class="xx-small text-lighter">(Add categories and select.)</span></p>
                         <ul class="categories__points flex-points flex-row flex-wrap" id="enquiry_core_categories">
                             @if(isset($data["cores"]) && sizeof($data["cores"]) > 0)
                             <!-- <li>
@@ -124,7 +125,7 @@
                     <p class="text-darker describes__title heavier required m-b-5">Areas <span class="xx-small text-lighter">(Select your areas of interest)</span></p>
                     <div id="area_operations">
                         <ul class="areas-select__selection flex-row flex-wrap">
-                            <li>
+                            <li class="city-select">
                                 <div class="flex-row">
                                     <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-errors-container="#city-select-error" required="">
                                         <option value="">Select State</option>
@@ -140,7 +141,7 @@
                                     <div id="city-select-error" class="fnb-error"></div>
                                 </div>
                             </li>
-                            <li>
+                            <li class="area-select">
                                 <div class="flex-row">
                                     <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-mincheck="1" data-parsley-errors-container="#area-select-error" required="">
                                         @if(isset($data["city"]) && isset($data["city"]["id"]))
@@ -159,7 +160,7 @@
                         </ul>
                     </div>
                     <ul class="areas-select__selection flex-row flex-wrap area-append hidden" id="area_dom_skeleton">
-                        <li>
+                        <li class="city-select">
                             <div class="flex-row">
                                 <select class="form-control fnb-select select-variant" name="city" data-parsley-mincheck="1">
                                     <option value="">Select State</option>
@@ -169,7 +170,7 @@
                                 </select>
                             </div>
                         </li>
-                        <li>
+                        <li class="area-select">
                             <div class="flex-row">
                                 <select class="fnb-select select-variant areas-appended default-area-select" multiple="multiple" name="area" data-parsley-mincheck="1">
                                     <!-- <option>Bandra</option>

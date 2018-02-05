@@ -210,11 +210,11 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
               <div style="margin-bottom: 0.8em;">        
                   <div style="color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">  
 
-                  Please review “{{$listing_name}}”. ({{$listing_link}}).<br><br>
+                  Please review “<a href="{{$listing_link}}">{{$listing_name}}</a>”.<br><br>
 
                   <b>Details of the Listing</b>:<br/>
 
-                <b>Name</b> : {{$listing_name}} ({{$listing_link}})<br/>
+                <b>Name</b> : <a href="{{$listing_link}}">{{$listing_name}}</a><br/>
                 <b>Type</b> : {{$listing_type}}<br/>
                 <b>State</b> : {{$listing_city}}<br/>
                 <b>City</b> : {{$listing_area}}<br/>
@@ -247,8 +247,8 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
 
                   <b>Details of the listing owner </b>:<br/>
                   <b>Name</b> : {{$owner_name}}<br/>
-                  <b>Email</b> : {{$owner_email}} ($email_verified)<br/>
-                  <b>Phone</b> : +{{$owner_phone['contact_region']}}-{{$owner_phone['contact']}} ($phone_verified)<br/>
+                  <b>Email</b> : {{$owner_email}} ({{$email_verified}})<br/>
+                  <b>Phone</b> : +{{$owner_phone['contact_region']}}-{{$owner_phone['contact']}} ({{$phone_verified}})<br/>
 
                   <br>
 

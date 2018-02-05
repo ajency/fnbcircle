@@ -267,6 +267,8 @@
             return $(this).prop('checked', false).change();
           }
         });
+        console.log("Close of step 1 & open of step 2");
+        console.log(get_core_cat_checked);
         if (!$('#category-select #level-two-category #branch_categories li.active input[type="checkbox"][name="branch_categories_select"]').prop('checked')) {
           getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false);
         }
@@ -278,8 +280,17 @@
     $(document).on("click", "#category-select #level-two-category ul#branch_categories li a", function(event) {
       var get_core_cat_checked;
       get_core_cat_checked = [];
-      if ($("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1) {
-        get_core_cat_checked = getPreviouslyAvailableCategories();
+      console.log("load branch_categories");
+      console.log($(this).attr("aria-controls"));
+      console.log($("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length);
+      get_core_cat_checked = getPreviouslyAvailableCategories();
+      if ($("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length > 0) {
+        console.log("If branch");
+        console.log("Get Core cat click");
+        console.log(get_core_cat_checked);
+        getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false);
+      } else {
+        console.log("Else branch");
         getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false);
       }
       $("#category-select #level-two-category #cat-dataHolder div").removeClass("active");
@@ -289,6 +300,7 @@
 
     /* -- If a branch category is selected, then select all the core categories --- */
     $(document).on("change", "#category-select #level-two-category ul#branch_categories input[type='checkbox']", function(event) {
+      var main_page_categories;
       if ($("#category-select #level-two-category div#" + $(this).val() + " input[type='checkbox']").length < 1) {
         if ($(this).prop('checked')) {
           getNodeCategories("#category-select #level-two-category ", $(this).val(), [], true);
@@ -298,9 +310,17 @@
       } else {
         if ($(this).prop('checked')) {
           $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("checked", true);
+          $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("disabled", true);
         } else {
           $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("checked", false);
+          $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("disabled", false);
         }
+      }
+      main_page_categories = getPreviouslyAvailableCategories();
+      console.log("branch change");
+      if (main_page_categories.indexOf($(this).val()) > -1) {
+        main_page_categories.splice(main_page_categories.indexOf($(this).val()), 1);
+        $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
       }
       event.stopImmediatePropagation();
     });
@@ -310,14 +330,21 @@
       var branch_id, main_page_categories, path;
       branch_id = $(this).closest('div.tab-pane').attr('id');
       path = "#category-select #level-two-category ";
+      main_page_categories = getPreviouslyAvailableCategories();
       if ($(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']").length === $(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']:checked").length) {
         $(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop("checked", true);
       } else {
         $(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop("checked", false);
+        if (main_page_categories.indexOf(branch_id) > -1) {
+          main_page_categories.splice(main_page_categories.indexOf($(this).val()), 1);
+        }
+        $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
       }
-      main_page_categories = getPreviouslyAvailableCategories();
+      console.log($(this).val());
+      console.log(main_page_categories.indexOf($(this).val()));
       if (main_page_categories.indexOf($(this).val()) > -1) {
-        main_page_categories.pop(main_page_categories.indexOf($(this).val()));
+        console.log("pop node value");
+        main_page_categories.splice(main_page_categories.indexOf($(this).val()), 1);
         $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
       }
     });
@@ -363,12 +390,13 @@
 
     /* --- On Click of "Add Selected", of page 2 (branch or node) add those Checked values & close the Popup --- */
     $(document).on("click", "#category-select #level-two-category button#category-select-btn", function() {
-      var checked_categories, checked_hierarchy_categories, index, main_page_categories, selected_categories;
+      var checked_categories, checked_hierarchy_categories, index, main_page_categories, selected_branch_select_all_categories, selected_categories;
       checked_categories = [];
       main_page_categories = [];
       index = 0;
       checked_hierarchy_categories = [];
       selected_categories = [];
+      selected_branch_select_all_categories = [];
       main_page_categories = getPreviouslyAvailableCategories();
       if ($("#category-select #level-two-category #branch_categories input[type='checkbox']") && $("#category-select #level-two-category #branch_categories input[type='checkbox']").length > 0) {
 
@@ -376,12 +404,15 @@
         $.each($("#category-select #level-two-category #branch_categories input[type='checkbox']:checked"), function() {
           if (main_page_categories.indexOf($(this).val()) <= -1) {
             checked_categories.push({
-              "slug": $(this).val(),
-              "name": $(this).parent().find('p#' + $(this).val()).text()
+              "slug": $(this).val()
             });
+            selected_branch_select_all_categories.push($(this).val());
             selected_categories.push($(this).val());
           }
         });
+        if ($(document).find("input[type='hidden']#branch_category_selected_ids") && $(document).find("input[type='hidden']#branch_category_selected_ids").length > 0) {
+          $(document).find("input[type='hidden']#branch_category_selected_ids").val(JSON.stringify(selected_branch_select_all_categories));
+        }
       }
 
       /* ---- Share only the child values ---- */

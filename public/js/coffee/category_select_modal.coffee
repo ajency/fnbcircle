@@ -287,6 +287,8 @@ $(document).ready () ->
 				else
 					$(this).prop('checked', false).change()
 
+			console.log "Close of step 1 & open of step 2"
+			console.log get_core_cat_checked
 			# console.log $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls")
 			if !$('#category-select #level-two-category #branch_categories li.active input[type="checkbox"][name="branch_categories_select"]').prop('checked')
 				getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false)
@@ -298,10 +300,19 @@ $(document).ready () ->
 	### --- On click of Branch Categories, Get it's children --- ###
 	$(document).on "click", "#category-select #level-two-category ul#branch_categories li a", (event) ->
 		get_core_cat_checked = []
-		if $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1 ## If no checkboxes exist, then populate the Checkboxes under that div
-			get_core_cat_checked = getPreviouslyAvailableCategories()
-			getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false)
+		console.log "load branch_categories"
+		console.log $(this).attr("aria-controls")
+		console.log $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length
 
+		get_core_cat_checked = getPreviouslyAvailableCategories()
+		if $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length > 0 ## If no checkboxes exist, then populate the Checkboxes under that div
+			console.log "If branch"
+			console.log "Get Core cat click"
+			console.log get_core_cat_checked
+			getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false)
+		else
+			console.log "Else branch"
+			getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false)
 		## -- Display that specific div with Checkboxes, as the bootstrap fails to do the functionality in certain scenario -- ##
 		$("#category-select #level-two-category #cat-dataHolder div").removeClass "active"
 		$("#category-select #level-two-category #cat-dataHolder div#" + $(this).attr("aria-controls")).addClass "active"
@@ -318,9 +329,19 @@ $(document).ready () ->
 				getNodeCategories("#category-select #level-two-category ", $(this).val(), [], false)
 		else
 			if $(this).prop('checked')
-				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", true
+				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", true # Add checks to all
+				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "disabled", true # Disable the checkboxes
 			else
-				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", false
+				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", false # Remove checks
+				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "disabled", false # Enable the checkboxes
+
+		main_page_categories = getPreviouslyAvailableCategories()
+
+		console.log "branch change"
+		if main_page_categories.indexOf($(this).val()) > -1
+			main_page_categories.splice(main_page_categories.indexOf($(this).val()), 1)
+			$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
+
 		event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 		return
 
@@ -328,16 +349,22 @@ $(document).ready () ->
 	$(document).on "change", "#category-select #level-two-category #cat-dataHolder input[type='checkbox']", () ->
 		branch_id = $(this).closest('div.tab-pane').attr('id')
 		path = "#category-select #level-two-category "
-
-		if $(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']").length == $(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']:checked").length
-			$(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop "checked", true
-		else
-			$(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop "checked", false
-
 		main_page_categories = getPreviouslyAvailableCategories()
 
+		if $(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']").length == $(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']:checked").length
+			$(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop "checked", true # Check the Branch checkbox
+		else
+			$(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop "checked", false # Uncheck the Branch checkbox
+			if main_page_categories.indexOf(branch_id) > -1
+				main_page_categories.splice(main_page_categories.indexOf($(this).val()), 1) # Pop the Branch ID from the list
+			$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))	
+
+
+		console.log $(this).val()
+		console.log main_page_categories.indexOf($(this).val())
 		if main_page_categories.indexOf($(this).val()) > -1
-			main_page_categories.pop(main_page_categories.indexOf($(this).val()))
+			console.log "pop node value"
+			main_page_categories.splice(main_page_categories.indexOf($(this).val()), 1)
 			$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
 		
 		return
@@ -393,6 +420,7 @@ $(document).ready () ->
 		index = 0
 		checked_hierarchy_categories = []
 		selected_categories = []
+		selected_branch_select_all_categories = []
 
 		main_page_categories = getPreviouslyAvailableCategories()
 
@@ -400,9 +428,15 @@ $(document).ready () ->
 			### ---- Share only the branch values ---- ###
 			$.each $("#category-select #level-two-category #branch_categories input[type='checkbox']:checked"), ->
 				if main_page_categories.indexOf($(this).val()) <= -1 # if ID doesn't exist, then push that ID
-					checked_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+					# checked_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+					checked_categories.push {"slug": $(this).val()} # Pass the ID to restore the Check
+					selected_branch_select_all_categories.push $(this).val() # Pass the ID to an array
 					selected_categories.push $(this).val()
 				return
+
+			# update a seperate branch (Select all) checkbox, this is used as this is not added in Enquiry Popup 3 checkbox list
+			if $(document).find("input[type='hidden']#branch_category_selected_ids") and $(document).find("input[type='hidden']#branch_category_selected_ids").length > 0
+				$(document).find("input[type='hidden']#branch_category_selected_ids").val(JSON.stringify(selected_branch_select_all_categories))
 
 		### ---- Share only the child values ---- ###
 		$.each $("#category-select #level-two-category #cat-dataHolder input[type='checkbox']:checked"), ->

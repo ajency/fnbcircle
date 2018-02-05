@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     @if($list_value->cores->count() > 0)
-                        <div class="m-t-15 p-t-15 cat-holder" style="@isset($is_email) margin-top: 40px;border-top: 1px solid #eee; @endisset">
+                        <div class="m-t-15 p-t-15 cat-holder" style="@isset($is_email) margin-top: 40px;border-top: 1px solid #eee;display:table; @endisset">
                             <div class="core-cat">
                                 <p class="default-size text-lighter m-t-0 m-b-0" style="@isset($is_email) margin-bottom: 5px; @endisset">Core Categories</p>
                                 <ul class="fnb-cat flex-row" style="@isset($is_email) width: 100%;list-style: none;margin: 0;clear: both;padding-left: 0; @endisset">
@@ -87,7 +87,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="body-right flex-cols" style="@isset($is_email) clear: both; @endisset">
+                <div class="body-right flex-cols" style="@isset($is_email) clear: both;display:table; @endisset">
                     @if($list_value->premium || sizeof($list_value->areas_operation) > 0)
                         <div class="operations">
                             @if($list_value->premium)

@@ -24,6 +24,7 @@
         @if(sizeof($sub_categories["children"]) > 0)
             <div class="node-select flex-row custom-node-select">
                 <!-- Nav tabs -->
+                <!-- Branch Categories -->
                 <ul class="nav nav-tabs flex-row mobile-hide categ-list" role="tablist" id="branch_categories">
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
@@ -50,6 +51,7 @@
                     @endforeach
                 </ul>
                 <!-- Tab panes -->
+                <!-- Node Categories -->
                 <div class="tab-content cat-dataHolder mobile-categories relative" id="cat-dataHolder">
                     <!-- mobile collapse -->
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)

@@ -39,7 +39,7 @@
                       </div>
                       <ul class="fnb-cat flex-row" style="padding-left: 0;margin-left: 0;list-style: none;float: left;margin-top: 5px;">
                           @foreach($category['nodes'] as $node)
-                          <li style=" display: inline-block;border: 1px solid #676767;padding: 0.2em 0.6em;margin: 0 0.2em 0.2em 0.2em;border-radius: 4px;font-size: 12px;"><a href="#" class="fnb-cat__title" style="color: inherit;text-decoration: none;cursor: default;">{{$node['name']}}</a></li>
+                          <li style=" display: inline-block;border: 1px solid #676767;padding: 0.2em 0.6em;margin: 0 0.2em 0.2em 0.2em;border-radius: 4px;font-size: 12px;"><div class="fnb-cat__title" style="color: inherit;text-decoration: none;cursor: default;">{{$node['name']}}</div></li>
                           @endforeach
                       </ul>
                   </div>

@@ -66,9 +66,11 @@
                             <li>
                                 <a href="{{url('/news')}}" class="nav-title-size nav-color">News</a>
                             </li>
-                            <li class="mobile-hide">
-                                <button class="btn fnb-btn outline mini quote-btn enquiry-modal-btn half-border nav-color" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
-                            </li>
+                            @if(Auth::guest() || Auth::user()->type == "external")
+                                <li class="mobile-hide">
+                                    <button class="btn fnb-btn outline mini quote-btn enquiry-modal-btn half-border nav-color" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
+                                </li>
+                            @endif
                            
                             <li class="mobile-hide">
                                 @if(Auth::guest())
@@ -120,14 +122,14 @@
                     <p class="mobile-side-title">Explore</p>
                     <ul class="nav navbar-nav explore side-section">
                         @if(!Auth::guest())
-                        @if(Auth::user()->type == 'external')
-                        <li class="desk-hide">
-                            <a href="{{url('customer-dashboard')}}" class="nav-title-size">My Dashboard</a>
-                        </li>
-                        @endif
-                        <li class="desk-hide">
-                            <a href="{{url('profile/basic-details')}}" class="nav-title-size">My Profile</a>
-                        </li>
+                            @if(Auth::user()->type == 'external')
+                                <li class="desk-hide">
+                                    <a href="{{url('customer-dashboard')}}" class="nav-title-size">My Dashboard</a>
+                                </li>
+                            @endif
+                            <li class="desk-hide">
+                                <a href="{{url('profile/basic-details')}}" class="nav-title-size">My Profile</a>
+                            </li>
                         @endif  
 
                         <li>

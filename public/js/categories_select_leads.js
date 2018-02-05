@@ -22,7 +22,7 @@
     }
     console.log(selected_categ_id);
     console.log($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val());
-    if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val().length > 0) {
+    if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val() && $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val().length > 0) {
       selected_categ = JSON.parse($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val());
     } else {
       selected_categ = "";

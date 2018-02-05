@@ -1129,7 +1129,7 @@ class EnquiryController extends Controller {
 						$listing_final_ids = Listing::whereIn('id', $listing_final_ids)->where('status', 1)->pluck('id')->toArray(); // Filter & Get the Listing that are of status 'Published', non 'Premium'
 					}
 					
-					$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
+					$listing_operations_ids_chunks = array_chunk($listing_final_ids, 5); // each array should have 5 IDs -> 5 is chosen to free the process faster, choosing 500, might take lot of time, which can block even 'high' priority tasks
 					foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
 						/*if($is_premium_listings) {
 							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
@@ -1368,7 +1368,7 @@ class EnquiryController extends Controller {
 								}
 							}*/
 							// $this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_operations_ids, false);
-							$listing_operations_ids_chunks = array_chunk($listing_final_ids, 500); // each array should have 500 IDs
+							$listing_operations_ids_chunks = array_chunk($listing_final_ids, 5); // each array should have 5 IDs -> 5 is chosen to free the process faster, choosing 500, might take lot of time, which can block even 'high' priority tasks
 							foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
 								ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
 								/*if(in_develop()) {

@@ -621,6 +621,8 @@ $(document).ready () ->
 
 				### --- Category select modal on show --- ###
 				$(document).on "shown.bs.modal", "#category-select", (event) ->
+					branch_list = JSON.parse($(modal_id + " #level-three-enquiry #branch_category_selected_ids").val())
+					main_page_categories = main_page_categories.concat(branch_list)
 					$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
 					return
 				return
@@ -637,9 +639,9 @@ $(document).ready () ->
 
 				$(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop "checked", false
 				while index < checked_categories.length
-					if $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0
+					if $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0 # if a checkbox with that ID exist, then Select that checkbox
 						$(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", true
-					else
+					else if checked_categories[index].hasOwnProperty("name") # if the name object exist in the data, then generate a checkbox, & inject to DOM
 						html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\">
 							<p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label>
 								</li>"

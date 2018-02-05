@@ -74,6 +74,7 @@
                     <input type="hidden" id="modal_categories_hierarchy_chosen" value="[]">
                     <input type="hidden" id="is_parent_category_checkbox" value="1">
                     <input type="hidden" id="is_branch_category_checkbox" value="1">
+                    
                     <div id="categories" class="node-list"></div>
                   </div>
                 </div>

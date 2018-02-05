@@ -103,6 +103,9 @@
                         <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor x-small" id="select-more-categories">+ Add categories</a>
                         <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"/>
                         <input type="hidden" id="modal_categories_hierarchy_chosen" name="modal_categories_hierarchy_chosen" value="[]"/>
+                        <input type="hidden" name="" id="is_branch_category_checkbox" value="true"/>
+                        <input type="hidden" name="" id="branch_category_selected_ids" value="[]"/>
+
                         
                         <!-- <div class="form-group m-t-5 m-b-0 add-more-cat__input"> -->
                         <!-- <div class="form-group m-t-5 m-b-0">

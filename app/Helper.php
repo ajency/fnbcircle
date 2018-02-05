@@ -7,6 +7,7 @@ use App\Defaults;
 use App\User;
 use App\InvalidEmail;
 use Spatie\Activitylog\Models\Activity;
+use App\Jobs\UpdatePepoBackupTable;
 // use AjComm;
 
 /**
@@ -986,6 +987,24 @@ function updateJobExpiry($job,$newPlan=[]){
 
 	return false;
 }
+
+
+function logActivity($log,$performedOn,$causedBy=null,$properties=[]){
+	$newActivity = ($causedBy != null)?
+		activity()
+		   ->performedOn($performedOn)
+		   ->causedBy($causedBy)
+		   ->withProperties($properties)
+		   ->log($log)
+		: activity()
+		   ->performedOn($performedOn)
+		   ->withProperties($properties)
+		   ->log($log)
+
+	UpdatePepoBackupTable::dispatch($newActivity)->onQueue('low');
+}
+
+
 // function createNewPlan($objectType,$objectid,$planId){
 // 	//check if any plan is active or requested
 // 	$objectplan = App\PlanAssociation::where(['premium_type'=>$objectType,'premium_id'=>$objectid,'plan_id'=>$planId])->whereIn('status',[0,1])->get();

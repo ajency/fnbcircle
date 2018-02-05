@@ -136,6 +136,9 @@
             </div>
         </div>
         <!-- looking for ends -->
+        <div class="flex-row points">
+            <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to news letter.
+        </div>
         <!-- action -->
         <div class="send-action">
             @if(isset($enquiry_send_button) && $enquiry_send_button)

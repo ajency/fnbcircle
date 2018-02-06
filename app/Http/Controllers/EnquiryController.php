@@ -243,7 +243,7 @@ class EnquiryController extends Controller {
 			$email_details = [
 				"name" => $customer_data["user"]->name, 
 				"email" => ($customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->count() > 0) ? $customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->first()->value : $customer_data["user_comm"]->where('type', 'email')->first()->value, 
-				"contact" => ($customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->count() > 0) ? '+' . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->country_code . $customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
+				"contact" => ($customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->count() > 0) ? '+' . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
 				"describes_best" => unserialize($customer_data["user_details"]->first()->subtype), 
 				"message" => $enquiry_obj->enquiry_message,
 				"dashboard_url" => "",

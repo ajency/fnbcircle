@@ -12,6 +12,8 @@ class UpdatePepoBackupTable implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $activity;
+
     /**
      * Create a new job instance.
      *
@@ -19,7 +21,7 @@ class UpdatePepoBackupTable implements ShouldQueue
      */
     public function __construct($activity)
     {
-        
+        $this->activity = $activity;
     }
 
     /**

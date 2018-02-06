@@ -233,11 +233,11 @@ class ContactRequestController extends Controller
         $sent->is_archived = 0;
         $sent->save();
 
-
-        activity()
-           ->performedOn($enquiry)
-           ->causedBy($user)
-           ->log('contact-request-created');
+        logActivity('contact-request-created',$enquiry,$user);
+        // activity()
+        //    ->performedOn($enquiry)
+        //    ->causedBy($user)
+        //    ->log('contact-request-created');
         
         if ($listing->premium) {
             $this->sendPremiumContact($listing);

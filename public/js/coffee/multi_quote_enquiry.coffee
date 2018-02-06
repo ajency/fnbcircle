@@ -1,3 +1,5 @@
+modal_popup_id = ""
+
 capitalize = (string) ->
 	return string.charAt(0).toUpperCase() + string.slice(1)
 
@@ -95,7 +97,7 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 						$(document).find(target_modal_id).modal 'show'
 						if $(target_modal_id + " #level-three-enquiry").length > 0
 							# initCatSearchBox()
-							multiSelectInit(target_modal_id + " #level-three-enquiry #area_section #area_operations", false)
+							multiSelectInit(target_modal_id + " #level-three-enquiry #area_section #area_operations", "", false)
 					else
 						### --- Else trigger default modal ID ---###
 						$(document).find(modal_id).modal 'show'
@@ -111,8 +113,8 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 
 				if $(modal_id + " #level-three-enquiry").length > 0
 					# initCatSearchBox()
-					multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
-					# multiSelectInit(modal_id + " #level-three-enquiry", false)
+					multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", "", false)
+					# multiSelectInit(modal_id + " #level-three-enquiry", "", false)
 					return
 		error: (request, status, error) ->
 			#$("#multi-quote-enquiry-modal").modal 'show'
@@ -191,8 +193,8 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 
 			if $(modal_id + " #level-three-enquiry").length > 0
 				# initCatSearchBox()
-				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
-				# multiSelectInit(modal_id + " #level-three-enquiry", false)
+				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", "", false)
+				# multiSelectInit(modal_id + " #level-three-enquiry", "", false)
 				return
 		error: (request, status, error) ->
 			#$(modal_id + "").modal 'show'
@@ -232,7 +234,8 @@ getArea = (modal_id, city, path) ->
 	$.ajax
 		type: 'post'
 		url: '/get_areas'
-		data: 'city': city
+		data: 
+			'city': city
 		async: false
 		success: (data) ->
 			key = undefined
@@ -244,13 +247,16 @@ getArea = (modal_id, city, path) ->
 			#$('#' + path + ' select[name="area"]').html html
 			$(path).html html
 			
-			$(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('rebuild')
-			multiSelectInit(modal_id + " #level-three-enquiry #area_section", false)
+			# $(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('rebuild')
+			$(document).find(path).multiselect('rebuild')
+			
+			# multiSelectInit(modal_id + " #level-three-enquiry #area_section", "", false)
+			multiSelectInit(modal_id + " #level-three-enquiry #area_section", path, false)
 			
 			# dom_html = $(path).clone("true") ## clone <select>...</select>
 			# new_dom_path = $(path).closest('div.flex-row')
 			# $(path).closest('div.flex-row').html dom_html
-			# multiSelectInit(new_dom_path, false)
+			# multiSelectInit(new_dom_path, "", false)
 			return
 		error: (request, status, error) ->
 			throw Error()
@@ -338,17 +344,23 @@ initFlagDrop = (path) ->
 	return
 
 ## -- MultiSelect dropdown Initialization function -- ##
-multiSelectInit = (path, reinit = false) ->
+multiSelectInit = (general_path, specific_path, reinit = false) ->
+	path = if (specific_path and specific_path.length) then $(specific_path) else $(document).find(general_path + ' .default-area-select')
+	# console.log if (specific_path and specific_path.length) then "specific_path" else "general_path"
 	if reinit
-		$(document).find(path + ' .default-area-select').multiselect()
 		# $(document).find($(path)).find('.default-area-select').multiselect()
+		# $(document).find(general_path + ' .default-area-select').multiselect()
+		$(document).find(path).multiselect()
 	else
-		$(document).find(path + ' .default-area-select').multiselect
 		# $(document).find($(path)).find('.default-area-select').multiselect
+		# $(document).find(general_path + ' .default-area-select').multiselect
+		$(document).find(path).multiselect
 			includeSelectAllOption: true
 			numberDisplayed: 2
 			delimiterText: ','
 			nonSelectedText: 'Select City'
+			# onInitialized: (select, container) ->
+			# 	console.log 'multiselect Initialized'
 
 	return
 
@@ -402,6 +414,7 @@ $(document).ready () ->
 	### --- Display respective Popups on "Send Enquiry" click --- ###
 	$(document).on "click", ".enquiry-modal-btn", (e) ->
 		modal_id = $(this).data("target")
+		modal_popup_id = modal_id
 		
 		if $(modal_id).length > 0
 			if ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#rhs-enquiry-form").find("select[name='description']").length) # if the RHS single enquiry form exist & has description Dropdown
@@ -577,16 +590,19 @@ $(document).ready () ->
 					return
 
 				#$(this).find("option[value='" + $(this).val() + "']").removeClass 'hidden' # remove hidden class for that "select"
+				# console.log $(this).closest('ul').find('select[name="area"]')
 				getArea(modal_id, $(this).val(), $(this).closest('ul').find('select[name="area"]'))
 				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 			
-			### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
-			$(document).on "click", modal_id + " #level-three-enquiry #add-city-areas", (event) ->
-				$(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations")
-				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
-				# event.stopImmediatePropagation() # Prevent making multiple AJAX calls
-				return
+			# ### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
+			# ## -- This function is defined below -- ##
+			# $(document).on "click", modal_id + " #level-three-enquiry #add-city-areas", (event) ->
+			# 	$(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations")
+			# 	console.log "on add Area Click"
+			# 	multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", "", false)
+			# 	# event.stopImmediatePropagation() # Prevent making multiple AJAX calls
+			# 	return
 
 			### --- On click of close, remove the City-Area DOM --- ###
 			$(document).on "click", modal_id + " #level-three-enquiry #close_areas", () ->
@@ -655,4 +671,14 @@ $(document).ready () ->
 
 			#e.stopimmediatepropagation()
 			return
+	
+	### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
+	$(document).on "click", "#level-three-enquiry #add-city-areas", (event) ->
+		if modal_popup_id and modal_popup_id.length > 0
+			$(modal_popup_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_popup_id + " #area_section #area_operations")
+			# console.log "on add Area Click"
+			multiSelectInit(modal_popup_id + " #level-three-enquiry #area_section #area_operations", "", false)
+			# event.stopImmediatePropagation() # Prevent making multiple AJAX calls
+		return
 	return
+

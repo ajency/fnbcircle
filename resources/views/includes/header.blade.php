@@ -10,7 +10,7 @@
                     </div>
                     <div class="mobile-head__right mobile-flex">
                         @if(Auth::guest() || Auth::user()->type == "external")
-                            <button class="btn fnb-btn outline mini quote-btn half-border" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
+                            <button class="btn fnb-btn outline mini quote-btn half-border enquiry-modal-btn" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
                         @endif
                          <a href="" class="login">
                             <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
@@ -68,7 +68,7 @@
                             </li>
                             @if(Auth::guest() || Auth::user()->type == "external")
                                 <li class="mobile-hide">
-                                    <button class="btn fnb-btn outline mini quote-btn enquiry-modal-btn half-border nav-color" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
+                                    <button class="btn fnb-btn outline mini quote-btn enquiry-modal-btn half-border nav-color enquiry-modal-btn" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
                                 </li>
                             @endif
                            

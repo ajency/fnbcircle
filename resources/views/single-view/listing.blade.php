@@ -890,7 +890,7 @@
                         @if($data['status']['id']==1)
                             <div class="sticky-bottom mobile-flex desk-hide active">
                                 <div class="stick-bottom__text">
-                                    <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
+                                    <p class="m-b-0 element-title text-capitalise bolder enquiry-modal-btn">Get best deals in "{{$data['title']['name']}}"</p>
                                 </div>
                                 <div class="actions">
                                     <button class="btn fnb-btn primary-btn full border-btn send-enquiry">Send Enquiry</button>

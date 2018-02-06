@@ -28,7 +28,7 @@
     </div>
     <div class="sticky-bottom  mobile-flex desk-hide">
         <div class="stick-bottom__text">
-            <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
+            <p class="m-b-0 element-title text-capitalise bolder enquiry-modal-btn">Get best deals <label id="category_listing_list_view_label"></label></p>
         </div>
         <div class="actions">
             <button class="btn fnb-btn primary-btn full border-btn send-enquiry" type="button">Send an Enquiry</button>

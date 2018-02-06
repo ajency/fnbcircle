@@ -175,10 +175,16 @@
     /* --- Update the Category labels --- */
     if ($(".listings-page a.bolder").text().length > 0) {
       $(".listings-page .category_label").text($(".listings-page a.bolder").text());
+      if ($(document).find("#category_listing_list_view_label")) {
+        $(document).find("#category_listing_list_view_label").text("in \"" + $(".listings-page a.bolder").text() + "\"");
+      }
     } else {
       $(".listings-page span.category_label").text("");
       $(".listings-page h5 span.category_label").text("All");
       $(".listings-page p.category_label").text("All");
+      if ($(document).find("#category_listing_list_view_label")) {
+        $(document).find("#category_listing_list_view_label").text("");
+      }
     }
 
     /* --- Update the State labels --- */
@@ -260,7 +266,7 @@
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
-          end = (end > parseInt(data["count"])) ? parseInt(data["count"]) : end;
+          end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
           if (isMobile()) {
             $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
           } else {

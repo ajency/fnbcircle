@@ -1,9 +1,10 @@
 <!-- Level two starts -->
 
-<div class="level-three levels">
+<!-- <div class="level-three levels"> -->
+<div class="level-three levels" id="level-two-enquiry">
     <p class="content-title text-darker m-b-0 text-medium mobile-hide">Verify your phone number to contact the listing.</p>
     <!-- verify email and contact -->
-    <div class="verification gap-separator" id="level-two-enquiry">
+    <div class="verification gap-separator">
         <p class="content-title text-darker m-b-0 text-lighter desk-hide m-b-15">Verify your phone number to contact the listing.</p>
         <!-- <p class="content-title text-darker m-b-0 text-lighter desk-hide m-b-15">Verify your email and phone number to contact the listing.</p>
         <div class="verification__row flex-row">

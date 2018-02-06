@@ -134,7 +134,7 @@
                     <input type="text" class="form-control fnb-input" name="enquiry_message" placeholder="">
                 </div>
             </div>
-        </div>
+        </div><br/>
         <!-- looking for ends -->
         <div class="flex-row points">
             <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to news letter.

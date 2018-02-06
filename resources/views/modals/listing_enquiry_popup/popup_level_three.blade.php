@@ -1,6 +1,7 @@
 <!-- Level three starts -->
 
-<div class="level-three levels" id="level-three-enquiry">
+<!-- <div class="level-three levels" id="level-three-enquiry"> -->
+<div class="level-three" id="level-three-enquiry">
     @if(isset($data["premium"]) && $data["premium"])
         <div class="enquiry-success flex-row" style="padding: 1em">
             <i class="fa fa-check-circle" aria-hidden="true"></i>

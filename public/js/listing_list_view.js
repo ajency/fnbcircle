@@ -453,6 +453,7 @@
       searchIn: ['name'],
       valueProperty: 'node_children',
       visibleProperties: ["name", "search_name"],
+      searchContain: true,
       searchDelay: 200,
       allowDuplicateValues: false,
       debug: false,

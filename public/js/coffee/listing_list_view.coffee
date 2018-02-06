@@ -523,7 +523,7 @@ $(document).ready () ->
 		valueProperty: 'node_children'
 		visibleProperties: ["name", "search_name"] ## Order of display & dropdown contents to display
 		
-		# searchContain: true
+		searchContain: true
 		# searchEqual: false
 		# searchDisabled: false
 

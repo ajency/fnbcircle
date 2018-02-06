@@ -161,9 +161,13 @@ class RegisterController extends Controller
         //     }
         // }
 
+
+
         $response = $userauth_obj->updateOrCreateUserDetails($user_obj, $request_data["user_details"], "user_id", $user_obj->id);
         $user_obj->setUserType($request->description);
         $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
+
+        logActivity('user-requirements',$response['data'],$user_obj);
 
         if($required_fields_check["has_required_fields_filled"]) {
             return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]], "next_url" => $next_redirect_url), "api");
@@ -239,6 +243,8 @@ class RegisterController extends Controller
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
                     // $user_resp['user']->setUserType($request->description);
                 }
+
+                logActivity('email_signup',$user_resp['user'],$user_resp['user']);
 
                 if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
                     $usercomm_obj = UserCommunication::create([

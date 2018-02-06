@@ -1008,6 +1008,9 @@ class AdminConfigurationController extends Controller
         else
             $status = false;
 
+        if($job->status == '3'){
+            logActivity('job_published',$job,Auth::user());
+        }
         
 
         if($job->status == '3' || $job->status == '5'){

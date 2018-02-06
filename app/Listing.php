@@ -143,9 +143,10 @@ class Listing extends Model
                 $this->owner_id = Auth::user()->id;
                 $this->verified = 1;
                 $this->source = 'external_user';
+                $this->save();
                 $common = new CommonController;
                 $common->updateUserDetails(Auth::user());
-
+                logActivity('listing_created',$this,Auth::user());
             }else{
                 $this->owner_id = null; 
                 $this->source = ($import)? 'import': 'internal_user'; 

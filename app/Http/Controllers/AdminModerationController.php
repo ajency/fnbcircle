@@ -426,6 +426,7 @@ class AdminModerationController extends Controller
                     $listing->status = Listing::PUBLISHED;
                     $listing->published_on = Carbon::now();
                     $listing->save();
+                    logActivity('listing_publish',$listing,Auth::user());
                     if($listing->owner_id != null){
                         $common = new CommonController;
                         $common->updateUserDetails($listing->owner);

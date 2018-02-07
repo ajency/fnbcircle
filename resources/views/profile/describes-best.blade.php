@@ -75,7 +75,7 @@
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
                                     @endif
-                                    <div class="describe-best" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="describe-best m-t-40" id="accordion" role="tablist" aria-multiselectable="true">
                                     @foreach($descriptions as $description)
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="{{$description->value}}">

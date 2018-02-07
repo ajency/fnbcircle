@@ -128,7 +128,7 @@
                 <div class="areas-select gap-separator" id="area_section">
                     <p class="text-darker describes__title heavier required m-b-5">Areas <span class="xx-small text-lighter">(Select your areas of interest)</span></p>
                     <div id="area_operations">
-                        <ul class="areas-select__selection flex-row flex-wrap">
+                        <ul class="areas-select__selection flex-row flex-wrap align-top">
                             <li class="city-select">
                                 <div class="">
                                     <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-errors-container="#city-select-error" required="">

@@ -21,5 +21,7 @@
     	@endif
     @endif
 
-    <button class="btn fnb-btn outline border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button>
+    <div class="text-center">
+        <button class="btn fnb-btn outline border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button>
+    </div>
 </div>

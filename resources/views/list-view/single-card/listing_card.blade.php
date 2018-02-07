@@ -197,10 +197,11 @@
 @if(isset($listing_data) && $listing_data && $listing_data->count() <= 0)
     <div class="filter-data m-b-30">
         <div class="no-results">
-            <h3 class="seller-info__title ellipsis text-primary">Sorry, no results found!</h3>
-            <!-- <p class="nf-text heavier text-color">Please check the spelling or try searching for something else</p> -->
+            <!-- <h3 class="seller-info__title ellipsis text-primary">Sorry, no results found!</h3>
             <p class="nf-text heavier text-color">Please try searching for something else</p>
-            <img src="/img/404.png" class="img-reponsive center-block img-nf" width="100">
+            <img src="/img/404.png" class="img-reponsive center-block img-nf" width="100"> -->
+            <h5 class="seller-info__title ellipsis text-primary">Sorry, No Business Listings Matching Your Requirements! <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+            <img src="/img/404.png" class="img-reponsive center-block img-nf m-t-40" width="350">
         </div>
     </div>
 @endif

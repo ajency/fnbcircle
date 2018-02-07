@@ -14,7 +14,7 @@
 @endsection
 
 @section('main-content')
-	<div class="activity tab-pane fade active in" id="activity">
+	<div class="activity tab-pane fade active in m-t-40" id="activity">
                                     <!-- <div class="activity-panel"> -->
                                         <!--    <div class="activity-panel__header flex-row space-between">
                                             <div class="activity-name">

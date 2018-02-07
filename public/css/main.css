@@ -5239,6 +5239,7 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .suppliers-data .categories__points .checkbox:before {
   height: 16px;
   width: 15px;
+  top: -16px;
 }
 .verification-modal .suppliers-data .areas-select__selection {
   background-color: #fff;

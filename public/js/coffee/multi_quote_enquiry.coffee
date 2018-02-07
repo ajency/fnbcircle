@@ -144,19 +144,19 @@ validateContact = (contact, error_path, region_code) -> # Check if Contact Numbe
 		if (region_code)
 			contact_sub = contact.substring(1, contact.length) # Exclude the +
 		else
-			contact_sub = contact
+			contact_sub = contact # only the contact no
 
-		if((not region_code and contact_sub.length <= 0) or (region_code and contact_sub.length <= 2)) 
+		if((not region_code and contact_sub.length <= 0) or (region_code and contact_sub.length <= 2)) # if contact no is defined
 			$(error_path).removeClass("hidden").text("Please enter your contact number")
-		else if(contact_sub.length < 10)
+		else if(contact_sub.length < 10) # Number too short
 			$(error_path).removeClass("hidden").text("Contact number too short")
 		else if((region_code and contact_sub.length > 13) or ((not region_code) and contact_sub.length > 10)) # If excluding <region_code> & length is greater than 10, then
 			$(error_path).removeClass("hidden").text("Contact number too long")
-		else
-			$(error_path).addClass("hidden")
-	else
+		else # Valid contact
+			$(error_path).addClass("hidden") # hide the error message
+			return true
+	else # Invalid contact number
 		$(error_path).removeClass("hidden").text("Please enter a valid Contact number")
-	
 	return false
 
 ### --- Request template for a modal --- ###
@@ -738,6 +738,8 @@ $(document).ready () ->
 	### --- Change the Contact No & Regenarate OTP --- ###
 	$(document).on "click", "#enquiry-mobile-verification #new-mobile-modal #new-mobile-verify-btn", (event) ->
 		$(this).closest("#change-contact-form")
+		
+		$("#enquiry-mobile-verification #phoneErrorCustom").html "" # this empty text is added to trigger the parsley message DISPLAY
 		if $(this).closest("#change-contact-form").parsley().validate()#$(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val()
 			# $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
 			if modal_popup_id and modal_popup_id.length > 0

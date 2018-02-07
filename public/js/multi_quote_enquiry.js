@@ -166,6 +166,7 @@
         $(error_path).removeClass("hidden").text("Contact number too long");
       } else {
         $(error_path).addClass("hidden");
+        return true;
       }
     } else {
       $(error_path).removeClass("hidden").text("Please enter a valid Contact number");
@@ -705,6 +706,7 @@
     /* --- Change the Contact No & Regenarate OTP --- */
     $(document).on("click", "#enquiry-mobile-verification #new-mobile-modal #new-mobile-verify-btn", function(event) {
       $(this).closest("#change-contact-form");
+      $("#enquiry-mobile-verification #phoneErrorCustom").html("");
       if ($(this).closest("#change-contact-form").parsley().validate()) {
         if (modal_popup_id && modal_popup_id.length > 0) {
           $(modal_popup_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").val());

@@ -74,7 +74,7 @@
                 <!-- categories -->
                 <div class="categories-select gap-separator">
                     <!-- <p class="text-darker describes__title heavier">Categories <span class="xx-small text-lighter">(Select from the list below or add other categories.)</span></p> -->
-                    <p class="text-darker describes__title heavier">Categories <span class="xx-small text-lighter">(Add categories and select.)</span></p>
+                    <p class="text-darker describes__title heavier required">Categories <span class="xx-small text-lighter">(Add categories and select.)</span></p>
                         <ul class="categories__points flex-points flex-row flex-wrap" id="enquiry_core_categories">
                             @if(isset($data["cores"]) && sizeof($data["cores"]) > 0)
                             <!-- <li>

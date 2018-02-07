@@ -244,7 +244,7 @@ class RegisterController extends Controller
                     // $user_resp['user']->setUserType($request->description);
                 }
 
-                logActivity('email_signup',$user_resp['user'],$user_resp['user']);
+                
 
                 if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
                     $usercomm_obj = UserCommunication::create([
@@ -258,13 +258,14 @@ class RegisterController extends Controller
 
                 //send email
                 $this->registerConfirmEmail($user_resp["user"]);
-
+                logActivity('email_signup',$user_resp['user'],$user_resp['user']);
                 if($user_resp["user"]) {
                     $user_resp["user"]->setUserType($request->description);
                     return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => ["filled_required" => $required_fields_check['has_required_fields_filled'], "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "website");
                 } else {
                     ;
                 }
+                
             } else {
                 $previous_url = url()->previous();
                 $redirect_url = strpos($previous_url, "?") >= 0 ? explode('?', url()->previous())[0] : url()->previous();

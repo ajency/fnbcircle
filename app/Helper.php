@@ -999,7 +999,7 @@ function logActivity($log,$performedOn,$causedBy=null,$properties=[]){
 		: activity()
 		   ->performedOn($performedOn)
 		   ->withProperties($properties)
-		   ->log($log)
+		   ->log($log);
 
 	UpdatePepoBackupTable::dispatch($newActivity)->onQueue('low');
 }

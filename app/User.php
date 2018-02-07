@@ -361,4 +361,14 @@ class User extends Authenticatable
             $this->getUserSubtypes()->attach($description_ids[$description],['user_type'=>'App\\User']);
         }
     }
+
+    public function getUserCity($name=false){
+        $cityId = $this->getUserDetails->city;
+        if(!$name){
+            return $cityId;
+        }else{
+            $city = City::find($cityId);
+            return $city->name;
+        }
+    }
 }

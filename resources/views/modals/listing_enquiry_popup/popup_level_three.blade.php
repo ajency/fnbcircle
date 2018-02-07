@@ -130,7 +130,7 @@
                     <div id="area_operations">
                         <ul class="areas-select__selection flex-row flex-wrap">
                             <li class="city-select">
-                                <div class="flex-row">
+                                <div class="">
                                     <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-errors-container="#city-select-error" required="">
                                         <option value="">Select State</option>
                                         @foreach(App\City::where('status', 1)->get() as $key => $value)
@@ -142,11 +142,11 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                    <div id="city-select-error" class="fnb-error"></div>
+                                    <div id="city-select-error" class="fnb-errors area-errors"></div>
                                 </div>
                             </li>
                             <li class="area-select">
-                                <div class="flex-row">
+                                <div class="">
                                     <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-mincheck="1" data-parsley-errors-container="#area-select-error" required="">
                                         @if(isset($data["city"]) && isset($data["city"]["id"]))
                                             @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
@@ -158,7 +158,7 @@
                                             @endforeach
                                         @endif
                                     </select>
-                                    <div id="area-select-error" class="fnb-error"></div>
+                                    <div id="area-select-error" class="fnb-errors area-errors"></div>
                                 </div>
                             </li>
                         </ul>

@@ -530,7 +530,7 @@ class EnquiryController extends Controller {
    public function getEnquiryTemplate($template_type, $listing_slug="", $session_id = "", $multi_quote = false) {
    		$response_html = ''; $template_name = '';
    		$listing_view_controller = new ListingViewController;
-   		//$output = new ConsoleOutput;
+   		// $output = new ConsoleOutput;
 		
 		$session_data = Session::get('enquiry_data');
 		
@@ -621,6 +621,14 @@ class EnquiryController extends Controller {
 							unset($listing_final_ids[$pos]);
 						}
 
+						if(Auth::user()) { // If User is logged In, check if s/he owns a listing, then exclude the listings from recommended Listings
+							$user_id = Auth::user()->id;
+							$owned_listing_ids = Listing::where('status', 1)->where(function ($query) use ($user_id) {
+								return $query->where('owner_id', $user_id)->orWhere('created_by', $user_id); 
+							})->pluck('id')->toArray();
+							$listing_final_ids = array_diff($listing_final_ids, $owned_listing_ids); // exclude the owner's listings from the filtered Listings => (A = A - B)
+						}
+
 						if (sizeof($listing_final_ids) > 0)  {
 							$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where([['premium', 1], ['status', 1]])->pluck('id')->toArray();
 
@@ -634,8 +642,12 @@ class EnquiryController extends Controller {
 						$listviewObj = new ListViewController;
 						$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
 						$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
-						# $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
-						$filters = ["listing_ids" => $listing_final_ids];
+						
+						if(sizeof($listing_final_ids) > 0) {
+							$filters = ["listing_ids" => $listing_final_ids];
+						} else {
+							$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+						}
 
 						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 						$listing_count = sizeof($listing_final_ids);
@@ -784,8 +796,11 @@ class EnquiryController extends Controller {
 					$listviewObj = new ListViewController;
 					$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
 					$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
-					# $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
-					$filters = ["listing_ids" => $listing_final_ids];
+					if(sizeof($listing_final_ids) > 0) {
+						$filters = ["listing_ids" => $listing_final_ids];
+					} else {
+						$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+					}
 
 					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 					$listing_count = sizeof($listing_final_ids);
@@ -941,14 +956,27 @@ class EnquiryController extends Controller {
 						if($request->has('email') && $request->has('contact')) {
 							$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact_locality . '-' . $request->contact]])->get();
 							$lead_type = "App\Lead";
-							if($lead_obj->count() > 0) {
+							if($lead_obj->count() > 0) { // Lead found
 								$lead_obj = $lead_obj->first();
-							} else {
+							} else { // Lead doesn't exist
 								$lead_obj = null;
+								// $verified_session = [];
+								// Session::forget('otp_verified');
+								
+								if(isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If Mobile no was verified, but email id has changed, then create new Lead
+									$lead_type = "App\Lead";
+									
+									$lead_obj = Lead::create(["name" => $request->name, "email" => $request->email, "mobile" => (($request->has('contact_locality')) ? $request->contact_locality : "") . '-' . (($request->has('contact')) ? $request->contact : ""), "user_details_meta" => serialize(["describes_best" => (($request->has('description')) ? $request->description : "")]), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
+								} else {
+									$lead_type = null;
+									$lead_obj = null;
+								}
 							}
 						} else {
 							$lead_obj = null;
 							$lead_type = null;
+							$verified_session = [];
+							// Session::forget('otp_verified');
 						}
 					}
 
@@ -1287,7 +1315,7 @@ class EnquiryController extends Controller {
 	    				if(Auth::guest()) {
 	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact_code"] . '-' . $session_payload["contact"], "user_details_meta" => serialize(["describes_best" => $session_payload["describes_best"]]), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
 
-	    					$register_cont_obj = new RegisterController;
+	    					// $register_cont_obj = new RegisterController;
 	    					$lead_data = array("id" => $lead_obj->id, "name" => $lead_obj->name, "email" => $lead_obj->email, "user_type" => "lead");
 	    					// $register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');
 

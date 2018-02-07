@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, checkForInput, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, modal_popup_id, multiSelectInit, resetPlugins, resetTemplate;
+  var capitalize, checkForInput, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, modal_popup_id, multiSelectInit, resetPlugins, resetTemplate, validateContact;
 
   modal_popup_id = "";
 
@@ -126,11 +126,51 @@
         }
       },
       error: function(request, status, error) {
+        if (request.status === 403) {
+          if (getCookie('user_id').length > 0) {
+            if (getCookie('user_type') === "user") {
+              $("#login-modal").modal('show');
+              $("#login-modal #login_form_modal input[name='email']").val($(modal_id + " .level-one #level-one-enquiry input[name='email']").val());
+              if (trigger_modal) {
+                $(document).find(target_modal_id).modal('hide');
+              } else {
+                $(document).find(modal_id).modal('hide');
+              }
+            }
+          }
+        }
         $(modal_id + " button").find("i.fa-circle-o-notch").addClass("hidden");
         $(modal_id + " button").removeAttr("disabled");
         return console.log(error);
       }
     });
+  };
+
+
+  /* --- Validate contact number --- */
+
+  validateContact = function(contact, error_path, region_code) {
+    var contact_sub;
+    contact = contact.replace(/\s/g, '').replace(/-/g, '');
+    if ((contact.indexOf("+") === 0 || !region_code) && (!isNaN(contact.substring(1, contact.length)))) {
+      if (region_code) {
+        contact_sub = contact.substring(1, contact.length);
+      } else {
+        contact_sub = contact;
+      }
+      if ((!region_code && contact_sub.length <= 0) || (region_code && contact_sub.length <= 2)) {
+        $(error_path).removeClass("hidden").text("Please enter your contact number");
+      } else if (contact_sub.length < 10) {
+        $(error_path).removeClass("hidden").text("Contact number too short");
+      } else if ((region_code && contact_sub.length > 13) || ((!region_code) && contact_sub.length > 10)) {
+        $(error_path).removeClass("hidden").text("Contact number too long");
+      } else {
+        $(error_path).addClass("hidden");
+      }
+    } else {
+      $(error_path).removeClass("hidden").text("Please enter a valid Contact number");
+    }
+    return false;
   };
 
 
@@ -425,10 +465,11 @@
 
     /* --- Display respective Popups on "Send Enquiry" click --- */
     $(document).on("click", ".enquiry-modal-btn", function(e) {
-      var enq_form_id, listing_slug, modal_id, page_level;
+      var enq_form_id, is_user_status, listing_slug, modal_id, page_level;
       modal_id = $(this).data("target");
       modal_popup_id = modal_id;
-      if ($(modal_id).length > 0) {
+      is_user_status = false;
+      if ($(modal_id).length > 0 && (!is_user_status)) {
         if ($(this).closest("#rhs-enquiry-form").length && $(this).closest("#rhs-enquiry-form").find("select[name='description']").length) {
           $(this).closest("#rhs-enquiry-form").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error');
         }
@@ -559,15 +600,6 @@
         $(document).on("click", modal_id + " #level-two-enquiry #close-new-mobile-modal", function() {
           $(document).find(modal_id + " #new-mobile-modal").modal("hide");
         });
-
-        /* --- Change the Contact No & Regenarate OTP --- */
-        $(document).on("click", modal_id + " #level-two-enquiry #new-mobile-verify-btn", function(event) {
-          if ($(this).closest("#change-contact-form").parsley().validate()) {
-            $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").val());
-            $(document).find(modal_id + " #new-mobile-modal").modal("hide");
-            event.stopImmediatePropagation();
-          }
-        });
         $(document).on("change", modal_id + " #level-three-enquiry #area_section select[name='city']", function(event) {
           var city_vals, i;
           city_vals = [];
@@ -661,6 +693,35 @@
         $(modal_popup_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_popup_id + " #area_section #area_operations");
         multiSelectInit(modal_popup_id + " #level-three-enquiry #area_section #area_operations", "", false);
       }
+    });
+
+    /* --- Show the Edit contact Popup --- */
+    $(document).on("click", "#level-two-enquiry #edit-contact-number-btn", function(event) {
+      $(document).find("#enquiry-mobile-verification #new-mobile-modal input[type='tel']").attr('data-parsley-errors-container', '#phoneErrorCustom');
+      $(document).find("#enquiry-mobile-verification #new-mobile-modal #phoneError").attr('id', "phoneErrorCustom");
+      $(document).find("#enquiry-mobile-verification #new-mobile-modal").modal('show');
+    });
+
+    /* --- Change the Contact No & Regenarate OTP --- */
+    $(document).on("click", "#enquiry-mobile-verification #new-mobile-modal #new-mobile-verify-btn", function(event) {
+      $(this).closest("#change-contact-form");
+      if ($(this).closest("#change-contact-form").parsley().validate()) {
+        if (modal_popup_id && modal_popup_id.length > 0) {
+          $(modal_popup_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").val());
+          $(document).find(modal_popup_id + " #new-mobile-modal").modal("hide");
+          getVerification(modal_popup_id, $(modal_popup_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").val());
+          console.log($(this));
+          $(this).closest('#new-mobile-modal').modal('hide');
+          event.stopImmediatePropagation();
+        }
+      }
+    });
+
+    /* --- Validate Mobile No --- */
+    $(document).on('keyup change', modal_popup_id + " #level-one-enquiry input[type='tel'][name='contact']", function() {
+      var id;
+      id = $(this).closest('form').prop('id');
+      validateContact($(this).val(), "#" + id + " #contactfield", false);
     });
   });
 

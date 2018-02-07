@@ -117,11 +117,47 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 					# multiSelectInit(modal_id + " #level-three-enquiry", "", false)
 					return
 		error: (request, status, error) ->
+			if request.status == 403 # user account exist
+				if getCookie('user_id').length > 0
+					if getCookie('user_type') == "user"
+						# If user has account on website
+						$("#login-modal").modal 'show' # show login popup
+						## -- Update the Email ID -- ##
+						$("#login-modal #login_form_modal input[name='email']").val $(modal_id + " .level-one #level-one-enquiry input[name='email']").val()
+
+						## -- Hide the Enquiry modal -- ##
+						if trigger_modal
+							$(document).find(target_modal_id).modal 'hide'
+						else
+							$(document).find(modal_id).modal 'hide'
 			#$("#multi-quote-enquiry-modal").modal 'show'
 			$(modal_id + " button").find("i.fa-circle-o-notch").addClass "hidden" # Hide all the circle (load button) if the AJAX failed
 			$(modal_id + " button").removeAttr "disabled" # Enable the button if the AJAX failed
 			console.log error
 	return
+
+### --- Validate contact number --- ###
+validateContact = (contact, error_path, region_code) -> # Check if Contact Number entered is Valid
+	contact = contact.replace(/\s/g, '').replace(/-/g,'') # Remove all the <spaces> & '-' 
+
+	if((contact.indexOf("+") == 0 or not region_code) and (not isNaN(contact.substring(1, contact.length))))
+		if (region_code)
+			contact_sub = contact.substring(1, contact.length) # Exclude the +
+		else
+			contact_sub = contact
+
+		if((not region_code and contact_sub.length <= 0) or (region_code and contact_sub.length <= 2)) 
+			$(error_path).removeClass("hidden").text("Please enter your contact number")
+		else if(contact_sub.length < 10)
+			$(error_path).removeClass("hidden").text("Contact number too short")
+		else if((region_code and contact_sub.length > 13) or ((not region_code) and contact_sub.length > 10)) # If excluding <region_code> & length is greater than 10, then
+			$(error_path).removeClass("hidden").text("Contact number too long")
+		else
+			$(error_path).addClass("hidden")
+	else
+		$(error_path).removeClass("hidden").text("Please enter a valid Contact number")
+	
+	return false
 
 ### --- Request template for a modal --- ###
 getTemplate = (modal_id, modal_template, listing_slug = '') ->
@@ -415,8 +451,19 @@ $(document).ready () ->
 	$(document).on "click", ".enquiry-modal-btn", (e) ->
 		modal_id = $(this).data("target")
 		modal_popup_id = modal_id
+
+		is_user_status = false
 		
-		if $(modal_id).length > 0
+		# if getCookie('user_id').length > 0
+		# 	if getCookie('user_type') == "user"
+		# 		# If user has account on website
+		# 		$("#login-modal").modal 'show' # show login popup
+		# 		is_user_status = true
+
+		# 		## -- Hide the Enquiry modal -- ##
+		#		$(document).find(modal_id).modal 'hide'
+
+		if $(modal_id).length > 0 and (not is_user_status)
 			if ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#rhs-enquiry-form").find("select[name='description']").length) # if the RHS single enquiry form exist & has description Dropdown
 				$(this).closest("#rhs-enquiry-form").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error') # Add the error-container
 
@@ -560,17 +607,17 @@ $(document).ready () ->
 				$(document).find(modal_id + " #new-mobile-modal").modal "hide"
 				return
 
-			### --- Change the Contact No & Regenarate OTP --- ###
-			$(document).on "click", modal_id + " #level-two-enquiry #new-mobile-verify-btn", (event) ->
-				if $(this).closest("#change-contact-form").parsley().validate()#$(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val()
-					# $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
-					$(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").val())
-					$(document).find(modal_id + " #new-mobile-modal").modal "hide"
-					# getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").val())
-					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
-				# else
-				# 	$("#new-mobile-modal .modal-body .verifySection #phoneError").html ""
-				return
+			# ### --- Change the Contact No & Regenarate OTP --- ###
+			# $(document).on "click", modal_id + " # #new-mobile-verify-btn", (event) ->
+			# 	if $(this).closest("#change-contact-form").parsley().validate()#$(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val()
+			# 		# $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+			# 		$(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").val())
+			# 		$(document).find(modal_id + " #new-mobile-modal").modal "hide"
+			# 		getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").val())
+			# 		event.stopImmediatePropagation() # Prevent making multiple AJAX calls
+			# 	# else
+			# 	# 	$("#new-mobile-modal .modal-body .verifySection #phoneError").html ""
+			# 	return
 
 			$(document).on "change", modal_id + " #level-three-enquiry #area_section select[name='city']", (event) ->
 				city_vals = []
@@ -680,5 +727,33 @@ $(document).ready () ->
 			multiSelectInit(modal_popup_id + " #level-three-enquiry #area_section #area_operations", "", false)
 			# event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 		return
-	return
 
+	### --- Show the Edit contact Popup --- ###
+	$(document).on "click", "#level-two-enquiry #edit-contact-number-btn", (event) ->
+		$(document).find("#enquiry-mobile-verification #new-mobile-modal input[type='tel']").attr('data-parsley-errors-container', '#phoneErrorCustom')
+		$(document).find("#enquiry-mobile-verification #new-mobile-modal #phoneError").attr('id', "phoneErrorCustom")
+		$(document).find("#enquiry-mobile-verification #new-mobile-modal").modal 'show'
+		return
+
+	### --- Change the Contact No & Regenarate OTP --- ###
+	$(document).on "click", "#enquiry-mobile-verification #new-mobile-modal #new-mobile-verify-btn", (event) ->
+		$(this).closest("#change-contact-form")
+		if $(this).closest("#change-contact-form").parsley().validate()#$(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val()
+			# $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+			if modal_popup_id and modal_popup_id.length > 0
+				$(modal_popup_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('#change-contact-form').find("input[type='tel'][name='contact']").val())
+				$(document).find(modal_popup_id + " #new-mobile-modal").modal "hide"
+				getVerification(modal_popup_id, $(modal_popup_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).parent().find("div.new-verify-number input[type='tel'][name='contact']").val())
+				console.log $(this)
+				$(this).closest('#new-mobile-modal').modal 'hide'
+				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
+		# else
+		# 	$("#new-mobile-modal .modal-body .verifySection #phoneError").html ""
+		return
+
+	### --- Validate Mobile No --- ###
+	$(document).on 'keyup change', modal_popup_id + " #level-one-enquiry input[type='tel'][name='contact']", () -> # Check Contact
+		id = $(this).closest('form').prop('id')
+		validateContact($(this).val(), "#" + id + " #contactfield", false)
+		return
+	return

@@ -175,7 +175,11 @@
                                 <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-required-message="Please select a state">
                                     <option value="">Select State</option>
                                     @foreach(App\City::where('status', 1)->get() as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        @if(isset($data["city"]) && $data["city"]["slug"] == $value->slug)
+                                                <option value="{{ $value->id }}" class="hidden">{{ $value->name }}</option>
+                                            @else
+                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                            @endif
                                     @endforeach
                                 </select>
                                 <div id="city-select-error" class="fnb-error"></div>

@@ -618,9 +618,9 @@ class EnquiryController extends Controller {
 							$listing_final_ids = [];
 						}
 
-						if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) {
+						if(isset($listing) && $listing->id > 0) {
 							// Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
-							$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_final_ids);
+							$pos = array_search($listing->id, $listing_final_ids);
 							unset($listing_final_ids[$pos]);
 						}
 
@@ -770,9 +770,10 @@ class EnquiryController extends Controller {
 					}
 
 
-					if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) {
+					if(isset($listing_slug) && strlen($listing_slug) > 0) {
 						// Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
-						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_final_ids);
+						$listing = Listing::where('slug',$listing_slug)->get();
+						$pos = array_search($listing->id, $listing_final_ids);
 						unset($listing_final_ids[$pos]);
 					}
 

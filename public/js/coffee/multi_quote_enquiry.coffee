@@ -702,8 +702,8 @@ $(document).ready () ->
 
 				$(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop "checked", false
 				if checked_categories.length > 0 and $(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").length > 0
-						$(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").remove() # Removes the li
-						$(document).find(modal_id + " #level-three-enquiry #category-checkbox-error").html ""
+					$(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").remove() # Removes the li
+					$(document).find(modal_id + " #level-three-enquiry #category-checkbox-error").html ""
 
 				while index < checked_categories.length
 					if $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0 # if a checkbox with that ID exist, then Select that checkbox

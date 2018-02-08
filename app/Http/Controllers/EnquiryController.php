@@ -960,6 +960,21 @@ class EnquiryController extends Controller {
 							$lead_type = "App\Lead";
 							if($lead_obj->count() > 0) { // Lead found
 								$lead_obj = $lead_obj->first();
+								$changes_made = false;
+
+								if($lead_obj->name !== $request->name) {
+									$lead_obj->name = $request->name;
+									$changes_made = true;
+								}
+
+								if($request->has('description') && $lead_obj->user_details_meta !== serialize(["describes_best" => $request->description])) {
+									$lead_obj->user_details_meta = serialize(["describes_best" => $request->description]);
+									$changes_made = true;
+								}
+
+								if($changes_made) {
+									$lead_obj->save();
+								}
 							} else { // Lead doesn't exist
 								$lead_obj = null;
 								// $verified_session = [];

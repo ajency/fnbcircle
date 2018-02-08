@@ -136,7 +136,7 @@
                     <div id="area_operations">
                         <ul class="areas-select__selection flex-row flex-wrap align-top">
                             <li class="city-select">
-                                <div class="">
+                                <div class=""><!-- <div class="flex-row"> -->
                                     <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-required-message="Please select a state" data-parsley-errors-container="#city-select-error" required="">
                                         <option value="">Select State</option>
                                         @foreach(App\City::where('status', 1)->get() as $key => $value)
@@ -152,7 +152,7 @@
                                 </div>
                             </li>
                             <li class="area-select">
-                                <div class="">
+                                <div class=""><!-- <div class="flex-row"> -->
                                     <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-required-message="Please select a city" data-parsley-errors-container="#area-select-error" required="">
                                         @if(isset($data["city"]) && isset($data["city"]["id"]))
                                             @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
@@ -171,7 +171,7 @@
                     </div>
                     <ul class="areas-select__selection flex-row flex-wrap area-append hidden" id="area_dom_skeleton">
                         <li class="city-select">
-                            <div class="flex-row">
+                            <div class=""><!-- <div class="flex-row"> -->
                                 <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-required-message="Please select a state">
                                     <option value="">Select State</option>
                                     @foreach(App\City::where('status', 1)->get() as $key => $value)
@@ -182,7 +182,7 @@
                             </div>
                         </li>
                         <li class="area-select">
-                            <div class="flex-row">
+                            <div class=""><!-- <div class="flex-row"> -->
                                 <!-- <select class="fnb-select select-variant areas-appended default-area-select" multiple="multiple" name="area" data-parsley-mincheck="1" data-parsley-required-message="Please select a city"> -->
                                 <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-required-message="Please select a city">
                                     <!-- <option>Bandra</option>

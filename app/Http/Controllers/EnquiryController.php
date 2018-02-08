@@ -1084,6 +1084,8 @@ class EnquiryController extends Controller {
 						$status = 200;
 					}
 				}
+
+				Session::forget('second_enquiry_data'); // Forget the 2nd enquiry after submit
 			} else if($template_config == "popup_level_three") {
 				$session_payload = Session::get('enquiry_data', []);
 
@@ -1451,6 +1453,8 @@ class EnquiryController extends Controller {
 							}
 
 							$full_screen_display = true;
+							// Session::forget('second_enquiry_data'); // Forget the 2nd enquiry after submit
+
 							/*unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
 	    					unset($session_payload["enquiry_to_id"]);
 							unset($session_payload["enquiry_to_enquiry"]);*/

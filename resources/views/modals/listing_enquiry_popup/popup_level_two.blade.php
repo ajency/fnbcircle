@@ -1,7 +1,7 @@
 <!-- Level two starts -->
 
 <!-- <div class="level-three levels"> -->
-<div class="level-three levels" id="level-two-enquiry">
+<div class="level-three levels shown" id="level-two-enquiry">
     <p class="content-title text-darker m-b-0 text-medium mobile-hide">Verify your phone number to contact the listing.</p>
     <!-- verify email and contact -->
     <div class="verification gap-separator">

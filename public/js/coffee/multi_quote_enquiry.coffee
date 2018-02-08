@@ -701,11 +701,15 @@ $(document).ready () ->
 					checked_categories = JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val())
 
 				$(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop "checked", false
+				if checked_categories.length > 0 and $(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").length > 0
+						$(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").remove() # Removes the li
+						$(document).find(modal_id + " #level-three-enquiry #category-checkbox-error").html ""
+
 				while index < checked_categories.length
 					if $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0 # if a checkbox with that ID exist, then Select that checkbox
 						$(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", true
 					else if checked_categories[index].hasOwnProperty("name") # if the name object exist in the data, then generate a checkbox, & inject to DOM
-						html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\">
+						html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-required-message=\"Please select a category\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\" data-parsley-errors-container=\"#category-checkbox-error\">
 							<p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label>
 								</li>"
 					index++
@@ -722,7 +726,23 @@ $(document).ready () ->
 	### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
 	$(document).on "click", "#level-three-enquiry #add-city-areas", (event) ->
 		if modal_popup_id and modal_popup_id.length > 0
-			$(modal_popup_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_popup_id + " #area_section #area_operations")
+			html_area_dom = $(modal_popup_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden')
+			
+			city_area_selection_length = $(modal_popup_id + " #area_section #area_operations ul.areas-select__selection").length
+
+			## -- Add new City with attributes -- ##
+			html_area_dom.find('li.city-select select[name="city"]').attr('data-parsley-trigger', 'change')
+			html_area_dom.find('li.city-select select[name="city"]').attr('required', 'true')
+			html_area_dom.find('li.city-select select[name="city"]').attr('data-parsley-errors-container', "#" + (html_area_dom.find("li.city-select #city-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString())) # error-container label
+			html_area_dom.find("li.city-select #city-select-error").attr('id', html_area_dom.find("li.city-select #city-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString()) # error-container label ID
+
+			## -- Add new Area with attributes -- ##
+			# html_area_dom.find('li.area-select select[name="area"]').attr('data-parsley-trigger', 'change')
+			html_area_dom.find('li.area-select select[name="area"]').attr('required', 'true')
+			html_area_dom.find('li.area-select select[name="area"]').attr('data-parsley-errors-container', "#" + (html_area_dom.find("li.area-select #area-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString())) # error-container label
+			html_area_dom.find("li.area-select #area-select-error").attr('id', html_area_dom.find("li.area-select #area-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString()) # error-container label ID
+
+			html_area_dom.appendTo(modal_popup_id + " #area_section #area_operations")
 			# console.log "on add Area Click"
 			multiSelectInit(modal_popup_id + " #level-three-enquiry #area_section #area_operations", "", false)
 			# event.stopImmediatePropagation() # Prevent making multiple AJAX calls

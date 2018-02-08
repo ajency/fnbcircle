@@ -75,6 +75,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['userSubType'] = array_values($details);
                 $fields['stateID'] =  $by->getUserCity();
                 $fields['state'] = $by->getUserCity(true);
+                $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
                 break;
             case 'listing_created':
                 $email = $by->getPrimaryEmail();
@@ -82,14 +83,57 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['userType'] = ['Listing'];
                 $fields['subTypeOptions'] = [Listing::listing_business_type[$on->type]];
                 break;
+            case 'listing_publish':
+                $by = $on->owner;
+                $email = $by->getPrimaryEmail();
+                $fields['subTypeOptions'] = ['Published'];
+                break;
             case 'job_created':
                 $email = $by->getPrimaryEmail();
                 $fields['userType'] = ['Job Poster'];
                 break;
-            case '':
-                # code...
+            case 'profile_updated':
+                $email = $on->getPrimaryEmail();
+                $fields['stateID'] =  $on->getUserCity();
+                $fields['state'] = $on->getUserCity(true);
+                $fields['area'] = [$on->getUserCity() => $on->getUserCity(true)];
+                $fields['name'] = $on->name;
+                $details = $on->getUserDetails->getSavedUserSubTypes();
+                $fields['userSubType'] = array_values($details);
                 break;
-            
+            case 'user_requirements':
+                $email = $by->getPrimaryEmail();
+                $fields['stateID'] =  $by->getUserCity();
+                $fields['state'] = $by->getUserCity(true);
+                $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
+                $fields['name'] = $by->name;
+                $details = $by->getUserDetails->getSavedUserSubTypes();
+                $fields['userSubType'] = array_values($details);
+                break;
+            case 'orphan_created':
+                $email = $on->getPrimaryEmail();
+                $fields['stateID'] =  $on->getUserCity();
+                $fields['state'] = $on->getUserCity(true);
+                $fields['area'] = [$on->getUserCity() => $on->getUserCity(true)];
+                $fields['signUpType'] = ['Listing'];
+                break;
+            case 'user_confirmation':
+                $email = $on->getPrimaryEmail();
+                $fields['active'] = "True";
+                break;
+            case 'social_signup':
+                $email = $on->getPrimaryEmail();
+                $fields['active'] = "True";
+                $fields['name'] = $on->name;
+                $fields['signUpType']=[ucfirst($activity->getExtraProperty('provider'))];
+                break;
+            case 'listing_categories':
+                $by = $on->owner;
+                $email = $by->getPrimaryEmail();
+                $fields['category'] = json_decode($activity->getExtraProperty('categories'),true);
+                \Log::info('categ: '. json_encode($fields['category']));
+                break;
+
             default:
                 # code...
                 break;
@@ -107,19 +151,19 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'stateID':
                 case 'state':
                 case 'active':
+                case 'userSubType':
                 case 'subscribed':
                     $backup[$key] = $value;
                     break;
                 case 'signUpType':
                 case 'userType':
-                case 'userSubType':
                 case 'subTypeOptions':
                 case 'category':
                 case 'area':
-                    $oldVal = ($backup[$key] != null)? json_decode($backup[$key]) : [];
+                    $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
                     $newVal = array_unique(array_merge($oldVal,$value));
-                    \Log::info($key.'=>'.implode(',',$newVal));
                     $backup[$key] = json_encode($newVal);
+                    \Log::info($key.'=>'.$backup[$key]);
                     break;
                 default:
                     # code...

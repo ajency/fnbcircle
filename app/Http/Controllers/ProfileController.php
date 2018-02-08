@@ -796,6 +796,7 @@ class ProfileController extends Controller
             $details->subtype = serialize($req['user_details']);
             $details->save();
             $user->setUserType($req['user_details']);
+            logActivity('profile_updated',$user,Auth::user());
             request()->session()->flash('updateDescription', 'Description Updated');
             
         }
@@ -830,6 +831,7 @@ class ProfileController extends Controller
                     ->performedOn($user)
                     ->causedBy($user)
                     ->log('user-details-updated');
+                logActivity('profile_updated',$user,Auth::user());
             }
 
             $comm_obj = UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type', 'mobile')->where('is_primary', 1)->first();

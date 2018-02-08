@@ -483,6 +483,7 @@ class ListingController extends Controller
             $change              = "&success=true";
             $listing->updated_at = Carbon::now();
             $listing->save();
+            logActivity('listing_categories',$listing,Auth::user(),['categories'=>ListingCategory::getCategoryJsonTag($listing->id)]);
         }
 
         if (isset($request->submitReview) and $request->submitReview == 'yes') {

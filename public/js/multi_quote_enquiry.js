@@ -674,9 +674,10 @@
           }
           $(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop("checked", false);
           if (checked_categories.length > 0 && $(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").length > 0) {
-            $(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").remove();
+            $(document).find(modal_id + " #level-three-enquiry li#category_hidden_checkbox").remove();
             $(document).find(modal_id + " #level-three-enquiry #category-checkbox-error").html("");
           }
+          console.log("Categories chosen: " + checked_categories.length.toString());
           while (index < checked_categories.length) {
             if ($(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0) {
               $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", true);

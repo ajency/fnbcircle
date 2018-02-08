@@ -673,11 +673,15 @@
             checked_categories = JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val());
           }
           $(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop("checked", false);
+          if (checked_categories.length > 0 && $(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").length > 0) {
+            $(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").remove();
+            $(document).find(modal_id + " #level-three-enquiry #category-checkbox-error").html("");
+          }
           while (index < checked_categories.length) {
             if ($(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0) {
               $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", true);
             } else if (checked_categories[index].hasOwnProperty("name")) {
-              html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
+              html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-required-message=\"Please select a category\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\" data-parsley-errors-container=\"#category-checkbox-error\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
             }
             index++;
           }
@@ -690,8 +694,18 @@
 
     /* --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- */
     $(document).on("click", "#level-three-enquiry #add-city-areas", function(event) {
+      var city_area_selection_length, html_area_dom;
       if (modal_popup_id && modal_popup_id.length > 0) {
-        $(modal_popup_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_popup_id + " #area_section #area_operations");
+        html_area_dom = $(modal_popup_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden');
+        city_area_selection_length = $(modal_popup_id + " #area_section #area_operations ul.areas-select__selection").length;
+        html_area_dom.find('li.city-select select[name="city"]').attr('data-parsley-trigger', 'change');
+        html_area_dom.find('li.city-select select[name="city"]').attr('required', 'true');
+        html_area_dom.find('li.city-select select[name="city"]').attr('data-parsley-errors-container', "#" + (html_area_dom.find("li.city-select #city-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString()));
+        html_area_dom.find("li.city-select #city-select-error").attr('id', html_area_dom.find("li.city-select #city-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString());
+        html_area_dom.find('li.area-select select[name="area"]').attr('required', 'true');
+        html_area_dom.find('li.area-select select[name="area"]').attr('data-parsley-errors-container', "#" + (html_area_dom.find("li.area-select #area-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString()));
+        html_area_dom.find("li.area-select #area-select-error").attr('id', html_area_dom.find("li.area-select #area-select-error").attr('id') + '-' + (city_area_selection_length + 1).toString());
+        html_area_dom.appendTo(modal_popup_id + " #area_section #area_operations");
         multiSelectInit(modal_popup_id + " #level-three-enquiry #area_section #area_operations", "", false);
       }
     });

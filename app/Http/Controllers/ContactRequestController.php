@@ -452,7 +452,11 @@ class ContactRequestController extends Controller
                 $session_payload["contact_code"] = $session_contact["country_code"];
 
                 Session::put('enquiry_data',$session_payload);
-                $enq_cont_obj->setOtpVerified(true, $session_contact["phone_no"]);
+                if(isset($session_contact["contact"]) && $session_contact["contact"])
+                    $enq_cont_obj->setOtpVerified(true, $session_contact["contact"]);
+                else
+                    $enq_cont_obj->setOtpVerified(true, $session_contact["phone_no"]);
+                
                 return $this->getContactRequest($request);
             }
             else{

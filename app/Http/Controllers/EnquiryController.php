@@ -340,10 +340,11 @@ class EnquiryController extends Controller {
 					$caused_by = Lead::find($enquiry_data['user_object_id']);
 					break;
 			}
-			activity()
-	           ->performedOn($enquiry_obj)
-	           ->causedBy($caused_by)
-	           ->log('enquiry-created');
+			logActivity('enquiry-created',$enquiry_obj,$caused_by);
+			// activity()
+	  //          ->performedOn($enquiry_obj)
+	  //          ->causedBy($caused_by)
+	  //          ->log('enquiry-created');
 		} else {
 			$enquiry_obj = null;
 		}

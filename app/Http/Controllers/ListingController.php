@@ -58,6 +58,7 @@ class ListingController extends Controller
         if($user != null){
             $listing->owner_id = $user->id;
             $listing->save();
+            logActivity('listing_created',$listing,$user);
             $common = new CommonController;
             $common->updateUserDetails($user);
             if($user_details->sendmail == "true"){    
@@ -109,9 +110,11 @@ class ListingController extends Controller
                     $ud->area = $user_details->area;
                     $ud->user_id = $user_resp["user"]->id;
                     $ud->save();
+                    logActivity('orphan_created',$user_resp["user"],Auth::user());
                 }
                 $listing->owner_id = $user_resp["user"]->id;
                 $listing->save();
+                logActivity('listing_created',$listing,$user_resp["user"]);
                 $common = new CommonController;
                 $common->updateUserDetails($user_resp["user"]);
 

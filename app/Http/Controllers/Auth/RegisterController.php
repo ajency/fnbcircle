@@ -161,9 +161,13 @@ class RegisterController extends Controller
         //     }
         // }
 
+
+
         $response = $userauth_obj->updateOrCreateUserDetails($user_obj, $request_data["user_details"], "user_id", $user_obj->id);
         $user_obj->setUserType($request->description);
         $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
+
+        logActivity('user-requirements',$response['data'],$user_obj);
 
         if($required_fields_check["has_required_fields_filled"]) {
             return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]], "next_url" => $next_redirect_url), "api");
@@ -240,6 +244,8 @@ class RegisterController extends Controller
                     // $user_resp['user']->setUserType($request->description);
                 }
 
+                
+
                 if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
                     $usercomm_obj = UserCommunication::create([
                         "type" => "mobile", "country_code" => ($request->has("contact_locality")) ? $request->contact_locality : "91",
@@ -252,13 +258,14 @@ class RegisterController extends Controller
 
                 //send email
                 $this->registerConfirmEmail($user_resp["user"]);
-
+                logActivity('email_signup',$user_resp['user'],$user_resp['user']);
                 if($user_resp["user"]) {
                     $user_resp["user"]->setUserType($request->description);
                     return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => ["filled_required" => $required_fields_check['has_required_fields_filled'], "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "website");
                 } else {
                     ;
                 }
+                
             } else {
                 $previous_url = url()->previous();
                 $redirect_url = strpos($previous_url, "?") >= 0 ? explode('?', url()->previous())[0] : url()->previous();

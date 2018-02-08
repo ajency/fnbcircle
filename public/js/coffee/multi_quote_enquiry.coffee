@@ -701,10 +701,12 @@ $(document).ready () ->
 					checked_categories = JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val())
 
 				$(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop "checked", false
+				
 				if checked_categories.length > 0 and $(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").length > 0
-					$(document).find(modal_id + " #level-three-enquiry  #category_hidden_checkbox").remove() # Removes the li
+					$(document).find(modal_id + " #level-three-enquiry li#category_hidden_checkbox").remove() # Removes the li
 					$(document).find(modal_id + " #level-three-enquiry #category-checkbox-error").html ""
 
+				console.log "Categories chosen: " + checked_categories.length.toString()
 				while index < checked_categories.length
 					if $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0 # if a checkbox with that ID exist, then Select that checkbox
 						$(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", true

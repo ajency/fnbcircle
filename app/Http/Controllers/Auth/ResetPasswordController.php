@@ -97,6 +97,7 @@ class ResetPasswordController extends Controller
         }
 
         $user->save();
+        logActivity("user_confirmation",$user,$Auth::user());
 
         UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
 

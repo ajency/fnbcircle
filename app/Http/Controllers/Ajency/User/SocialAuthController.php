@@ -63,7 +63,7 @@ class SocialAuthController extends Controller {
                         $social_data["user_details"]["has_previously_login"] = 0;
                         $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], $social_data["user_details"], $social_data["user_comm"]);
                     }
-
+                    logActivity('social_signup',$user_resp['user'],$user_resp['user'],$properties=['provider'=>$provider]);
                     if($user_resp["user"]) {
                         sendUserRegistrationMails($user_resp["user"]);
                         return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"], "next_url" => url()->previous()), "website");

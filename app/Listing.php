@@ -146,13 +146,13 @@ class Listing extends Model
                 $this->save();
                 $common = new CommonController;
                 $common->updateUserDetails(Auth::user());
-                logActivity('listing_created',$this,Auth::user());
+                
             }else{
                 $this->owner_id = null; 
                 $this->source = ($import)? 'import': 'internal_user'; 
             } 
         }
-
+        logActivity('listing_created',$this,Auth::user());
         $this->save();
     }
 

@@ -55,4 +55,35 @@ class EnquiryCategory extends Model {
             }
         return $category_json;
     }
+    public static function getCategoryJsonTag($enquiry_id){
+    $categories = DB::select(
+            'SELECT nodes.category_id AS id, nodes.name AS name, nodes.slug as slug, info.id AS branchID, info.slug AS branch_slug, info.name AS branch, info.parent AS parent, info.parent_slug AS parent_slug, info.parentID AS parentID, info.icon AS icon
+            FROM (
+                SELECT  `category_id` , categories.name, categories.slug, categories.parent_id
+                FROM enquiry_categories
+                JOIN categories ON enquiry_categories.category_id = categories.id
+                WHERE  `enquiry_id` =?
+            ) AS nodes
+            JOIN (
+                SELECT categories.id, categories.name, categories.slug, p_categ.name AS parent, p_categ.id AS parentID, p_categ.slug AS parent_slug, p_categ.icon_url AS icon
+                FROM categories
+                JOIN categories AS p_categ ON categories.parent_id = p_categ.id
+                WHERE categories.id
+                IN (
+                    SELECT parent_id
+                    FROM enquiry_categories
+                    JOIN categories ON enquiry_categories.category_id = categories.id
+                    WHERE  `enquiry_id` =?
+                    GROUP BY parent_id
+                )
+            ) AS info ON nodes.parent_id = info.id',
+            [$enquiry_id, $enquiry_id]);
+            $array = [];
+        foreach ($categories as $category) {
+            $array[] = $category->parent;
+            $array[] = $category->branch;
+            $array[] = $category->name;
+        }
+        return json_encode(array_unique($array));
+    }
  }

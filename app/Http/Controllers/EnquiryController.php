@@ -252,7 +252,7 @@ class EnquiryController extends Controller {
 				"seeker" => "user",
 			];
 			
-			$email_details["dashboard_url"] = config('app')['url'] . "/profile/basic-details/" . $email_details['email'];
+			$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
 
 			$email_details["to"] = $email_details["email"];
 			$email_details["listing_to"] = $email_details["email"];
@@ -269,7 +269,7 @@ class EnquiryController extends Controller {
 				"seeker" => "lead",
 			];
 			
-			$email_details["dashboard_url"] = config('app')['url'] . "/profile/basic-details/" . $email_details['email'];
+			$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
 		}
 
 		if($enquiry_obj->enquiry_to_type === "App\Listing") {
@@ -476,7 +476,7 @@ class EnquiryController extends Controller {
 						});
 					}
 
-					// $customer_dashboard_url = config('app')['url'] + "/profile/basic-details/";
+					// $customer_dashboard_url = config('app')['url'] + "/profile/activity/";
 					/* Get User / Customer (the guy who did enquiry) Details */
 					if($enquiry_obj->user_object_type == "App\User") { // If logged In user
 						$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
@@ -490,7 +490,7 @@ class EnquiryController extends Controller {
 							"seeker" => "user",
 						];
 						
-						$email_details["dashboard_url"] = config('app')['url'] . "/profile/basic-details/" . $email_details['email'];
+						$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
 
 						$email_details["to"] = $email_details["email"];
 						$email_details["listing_to"] = $email_details["email"];
@@ -507,7 +507,7 @@ class EnquiryController extends Controller {
 							"seeker" => "lead",
 						];
 						
-						$email_details["dashboard_url"] = config('app')['url'] . "/profile/basic-details/" . $email_details['email'];
+						$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
 					}
 
 					if(!in_develop() || (in_develop() && $send_owner_mail)) { // If Prod Mode, then send Email else if in Dev MOde && The Send owner flag is true, then send the Email
@@ -1261,6 +1261,7 @@ class EnquiryController extends Controller {
 					}
 				}
 				$status = 200;
+				$cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
 			} else if($template_config == "popup_level_four") {
 				$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
 				

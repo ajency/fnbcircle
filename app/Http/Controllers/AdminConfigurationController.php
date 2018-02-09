@@ -15,6 +15,7 @@ use App\Http\Controllers\CommonController;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use Auth;
 use App\Job;
 use App\Company;
 use App\UserCommunication;

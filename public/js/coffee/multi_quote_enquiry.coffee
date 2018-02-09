@@ -3,6 +3,23 @@ modal_popup_id = ""
 capitalize = (string) ->
 	return string.charAt(0).toUpperCase() + string.slice(1)
 
+### --- Get the value formatted to milliseconds --- ###
+getMilliSeconds = (time = {}) ->
+	if(time.hasOwnProperty('value') and time.hasOwnProperty('unit'))
+		if time['unit'].indexOf('second') >= 0 # Second
+			millisecond_value = (parseInt(time['value']) * 1000)
+		else if time['unit'].indexOf('minute') >= 0 # Minute
+			millisecond_value = (parseInt(time['value']) * 60 * 1000)
+		else if time['unit'].indexOf('hour') >= 0 # Hour
+			millisecond_value = (parseInt(time['value']) * 60 * 60 * 1000)
+		else if time['unit'].indexOf('day') >= 0 # Day
+			millisecond_value = (parseInt(time['value']) * 24 * 60 * 60 * 1000)
+		else # Set Default
+			millisecond_value = (24 * 60 * 60 * 1000) # Default, set the time to 24 hour
+	else # Set Default
+		millisecond_value = 0 # Default, get current time
+	return millisecond_value
+
 getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 	data = {}
 
@@ -250,7 +267,7 @@ getVerification = (modal_id, enquiry_level, listing_slug = '', regenerate = fals
 			return
 	return
 
-### --- --- ###
+### --- Read the cookie & get the value of that KEY --- ###
 getCookie = (key) ->
 	value = ''
 	if document.cookie.length > 0 and document.cookie.indexOf(key) > -1
@@ -262,6 +279,25 @@ getCookie = (key) ->
 				break
 			i++
 	return value
+
+### --- Create / update the cookie --- ###
+setCookie = (key, value, time = {}) ->
+	date = new Date()
+	if(time.hasOwnProperty('value') and time.hasOwnProperty('unit'))
+		millisecond_value = getMilliSeconds(time)
+	else # Set Default
+		millisecond_value = getMilliSeconds({'value': 30, 'unit': 'second'}) # Default, get current time
+
+	date.setTime(date.getTime() + millisecond_value)
+
+	expires = "; expires=" + date.toGMTString() # update the expiry time
+	document.cookie = key + "=" + value + expires + "; path=/" # Set the cookie
+	return
+
+### --- Erase the key-value from Cookie list --- ###
+eraseCookie = (key) ->
+	setCookie(key, "", {'unit': 'second', 'value': -1})
+	return
 
 ## -- Get areas based on City -- ##
 getArea = (modal_id, city, path) ->
@@ -432,6 +468,19 @@ checkForInput = (element) ->
 $(document).ready () ->
 	### --- This object is used to store old values -> Mainly for search-boxes --- ###
 	old_values = {}
+
+	if parseInt(getCookie('enquiry_modal_first_time_value')) > 0 and getCookie('enquiry_modal_first_time_unit').length > 0
+		millisecond_value = getMilliSeconds({'value': parseInt(getCookie('enquiry_modal_first_time_value')), 'unit': getCookie('enquiry_modal_first_time_unit')})
+			
+		console.log "modal timeout initiated"
+		setTimeout (->
+			# $('#multi-quote-enquiry-modal').modal 'show'
+			$(document).find('#bs-example-navbar-collapse-1 .enquiry-modal-btn').trigger('click') # Trigger enquiry modal button
+			console.log "trigger modal timer"
+			eraseCookie('enquiry_modal_first_time_value')
+			eraseCookie('enquiry_modal_first_time_unit')
+			return
+		), millisecond_value
 
 	### --- If RHS Enquiry form exist, then --- ###
 	if $("#rhs-enquiry-form .level-one #level-one-enquiry").length > 0

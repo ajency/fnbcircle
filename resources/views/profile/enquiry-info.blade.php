@@ -16,7 +16,7 @@
                                         @if($self) My @else {{$data['name']}}'s @endif Activity
                                     </h3>
                                     @if(!$self and !$admin)
-                                    <h6 class="public-enquiry-title text-color">Enquiries made to you by {{$data['name']}}</h6>
+                                    <h6 class="public-enquiry-title text-color">Requests made to you by {{$data['name']}}</h6>
                                     @endif
                                     {!!$details!!}
                                     <ul class="nav activityTab" role="tablist">

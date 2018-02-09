@@ -146,14 +146,14 @@ class ContactRequestController extends Controller
                 ],
             ];
             if(!Auth::guest()){
-                $email_data['template_data']['customer_dashboard_url'] = url('/profile/basic-details/'.$email);
+                $email_data['template_data']['customer_dashboard_url'] = url('/profile/activity/'.$email);
             }
             sendEmail('contact-request-owner-premium',$email_data);
             
             //send sms to owner
             $owner_cont = $user->getPrimaryContact();
             $message = "Hi ".$user->name.", \n We have shared the contact details of ".$listing->title." with a seeker interested in your listing. \nPlease find below details of the seeker: \nName: ".$name." \nEmail: ".$email." \nPhone: ".$mobile;
-            if(!Auth::guest()) $message.= " \nGo to ".urlShortner(url('/profile/basic-details/'.$email))['id']." to view the profile of ".$name;
+            if(!Auth::guest()) $message.= " \nGo to ".urlShortner(url('/profile/activity/'.$email))['id']." to view the profile of ".$name;
             $sms_data = [
                 'to' => $owner_cont['contact_region'].$owner_cont['contact'],
                 'message' => $message,

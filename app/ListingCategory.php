@@ -84,10 +84,10 @@ class ListingCategory extends Model
             [$listing_id, $listing_id]);
         $array = [];
         foreach ($categories as $category) {
-            $array[$category->parentID] = $category->parent;
-            $array[$category->branchID] = $category->branch;
-            $array[$category->id] = $category->name;
+            $array[] = $category->parent;
+            $array[] = $category->branch;
+            $array[] = $category->name;
         }
-        return json_encode($array);
+        return json_encode(array_unique($array));
     }
 }

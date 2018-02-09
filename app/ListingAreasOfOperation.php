@@ -29,4 +29,15 @@ class ListingAreasOfOperation extends Model
         }
         return $areas;
     }
+
+    public static function listingAreasJsonTag($listing_id)
+    {
+        $operationAreas = DB::select("SELECT areas.id, areas.name as area_name, cities.id as city_id, cities.name as city_name FROM listing_areas_of_operations join areas join cities on listing_areas_of_operations.area_id = areas.id and areas.city_id = cities.id WHERE listing_id =?", [$listing_id]);
+        // dd($operationAreas);
+        $areas = [];
+        foreach ($operationAreas as $area) {
+            $areas[] = $area->city_name;
+        }
+        return json_encode(array_unique($areas));
+    }
 }

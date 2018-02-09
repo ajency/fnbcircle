@@ -131,7 +131,12 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $by = $on->owner;
                 $email = $by->getPrimaryEmail();
                 $fields['category'] = json_decode($activity->getExtraProperty('categories'),true);
-                \Log::info('categ: '. json_encode($fields['category']));
+                break;
+            case 'listing_areas':
+                $by = $on->owner;
+                $email = $by->getPrimaryEmail();
+                $fields['area'] = json_decode($activity->getExtraProperty('areas'),true);
+                \Log::info($fields['area']);
                 break;
 
             default:
@@ -208,7 +213,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             'request-time' => $time,
             'email' => $backup->email,
             'attributes[name]' => ($backup->name != null) ? $backup->name : "",
-            'attributes[stateID]' => ($backup->stateID != null) ? $backup->stateID : "0",
+            // 'attributes[stateID]' => ($backup->stateID != null) ? $backup->stateID : "0",
             'attributes[state]' => ($backup->state != null) ? $backup->state : "null",
             'attributes[active]' => ($backup->active != null) ? $backup->active : "False",
             'attributes[subscribed]' => ($backup->subscribed != null) ? $backup->subscribed : "True",

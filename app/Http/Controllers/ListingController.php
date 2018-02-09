@@ -602,7 +602,7 @@ class ListingController extends Controller
             $operation->save();
         }
         $listing->save();
-
+        logActivity('listing_areas',$listing,Auth::user(),['areas'=>ListingAreasOfOperation::listingAreasJsonTag($listing->id)]);
         $change = "";
         if (isset($data->change) and $data->change == "1") {
             $change = "&success=true";

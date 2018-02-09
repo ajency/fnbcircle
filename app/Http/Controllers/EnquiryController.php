@@ -352,7 +352,14 @@ class EnquiryController extends Controller {
 		}
 
 		if($enquiry_obj) { // If enquiry object exist, then add other data
-			
+			switch($enquiry_obj->user_object_type){
+				case 'App\\User' : 
+					$caused_by = User::find($enquiry_obj->user_object_id);
+					break;
+				case 'App\\Lead' : 
+					$caused_by = Lead::find($enquiry_obj->user_object_id);
+					break;
+			}
 			if(sizeof($enquiry_categories) > 0) {
 				foreach ($enquiry_categories as $cat_key => $cat_value) {
 					$category_obj = Category::where('id', $cat_value)->first();
@@ -370,7 +377,7 @@ class EnquiryController extends Controller {
 			} else {
 				$enquiry_area_obj = [];
 			}
-
+			logActivity('enquiry-updated',$enquiry_obj,$caused_by);
 			if (sizeof($enquiry_sent) > 0) {
 				$enquiry_sent["enquiry_id"] = $enquiry_obj["id"];
 				$enquiry_sent_obj = EnquirySent::create($enquiry_sent);

@@ -9,7 +9,10 @@
 	    	"user_type",
 	    	"mobile_otp",
 	    	"is_logged_in",
-	    	"is_verified"
+	    	"is_verified",
+	    	"enquiry_modal_first_time_value",
+	    	"enquiry_modal_first_time_unit",
+	    	"enquiry_modal_display_count"
 		],
 		"expires_in" => 10080, // 7 days //120, // 2 hours
 		'user_state_expiry' => 45000, // 31 days

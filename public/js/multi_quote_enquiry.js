@@ -1,10 +1,36 @@
 (function() {
-  var capitalize, checkForInput, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, modal_popup_id, multiSelectInit, resetPlugins, resetTemplate, validateContact;
+  var capitalize, checkForInput, eraseCookie, getArea, getContent, getCookie, getFilters, getMilliSeconds, getTemplate, getVerification, initCatSearchBox, initFlagDrop, modal_popup_id, multiSelectInit, resetPlugins, resetTemplate, setCookie, validateContact;
 
   modal_popup_id = "";
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+
+  /* --- Get the value formatted to milliseconds --- */
+
+  getMilliSeconds = function(time) {
+    var millisecond_value;
+    if (time == null) {
+      time = {};
+    }
+    if (time.hasOwnProperty('value') && time.hasOwnProperty('unit')) {
+      if (time['unit'].indexOf('second') >= 0) {
+        millisecond_value = parseInt(time['value']) * 1000;
+      } else if (time['unit'].indexOf('minute') >= 0) {
+        millisecond_value = parseInt(time['value']) * 60 * 1000;
+      } else if (time['unit'].indexOf('hour') >= 0) {
+        millisecond_value = parseInt(time['value']) * 60 * 60 * 1000;
+      } else if (time['unit'].indexOf('day') >= 0) {
+        millisecond_value = parseInt(time['value']) * 24 * 60 * 60 * 1000;
+      } else {
+        millisecond_value = 24 * 60 * 60 * 1000;
+      }
+    } else {
+      millisecond_value = 0;
+    }
+    return millisecond_value;
   };
 
   getFilters = function(modal_id, enquiry_no, listing_slug) {
@@ -285,7 +311,7 @@
   };
 
 
-  /* --- --- */
+  /* --- Read the cookie & get the value of that KEY --- */
 
   getCookie = function(key) {
     var cookies, i, value;
@@ -302,6 +328,38 @@
       }
     }
     return value;
+  };
+
+
+  /* --- Create / update the cookie --- */
+
+  setCookie = function(key, value, time) {
+    var date, expires, millisecond_value;
+    if (time == null) {
+      time = {};
+    }
+    date = new Date();
+    if (time.hasOwnProperty('value') && time.hasOwnProperty('unit')) {
+      millisecond_value = getMilliSeconds(time);
+    } else {
+      millisecond_value = getMilliSeconds({
+        'value': 30,
+        'unit': 'second'
+      });
+    }
+    date.setTime(date.getTime() + millisecond_value);
+    expires = "; expires=" + date.toGMTString();
+    document.cookie = key + "=" + value + expires + "; path=/";
+  };
+
+
+  /* --- Erase the key-value from Cookie list --- */
+
+  eraseCookie = function(key) {
+    setCookie(key, "", {
+      'unit': 'second',
+      'value': -1
+    });
   };
 
   getArea = function(modal_id, city, path) {
@@ -447,8 +505,21 @@
   $(document).ready(function() {
 
     /* --- This object is used to store old values -> Mainly for search-boxes --- */
-    var old_values;
+    var millisecond_value, old_values;
     old_values = {};
+    if (parseInt(getCookie('enquiry_modal_first_time_value')) > 0 && getCookie('enquiry_modal_first_time_unit').length > 0) {
+      millisecond_value = getMilliSeconds({
+        'value': parseInt(getCookie('enquiry_modal_first_time_value')),
+        'unit': getCookie('enquiry_modal_first_time_unit')
+      });
+      console.log("modal timeout initiated");
+      setTimeout((function() {
+        $(document).find('#bs-example-navbar-collapse-1 .enquiry-modal-btn').trigger('click');
+        console.log("trigger modal timer");
+        eraseCookie('enquiry_modal_first_time_value');
+        eraseCookie('enquiry_modal_first_time_unit');
+      }), millisecond_value);
+    }
 
     /* --- If RHS Enquiry form exist, then --- */
     if ($("#rhs-enquiry-form .level-one #level-one-enquiry").length > 0) {

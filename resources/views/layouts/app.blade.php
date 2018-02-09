@@ -67,6 +67,8 @@
         @include('modals.user_requirement')
     @endif
 
+    {{ generateEnquiryModalSession() }}
+
     <!-- Email Verification popup -->
     @include('modals.verification.email-modal')
 

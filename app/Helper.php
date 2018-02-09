@@ -8,6 +8,12 @@ use App\User;
 use App\InvalidEmail;
 use Spatie\Activitylog\Models\Activity;
 use App\Jobs\UpdatePepoBackupTable;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Config;
+
+use App\Http\Controllers\CookieController;
+use Symfony\Component\Console\Output\ConsoleOutput;
 // use AjComm;
 
 /**
@@ -1028,5 +1034,27 @@ function logActivity($log,$performedOn,$causedBy=null,$properties=[]){
 // 	return $planId;
 
 // }
- 
- 
+
+/**
+* This function updates the Session for display of Enquiry Modal
+*/
+function generateEnquiryModalSession() {
+	// $output = new ConsoleOutput;
+	$user_modal_data = Session::get('enquiry_modal_data', []);
+
+	if (sizeof($user_modal_data) <= 0) { // If session doesn't exist, then update the session 
+		Session::put('enquiry_modal_data', ['first_time' => ['value' => 30, 'unit' => 'second'], 'display_count' => 3]);
+		// Update the Config
+		/*$config_value = config('cookie_config.unguarded_cookies', []);
+		$config_value = array_merge($config_value, ['enquiry_modal_first_time_value', 'enquiry_modal_first_time_unit', 'enquiry_modal_display_count']); // merge the new key
+		config(['cookie_config.unguarded_cookies' => $config_value]); // update the Config value*/
+		
+		$cookie_class_obj = new CookieController;
+		$other_params = ['http_only' => false];
+		
+		$cookie_class_obj->set('enquiry_modal_first_time_value', 30, $other_params); // Set the modal display value
+		$cookie_class_obj->set('enquiry_modal_first_time_unit', 'second', $other_params); // Set the modal display unit
+		$cookie_class_obj->set('enquiry_modal_display_count', 3, $other_params); // Set the Modal display count 
+	}
+	return ;
+}

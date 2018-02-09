@@ -346,7 +346,7 @@ class RegisterController extends Controller
             $user = User::find($token['user_id']);
             $user->status = 'active';
             $user->save();
-            logActivity("user_confirmation",$user,$Auth::user());
+            logActivity("user_confirmation",$user);
             UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
 
             $token->status = 'completed';

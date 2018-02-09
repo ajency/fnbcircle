@@ -165,7 +165,7 @@
                     </div>
                     <ul class="areas-select__selection flex-row flex-wrap area-append hidden" id="area_dom_skeleton">
                         <li class="city-select">
-                            <div class="flex-row">
+                            <div class="">
                                 <select class="form-control fnb-select select-variant" name="city" data-parsley-mincheck="1">
                                     <option value="">Select State</option>
                                     @foreach(App\City::where('status', 1)->get() as $key => $value)
@@ -175,7 +175,7 @@
                             </div>
                         </li>
                         <li class="area-select">
-                            <div class="flex-row">
+                            <div class="">
                                 <select class="fnb-select select-variant areas-appended default-area-select" multiple="multiple" name="area" data-parsley-mincheck="1">
                                     <!-- <option>Bandra</option>
                                     <option>Andheri</option>

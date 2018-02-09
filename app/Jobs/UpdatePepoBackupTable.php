@@ -81,12 +81,12 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $by->getPrimaryEmail();
                 $fields['area'] = [$on->location->city->id => $on->location->city->name];
                 $fields['userType'] = ['Listing'];
-                $fields['subTypeOptions'] = [Listing::listing_business_type[$on->type]];
+                $fields['listingType'] = [Listing::listing_business_type[$on->type]];
                 break;
             case 'listing_publish':
                 $by = $on->owner;
                 $email = $by->getPrimaryEmail();
-                $fields['subTypeOptions'] = ['Published'];
+                $fields['listingType'] = ['Published'];
                 break;
             case 'job_created':
                 $email = $by->getPrimaryEmail();
@@ -162,7 +162,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                     break;
                 case 'signUpType':
                 case 'userType':
-                case 'subTypeOptions':
+                case 'listingType':
                 case 'category':
                 case 'area':
                     $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
@@ -197,7 +197,7 @@ class UpdatePepoBackupTable implements ShouldQueue
         //     'attributes[userType]' => urlencode(($backup->userType != null) ? $backup->userType : "null"),
         //     'attributes[userSubType]' => urlencode(($backup->userSubType != null) ? $backup->userSubType : "null"),
         //     'attributes[userSubType]' =>urlencode(($backup->userSubType != null) ? $backup->userSubType : "null"),
-        //     'attributes[subTypeOptions]' => urlencode(($backup->subTypeOptions != null) ? $backup->subTypeOptions : "null"),
+        //     'attributes[listingType]' => urlencode(($backup->listingType != null) ? $backup->listingType : "null"),
         //     'attributes[category]' => urlencode(($backup->category != null) ? $backup->category : "null"),
         //     'attributes[area]' => urlencode(($backup->area != null) ? $backup->area : "null"),
         // ];
@@ -221,7 +221,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[userType]' => ($backup->userType != null) ? $backup->userType : "null",
             'attributes[userSubType]' => ($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[userSubType]' =>($backup->userSubType != null) ? $backup->userSubType : "null",
-            'attributes[subTypeOptions]' => ($backup->subTypeOptions != null) ? $backup->subTypeOptions : "null",
+            'attributes[listingType]' => ($backup->listingType != null) ? $backup->listingType : "null",
             'attributes[category]' => ($backup->category != null) ? $backup->category : "null",
             'attributes[area]' => ($backup->area != null) ? $backup->area : "null",
         ];

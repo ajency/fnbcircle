@@ -24,7 +24,9 @@ class CreatePepoBackupsTable extends Migration
             $table->string('subscribed')->default('True');
             $table->json('userType')->nullable();
             $table->json('userSubType')->nullable();
-            $table->json('subTypeOptions')->nullable();
+            $table->json('listingType')->nullable();
+            $table->json('jobRole')->nullable();
+            $table->json('jobCategory')->nullable();
             $table->json('category')->nullable();
             $table->json('area')->nullable();
             $table->timestamps();

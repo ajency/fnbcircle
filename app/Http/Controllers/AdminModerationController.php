@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use Excel;
-
+use Auth;
 use App\Category;
 use App\City;
 use App\Area;

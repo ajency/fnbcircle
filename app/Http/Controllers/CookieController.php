@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Cookie;
 
 class CookieController extends Controller {
 	/**
-	* This function is used to set a Cookie to that browser
-	* Default values are assigned by Laravel, but offers user to configure the Cookie
-	*/
+    * This function is used to set a Cookie to that browser
+    * Default values are assigned by Laravel, but offers user to configure the Cookie
+    *
+    * Params:=> Cookie::queue($name, $value, $minutes, $path, $domain, $secure, $httpOnly)
+    */
     public function set($key, $value, $other_params = [], $is_encrypted = true) {
     	if(sizeof($other_params) > 0) {
     		if(config('app.url')) { // If not NULL

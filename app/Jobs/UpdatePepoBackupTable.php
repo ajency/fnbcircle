@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Listing;
 use App\PepoBackup;
+use App\EnquiryCategory;
 use Carbon\Carbon;
 
 class UpdatePepoBackupTable implements ShouldQueue
@@ -65,7 +66,8 @@ class UpdatePepoBackupTable implements ShouldQueue
                     }
                 }
                 $fields['userType'] = ['Enquiry'];
-
+                $fields['category'] = json_decode(EnquiryCategory::getCategoryJsonTag($on->id),true);
+                $fields['area'] = array_unique($on->areas()->with('city')->get()->pluck('city')->pluck('name')->toArray());
                 break;
             case 'email_signup':
                 $email = $by->getPrimaryEmail();
@@ -73,7 +75,6 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['name'] = $by->name;
                 $details = $by->getUserDetails->getSavedUserSubTypes();
                 $fields['userSubType'] = array_values($details);
-                $fields['stateID'] =  $by->getUserCity();
                 $fields['state'] = $by->getUserCity(true);
                 $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
                 break;
@@ -94,7 +95,6 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'profile_updated':
                 $email = $on->getPrimaryEmail();
-                $fields['stateID'] =  $on->getUserCity();
                 $fields['state'] = $on->getUserCity(true);
                 $fields['area'] = [$on->getUserCity() => $on->getUserCity(true)];
                 $fields['name'] = $on->name;
@@ -103,7 +103,6 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'user_requirements':
                 $email = $by->getPrimaryEmail();
-                $fields['stateID'] =  $by->getUserCity();
                 $fields['state'] = $by->getUserCity(true);
                 $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
                 $fields['name'] = $by->name;
@@ -112,7 +111,6 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'orphan_created':
                 $email = $on->getPrimaryEmail();
-                $fields['stateID'] =  $on->getUserCity();
                 $fields['state'] = $on->getUserCity(true);
                 $fields['area'] = [$on->getUserCity() => $on->getUserCity(true)];
                 $fields['signUpType'] = ['Listing'];
@@ -153,7 +151,6 @@ class UpdatePepoBackupTable implements ShouldQueue
         foreach ($fields as $key => $value) {
             switch ($key) {
                 case 'name':
-                case 'stateID':
                 case 'state':
                 case 'active':
                 case 'userSubType':

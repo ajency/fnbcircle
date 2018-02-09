@@ -472,13 +472,18 @@ $(document).ready () ->
 	if parseInt(getCookie('enquiry_modal_first_time_value')) > 0 and getCookie('enquiry_modal_first_time_unit').length > 0
 		millisecond_value = getMilliSeconds({'value': parseInt(getCookie('enquiry_modal_first_time_value')), 'unit': getCookie('enquiry_modal_first_time_unit')})
 			
-		console.log "modal timeout initiated"
 		setTimeout (->
 			# $('#multi-quote-enquiry-modal').modal 'show'
 			$(document).find('#bs-example-navbar-collapse-1 .enquiry-modal-btn').trigger('click') # Trigger enquiry modal button
 			console.log "trigger modal timer"
-			eraseCookie('enquiry_modal_first_time_value')
-			eraseCookie('enquiry_modal_first_time_unit')
+			if parseInt(getCookie('enquiry_modal_display_count')) > 0
+				display_counter = parseInt(getCookie('enquiry_modal_display_count')) - 1
+				if display_counter > 0
+					setCookie('enquiry_modal_display_count', display_counter, {'unit': 'day', 'value': 30})
+				else
+					eraseCookie('enquiry_modal_display_count')
+					eraseCookie('enquiry_modal_first_time_value')
+					eraseCookie('enquiry_modal_first_time_unit')
 			return
 		), millisecond_value
 

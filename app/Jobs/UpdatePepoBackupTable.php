@@ -75,6 +75,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['name'] = $by->name;
                 $details = $by->getUserDetails->getSavedUserSubTypes();
                 $fields['userSubType'] = array_values($details);
+                $fields['stateID'] =  $by->getUserCity();
                 $fields['state'] = $by->getUserCity(true);
                 $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
                 break;
@@ -95,6 +96,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'profile_updated':
                 $email = $on->getPrimaryEmail();
+                $fields['stateID'] =  $on->getUserCity();
                 $fields['state'] = $on->getUserCity(true);
                 $fields['area'] = [$on->getUserCity() => $on->getUserCity(true)];
                 $fields['name'] = $on->name;
@@ -103,6 +105,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'user_requirements':
                 $email = $by->getPrimaryEmail();
+                $fields['stateID'] =  $by->getUserCity();
                 $fields['state'] = $by->getUserCity(true);
                 $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
                 $fields['name'] = $by->name;
@@ -111,6 +114,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'orphan_created':
                 $email = $on->getPrimaryEmail();
+                $fields['stateID'] =  $on->getUserCity();
                 $fields['state'] = $on->getUserCity(true);
                 $fields['area'] = [$on->getUserCity() => $on->getUserCity(true)];
                 $fields['signUpType'] = ['Listing'];
@@ -149,13 +153,17 @@ class UpdatePepoBackupTable implements ShouldQueue
             $backup['email'] = $email;  
         } 
         foreach ($fields as $key => $value) {
+
             switch ($key) {
                 case 'name':
+                case 'stateID':
                 case 'state':
                 case 'active':
-                case 'userSubType':
                 case 'subscribed':
                     $backup[$key] = $value;
+                    break;
+                case 'userSubType':
+                    $backup[$key] = json_encode($value);
                     break;
                 case 'signUpType':
                 case 'userType':
@@ -171,6 +179,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                     # code...
                     break;
             }
+            \Log::info($key.'=>'.gettype($backup[$key]));
         }
 
         $listID = '3616';

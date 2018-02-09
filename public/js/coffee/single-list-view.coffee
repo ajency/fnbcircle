@@ -205,6 +205,7 @@ $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
   mobile = $('#contact-modal #get-crdetails-form #contact_number').val()
   region = $('#contact-modal #get-crdetails-form #contact_number').intlTelInput('getSelectedCountryData')['dialCode']
   description = $('#contact-modal #get-crdetails-form #contact_description').val()
+  subscription = $('#contact-modal #get-crdetails-form #news-letter-subscribe').prop('checked')
   # console.log name, email, mobile, description
   url = $('#contact-modal #cr-details-form-submit-link').val()
   $.ajax
@@ -217,6 +218,7 @@ $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
       mobile: mobile
       mobile_region: region
       description: JSON.stringify description
+      subscription:subscription
     success: (data) ->
       handleResponse(data['step'],data['html'])
       $('.contact-sub-spin').addClass 'hidden'

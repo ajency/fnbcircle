@@ -137,7 +137,7 @@
         </div><br/>
         <!-- looking for ends -->
         <div class="flex-row points m-b-15">
-            <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to news letter.
+            <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to Newsletter.
         </div>
         <!-- action -->
         <div class="send-action">

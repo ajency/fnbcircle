@@ -145,7 +145,10 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['area'] = json_decode($activity->getExtraProperty('areas'),true);
                 \Log::info($fields['area']);
                 break;
-
+            case 'subscription':
+                $email = $by->getPrimaryEmail();
+                $fields['subscribed'] = "False";
+                break;
             default:
                 # code...
                 break;

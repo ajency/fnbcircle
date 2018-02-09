@@ -462,7 +462,7 @@
     if (reinit == null) {
       reinit = false;
     }
-    path = specific_path && specific_path.length ? $(specific_path) : $(document).find(general_path + ' .default-area-select');
+    path = (specific_path && specific_path.length) ? $(specific_path) : $(document).find(general_path + ' .default-area-select');
     if (reinit) {
       $(document).find(path).multiselect();
     } else {
@@ -649,7 +649,7 @@
 
         /* --- On click of "Send Enquiry 1" button --- */
         $(document).on("click", modal_id + " #level-one-enquiry #level-one-form-btn", function(event) {
-          page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
+          page_level = ($(this).data('value') && $(this).data('value').length > 0) ? $(this).data('value') : 'step_1';
           $(this).find("i.fa-circle-o-notch").removeClass("hidden");
           $(this).attr("disabled", "disabled");
           if ($(document).find(modal_id + " #level-one-enquiry").parsley().validate()) {
@@ -713,7 +713,7 @@
 
         /* --- On click of Popup 3 'Save / Send' --- */
         $(document).on("click", modal_id + " #level-three-enquiry #level-three-form-btn", function(event) {
-          page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
+          page_level = ($(this).data('value') && $(this).data('value').length > 0) ? $(this).data('value') : 'step_1';
           $(this).find("i.fa-circle-o-notch").removeClass("hidden");
           $(this).attr("disabled", "disabled");
           if ($(document).find(modal_id + " #level-three-enquiry #other_details_container").parsley().validate()) {

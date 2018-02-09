@@ -199,7 +199,7 @@
   });
 
   $('#contact-modal').on('click', '#cr-get-details-form-submit', function() {
-    var description, email, mobile, name, region, url;
+    var description, email, mobile, name, region, subscription, url;
     if (!$('#contact-modal #get-crdetails-form').parsley().validate()) {
       return;
     }
@@ -211,6 +211,7 @@
     mobile = $('#contact-modal #get-crdetails-form #contact_number').val();
     region = $('#contact-modal #get-crdetails-form #contact_number').intlTelInput('getSelectedCountryData')['dialCode'];
     description = $('#contact-modal #get-crdetails-form #contact_description').val();
+    subscription = $('#contact-modal #get-crdetails-form #news-letter-subscribe').prop('checked');
     url = $('#contact-modal #cr-details-form-submit-link').val();
     return $.ajax({
       url: url,
@@ -221,7 +222,8 @@
         email: email,
         mobile: mobile,
         mobile_region: region,
-        description: JSON.stringify(description)
+        description: JSON.stringify(description),
+        subscription: subscription
       },
       success: function(data) {
         handleResponse(data['step'], data['html']);

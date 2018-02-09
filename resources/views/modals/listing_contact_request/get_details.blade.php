@@ -78,6 +78,9 @@
                </div>
             </div>
          </div>
+         <div class="flex-row points m-b-15">
+            <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to Newsletter.
+        </div>
          <div class="p-t-10">
             <div class="send-action">
                <button type="button" class="btn fnb-btn primary-btn full border-btn" id="cr-get-details-form-submit">Submit <i class="fa fa-circle-o-notch fa-spin fa-fw contact-sub-spin hidden"></i></button>

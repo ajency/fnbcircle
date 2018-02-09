@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, checkForInput, eraseCookie, getArea, getContent, getCookie, getFilters, getMilliSeconds, getTemplate, getVerification, initCatSearchBox, initFlagDrop, modal_popup_id, multiSelectInit, resetPlugins, resetTemplate, setCookie, validateContact;
+  var anyInputTextFocusCheck, anyModalOpenCheck, autoPopupTrigger, capitalize, checkForInput, eraseCookie, getArea, getContent, getCookie, getFilters, getMilliSeconds, getTemplate, getVerification, initCatSearchBox, initFlagDrop, modal_popup_id, multiSelectInit, resetPlugins, resetTemplate, setCookie, validateContact;
 
   modal_popup_id = "";
 
@@ -32,6 +32,9 @@
     }
     return millisecond_value;
   };
+
+
+  /* --- Get filters for the Enquiry Modal --- */
 
   getFilters = function(modal_id, enquiry_no, listing_slug) {
     var areas, cities, data, descr_values;
@@ -502,35 +505,76 @@
     }
   };
 
+
+  /* --- This function checks if any modal is Open in a document/window --- */
+
+  anyModalOpenCheck = function(id) {
+    if (id == null) {
+      id = '';
+    }
+    if (id.length > 0) {
+      return $(document).find(id).data('bs.modal') && ($(document).find(id).data('bs.modal').isShown);
+    } else {
+      return ($('.modal.in').length > 0 ? true : false);
+    }
+  };
+
+
+  /* --- This function checks if any Input/TextArea is on Focus in a document/window --- */
+
+  anyInputTextFocusCheck = function(id) {
+    if (id.length > 0) {
+      return $(id).find('input:focus, textarea:focus').length > 0;
+    } else {
+      return $(document).find('input:focus, textarea:focus').length > 0;
+    }
+  };
+
+
+  /* --- This function is called for auto-popup trigger --- */
+
+  autoPopupTrigger = function() {
+
+    /* --- Auto popup function starts --- */
+    var millisecond_value;
+    if (parseInt(getCookie('enquiry_modal_display_count')) > 0 && (!anyModalOpenCheck(""))) {
+      if (parseInt(getCookie('enquiry_modal_first_time_value')) > 0 && getCookie('enquiry_modal_first_time_unit').length > 0) {
+        millisecond_value = getMilliSeconds({
+          'value': parseInt(getCookie('enquiry_modal_first_time_value')),
+          'unit': getCookie('enquiry_modal_first_time_unit')
+        });
+        console.log("modal timeout initiated opens in " + millisecond_value.toString());
+        return setTimeout((function() {
+          var display_counter;
+          console.log("Timed out");
+          if ((!anyModalOpenCheck("")) && (!anyInputTextFocusCheck(""))) {
+            $(document).find('#bs-example-navbar-collapse-1 .enquiry-modal-btn').trigger('click');
+            console.log("trigger modal timer");
+            display_counter = parseInt(getCookie('enquiry_modal_display_count')) - 1;
+            if (display_counter > 0) {
+              setCookie('enquiry_modal_display_count', display_counter, {
+                'unit': 'day',
+                'value': 30
+              });
+            } else {
+              eraseCookie('enquiry_modal_display_count');
+              eraseCookie('enquiry_modal_first_time_value');
+              eraseCookie('enquiry_modal_first_time_unit');
+            }
+          }
+        }), millisecond_value);
+      }
+    }
+
+    /* --- Auto popup function ends --- */
+  };
+
   $(document).ready(function() {
 
     /* --- This object is used to store old values -> Mainly for search-boxes --- */
-    var millisecond_value, old_values;
+    var old_values;
     old_values = {};
-    if (parseInt(getCookie('enquiry_modal_first_time_value')) > 0 && getCookie('enquiry_modal_first_time_unit').length > 0) {
-      millisecond_value = getMilliSeconds({
-        'value': parseInt(getCookie('enquiry_modal_first_time_value')),
-        'unit': getCookie('enquiry_modal_first_time_unit')
-      });
-      setTimeout((function() {
-        var display_counter;
-        $(document).find('#bs-example-navbar-collapse-1 .enquiry-modal-btn').trigger('click');
-        console.log("trigger modal timer");
-        if (parseInt(getCookie('enquiry_modal_display_count')) > 0) {
-          display_counter = parseInt(getCookie('enquiry_modal_display_count')) - 1;
-          if (display_counter > 0) {
-            setCookie('enquiry_modal_display_count', display_counter, {
-              'unit': 'day',
-              'value': 30
-            });
-          } else {
-            eraseCookie('enquiry_modal_display_count');
-            eraseCookie('enquiry_modal_first_time_value');
-            eraseCookie('enquiry_modal_first_time_unit');
-          }
-        }
-      }), millisecond_value);
-    }
+    autoPopupTrigger();
 
     /* --- If RHS Enquiry form exist, then --- */
     if ($("#rhs-enquiry-form .level-one #level-one-enquiry").length > 0) {

@@ -20,6 +20,7 @@ getMilliSeconds = (time = {}) ->
 		millisecond_value = 0 # Default, get current time
 	return millisecond_value
 
+### --- Get filters for the Enquiry Modal --- ###
 getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 	data = {}
 
@@ -465,27 +466,59 @@ checkForInput = (element) ->
 		$label.removeClass 'filled lab-color'
 	return
 
+### --- This function checks if any modal is Open in a document/window --- ###
+anyModalOpenCheck = (id='') ->
+	if id.length > 0
+		return $(document).find(id).data('bs.modal') and ($(document).find(id).data('bs.modal').isShown)
+	else
+		return (if ($('.modal.in').length > 0) then true else false)
+	return
+
+### --- This function checks if any Input/TextArea is on Focus in a document/window --- ###
+anyInputTextFocusCheck = (id) ->
+	if id.length > 0
+		return $(id).find('input:focus, textarea:focus').length > 0
+	else
+		return $(document).find('input:focus, textarea:focus').length > 0
+	return
+
+### --- This function is called for auto-popup trigger --- ###
+autoPopupTrigger = () ->
+	### --- Auto popup function starts --- ###
+	if parseInt(getCookie('enquiry_modal_display_count')) > 0 and (not anyModalOpenCheck("")) # if display count is > 0 and no modal is open, then display auto-popup
+		if parseInt(getCookie('enquiry_modal_first_time_value')) > 0 and getCookie('enquiry_modal_first_time_unit').length > 0
+			millisecond_value = getMilliSeconds({'value': parseInt(getCookie('enquiry_modal_first_time_value')), 'unit': getCookie('enquiry_modal_first_time_unit')})
+				
+			console.log "modal timeout initiated opens in " + millisecond_value.toString()
+			setTimeout (->
+				console.log "Timed out"
+				# $('#multi-quote-enquiry-modal').modal 'show'
+				# if (getCookie('is_modal_open').length <= 0 or (getCookie('is_modal_open').length > 0 and getCookie('is_modal_open') != "true")) and (not anyModalOpenCheck("")) and (not anyInputTextFocusCheck("")) # if any modal is open, then don't trigger Auto popup
+				if (not anyModalOpenCheck("")) and (not anyInputTextFocusCheck("")) # if any modal is open OR textbox on Focus, then don't trigger Auto popup
+					$(document).find('#bs-example-navbar-collapse-1 .enquiry-modal-btn').trigger('click') # Trigger enquiry modal button
+					console.log "trigger modal timer"
+					display_counter = parseInt(getCookie('enquiry_modal_display_count')) - 1
+					if display_counter > 0
+						setCookie('enquiry_modal_display_count', display_counter, {'unit': 'day', 'value': 30})
+					else
+						eraseCookie('enquiry_modal_display_count')
+						eraseCookie('enquiry_modal_first_time_value')
+						eraseCookie('enquiry_modal_first_time_unit')
+				# else
+				# 	console.log "Reset the Auto Popup"
+				# 	autoPopupTrigger() # reinitiate the Auto-Popup
+				return
+			), millisecond_value
+	# else if parseInt(getCookie('enquiry_modal_display_count')) < 0
+	#	eraseCookie('enquiry_modal_display_count') # Delete the count tracer from cookie
+	### --- Auto popup function ends --- ###
+
 $(document).ready () ->
 	### --- This object is used to store old values -> Mainly for search-boxes --- ###
 	old_values = {}
+	# eraseCookie("is_modal_open") # once page is loaded, delete the "Enquiry Modal Open" key from cookie
 
-	if parseInt(getCookie('enquiry_modal_first_time_value')) > 0 and getCookie('enquiry_modal_first_time_unit').length > 0
-		millisecond_value = getMilliSeconds({'value': parseInt(getCookie('enquiry_modal_first_time_value')), 'unit': getCookie('enquiry_modal_first_time_unit')})
-			
-		setTimeout (->
-			# $('#multi-quote-enquiry-modal').modal 'show'
-			$(document).find('#bs-example-navbar-collapse-1 .enquiry-modal-btn').trigger('click') # Trigger enquiry modal button
-			console.log "trigger modal timer"
-			if parseInt(getCookie('enquiry_modal_display_count')) > 0
-				display_counter = parseInt(getCookie('enquiry_modal_display_count')) - 1
-				if display_counter > 0
-					setCookie('enquiry_modal_display_count', display_counter, {'unit': 'day', 'value': 30})
-				else
-					eraseCookie('enquiry_modal_display_count')
-					eraseCookie('enquiry_modal_first_time_value')
-					eraseCookie('enquiry_modal_first_time_unit')
-			return
-		), millisecond_value
+	autoPopupTrigger()
 
 	### --- If RHS Enquiry form exist, then --- ###
 	if $("#rhs-enquiry-form .level-one #level-one-enquiry").length > 0
@@ -561,6 +594,8 @@ $(document).ready () ->
 			$(modal_id).on 'shown.bs.modal', (e) ->
 				# resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
 				# value checking floating label
+				# setCookie("is_modal_open", $(document).find(modal_id).data('bs.modal').isShown, {'value': 7, 'unit': 'day'})
+
 				checkForInput = (element) ->
 				  # element is passed to the function ^
 				  $label = $(element).siblings('label')
@@ -610,6 +645,11 @@ $(document).ready () ->
 			     
 
 				return
+
+			# $(document).on 'hidden.bs.modal', modal_id, (e) ->
+			# 	### --- Erase Modal open key from cookie  --- ###
+			# 	eraseCookie("is_modal_open")
+			# 	return
 
 			if $(document).find(modal_id + " #level-one-enquiry").length > 0
 				initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")

@@ -540,6 +540,7 @@ $(document).ready () ->
 		modal_popup_id = modal_id
 
 		is_user_status = false
+		modal_display_status = true
 		
 		# if getCookie('user_id').length > 0
 		# 	if getCookie('user_type') == "user"
@@ -551,30 +552,46 @@ $(document).ready () ->
 		#		$(document).find(modal_id).modal 'hide'
 
 		if $(modal_id).length > 0 and (not is_user_status)
+			### --- Validate Non Modal forms i.e. RHS & List view forms --- ###
 			if ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#rhs-enquiry-form").find("select[name='description']").length) # if the RHS single enquiry form exist & has description Dropdown
+				### --- For RHS form - Single Listing page Enquiry --- ###
 				$(this).closest("#rhs-enquiry-form").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error') # Add the error-container
+			else if ($(this).closest("#listing_list_view_enquiry").length and $(this).closest("#listing_list_view_enquiry").find("select[name='description']").length)
+				### --- For List View form - List View page Enquiry --- ###
+				$(this).closest("#listing_list_view_enquiry").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error') # Add the error-container
 
-			if ($(this).closest("#rhs-enquiry-form").length <= 0 or ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#level-one-enquiry").parsley().validate()))
+			# if ($(this).closest("#rhs-enquiry-form").length <= 0 or ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#level-one-enquiry").parsley().validate()))
+			if ($(this).closest("#rhs-enquiry-form").length and $(this).closest("#level-one-enquiry").parsley().validate())
 				if $(this).closest("#rhs-enquiry-form").length > 0
+					console.log "RHS modal show"
 					$(modal_id).modal 'show'
-
-				if $(this).data("value")
-					enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id")
-					page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
-
-					if modal_id == "#enquiry-modal"
-						listing_slug = $("#enquiry_slug").val()
-					else
-						listing_slug = ""
-
-					getContent(enq_form_id, page_level, listing_slug, true, modal_id)
-				else
-					### --- Reset to Modal 1 on enquiry button Click --- ###
-					resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
-					resetPlugins(modal_id)
+			else if ($(this).closest("#listing_list_view_enquiry").length and $(this).closest("#level-one-enquiry").parsley().validate())
+				if $(this).closest("#listing_list_view_enquiry").length > 0
+					console.log "List view modal show"
+					$(modal_id).modal 'show'
 			else # else fail the response
-				if $(this).closest("#rhs-enquiry-form").length > 0
+				if $(this).closest("#rhs-enquiry-form").length > 0 or $(this).closest("#listing_list_view_enquiry").length > 0
+					console.log "Hide the modal"
+					modal_display_status = false
 					$(modal_id).modal 'hide'
+			
+
+			if $(this).data("value") and modal_display_status
+				enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id")
+				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+
+				if modal_id == "#enquiry-modal"
+					listing_slug = $("#enquiry_slug").val()
+				else
+					listing_slug = ""
+
+				console.log "Get"
+				getContent(enq_form_id, page_level, listing_slug, true, modal_id)
+			else
+				### --- Reset to Modal 1 on enquiry button Click --- ###
+				console.log "Reset"
+				resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
+				resetPlugins(modal_id)
 
 			# $(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			# 	if modal_id == "#enquiry-modal"

@@ -592,37 +592,56 @@
 
     /* --- Display respective Popups on "Send Enquiry" click --- */
     $(document).on("click", ".enquiry-modal-btn", function(e) {
-      var enq_form_id, is_user_status, listing_slug, modal_id, page_level;
+      var enq_form_id, is_user_status, listing_slug, modal_display_status, modal_id, page_level;
       modal_id = $(this).data("target");
       modal_popup_id = modal_id;
       is_user_status = false;
+      modal_display_status = true;
       if ($(modal_id).length > 0 && (!is_user_status)) {
+
+        /* --- Validate Non Modal forms i.e. RHS & List view forms --- */
         if ($(this).closest("#rhs-enquiry-form").length && $(this).closest("#rhs-enquiry-form").find("select[name='description']").length) {
+
+          /* --- For RHS form - Single Listing page Enquiry --- */
           $(this).closest("#rhs-enquiry-form").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error');
+        } else if ($(this).closest("#listing_list_view_enquiry").length && $(this).closest("#listing_list_view_enquiry").find("select[name='description']").length) {
+
+          /* --- For List View form - List View page Enquiry --- */
+          $(this).closest("#listing_list_view_enquiry").find('button.multiselect').attr('data-parsley-errors-container', '#describes-best-dropdown-error');
         }
-        if ($(this).closest("#rhs-enquiry-form").length <= 0 || ($(this).closest("#rhs-enquiry-form").length && $(this).closest("#level-one-enquiry").parsley().validate())) {
+        if ($(this).closest("#rhs-enquiry-form").length && $(this).closest("#level-one-enquiry").parsley().validate()) {
           if ($(this).closest("#rhs-enquiry-form").length > 0) {
+            console.log("RHS modal show");
             $(modal_id).modal('show');
           }
-          if ($(this).data("value")) {
-            enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id");
-            page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
-            if (modal_id === "#enquiry-modal") {
-              listing_slug = $("#enquiry_slug").val();
-            } else {
-              listing_slug = "";
-            }
-            getContent(enq_form_id, page_level, listing_slug, true, modal_id);
-          } else {
-
-            /* --- Reset to Modal 1 on enquiry button Click --- */
-            resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val());
-            resetPlugins(modal_id);
+        } else if ($(this).closest("#listing_list_view_enquiry").length && $(this).closest("#level-one-enquiry").parsley().validate()) {
+          if ($(this).closest("#listing_list_view_enquiry").length > 0) {
+            console.log("List view modal show");
+            $(modal_id).modal('show');
           }
         } else {
-          if ($(this).closest("#rhs-enquiry-form").length > 0) {
+          if ($(this).closest("#rhs-enquiry-form").length > 0 || $(this).closest("#listing_list_view_enquiry").length > 0) {
+            console.log("Hide the modal");
+            modal_display_status = false;
             $(modal_id).modal('hide');
           }
+        }
+        if ($(this).data("value") && modal_display_status) {
+          enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id");
+          page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
+          if (modal_id === "#enquiry-modal") {
+            listing_slug = $("#enquiry_slug").val();
+          } else {
+            listing_slug = "";
+          }
+          console.log("Get");
+          getContent(enq_form_id, page_level, listing_slug, true, modal_id);
+        } else {
+
+          /* --- Reset to Modal 1 on enquiry button Click --- */
+          console.log("Reset");
+          resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val());
+          resetPlugins(modal_id);
         }
         $(modal_id).on('shown.bs.modal', function(e) {
           checkForInput = function(element) {

@@ -93,6 +93,8 @@ getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal
 				return
 			
 			data['areas'] = areas
+			if $(document).find(".search-section .city.search-boxes input[name='city']") and $(document).find(".search-section .city.search-boxes input[name='city']").length > 0
+				data['cities'] = $(document).find(".search-section .city.search-boxes input[name='city']").val()
 	
 	$.ajax
 		type: 'post'

@@ -106,6 +106,9 @@
           areas = areas.concat($(this).val());
         });
         data['areas'] = areas;
+        if ($(document).find(".search-section .city.search-boxes input[name='city']") && $(document).find(".search-section .city.search-boxes input[name='city']").length > 0) {
+          data['cities'] = $(document).find(".search-section .city.search-boxes input[name='city']").val();
+        }
       }
     }
     $.ajax({

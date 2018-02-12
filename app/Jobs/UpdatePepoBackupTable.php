@@ -45,7 +45,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $by->getPrimaryEmail();
                 $fields['userType'] = ['Contact Request'];
                 if(get_class($by) == 'App\Lead'){
-                    $fields['signUpType'] = ['Guest'];
+                    $fields['signUpType'] = 'Guest';
                     $fields['name'] = $by->name;
                     $fields['userSubType'] = unserialize($by->user_details_meta)['describes_best'];
                     $config = config('helper_generate_html_config.enquiry_popup_display');
@@ -58,7 +58,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $by->getPrimaryEmail();
                 if(get_class($by) == 'App\Lead'){
                     $fields['name'] = $by->name;
-                    $fields['signUpType'] = ['Guest'];
+                    $fields['signUpType'] = 'Guest';
                     $fields['userSubType'] = unserialize($by->user_details_meta)['describes_best'];
                     $config = config('helper_generate_html_config.enquiry_popup_display');
                     foreach ($fields['userSubType'] as &$detail) {
@@ -76,7 +76,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'email_signup':
                 $email = $by->getPrimaryEmail();
-                $fields['signUpType'] = ['Email'];
+                $fields['signUpType'] = 'Email';
                 $fields['name'] = $by->name;
                 $details = $by->getUserDetails->getSavedUserSubTypes();
                 $fields['userSubType'] = array_values($details);
@@ -122,7 +122,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['stateID'] =  $on->getUserCity();
                 $fields['state'] = $on->getUserCity(true);
                 $fields['area'] = [$on->getUserCity() => $on->getUserCity(true)];
-                $fields['signUpType'] = ['Listing'];
+                $fields['signUpType'] = 'Listing';
                 break;
             case 'user_confirmation':
                 $email = $on->getPrimaryEmail();
@@ -132,7 +132,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $on->getPrimaryEmail();
                 $fields['active'] = "True";
                 $fields['name'] = $on->name;
-                $fields['signUpType']=[ucfirst($activity->getExtraProperty('provider'))];
+                $fields['signUpType']=ucfirst($activity->getExtraProperty('provider'));
                 break;
             case 'listing_categories':
                 $by = $on->owner;
@@ -169,12 +169,12 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'state':
                 case 'active':
                 case 'subscribed':
+                case 'signUpType':
                     $backup[$key] = $value;
                     break;
                 case 'userSubType':
                     $backup[$key] = json_encode($value);
                     break;
-                case 'signUpType':
                 case 'userType':
                 case 'listingType':
                 case 'category':

@@ -723,7 +723,7 @@ class EnquiryController extends Controller {
 	   					$data["cores"] = Category::whereIn('slug', $list_view_data["categories"])->get();
 	   				}
 
-	   				if(isset($list_view_data["areas"]) && sizeof($list_view_data["areas"]) > 0) {
+		   			if(isset($list_view_data["areas"]) && sizeof($list_view_data["areas"]) > 0) {
 	   					$areas_selected = Area::whereIn('slug', $list_view_data["areas"])->get();
 			    		$data["area_ids"] = $areas_selected->pluck('id')->toArray();
 			    		$areas_selected = $areas_selected->groupBy('city_id');
@@ -731,6 +731,13 @@ class EnquiryController extends Controller {
 			    			$data = array_merge($data, array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(), "areas" => $city_areas->toArray()));
 			    		}
 
+	   				} else if (isset($list_view_data["cities"]) && sizeof($list_view_data["cities"]) > 0) {
+	   					$cities_selected = City::whereIn('slug', $list_view_data["cities"])->get();
+			    		$data["city_ids"] = $cities_selected = $cities_selected->pluck('id')->toArray();
+			    		
+			    		foreach ($cities_selected as $index => $city_id) { // Get City & areas that the Listing is under operation
+			    			$data = array_merge($data, array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(), "areas" => []));
+			    		}
 	   				}
 	   			}
 	   			Session::forget('list_view');
@@ -928,6 +935,7 @@ class EnquiryController extends Controller {
 		    	$template_config = config('enquiry_flow_config')[$template_name][$template_type];
 		    	$listing_obj = null;//Listing::where('slug', '')->get();
 
+		    	$listing_cities = $request->has('cities') && $request->cities ? ((gettype($request->cities) == "array") ? $request->cities : [$request->cities]) : [];
 		    	$listing_areas = $request->has('areas') && $request->areas ? $request->areas : [];
 	    		$listing_categories = [];
 		    	if($request->has('category') && $request->category) {
@@ -940,8 +948,8 @@ class EnquiryController extends Controller {
 		    		}
 		    	}
 
-		    	if($listing_areas || $listing_categories) {
-		    		Session::put('list_view', ["areas" => $listing_areas, "categories" => $listing_categories]);
+		    	if($listing_cities || $listing_areas || $listing_categories) {
+		    		Session::put('list_view', ["cities" => $listing_cities, "areas" => $listing_areas, "categories" => $listing_categories]);
 		    	}
 			} else { // Else
 				$template_config = "popup_level_one";

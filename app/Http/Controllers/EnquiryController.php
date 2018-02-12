@@ -1280,7 +1280,8 @@ class EnquiryController extends Controller {
 					}
 
 					$full_screen_display = true;
-				} else {
+					$cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
+				} else { // Mobile Verified
 					$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
 
 					if($listing_obj && $listing_obj->count() > 0) {
@@ -1290,7 +1291,7 @@ class EnquiryController extends Controller {
 					}
 				}
 				$status = 200;
-				$cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
+				// $cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
 			} else if($template_config == "popup_level_four") {
 				$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
 				
@@ -1490,6 +1491,8 @@ class EnquiryController extends Controller {
 							}
 
 							$full_screen_display = true;
+
+							$cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
 							// Session::forget('second_enquiry_data'); // Forget the 2nd enquiry after submit
 
 							/*unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data

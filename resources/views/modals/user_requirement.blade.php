@@ -170,8 +170,12 @@
                                 </select>
                             </div>
                         </div> -->
+                     <div class="flex-row points m-b-15">
+                        <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="" checked="true"/> Subscribe to Newsletter.
+                    </div>
                     </form>
                 </div>
+
                 <div class="modal-footer">
 
                     <div class="text-center m-t-10 m-b-10">

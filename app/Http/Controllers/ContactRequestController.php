@@ -324,6 +324,7 @@ class ContactRequestController extends Controller
         $session_data["enquiry_to_id"]   = $listing->id;
         $session_data["enquiry_to_type"] = get_class($listing);
         $session_data["enquiry_message"] = "";
+        $session_data["subscription"]    = ($request->subscription)? "True":"False";
 
         Session::put('enquiry_data', $session_data); // Update the session with New User details
         Session::forget('contact_info');
@@ -415,6 +416,9 @@ class ContactRequestController extends Controller
                         "is_verified" => true, 
                         "lead_creation_date" => date("Y-m-d H:i:s")
                     ]);
+                    //newsletter log here
+                    logActivity('newsletter',$lead_obj,$lead_obj,["subscribe"=>$session_payload["subscription"]]);
+                    
                     $register_cont_obj = new RegisterController;
                     $lead_data         = array("id" => $lead_obj->id, "name" => $lead_obj->name, "email" => $lead_obj->email, "user_type" => "lead");
                     // $register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');

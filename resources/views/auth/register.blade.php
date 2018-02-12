@@ -247,6 +247,9 @@
                                             </label>
                                         </div>
                                     </div> -->
+                                    <div class="flex-row points m-b-15">
+                                        <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="" checked="true"/> Subscribe to Newsletter.
+                                    </div>
                                     <div class="col-sm-12 text-center">
                                         <div class="text-medium text-lighter accept_terms m-t-5 m-b-5">By clicking Sign Up, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>
                                     </div>
@@ -431,6 +434,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                     <div class="flex-row points m-b-15">
+                        <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="" checked="true"/> Subscribe to Newsletter.
                     </div>
      
 <!--                     <div class="form-group p-t-10 p-b-10 multipleOptions">

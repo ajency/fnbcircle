@@ -43,6 +43,7 @@ getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 			enquiry_message: $(modal_id + " .level-one #level-one-enquiry #lookingfor input[name='enquiry_message']").val()
 			enquiry_level: enquiry_no
 			listing_slug: listing_slug
+			news_letter:  $(modal_id + " .level-one #level-one-enquiry input[name='news-letter-subscribe']").prop('checked')
 
 	else if enquiry_no == 'step_2' or enquiry_no == 'step_3'
 		descr_values = []

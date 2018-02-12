@@ -325,6 +325,16 @@ class EnquiryController extends Controller {
 	}
 
 	/**
+	* This function updates the NewsLetter subscription
+	*/
+	public function newsLetterSubscription($newsletter_subscribe, $subscribed_on, $subscribed_by) {
+		if($newsletter_subscribe != NULL) {
+			$subscribe = ($newsletter_subscribe)? "True" : "False";
+			logActivity('newsletter', $subscribed_on, $subscribed_by, ["subscribe" => $subscribe]);
+		}
+	}
+
+	/**
 	* This function is used to create Enquiry data
 	* This function will @return the following Enquiry objects
 	*	Enquiry, EnquirySent, EnquiryCategory & EnquiryArea
@@ -1050,6 +1060,7 @@ class EnquiryController extends Controller {
 							$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
 							$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
 							$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
+							$session_payload["enquiry_data"]["subscription"] = ($request->subscription)? "True":"False"; // Newsletter Subscription
 							
 							if(isset($listing_obj_id)) { // Assign the New Listing ID & Listing Type
 								$payload_data["enquiry_data"]["enquiry_to_id"] = $listing_obj_id;
@@ -1081,6 +1092,9 @@ class EnquiryController extends Controller {
 								}
 
 		    					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
+		    					if($request->has('newsletter') && $lead_obj && isset($create_enq_response["enquiry"])) {
+		    						$this->newsLetterSubscription($request->newsletter, $create_enq_response["enquiry"], $lead_obj);
+		    					}
 		    					$payload_data["enquiry_data"]["enquiry_id"] = $create_enq_response["enquiry"]->id;
 		    				}
 
@@ -1408,6 +1422,11 @@ class EnquiryController extends Controller {
 	    					else
 	    						$enquiry_sent = [];
 	    					$enq_obj = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
+
+	    					/* update News letter status */
+	    					if(isset($session_payload["subscription"]) && $lead_obj && isset($enq_obj["enquiry"])) {
+	    						$this->newsLetterSubscription($session_payload["subscription"], $enq_obj["enquiry"], $lead_obj);
+	    					}
 
 	    					$session_payload["enquiry_id"] = $enq_obj["enquiry"]->id;
 	    					$session_payload["user_object_id"] = $enquiry_data["user_object_id"];

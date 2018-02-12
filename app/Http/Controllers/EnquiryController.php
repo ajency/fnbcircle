@@ -717,6 +717,7 @@ class EnquiryController extends Controller {
 	   			
 	   			$data['current_page'] = $template_type;
 
+	   			/* Get the Categories & Area list from the params & populate them in Shared Enquiry Page */
 	   			$list_view_data = Session::get('list_view', []);
 	   			if(sizeof($list_view_data) > 0) {
 	   				if(isset($list_view_data["categories"]) && sizeof($list_view_data["categories"]) > 0) {
@@ -728,9 +729,9 @@ class EnquiryController extends Controller {
 			    		$data["area_ids"] = $areas_selected->pluck('id')->toArray();
 			    		$areas_selected = $areas_selected->groupBy('city_id');
 	   					foreach ($areas_selected as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+	   						// Adds City ('id', 'name', 'slug') & Area whole object in Array(key) format
 			    			$data = array_merge($data, array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(), "areas" => $city_areas->toArray()));
 			    		}
-
 	   				} else if (isset($list_view_data["cities"]) && sizeof($list_view_data["cities"]) > 0) {
 	   					$cities_selected = City::whereIn('slug', $list_view_data["cities"])->get();
 			    		$data["city_ids"] = $cities_selected = $cities_selected->pluck('id')->toArray();
@@ -742,6 +743,7 @@ class EnquiryController extends Controller {
 	   			}
 	   			Session::forget('list_view');
 
+	   			/*  */
 	   			if(isset($payload_data["enquiry_data"]["contact"])) {
 	   				$enquiry_data = $payload_data["enquiry_data"];
 	   				$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
@@ -898,31 +900,7 @@ class EnquiryController extends Controller {
 		}
 		
 		if(!$signup_popup) { // if signup_popup == false
-			if($request->has('listing_slug') && strlen($request->listing_slug) > 0) { // If listing_slug is passed, then it is a specific Enquiry
-				if($request->has('enquiry_to_type') && $request->enquiry_to_type == "job") {
-					$listing_obj = Job::where('slug', $request->listing_slug)->get();
-					$listing_obj_type = "App\Job";
-					$listing_obj_id = $listing_obj->count() > 0 ? $listing_obj->first()->id : 0;
-				} else {
-					$listing_obj = Listing::where('slug', $request->listing_slug)->get();
-					$listing_obj_type = "App\Listing";
-					$listing_obj_id = $listing_obj->count() > 0 ? $listing_obj->first()->id : 0;
-				}
-
-				if($listing_obj->count() > 0 && $listing_obj->first()->premium) { // If premium
-					$template_name .= "premium";
-				} else { // else it is non-premium account
-					$template_name .= "non_premium";
-				}
-
-				if(Auth::guest()) { // If user is not Logged In
-					$template_name .= "_not_logged_in";
-				} else { // If user is Logged In
-					$template_name .= "_logged_in";
-				}
-				
-				$template_config = config('enquiry_flow_config')[$template_name][$template_type];
-			} else if($request->has('multi-quote') && $request["multi-quote"]) { // Else If a 'multi-quote' flag is passed, then
+			if($request->has('multi-quote') && $request["multi-quote"]) { // If a 'multi-quote' flag is passed, then
 				$template_name = "multi_quote";
 
 		   		/*if(Auth::guest()) { // If user is not Logged In
@@ -948,9 +926,47 @@ class EnquiryController extends Controller {
 		    		}
 		    	}
 
+		    	if($request->has('listing_slug') && strlen($request->listing_slug) > 0) { // if listing slug is passed then get the Category & Area of that Business_Listing
+		    		$listing_temp = Listing::where('slug', $request->listing_slug)->get()->first(); // Returns Null if None found
+		    		$area = Area::with('city')->find($listing_temp->locality_id);
+
+		    		if($area) { // If Area !== Null
+			    		$listing_cities = array_merge($listing_cities, [$area->city()->first()->slug]); // Update the City
+			    		$listing_areas = array_merge($listing_areas, [$area->slug]); // Update the Area
+			    	}
+
+			    	$category_ids = ListingCategory::where([['core', 1], ['listing_id', $listing_temp->id]])->pluck('category_id')->toArray();			    	
+			    	if (sizeof($category_ids) > 0)
+			    		$listing_categories = array_merge($listing_categories, Category::whereIn('id', $category_ids)->where('type', 'listing')->pluck('slug')->toArray());
+		    	}
+
 		    	if($listing_cities || $listing_areas || $listing_categories) {
 		    		Session::put('list_view', ["cities" => $listing_cities, "areas" => $listing_areas, "categories" => $listing_categories]);
 		    	}
+			} else if($request->has('listing_slug') && strlen($request->listing_slug) > 0) { // Else If listing_slug is passed, then it is a specific Enquiry
+				if($request->has('enquiry_to_type') && $request->enquiry_to_type == "job") {
+					$listing_obj = Job::where('slug', $request->listing_slug)->get();
+					$listing_obj_type = "App\Job";
+					$listing_obj_id = $listing_obj->count() > 0 ? $listing_obj->first()->id : 0;
+				} else {
+					$listing_obj = Listing::where('slug', $request->listing_slug)->get();
+					$listing_obj_type = "App\Listing";
+					$listing_obj_id = $listing_obj->count() > 0 ? $listing_obj->first()->id : 0;
+				}
+
+				if($listing_obj->count() > 0 && $listing_obj->first()->premium) { // If premium
+					$template_name .= "premium";
+				} else { // else it is non-premium account
+					$template_name .= "non_premium";
+				}
+
+				if(Auth::guest()) { // If user is not Logged In
+					$template_name .= "_not_logged_in";
+				} else { // If user is Logged In
+					$template_name .= "_logged_in";
+				}
+				
+				$template_config = config('enquiry_flow_config')[$template_name][$template_type];
 			} else { // Else
 				$template_config = "popup_level_one";
 				$listing_obj = Listing::where('slug', '')->get();

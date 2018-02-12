@@ -145,12 +145,13 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['area'] = json_decode($activity->getExtraProperty('areas'),true);
                 \Log::info($fields['area']);
                 break;
-            case 'subscription':
+            case 'newsletter':
                 $email = $by->getPrimaryEmail();
-                $fields['subscribed'] = "False";
+                $fields['subscribed'] = $activity->getExtraProperty('subscribe');
                 break;
             default:
-                # code...
+            \Log::error($activity->description." cannot be handled");
+                return;
                 break;
         }
 

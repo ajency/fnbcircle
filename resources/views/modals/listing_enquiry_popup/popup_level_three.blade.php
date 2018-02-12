@@ -172,6 +172,7 @@
                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                     @endforeach
                                 </select>
+                                <div id="city-select-errors" class="fnb-error"></div>
                             </div>
                         </li>
                         <li class="area-select">
@@ -183,6 +184,7 @@
                                     <option>Borivali</option>
                                     <option>Church gate</option> -->
                                 </select>
+                                <div id="area-select-errors" class="fnb-error"></div>
                             </div>
                         </li>
                         <li><a href="#" class="primary-link m-l-20" aria-label="Close" id="close_areas"><i class="fa fa-times" aria-hidden="true"></i></a></li>
@@ -202,4 +204,4 @@
         </div>
     </div>
 </div>
-<!-- level three ends
+<!-- level three ends -->

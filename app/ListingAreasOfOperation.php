@@ -36,7 +36,7 @@ class ListingAreasOfOperation extends Model
         // dd($operationAreas);
         $areas = [];
         foreach ($operationAreas as $area) {
-            $areas[] = $area->city_name;
+            $areas["$area->city_id"] = $area->city_name;
         }
         return json_encode(array_unique($areas));
     }

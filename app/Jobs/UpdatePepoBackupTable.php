@@ -66,12 +66,12 @@ class UpdatePepoBackupTable implements ShouldQueue
                     }
                 }
                 $fields['userType'] = ['Enquiry'];
-                $fields['category'] = json_decode(EnquiryCategory::getCategoryJsonTag($on->id),true);
+                $fields['enquiryCategories'] = json_decode(EnquiryCategory::getCategoryJsonTag($on->id),true);
                 $fields['area'] = array_unique($on->areas()->with('city')->get()->pluck('city')->pluck('name')->toArray());
                 break;
             case 'enquiry-updated':
                 $email = $by->getPrimaryEmail();
-                $fields['category'] = json_decode(EnquiryCategory::getCategoryJsonTag($on->id),true);
+                $fields['enquiryCategories'] = json_decode(EnquiryCategory::getCategoryJsonTag($on->id),true);
                 $fields['area'] = array_unique($on->areas()->with('city')->get()->pluck('city')->pluck('name')->toArray());
                 break;
             case 'email_signup':
@@ -137,7 +137,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             case 'listing_categories':
                 $by = $on->owner;
                 $email = $by->getPrimaryEmail();
-                $fields['category'] = json_decode($activity->getExtraProperty('categories'),true);
+                $fields['listingCategories'] = json_decode($activity->getExtraProperty('categories'),true);
                 break;
             case 'listing_areas':
                 $by = $on->owner;
@@ -177,7 +177,8 @@ class UpdatePepoBackupTable implements ShouldQueue
                     break;
                 case 'userType':
                 case 'listingType':
-                case 'category':
+                case 'enquiryCategories':
+                case 'listingCategories':
                 case 'area':
                     $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
                     $newVal = array_unique(array_merge($oldVal,$value));
@@ -237,7 +238,8 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[userSubType]' => ($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[userSubType]' =>($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[listingType]' => ($backup->listingType != null) ? $backup->listingType : "null",
-            'attributes[category]' => ($backup->category != null) ? $backup->category : "null",
+            'attributes[listingCategories]' => ($backup->listingCategories != null) ? $backup->listingCategories : "null",
+            'attributes[enquiryCategories]' => ($backup->enquiryCategories != null) ? $backup->enquiryCategories : "null",
             'attributes[area]' => ($backup->area != null) ? $backup->area : "null",
         ];
         // \Log::info('pepo-api-link  =  '.$link);

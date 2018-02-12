@@ -298,6 +298,41 @@ $(function(){
 			}
 		}
 
+		function checkEmailExistence(email, error_path) {
+			if(email.length > 0) {
+				$.ajax({
+					type: 'post',
+					url: '/check-user-exist',
+					data: {
+						'email': email
+					},
+					success: function(data) {
+						$(error_path).text("");
+						$(error_path).removeClass("hidden").text("An account with this email ID already exist.");
+					 	// $(error_path).addClass("hidden");
+
+						/*$('#forget-password-div .forgot-link-sent').on('close.bs.alert', function (e) {
+							$("#forget-password-div .forgot-link-sent").addClass("hidden");
+							e.preventDefault();
+						});*/
+
+					},
+					error: function(request, status, error) {
+						// $("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").addClass("hidden");
+						console.log(status);
+						console.log(error);
+						if(request.responseJSON) {
+							$(error_path).text(request.responseJSON["message"]);
+						}
+						//throw Error();
+					}
+				});
+			} else {
+				$(error_path).removeClass("hidden").text("Please enter a valid Email ID");
+				return false;
+			}
+		}
+
 		function validateContact(contact, error_path, region_code) { // Check if Contact Number entered is Valid
 			contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
 
@@ -572,7 +607,13 @@ $(function(){
 
 			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email'], #login_form_modal input[type='email'][name='email']").on('keyup change', function() { // Check Email
 				var id = $(this).closest('form').prop('id');
-				validateEmail($(this).val(), "#" + id + " #email-error");
+				email_status = validateEmail($(this).val(), "#" + id + " #email-error");
+
+				// console.log($(this).closest('#register_form'));
+				if($(this).closest('#register_form') && email_status) {
+					// console.log($(this).closest('#register_form'));
+					checkEmailExistence($(this).val(), "#" + id + " #email-error");
+				}
 			});
 
 			$("#require-modal input[type='tel'][name='contact'], #register_form input[type='tel'][name='contact']").on('keyup change', function() { // Check Contact

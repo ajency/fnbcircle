@@ -13,7 +13,7 @@
 <!-- enquiry success ends -->
 
 <div class="suppliers-data success-cards">
-   @if(isset($listing_data) && (!isset($is_premium) || !$is_premium))
+   @if(isset($listing_data) && sizeof($listing_data) > 0 && (!isset($is_premium) || !$is_premium))
         <p class="element-title heavier text-darker success-cards__title">Don't miss out on these suppliers <img src="/img/direction-down-2.png" class="img-responsive direction-down"></p>
 	    @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
 	   
@@ -21,9 +21,15 @@
         @if(isset($listing_count) && ($listing_count - sizeof($listing_data)) > 0)
     		<p> and {{ ($listing_count - sizeof($listing_data)) }} more ... </p>
     	@endif
-    @else
-        <h5 class="seller-info__title ellipsis text-primary">Sorry, No Business Listings Matching Your Requirements! <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+    @elseif((!isset($is_premium) || !$is_premium))
+        <!-- No listings found -->
+        <div class="no-results">
+            <h5 class="seller-info__title ellipsis text-primary">Sorry, No Business Listings Matching Your Requirements! <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+            <!-- <img src="/img/404.png" class="img-reponsive center-block img-nf m-t-40" width="150"> -->
+        </div>
     @endif
 
-    <button class="btn fnb-btn outline border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button>
+    <div class="text-center">
+        <button class="btn fnb-btn outline border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button>
+    </div>
 </div>

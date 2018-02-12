@@ -625,6 +625,9 @@ class EnquiryController extends Controller {
 							$listing_final_ids = [];
 						}
 
+						$listing_final_ids = array_unique($listing_final_ids); // Make the list of IDs unique
+
+						/* Removing Extra IDs */
 						if(isset($listing) && $listing->id > 0) {
 							// Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
 							$pos = array_search($listing->id, $listing_final_ids);
@@ -638,6 +641,7 @@ class EnquiryController extends Controller {
 							})->pluck('id')->toArray();
 							$listing_final_ids = array_diff($listing_final_ids, $owned_listing_ids); // exclude the owner's listings from the filtered Listings => (A = A - B)
 						}
+						/* Endof Removing Extra IDs */
 
 						if (sizeof($listing_final_ids) > 0)  {
 							$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where([['premium', 1], ['status', 1]])->pluck('id')->toArray();
@@ -785,14 +789,15 @@ class EnquiryController extends Controller {
 						$listing_final_ids = [];
 					}
 
+					$listing_final_ids = array_unique($listing_final_ids); // Make the list of IDs unique
 
+					/* Removing Extra IDs */
 					if(isset($listing_slug) && strlen($listing_slug) > 0) {
 						// Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
 						$listing = Listing::where('slug',$listing_slug)->get();
 						$pos = array_search($listing->id, $listing_final_ids);
 						unset($listing_final_ids[$pos]);
 					}
-
 
 					if(Auth::user()) { // If User is logged In, check if s/he owns a listing, then exclude the listings from recommended Listings
 						$user_id = Auth::user()->id;
@@ -801,7 +806,7 @@ class EnquiryController extends Controller {
 						})->pluck('id')->toArray();
 						$listing_final_ids = array_diff($listing_final_ids, $owned_listing_ids); // exclude the owner's listings from the filtered Listings => (A = A - B)
 					}
-
+					/* Endof Removing Extra IDs */
 
 					if (sizeof($listing_final_ids) > 0)  {
 						$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where([['premium', 1], ['status', 1]])->pluck('id')->toArray();
@@ -1208,6 +1213,9 @@ class EnquiryController extends Controller {
 						$listing_final_ids = [];
 					}
 
+					$listing_final_ids = array_unique($listing_final_ids); // Make the list of IDs unique
+
+					/* Removing Extra IDs */
 					if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
 						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_final_ids);
 						unset($listing_final_ids[$pos]);
@@ -1220,6 +1228,7 @@ class EnquiryController extends Controller {
 						})->where('status', 1)->pluck('id')->toArray();
 						$listing_final_ids = array_diff($listing_final_ids, $owned_listing_ids); // exclude the owner's listings from the filtered Listings => (A = A - B)
 					}
+					/* Endof Removing Extra IDs */
 
 
 					$is_premium_listings = false;

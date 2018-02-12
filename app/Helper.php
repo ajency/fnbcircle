@@ -883,16 +883,7 @@ function urlShortner($url,$shorten = true) {
 *		this function creates a new activity on status change
 */
 function saveListingStatusChange($listing, $from, $to){
-	($listing->owner_id != null)?
-	activity()
-	   ->performedOn($listing)
-	   ->causedBy(User::find($listing->owner_id))
-	   ->withProperties(['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to])
-	   ->log('listing-status-change')
-	: activity()
-	   ->performedOn($listing)
-	   ->withProperties(['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to])
-	   ->log('listing-status-change');
+	logActivity("listing-status-change",$listing,User::find($listing->owner_id),['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to]);
 }
  
 function getActivePlan($object){

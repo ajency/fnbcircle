@@ -88,6 +88,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $by->getPrimaryEmail();
                 $fields['area'] = [$on->location->city->id => $on->location->city->name];
                 $fields['userType'] = ['Listing'];
+                $fields['ListingStatus'] = ["$on->id" => Listing::listing_status[$on->status]];
                 $fields['listingType'] = [Listing::listing_business_type[$on->type]];
                 break;
             case 'listing_publish':
@@ -149,6 +150,12 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $by->getPrimaryEmail();
                 $fields['subscribed'] = $activity->getExtraProperty('subscribe');
                 break;
+            case 'listing-status-change':
+                if($by!=null){
+                    $email = $by->getPrimaryEmail();
+                    $fields['ListingStatus'] = ["$on->id" => Listing::listing_status[$on->status]];
+                }
+                break;
             default:
             \Log::error($activity->description." cannot be handled");
                 return;
@@ -177,12 +184,13 @@ class UpdatePepoBackupTable implements ShouldQueue
                     break;
                 case 'userType':
                 case 'listingType':
+                case 'listingStatus':
                 case 'enquiryCategories':
                 case 'listingCategories':
                 case 'area':
                     $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
                     $newVal = array_unique(array_merge($oldVal,$value));
-                    $backup[$key] = json_encode(array_values($newVal));
+                    $backup[$key] = json_encode($newVal);
                     \Log::info($key.'=>'.$backup[$key]);
                     break;
                 default:
@@ -199,29 +207,7 @@ class UpdatePepoBackupTable implements ShouldQueue
         $time = Carbon::now()->toRfc3339String();
         $string_to_sign = $url.'::'.$time;
         $signature = hash_hmac('sha256', $string_to_sign, $pepoSecret, false);
-        // $parameters = [
-        //     'api-key' => $pepoKey,
-        //     'signature' => $signature,
-        //     'request-time' => urlencode($time),
-        //     'email' => $backup->email,
-        //     'attributes[name]' => urlencode(($backup->name != null) ? $backup->name : ""),
-        //     'attributes[stateID]' => urlencode(($backup->stateID != null) ? $backup->stateID : "0"),
-        //     'attributes[state]' => urlencode(($backup->state != null) ? $backup->state : "null"),
-        //     'attributes[active]' => urlencode(($backup->active != null) ? $backup->active : "False"),
-        //     'attributes[subscribed]' => urlencode(($backup->subscribed != null) ? $backup->subscribed : "True"),
-        //     'attributes[signUpType]' => urlencode(($backup->signUpType != null) ? $backup->signUpType : "null"),
-        //     'attributes[userType]' => urlencode(($backup->userType != null) ? $backup->userType : "null"),
-        //     'attributes[userSubType]' => urlencode(($backup->userSubType != null) ? $backup->userSubType : "null"),
-        //     'attributes[userSubType]' =>urlencode(($backup->userSubType != null) ? $backup->userSubType : "null"),
-        //     'attributes[listingType]' => urlencode(($backup->listingType != null) ? $backup->listingType : "null"),
-        //     'attributes[category]' => urlencode(($backup->category != null) ? $backup->category : "null"),
-        //     'attributes[area]' => urlencode(($backup->area != null) ? $backup->area : "null"),
-        // ];
-        // $array = [];
-        // foreach ($parameters as $key => $value) {
-        //     $array[] = $key.'='.$value;
-        // }
-        // $link = 'https://pepocampaigns.com'.$url.'?'.implode('&',$array);
+        
 
         $parameters = [
             'api-key' => $pepoKey,
@@ -238,14 +224,12 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[userSubType]' => ($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[userSubType]' =>($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[listingType]' => ($backup->listingType != null) ? $backup->listingType : "null",
-            'attributes[listingCategories]' => ($backup->listingCategories != null) ? $backup->listingCategories : "null",
-            'attributes[enquiryCategories]' => ($backup->enquiryCategories != null) ? $backup->enquiryCategories : "null",
-            'attributes[area]' => ($backup->area != null) ? $backup->area : "null",
+            'attributes[listingStatus]' => ($backup->listingStatus != null) ? json_encode(array_values(json_decode($backup->listingStatus,true))) : "null",
+            'attributes[listingCategories]' => ($backup->listingCategories != null) ? json_encode(array_values(json_decode($backup->listingCategories,true))) : "null",
+            'attributes[enquiryCategories]' => ($backup->enquiryCategories != null) ? json_encode(array_values(json_decode($backup->enquiryCategories,true))) : "null",
+            'attributes[area]' => ($backup->area != null) ? json_encode(array_values(json_decode($backup->area,true))) : "null",
         ];
-        // \Log::info('pepo-api-link  =  '.$link);
-        // $ch = curl_init($link);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // $backup->response = serialize(['response' => curl_exec($ch), 'request' => $link ]);
+       
         $fields_string = http_build_query($parameters);
         $ch = curl_init();
             $url1= 'https://pepocampaigns.com'.$url;

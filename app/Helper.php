@@ -1056,5 +1056,10 @@ function generateEnquiryModalSession() {
 		$cookie_class_obj->set('enquiry_modal_first_time_unit', 'second', $other_params); // Set the modal display unit
 		$cookie_class_obj->set('enquiry_modal_display_count', 3, $other_params); // Set the Modal display count 
 	}
+
+	if(!auth()->guest()) { // If not guest User, then update the Cookie display count to ZERO
+		$cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
+	}
+
 	return ;
 }

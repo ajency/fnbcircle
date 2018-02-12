@@ -1500,6 +1500,7 @@ class EnquiryController extends Controller {
 
 							$full_screen_display = true;
 
+							$cookie_cont_obj = new CookieController;
 							$cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
 							// Session::forget('second_enquiry_data'); // Forget the 2nd enquiry after submit
 

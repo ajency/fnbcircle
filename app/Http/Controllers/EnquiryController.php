@@ -47,6 +47,7 @@ class EnquiryController extends Controller {
 	}
 
 	public function setOtpVerified($is_mobile_verified, $contact_no) {
+		// Session::forget('otp_verified'); // Forget the Otp verification
 		$otp_verified_json = ['mobile' => $is_mobile_verified, "contact" => $contact_no];
 		Session::put('otp_verified', $otp_verified_json); // Add the OTP verified flag to Session
 		return $otp_verified_json;
@@ -1055,6 +1056,9 @@ class EnquiryController extends Controller {
 								$auth_user_contact = Auth::user()->getPrimaryContact();
 								if($auth_user_contact && isset($auth_user_contact["is_verified"]) && $auth_user_contact["is_verified"]) { // If the Primary Contact No is not Verified
 									$verified_session = $this->setOtpVerified(true, '+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"]);
+								} else {
+									// Else forget the OTP_Verified session. This is added as sometimes there are chances wherein Guest User had done an enquiry before & had verified Contact No, & the session is carry forwarded even after User Logs In, hence to prevent that, this flag is deleted from the session
+									Session::forget('otp_verified');
 								}
 							}
 

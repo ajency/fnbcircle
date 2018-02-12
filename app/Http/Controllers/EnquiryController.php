@@ -1505,6 +1505,10 @@ class EnquiryController extends Controller {
 
 	    			}
 	    			//$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+	    			if($template_type == "step_4") { // If success message step, then display full_screen
+	    				$full_screen_display = true;
+	    			}
+
 	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0 && !$full_screen_display) {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
 	    			} else {

@@ -19,7 +19,7 @@ class CreatePepoBackupsTable extends Migration
             $table->string('name')->nullable();
             $table->integer('stateID')->nullable();
             $table->string('state')->nullable();
-            $table->json('signUpType')->nullable();
+            $table->string('signUpType')->nullable();
             $table->string('active')->default('False');
             $table->string('subscribed')->default('True');
             $table->json('userType')->nullable();

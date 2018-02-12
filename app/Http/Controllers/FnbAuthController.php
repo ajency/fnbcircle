@@ -14,6 +14,7 @@ use Ajency\User\Ajency\socialaccount\SocialAccountService;
 use Config;
 use Illuminate\Support\Facades\Session;
 
+use App\Http\Controllers\CookieController;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class FnbAuthController extends Controller {
@@ -21,17 +22,23 @@ class FnbAuthController extends Controller {
     	if ($type == 'website') {
             if ($user->status == 'active') {
                 auth()->login($user); // Authenticate using User Object
+                $cookie_cont_obj = new CookieController; // Update Cookie Controller with count to ZERO
+                $cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
                 $user->last_login = date('Y-m-d H:i:s');
                 $user->save();
 
                 if($user->type != "internal") { // If not internal user, then get his/her city value from profile
                     //set user state session
-                    if($user->getUserDetails->userCity != null)$userState = $user->getUserDetails->userCity->slug;
-                    else getSinglePopularCity()->slug;
+                    if($user->getUserDetails->userCity != null)
+                        $userState = $user->getUserDetails->userCity->slug;
+                    else
+                        $userState = getSinglePopularCity()->slug;
+
                     session(['user_location' => $userState]);
                     $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
                 } else { // If internal User, then get a City 
                     $userState = getSinglePopularCity()->slug;
+                    
                     session(['user_location' => $userState]);
                     $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
                 }

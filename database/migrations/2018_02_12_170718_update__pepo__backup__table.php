@@ -18,7 +18,7 @@ class UpdatePepoBackupTable extends Migration
             $table->json('listingCategories')->nullable();
             $table->json('listingStatus')->nullable();
             $table->json('enquiryCategories')->nullable();
-
+            $table->json('jobStatus')->nullable();
         });
     }
 

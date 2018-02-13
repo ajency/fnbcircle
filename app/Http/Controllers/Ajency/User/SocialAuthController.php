@@ -31,7 +31,7 @@ class SocialAuthController extends Controller {
         /*$url = Session::get('url.failed', url('/'));
         Session::forget('url.failed');*/
         $userauthObj = new UserAuth;
-        $output = new ConsoleOutput();
+        // $output = new ConsoleOutput;
         if (! $request->input('code')) {
             return redirect(config('aj_user_config.social_failure_redirect_url')."?login=true&message=social_permission_denied"); // Redirect to Fail user defined URL
         } else {
@@ -57,16 +57,21 @@ class SocialAuthController extends Controller {
                 if ($valid_response["authentic_user"]) { // If the user is Authentic, then Log the user in
                     if($valid_response["user"]) { // If $valid_response["user"] !== None, then Create/Update the User, User Details & User Communications
                         $user_resp = $userauthObj->getUserData($valid_response["user"]);
+                        
+                        $redirectUrl = url()->previous(); // Get Redirect URL
                     } else { // New User
                         $social_data["user"]["roles"] = "customer";
                         $social_data["user"]["type"] = "external";
                         $social_data["user_details"]["has_previously_login"] = 0;
                         $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], $social_data["user_details"], $social_data["user_comm"]);
-                        sendUserRegistrationMails($user_resp["user"]);
+                        
+                        sendUserRegistrationMails($user_resp["user"]); // Send Welcome Mails
+                        $redirectUrl = firstTimeUserLoginUrl(); // Get Redirect URL post Sign-up
                     }
+
                     logActivity('social_signup',$user_resp['user'],$user_resp['user'],$properties=['provider'=>$provider]);
-                    if($user_resp["user"]) {
-                        return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"], "next_url" => url()->previous()), "website");
+                    if($user_resp["user"]) { // If User Object is created/existing, then Login & redirect that User
+                        return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"], "next_url" => $redirectUrl), "website");
      
                     } else {
                         return redirect(config('aj_user_config.social_failure_redirect_url'));

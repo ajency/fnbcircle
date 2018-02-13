@@ -308,7 +308,9 @@ $(function(){
 					},
 					success: function(data) {
 						$(error_path).text("");
-						$(error_path).removeClass("hidden").text("An account with this email ID already exist.");
+						if(data.hasOwnProperty('result') && data["result"]) {
+							$(error_path).removeClass("hidden").text("An account with this email ID already exist.");
+						}
 					 	// $(error_path).addClass("hidden");
 
 						/*$('#forget-password-div .forgot-link-sent').on('close.bs.alert', function (e) {
@@ -618,7 +620,7 @@ $(function(){
 				
 			});
 
-			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email'], #login_form_modal input[type='email'][name='email']").on('keyup change', function() { // Check Email
+			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email'], #login_form_modal input[type='email'][name='email']").on('keyup change input', function() { // Check Email
 				var id = $(this).closest('form').prop('id');
 				email_status = validateEmail($(this).val(), "#" + id + " #email-error");
 

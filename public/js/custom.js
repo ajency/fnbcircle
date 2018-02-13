@@ -610,7 +610,7 @@ $(function(){
 				email_status = validateEmail($(this).val(), "#" + id + " #email-error");
 
 				// console.log($(this).closest('#register_form'));
-				if($(this).closest('#register_form') && email_status) {
+				if($(this).closest('#register_form').length > 0 && email_status) {
 					// console.log($(this).closest('#register_form'));
 					checkEmailExistence($(this).val(), "#" + id + " #email-error");
 				}

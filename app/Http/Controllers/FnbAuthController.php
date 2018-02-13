@@ -28,7 +28,7 @@ class FnbAuthController extends Controller {
                 $user->save();
 
                 if($user->type != "internal") { // If not internal user, then get his/her city value from profile
-                    //set user state session
+                    /*set user state session*/
                     if($user->getUserDetails->userCity != null)
                         $userState = $user->getUserDetails->userCity->slug;
                     else

@@ -1031,6 +1031,7 @@ function logActivity($log,$performedOn,$causedBy=null,$properties=[]){
 */
 function generateEnquiryModalSession() {
 	// $output = new ConsoleOutput;
+	$cookie_class_obj = new CookieController;
 	$user_modal_data = Session::get('enquiry_modal_data', []);
 
 	if (sizeof($user_modal_data) <= 0) { // If session doesn't exist, then update the session 
@@ -1040,7 +1041,6 @@ function generateEnquiryModalSession() {
 		$config_value = array_merge($config_value, ['enquiry_modal_first_time_value', 'enquiry_modal_first_time_unit', 'enquiry_modal_display_count']); // merge the new key
 		config(['cookie_config.unguarded_cookies' => $config_value]); // update the Config value*/
 		
-		$cookie_class_obj = new CookieController;
 		$other_params = ['http_only' => false];
 		
 		$cookie_class_obj->set('enquiry_modal_first_time_value', 30, $other_params); // Set the modal display value

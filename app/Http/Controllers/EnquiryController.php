@@ -174,7 +174,9 @@ class EnquiryController extends Controller {
 				sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 				
 				/* Send SMS */
-				$sms ['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nThere is an enquiry for " . $email_content["listing_name"] . " (" . $short_listing_url . ") on FnB Circle.\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\n\nClick " . $short_customer_dashboard_url . " to view seeker's profile.";
+				/*$sms ['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nThere is an enquiry for " . $email_content["listing_name"] . " (" . $short_listing_url . ") on FnB Circle.\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\n\nClick " . $short_customer_dashboard_url . " to view seeker's profile.";*/
+
+				$sms['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $short_listing_url . " ) on FnB Circle,\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\nClick " . $short_customer_dashboard_url . " to view seeker's profile.";
 
 		        if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
 					$sms['delay'] = 60;

@@ -54,7 +54,6 @@
                     <div class="text-center m-t-30 log-sign">
                         <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
                         <p class="text-medium have-acc">Already have an account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
-                        @if(false)
                         <div class="row">
                             <div class="col-sm-4 col-sm-offset-4">
                                 <div class="social-login flex-row col-direction m-t-10">
@@ -69,7 +68,6 @@
                         <p class="text-medium m-b-40 m-t-10 no-post-text"><i class="fa fa-lock" aria-hidden="true"></i> We will not post anything without your permission</p>
                         <hr>
                         <h6 class="heavier m-t-40 formTitle">You can also sign up with email. Please enter your details below.</h6>
-                        @endif
                     </div>
 
                     <div class="row">

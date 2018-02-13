@@ -19,7 +19,7 @@
                         </div>
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
-                            <input id="email" type="text" class="form-control fnb-input float-input" name="email" value="{{ Auth::user()->getPrimaryEmail() }}" required="">
+                            <input id="email" type="text" class="form-control fnb-input float-input" name="email" value="{{ Auth::user()->getPrimaryEmail() }}" required="" disabled="">
                             <p id="email-error" class="fnb-errors hidden"></p>
                         </div>
                         <div class="contact-info contact-info-mobile" contact-type="mobile">

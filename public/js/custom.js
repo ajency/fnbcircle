@@ -435,8 +435,21 @@ $(function(){
 			if (data.hasOwnProperty("area") && data.hasOwnProperty("city") && data["area"] && data["city"]) {
 				flag = flag ? true : false;
 			} else {
-				flag = validateDropdown(parent_path + " select[name='area']", parent_path + " label#area-error", "Please select a city") ? flag : false;
-				flag = validateDropdown(parent_path + " select[name='city']", parent_path + " label#city-error", "Please select a state")? flag : false;
+				/* City Error */
+				flag = validateDropdown(parent_path + " select[name='area']", parent_path + " #area-error", "Please select a city") ? flag : false;
+				/*if($(document).find(parent_path + " label#area-error").length > 0) {
+					flag = validateDropdown(parent_path + " select[name='area']", parent_path + " label#area-error", "Please select a city") ? flag : false;
+				} else if($(document).find(parent_path + " p#area-error").length > 0) {
+					flag = validateDropdown(parent_path + " select[name='area']", parent_path + " p#area-error", "Please select a city") ? flag : false;
+				}*/
+				
+				/* State Error */
+				flag = validateDropdown(parent_path + " select[name='city']", parent_path + " #city-error", "Please select a state")? flag : false;
+				/*if($(document).find(parent_path + " label#city-error").length > 0) {
+					flag = validateDropdown(parent_path + " select[name='city']", parent_path + " label#city-error", "Please select a state")? flag : false;
+				} else if($(document).find(parent_path + " p#city-error").length > 0) {
+					flag = validateDropdown(parent_path + " select[name='city']", parent_path + " p#city-error", "Please select a state")? flag : false;
+				}*/
 			}
 
 			return flag;
@@ -1229,6 +1242,7 @@ $(function(){
 			
 				$('.open-sidebar').click(function(){
 					event.preventDefault();
+					$('.animate-row').removeClass('overflow-hidden');
 					$('.animate-row').addClass('body-slide');
 					// setTimeout((function() {
 					// 	if ($('.post-gallery').length) {
@@ -1249,6 +1263,7 @@ $(function(){
 
 			$('.article-back').click(function(){
 				event.preventDefault();
+				$('.animate-row').addClass('overflow-hidden');
 				$('.animate-row').removeClass('body-slide');
 			});
 

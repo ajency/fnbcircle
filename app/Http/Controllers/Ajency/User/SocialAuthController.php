@@ -22,7 +22,7 @@ use Ajency\User\Ajency\userauth\UserAuth;
 
 class SocialAuthController extends Controller {
     public function urlSocialAuthRedirect($provider) { // for Provider authentication -> Provider = ['Google', 'Facebook']
-        //Session::put('url.failed', URL::previous());
+        Session::put('prev_login_url', URL::previous()); // Maintain the previous point from where the User tried to login
         return Socialite::driver($provider)->redirect();
     }
 
@@ -58,7 +58,8 @@ class SocialAuthController extends Controller {
                     if($valid_response["user"]) { // If $valid_response["user"] !== None, then Create/Update the User, User Details & User Communications
                         $user_resp = $userauthObj->getUserData($valid_response["user"]);
                         
-                        $redirectUrl = url()->previous(); // Get Redirect URL
+                        $redirectUrl = Session::get('prev_login_url' ,'/');// url()->previous(); // Get Redirect URL
+                        Session::forget('prev_login_url'); // Delete the 'prev_login_url' key-value from the Session 
                     } else { // New User
                         $social_data["user"]["roles"] = "customer";
                         $social_data["user"]["type"] = "external";

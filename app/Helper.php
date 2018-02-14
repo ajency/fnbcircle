@@ -1054,3 +1054,58 @@ function generateEnquiryModalSession() {
 
 	return ;
 }
+
+function uniqueFileName($prefix){
+	$rand = str_random(6);
+	return $prefix."_".$rand."_". date('d_m_Y_H_i_s') . ".csv";
+}
+
+/**
+* This function takes the table, fields and filters and dumps the fields into a table and returns the file as the response
+*/
+function dumpTableintoFile($table_name = 'pepo_backups', $fields = [], $filters = [],$escape=false){
+	$qry_get_mysql_securefilepriv_directory = "SHOW VARIABLES LIKE 'secure_file_priv'";
+	$res_get_mysql_securefilepriv_directory = DB::select($qry_get_mysql_securefilepriv_directory);
+	foreach ($res_get_mysql_securefilepriv_directory as $res_v) {
+	    $filepath =  str_replace("\\", "\\\\", $res_v->Value);
+	}
+	$filepath .= "Ajency/". uniqueFileName('pepo_backup');
+	if(!empty($fields)){
+		$field_string = implode(',', $fields);
+	}else{
+		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories` ";
+	}
+	$es_ch = ($escape)? '~':'';
+	$qry_test = "SELECT  ".$field_string." INTO OUTFILE '" . $filepath . "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' escaped by '".$es_ch."' LINES TERMINATED BY '\n' FROM ".$table_name;
+	\Log::info('Dump Query: '.$qry_test);
+	try {
+		DB::select($qry_test);
+	}catch (\Illuminate\Database\QueryException $ex) {
+		$error_msg = $ex->getMessage();
+	    if( stristr($error_msg,'create/write')!=false){
+	        $error_msg = "Please set write permission for folder '".$ajency_folder."' and Upload the file again. ".$error_msg ;
+	    }
+	    return array('status' => false, 'msg' => $error_msg);
+	}
+	if($escape){
+		shell_exec('chmod 777 '.$filepath);
+		$file = \Storage::disk('root')->get($filepath);
+	    $file = str_replace('~~', '%%', $file);
+	    $file = str_replace('~"', '^', $file);
+	    $file = str_replace('~N', '', $file);
+	    $file = str_replace('"', '', $file);
+	    $file = str_replace(', ', ',', $file);
+	    $file = str_replace('[', '"[', $file);
+	    $file = str_replace(']', ']"', $file);
+	    $file = str_replace('^', '""', $file);
+	    $file = str_replace('%%', '~', $file);
+	    \Storage::disk('root')->put($filepath,$file);
+	}
+	return array('status'=> true, 'path' => $filepath);
+
+}
+
+function getFileSendEmail($filepath){
+	$file = \Storage::disk('root')->get($filepath);
+
+}

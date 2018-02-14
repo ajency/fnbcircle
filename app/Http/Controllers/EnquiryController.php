@@ -208,7 +208,6 @@ class EnquiryController extends Controller {
 	* This function is used to update Enquiry Table with the all the Enquiry details of the specific user
 	*/
 	public function secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, $send_email=false) {
-		// $output = new ConsoleOutput;
 		try {
 			foreach ($listing_final_ids as $op_key => $op_value) {
 				$enquiry_sent["enquiry_to_id"] = $op_value;
@@ -1224,7 +1223,8 @@ class EnquiryController extends Controller {
 					$enquiry_areas = [];
 				}
 				
-				if(!Auth::guest() || isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If premium or (not guest User) then save the data
+				// if(!Auth::guest() || isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If premium or (not guest User) then save the data
+				if(isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If premium or (not guest User) then save the data
 					$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $enquiry_areas)->distinct('listing_id')->pluck('listing_id')->toArray();
 					$listing_cat_ids = ListingCategory::whereIn('category_id', $enquiry_categories)->distinct('listing_id')->pluck('listing_id')->toArray();
 
@@ -1275,6 +1275,9 @@ class EnquiryController extends Controller {
 						}
 						
 						$listing_operations_ids_chunks = array_chunk($listing_final_ids, 5); // each array should have 5 IDs -> 5 is chosen to free the process faster, choosing 500, might take lot of time, which can block even 'high' priority tasks
+						$output = new ConsoleOutput;
+						$output->writeln("getEnquiry");
+						$output->writeln(json_encode($listing_operations_ids_chunks));
 						foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
 							/*if($is_premium_listings) {
 								ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
@@ -1533,6 +1536,7 @@ class EnquiryController extends Controller {
 								} else { // Process after 1 hour from now
 									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
 								}*/
+								// $this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false);
 							}
 
 							// $full_screen_display = true;

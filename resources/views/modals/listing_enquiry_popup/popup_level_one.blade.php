@@ -1,4 +1,4 @@
-<!-- level one starts -->
+level one starts -->
 <div class="level-one">
     @if(!isset($no_title) || !$no_title)
         @if(isset($mobile_view) && $mobile_view)
@@ -136,9 +136,13 @@
             </div>
         </div><br/>
         <!-- looking for ends -->
-        <div class="flex-row points m-b-15">
-            <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to Newsletter.
-        </div>
+        @if(Auth::guest())
+            <!-- Newsletter subscription -->
+            <div class="flex-row points m-b-15">
+                <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to news letter.
+            </div>
+            <!-- Newsletter subscription ends -->
+        @endif
         <!-- action -->
         <div class="send-action">
             @if(isset($enquiry_send_button) && $enquiry_send_button)
@@ -175,4 +179,4 @@
     });
 </script> -->
 
-<!-- Level one ends -->
+<!-- Level one ends

@@ -1501,20 +1501,16 @@ class EnquiryController extends Controller {
 							}*/
 							// $this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_operations_ids, false);
 							$listing_operations_ids_chunks = array_chunk($listing_final_ids, 5); // each array should have 5 IDs -> 5 is chosen to free the process faster, choosing 500, might take lot of time, which can block even 'high' priority tasks
-							$output = new ConsoleOutput;
-							$output->writeln("Verify OTP");
-							$output->writeln(json_encode($listing_operations_ids_chunks));
 							foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
-								/*if(sizeof($listing_ids_value) > 0 && isset($secondary_enquiry_data['enquiry_data']) && isset($secondary_enquiry_data['enquiry_sent'])) { // If 1 or more IDs exist then, add that to queue
+								if(sizeof($listing_ids_value) > 0 && isset($secondary_enquiry_data['enquiry_data']) && isset($secondary_enquiry_data['enquiry_sent'])) { // If 1 or more IDs exist then, add that to queue
 									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
-								}*/
+								}
 								/*if(in_develop()) {
 									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(5 + $listing_ids_id))->onQueue("low");
 								} else { // Process after 1 hour from now
 									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
 								}*/
-								$output->writeln("For loop");
-								$this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false);
+								// $this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false);
 							}
 
 							// $full_screen_display = true;

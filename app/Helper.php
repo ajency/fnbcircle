@@ -715,7 +715,7 @@ function sendNotifications(){
  
  
 
-function sendUserRegistrationMails($user){
+function sendUserRegistrationMails($user, $send_welcome_user_mail=true, $send_admin_register_mail=true){
  
 	$userDetail = $user->getUserDetails;
     if($userDetail != null){
@@ -729,42 +729,46 @@ function sendUserRegistrationMails($user){
     // $userEmail = 'nutan@ajency.in';
 
     //send welcome mail
-    $data = [];
-    $data['from'] = config('constants.email_from');
-    $data['name'] = config('constants.email_from_name');
-    $data['to'] = [$userEmail];
-    $data['cc'] = [];
-    $data['subject'] = "Welcome to FnB Circle!";
-    $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
-    sendEmail('welcome-user', $data);
+    if($send_welcome_user_mail) { // If true, sends Welcome mail to customer
+	    $data = [];
+	    $data['from'] = config('constants.email_from');
+	    $data['name'] = config('constants.email_from_name');
+	    $data['to'] = [$userEmail];
+	    $data['cc'] = [];
+	    $data['subject'] = "Welcome to FnB Circle!";
+	    $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
+	    sendEmail('welcome-user', $data);
+	}
     
-    $data = [];
-    $data['from'] = config('constants.email_from');
-    $data['name'] = config('constants.email_from_name');
-    $data['to'] = [config('constants.email_from')];
-    $data['cc'] = [];
-    $data['subject'] = "New user registration on FnB Circle.";
-    if($user->getPrimaryContact())
-    	$contact_no = '+' . $user->getPrimaryContact()['contact_region'] . $user->getPrimaryContact()['contact'];
-    else
-    	$contact_no = '';
-    $data['template_data'] = ['user' => ['name' => $user->name, 'email' => $userEmail, 'contact_no' => $contact_no]];//['user' => $user];
-    if($user->getUserDetails) {
-    	if($user->getUserDetails->getSavedUserSubTypes())
-    		$data['template_data']['user']['user_best_description'] = implode(', ',$user->getUserDetails->getSavedUserSubTypes());
-    	else
-    		$data['template_data']['user']['user_best_description'] = "None";
-	    if($user->getUserDetails->userCity)
-	    	$data['template_data']['user']['state_name'] = $user->getUserDetails->userCity->name;
+    if($send_admin_register_mail) { // If true, sends the User_created mail to Admin
+	    $data = [];
+	    $data['from'] = config('constants.email_from');
+	    $data['name'] = config('constants.email_from_name');
+	    $data['to'] = [config('constants.email_from')];
+	    $data['cc'] = [];
+	    $data['subject'] = "New user registration on FnB Circle.";
+	    if($user->getPrimaryContact())
+	    	$contact_no = '+' . $user->getPrimaryContact()['contact_region'] . $user->getPrimaryContact()['contact'];
 	    else
-	    	$data['template_data']['user']['state_name'] = "N/A";
-	    if($user->getUserDetails->userArea)
-	    	$data['template_data']['user']['city_name'] = $user->getUserDetails->userArea->name;
-	    else
-	    	$data['template_data']['user']['city_name'] = "N/A";
-    }
+	    	$contact_no = '';
+	    $data['template_data'] = ['user' => ['name' => $user->name, 'email' => $userEmail, 'contact_no' => $contact_no]];//['user' => $user];
+	    if($user->getUserDetails) {
+	    	if($user->getUserDetails->getSavedUserSubTypes())
+	    		$data['template_data']['user']['user_best_description'] = implode(', ',$user->getUserDetails->getSavedUserSubTypes());
+	    	else
+	    		$data['template_data']['user']['user_best_description'] = "None";
+		    if($user->getUserDetails->userCity)
+		    	$data['template_data']['user']['state_name'] = $user->getUserDetails->userCity->name;
+		    else
+		    	$data['template_data']['user']['state_name'] = "N/A";
+		    if($user->getUserDetails->userArea)
+		    	$data['template_data']['user']['city_name'] = $user->getUserDetails->userArea->name;
+		    else
+		    	$data['template_data']['user']['city_name'] = "N/A";
+	    }
 
-    sendEmail('user-register', $data);
+	    sendEmail('user-register', $data);
+	}
 
     return true;
 

@@ -170,7 +170,9 @@ class RegisterController extends Controller
         logActivity('user_requirements',$response['data'],$user_obj);
         $subscribe = ($request->newsletter and $request->newsletter!= 'false')? "True":"False";
         logActivity('newsletter',$user_obj,$user_obj,["subscribe"=>$subscribe]);
+
         if($required_fields_check["has_required_fields_filled"]) {
+            sendUserRegistrationMails($user_obj, false, true); // Send Email to Admin once User has completed the Required Fields
             return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]], "next_url" => $next_redirect_url), "api");
         } else {
             return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]], "next_url" => $next_redirect_url));

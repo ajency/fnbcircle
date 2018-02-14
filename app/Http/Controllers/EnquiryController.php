@@ -673,10 +673,14 @@ class EnquiryController extends Controller {
 						if(sizeof($listing_final_ids) > 0) {
 							$filters = ["listing_ids" => $listing_final_ids];
 						} else {
-							$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+							$filters = [];// $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
 						}
 
-						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+						if(sizeof($filters) > 0) {
+							$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+						} else {
+							$listing_data = [];
+						}
 						$listing_count = sizeof($listing_final_ids);
 		   			} else {
 		   				$listing_data = [];
@@ -834,14 +838,20 @@ class EnquiryController extends Controller {
 					$listviewObj = new ListViewController;
 					$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
 					$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
+
 					if(sizeof($listing_final_ids) > 0) {
 						$filters = ["listing_ids" => $listing_final_ids];
 					} else {
-						$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+						$filters = [];// $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
 					}
 
-					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+					if(sizeof($filters) > 0) {
+						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];//->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+					} else {
+						$listing_data = [];
+					}
 					$listing_count = sizeof($listing_final_ids);
+
 
 	   			} else {
 	   				$listing_data = [];

@@ -506,7 +506,7 @@ function sendEmail($event='new-user', $data=[]) {
 		$params = (isset($data['template_data']))? $data['template_data']:[];
 		if(!is_array($params)) $params = [$params];
 		$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
-	 
+	 	
 		$email->setParams($params);
 
 		if(isset($data['attach'])) $email->setAttachments($data['attach']);
@@ -695,9 +695,8 @@ function sendNotifications(){
 
 function sendUserRegistrationMails($user){
  
-
-    $userDetail = $user->getUserDetails;
-    if($userDetail!=null){
+	$userDetail = $user->getUserDetails;
+    if($userDetail != null){
 	    $userDetail->has_previously_login = 1;
 	    $userDetail->save();
 	}
@@ -716,15 +715,33 @@ function sendUserRegistrationMails($user){
     $data['subject'] = "Welcome to FnB Circle!";
     $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
     sendEmail('welcome-user', $data);
-
-
+    
     $data = [];
     $data['from'] = config('constants.email_from');
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [config('constants.email_from')];
     $data['cc'] = [];
     $data['subject'] = "New user registration on FnB Circle.";
-    $data['template_data'] = ['user' => $user];
+    if($user->getPrimaryContact())
+    	$contact_no = '+' . $user->getPrimaryContact()['contact_region'] . $user->getPrimaryContact()['contact'];
+    else
+    	$contact_no = '';
+    $data['template_data'] = ['user' => ['name' => $user->name, 'email' => $userEmail, 'contact_no' => $contact_no]];//['user' => $user];
+    if($user->getUserDetails) {
+    	if($user->getUserDetails->getSavedUserSubTypes())
+    		$data['template_data']['user']['user_best_description'] = implode(', ',$user->getUserDetails->getSavedUserSubTypes());
+    	else
+    		$data['template_data']['user']['user_best_description'] = "None";
+	    if($user->getUserDetails->userCity)
+	    	$data['template_data']['user']['state_name'] = $user->getUserDetails->userCity->name;
+	    else
+	    	$data['template_data']['user']['state_name'] = "N/A";
+	    if($user->getUserDetails->userArea)
+	    	$data['template_data']['user']['city_name'] = $user->getUserDetails->userArea->name;
+	    else
+	    	$data['template_data']['user']['city_name'] = "N/A";
+    }
+
     sendEmail('user-register', $data);
 
     return true;

@@ -21,14 +21,14 @@
              There is a new user registration on FnB Circle.<br><br>
 
             Please find below user details:<br><br>
-            <b>Name:</b> {{ $user->name}}<br>
-            <b>Email:</b> {{ $user->getPrimaryEmail()}} <br>
-            <b>Phone number:</b> +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br>
+            <b>Name:</b> {{ $user['name'] }}<br>
+            <b>Email:</b> {{ $user['email'] }} <br>
+            <b>Phone number:</b> {{ $user['contact_no'] }}<br>
             <b>What describes you the best?</b><br>
 
-            {{ implode(', ',$user->getUserDetails->getSavedUserSubTypes()) }}<br>
-            <b>State:</b> {{ $user->getUserDetails->userCity->name}} <br>
-            <b>City:</b> {{ $user->getUserDetails->userArea->name}} <br>
+            {{ $user['user_best_description'] }}<br>
+            <b>State:</b> {{ $user['state_name'] }} <br>
+            <b>City:</b> {{ $user['city_name'] }} <br>
 
             <br>
            

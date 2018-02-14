@@ -813,16 +813,16 @@
 
         /* --- On Categories Modal close, update the Level 3 with checkboxes --- */
         $(document).on("hidden.bs.modal", "#category-select", function(event) {
-          var checked_categories, html, index;
-          checked_categories = [];
-          index = 0;
-          html = "";
 
           /* --- Note: ---
           					A timeout of 1 sec is kept so that the hidden value is updated and the checkbox can be populated.
           					The reason is sometimes the 'category_selected' values are received with a delay, due to which checkboxes are not populated at that instant i.e. the below code ends up referring old value.
            */
           setTimeout((function() {
+            var checked_categories, html, index;
+            checked_categories = [];
+            index = 0;
+            html = "";
             if ($(modal_id + " #level-three-enquiry #modal_categories_chosen").val().length > 2 && JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val()).length > 0) {
               checked_categories = JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val());
             }
@@ -843,7 +843,7 @@
             if (html.length > 0) {
               return $(modal_id + " #level-three-enquiry #enquiry_core_categories").append(html);
             }
-          }), 1000);
+          }), 1000, modal_id);
           $(modal_id).modal("show");
         });
       }

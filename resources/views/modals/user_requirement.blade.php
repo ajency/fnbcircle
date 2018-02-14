@@ -170,7 +170,7 @@
                                 </select>
                             </div>
                         </div> -->
-                     <div class="flex-row points m-b-15">
+                     <div class="flex-row points m-b-15 m-t-25">
                         <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="" checked="true"/> Subscribe to Newsletter.
                     </div>
                     </form>

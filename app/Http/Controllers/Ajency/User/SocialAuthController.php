@@ -66,7 +66,7 @@ class SocialAuthController extends Controller {
                         $social_data["user_details"]["has_previously_login"] = 0;
                         $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], $social_data["user_details"], $social_data["user_comm"]);
                         
-                        sendUserRegistrationMails($user_resp["user"]); // Send Welcome Mails
+                        sendUserRegistrationMails($user_resp["user"], true, false); // Send Welcome Mails
                         $redirectUrl = firstTimeUserLoginUrl(); // Get Redirect URL post Sign-up
                     }
 

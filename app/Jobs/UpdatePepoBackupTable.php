@@ -153,7 +153,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             case 'listing-status-change':
                 if($by!=null){
                     $email = $by->getPrimaryEmail();
-                    $fields['ListingStatus'] = ["$on->id" => Listing::listing_status[$on->status]];
+                    $fields['listingStatus'] = ["$on->id" => Listing::listing_status[$on->status]];
                 }
                 break;
             default:

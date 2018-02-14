@@ -245,7 +245,7 @@
                                             </label>
                                         </div>
                                     </div> -->
-                                    <div class="flex-row points m-b-15">
+                                    <div class="flex-row points m-b-15 heavier">
                                         <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="" checked="true"/> Subscribe me to the Newsletter.
                                     </div>
                                     <div class="col-sm-12 text-center">
@@ -433,7 +433,7 @@
                             </div>
                         </div>
                     </div>
-                     <div class="flex-row points m-b-15">
+                     <div class="flex-row points m-b-15 heavier">
                         <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="" checked="true"/> Subscribe me to the Newsletter.
                     </div>
      

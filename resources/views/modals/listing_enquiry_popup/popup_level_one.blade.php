@@ -138,8 +138,8 @@
         <!-- looking for ends -->
         @if(Auth::guest())
             <!-- Newsletter subscription -->
-            <div class="flex-row points m-b-15">
-                <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe to news letter.
+            <div class="flex-row points m-b-15 heavier">
+                <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe me to the Newsletter.
             </div>
             <!-- Newsletter subscription ends -->
         @endif

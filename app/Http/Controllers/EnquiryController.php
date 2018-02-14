@@ -655,7 +655,7 @@ class EnquiryController extends Controller {
 						if(sizeof($listing_final_ids) > 0) {
 							$filters = ["listing_ids" => $listing_final_ids];
 						} else {
-							$filters = [];// $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+							$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
 						}
 
 						if(sizeof($filters) > 0) {
@@ -824,7 +824,7 @@ class EnquiryController extends Controller {
 					if(sizeof($listing_final_ids) > 0) {
 						$filters = ["listing_ids" => $listing_final_ids];
 					} else {
-						$filters = [];// $filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+						$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
 					}
 
 					if(sizeof($filters) > 0) {
@@ -1502,7 +1502,7 @@ class EnquiryController extends Controller {
 								}*/
 							}
 
-							$full_screen_display = true;
+							// $full_screen_display = true;
 
 							$cookie_cont_obj = new CookieController;
 							$cookie_cont_obj->set('enquiry_modal_display_count', 0, ['http_only' => false]); // Set the Auto Enquiry Modal Popup count to ZERO, as the User did an Enquiry
@@ -1521,7 +1521,7 @@ class EnquiryController extends Controller {
 	    				$full_screen_display = true;
 	    			}
 
-	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0 && !$full_screen_display) {
+	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0) { // && !$full_screen_display) {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
 	    			} else {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, '', $session_id, true);

@@ -1,6 +1,6 @@
 <!-- Enquiry modal -->
 
-<div class="modal fnb-modal enquiry-modal verification-modal multilevel-modal fade" id="enquiry-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fnb-modal enquiry-modal verification-modal multilevel-modal fade" id="enquiry-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: auto;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">

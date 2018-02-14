@@ -1094,14 +1094,13 @@ class EnquiryController extends Controller {
 								}
 
 		    					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
-		    					if($request->has('newsletter') && $lead_obj && isset($create_enq_response["enquiry"])) {
-		    						$this->newsLetterSubscription($request->newsletter, $create_enq_response["enquiry"], $lead_obj);
-		    					}
 		    					$payload_data["enquiry_data"]["enquiry_id"] = $create_enq_response["enquiry"]->id;
 		    				}
 
-		    				if(isset($create_enq_response) && isset($create_enq_response["enquiry"])) {
-		    				}
+		    				/* update News letter status */
+	    					if($request->has('newsletter') && $lead_obj && isset($create_enq_response) && isset($create_enq_response["enquiry"])) {
+		    					$this->newsLetterSubscription($request->newsletter, $create_enq_response["enquiry"], $lead_obj);
+	    					}
 
 		    				Session::put('enquiry_data', $payload_data["enquiry_data"]); // Update the session with New User details
 

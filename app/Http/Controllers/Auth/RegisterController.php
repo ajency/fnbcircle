@@ -168,7 +168,7 @@ class RegisterController extends Controller
         $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
 
         logActivity('user_requirements',$response['data'],$user_obj);
-        $subscribe = ($request->newsletter)? "True":"False";
+        $subscribe = ($request->newsletter and $request->newsletter!= 'false')? "True":"False";
         logActivity('newsletter',$user_obj,$user_obj,["subscribe"=>$subscribe]);
         if($required_fields_check["has_required_fields_filled"]) {
             return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]], "next_url" => $next_redirect_url), "api");
@@ -260,7 +260,7 @@ class RegisterController extends Controller
                 //send email
                 $this->registerConfirmEmail($user_resp["user"]);
                 logActivity('email_signup',$user_resp['user'],$user_resp['user']);
-                $subscribe = ($request->newsletter)? "True":"False";
+                $subscribe = ($request->newsletter and $request->newsletter!= 'false')? "True":"False";
                 logActivity('newsletter',$user_resp['user'],$user_resp['user'],["subscribe"=>$subscribe]);
                 if($user_resp["user"]) {
                     $user_resp["user"]->setUserType($request->description);

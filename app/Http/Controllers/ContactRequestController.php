@@ -324,7 +324,7 @@ class ContactRequestController extends Controller
         $session_data["enquiry_to_id"]   = $listing->id;
         $session_data["enquiry_to_type"] = get_class($listing);
         $session_data["enquiry_message"] = "";
-        $session_data["subscription"]    = ($request->subscription)? "True":"False";
+        $session_data["subscription"]    = ($request->subscription and $request->subscription != "false")? "True":"False";
 
         Session::put('enquiry_data', $session_data); // Update the session with New User details
         Session::forget('contact_info');

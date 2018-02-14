@@ -331,7 +331,7 @@ class EnquiryController extends Controller {
 	*/
 	public function newsLetterSubscription($newsletter_subscribe, $subscribed_on, $subscribed_by) {
 		if($newsletter_subscribe != NULL) {
-			$subscribe = ($newsletter_subscribe)? "True" : "False";
+			$subscribe = ($newsletter_subscribe and $newsletter_subscribe != "false")? "True" : "False";
 			logActivity('newsletter', $subscribed_on, $subscribed_by, ["subscribe" => $subscribe]);
 		}
 	}

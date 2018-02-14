@@ -209,109 +209,112 @@ class EnquiryController extends Controller {
 	*/
 	public function secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_final_ids, $send_email=false) {
 		// $output = new ConsoleOutput;
-		
-		foreach ($listing_final_ids as $op_key => $op_value) {
-			$enquiry_sent["enquiry_to_id"] = $op_value;
-			if(in_develop()) { // If in Dev mode
-				if($op_key === 0) { // If 1st Enq
-					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
-				} else { // Else just save the Enq
-					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, false);
-					
-					if($send_email && $op_key === sizeof($listing_final_ids) - 1) { // Else if on Last Enq -> Send a Dump
-						$listing_enq_obj = Listing::whereIn('id', $listing_final_ids);
-						$owner_ids = array_unique($listing_enq_obj->distinct('owner_id')->get()->pluck('owner_id')->toArray());
-						$email_ids = array_unique(UserCommunication::where([['object_type', 'App\User'], ['type', 'email']])->whereIn('object_id', $owner_ids)->get()->pluck('value')->toArray());
+		try {
+			foreach ($listing_final_ids as $op_key => $op_value) {
+				$enquiry_sent["enquiry_to_id"] = $op_value;
+				if(in_develop()) { // If in Dev mode
+					if($op_key === 0) { // If 1st Enq
+						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+					} else { // Else just save the Enq
+						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, false);
+						
+						if($send_email && $op_key === sizeof($listing_final_ids) - 1) { // Else if on Last Enq -> Send a Dump
+							$listing_enq_obj = Listing::whereIn('id', $listing_final_ids);
+							$owner_ids = array_unique($listing_enq_obj->distinct('owner_id')->get()->pluck('owner_id')->toArray());
+							$email_ids = array_unique(UserCommunication::where([['object_type', 'App\User'], ['type', 'email']])->whereIn('object_id', $owner_ids)->get()->pluck('value')->toArray());
 
-						$data['to'] = $email_ids;
-						$data['cc'] = [];
-						$data['subject'] = "Found " . strVal(sizeof($listing_final_ids)) . " listings matching the enquiry";
+							$data['to'] = $email_ids;
+							$data['cc'] = [];
+							$data['subject'] = "Found " . strVal(sizeof($listing_final_ids)) . " listings matching the enquiry";
 
-						$data["content"] = $listing_enq_obj->get()->pluck('title')->toArray();
+							$data["content"] = $listing_enq_obj->get()->pluck('title')->toArray();
 
-						$data["data"] = $data;
-						$data_content = ["to" => $data["to"], "cc" => $data["cc"], "subject" => $data["subject"], "template_data" => $data];
+							$data["data"] = $data;
+							$data_content = ["to" => $data["to"], "cc" => $data["cc"], "subject" => $data["subject"], "template_data" => $data];
 
-						sendEmail('dev-dump', $data_content);
+							sendEmail('dev-dump', $data_content);
+						}
 					}
+				} else {
+					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
 				}
-			} else {
-				$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+				
 			}
+
+			$enquiry_obj = Enquiry::find($enquiry_data["enquiry_id"]);
+			if($enquiry_obj->user_object_type == "App\User") { // If logged In user
+				$userauth_obj = new UserAuth;
+				$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
+				$email_details = [
+					"name" => $customer_data["user"]->name, 
+					"email" => ($customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->count() > 0) ? $customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->first()->value : $customer_data["user_comm"]->where('type', 'email')->first()->value, 
+					"contact" => ($customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->count() > 0) ? '+' . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
+					"describes_best" => unserialize($customer_data["user_details"]->first()->subtype), 
+					"message" => $enquiry_obj->enquiry_message,
+					"dashboard_url" => "",
+					"seeker" => "user",
+				];
+				
+				$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
+
+				$email_details["to"] = $email_details["email"];
+				$email_details["listing_to"] = $email_details["email"];
+			} else { // If Guest User
+				$lead_obj = Lead::find($enquiry_obj->user_object_id);
+				$email_details = [
+					"name" => $lead_obj->name, 
+					"email" => $lead_obj->email, 
+					"contact" => '+' . implode(explode("-", $lead_obj->mobile)), 
+					"describes_best" => unserialize($lead_obj->user_details_meta)["describes_best"], 
+					"message" => $enquiry_obj->enquiry_message,
+					"dashboard_url" => "",
+					"to" => $lead_obj->email,
+					"seeker" => "lead",
+				];
+				
+				$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
+			}
+
+			if($enquiry_obj->enquiry_to_type === "App\Listing") {
+				$listing_obj = Listing::find($enquiry_obj->enquiry_to_id);
+			} else {
+				$listing_obj = NULL;
+			}
+
+			if($listing_obj)
+				$email_content = ["listing_name" => $listing_obj->title, "listing_owner" => [], "listing_url" => $this->getListingUrl($listing_obj, false), "listing_data" => []];
+			else
+				$email_content = ["listing_name" => "", "listing_owner" => [], "listing_url" => "", "listing_data" => []];
 			
+			$enq_data_obj = Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) use (&$email_content) {
+				$listing_content = array("name" => $list["title"], "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "", "link" => $this->getListingUrl($list["id"], true));
+				$listing_content["type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
+				
+				$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
+	    		$city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
+
+	    		$areas_operation = [];
+	    		foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+	    			array_push($areas_operation, 
+	    				array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(),
+	    				"areas" => $city_areas->toArray()
+	    			));
+	    		}
+
+	    		$listing_content["operation_areas"] = $list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+	    		$listing_content["cores"] = $list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
+						$listViewCont_obj = new ListViewController;
+	                    $cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+	            });
+
+	    		array_push($email_content["listing_data"], $listing_content);
+			});
+
+			// Send a shared Enquiry Email to the Customer / Seeker
+			$this->sendEnquiryEmail('shared', false, $email_details, $email_content, true, false);	
+		} catch (Exception $e) {
+			;
 		}
-
-		$enquiry_obj = Enquiry::find($enquiry_data["enquiry_id"]);
-		if($enquiry_obj->user_object_type == "App\User") { // If logged In user
-			$userauth_obj = new UserAuth;
-			$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
-			$email_details = [
-				"name" => $customer_data["user"]->name, 
-				"email" => ($customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->count() > 0) ? $customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->first()->value : $customer_data["user_comm"]->where('type', 'email')->first()->value, 
-				"contact" => ($customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->count() > 0) ? '+' . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
-				"describes_best" => unserialize($customer_data["user_details"]->first()->subtype), 
-				"message" => $enquiry_obj->enquiry_message,
-				"dashboard_url" => "",
-				"seeker" => "user",
-			];
-			
-			$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
-
-			$email_details["to"] = $email_details["email"];
-			$email_details["listing_to"] = $email_details["email"];
-		} else { // If Guest User
-			$lead_obj = Lead::find($enquiry_obj->user_object_id);
-			$email_details = [
-				"name" => $lead_obj->name, 
-				"email" => $lead_obj->email, 
-				"contact" => '+' . implode(explode("-", $lead_obj->mobile)), 
-				"describes_best" => unserialize($lead_obj->user_details_meta)["describes_best"], 
-				"message" => $enquiry_obj->enquiry_message,
-				"dashboard_url" => "",
-				"to" => $lead_obj->email,
-				"seeker" => "lead",
-			];
-			
-			$email_details["dashboard_url"] = config('app')['url'] . "/profile/activity/" . $email_details['email'];
-		}
-
-		if($enquiry_obj->enquiry_to_type === "App\Listing") {
-			$listing_obj = Listing::find($enquiry_obj->enquiry_to_id);
-		} else {
-			$listing_obj = NULL;
-		}
-
-		if($listing_obj)
-			$email_content = ["listing_name" => $listing_obj->title, "listing_owner" => [], "listing_url" => $this->getListingUrl($listing_obj, false), "listing_data" => []];
-		else
-			$email_content = ["listing_name" => "", "listing_owner" => [], "listing_url" => "", "listing_data" => []];
-		
-		$enq_data_obj = Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) use (&$email_content) {
-			$listing_content = array("name" => $list["title"], "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "", "link" => $this->getListingUrl($list["id"], true));
-			$listing_content["type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
-			
-			$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
-    		$city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
-
-    		$areas_operation = [];
-    		foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
-    			array_push($areas_operation, 
-    				array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(),
-    				"areas" => $city_areas->toArray()
-    			));
-    		}
-
-    		$listing_content["operation_areas"] = $list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
-    		$listing_content["cores"] = $list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
-					$listViewCont_obj = new ListViewController;
-                    $cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
-            });
-
-    		array_push($email_content["listing_data"], $listing_content);
-		});
-
-		// Send a shared Enquiry Email to the Customer / Seeker
-		$this->sendEnquiryEmail('shared', false, $email_details, $email_content, true, false);
 	}
 
 	/**
@@ -1282,7 +1285,9 @@ class EnquiryController extends Controller {
 									ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addHours(1)->addMinutes(1 + $listing_ids_id))->onQueue("low");
 								}
 							}*/
-							ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
+							if(sizeof($listing_ids_value) > 0 && isset($enquiry_data) && isset($enquiry_sent)) { // If 1 or more IDs exist then, add that to queue
+								ProcessEnquiry::dispatch($enquiry_data, $enquiry_sent, $listing_ids_value, true)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
+							}
 							// $this->secondaryEnquiryQueue($enquiry_data, $enquiry_sent, $listing_ids_value, true);
 						}
 					}
@@ -1520,7 +1525,9 @@ class EnquiryController extends Controller {
 							// $this->secondaryEnquiryQueue($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_operations_ids, false);
 							$listing_operations_ids_chunks = array_chunk($listing_final_ids, 5); // each array should have 5 IDs -> 5 is chosen to free the process faster, choosing 500, might take lot of time, which can block even 'high' priority tasks
 							foreach ($listing_operations_ids_chunks as $listing_ids_id => $listing_ids_value) {
-								ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
+								if(sizeof($listing_ids_value) > 0 && isset($secondary_enquiry_data['enquiry_data']) && isset($secondary_enquiry_data['enquiry_sent'])) { // If 1 or more IDs exist then, add that to queue
+									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(1 + $listing_ids_id))->onQueue("low");
+								}
 								/*if(in_develop()) {
 									ProcessEnquiry::dispatch($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $listing_ids_value, false)->delay(Carbon::now()->addMinutes(5 + $listing_ids_id))->onQueue("low");
 								} else { // Process after 1 hour from now

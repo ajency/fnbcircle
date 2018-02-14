@@ -11,6 +11,7 @@ use App\Area;
 use App\Common;
 use App\Http\Controllers\ListingController;
 use App\Listing;
+use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\Defaults;
@@ -23,6 +24,8 @@ use View;
 use Illuminate\Support\Facades\Password;
 use Ajency\Ajfileimport\Helpers\AjCsvFileImport;
 use App\Http\Controllers\Auth\RegisterController;
+use App\PepoImport;
+use App\PepoBackup;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -614,6 +617,35 @@ class AdminModerationController extends Controller
         return response()->download(storage_path().'/app/public/import-sample-file.xlsx');
     }
 
+    public function uploadToPepo($listings){
+        foreach ($listings as $listing_id) {
+            $listing = Listing::find($listing_id);
+            $email = $listing->owner->getPrimaryEmail();
+            $import = new PepoImport;
+            $backup =  PepoBackup::where('email',$email)->first();
+            if ($backup != null){
+                $import->email = $email;
+                $import->name = $backup->name;
+                $import->state = $backup->state;
+                $import->active = $backup->active;
+                $import->subscribed = $backup->subscribed;
+                if($backup->signUpType == 'Guest' or $backup->signUpType == null){
+                    $import->signUpType = 'Import';
+                }else{
+                    $import->signUpType = $backup->signUpType;
+                }
+                $import->userSubType = $backup->userSubType;
+                $import->userType = json_encode(array_unique(array_values(array_merge(json_decode($backup->userType,true),['Listing']))));
+                $import->listingStatus = json_encode(array_unique(array_values(array_merge(json_decode($backup->listingStatus,true),["$listing->id"=>'Draft']))));
+                $import->listingType = json_encode(array_unique(array_values(array_merge(json_decode($backup->listingStatus,true),["$listing->id"=>'Draft']))));
+                $import->listingCategories = json_encode(array_unique(array_values(array_merge(json_decode($backup->listingCategories,true),json_decode(ListingCategory::getCategoryJsonTag($listing->id),true)))));
+                $import->area = json_encode(array_unique(array_values(array_merge(json_decode($backup->area,true),json_decode(ListingAreasOfOperation::getCategoryJsonTag($listing->id),true)))));
+                $import->save();
+
+            }
+        }
+    }
+
     public function importCallback(){
         $listing_ids = \App\Listing::whereNull('reference')->pluck('id')->toArray();
         if(!empty($listing_ids)){
@@ -626,6 +658,7 @@ class AdminModerationController extends Controller
             $sql.= 'END) WHERE id in ('.implode(',', array_keys($references)).')';
             \DB::statement($sql);
         }
+        $this->uploadToPepo($listing_ids);
         $category_ids = \App\ListingCategory::distinct()->whereNull('category_slug')->pluck('category_id')->toArray();
         if(!empty($category_ids)){
             $categories = \App\Category::whereIn('id',$category_ids)->pluck('slug','id')->toArray();

@@ -444,6 +444,11 @@ $ajimport_config['aj_batchcallbacks'] = array(
         'class_path'   =>'\App\Http\Controllers\AdminModerationController',
        ),         
 ); 
+$ajimport_config['aj_callbacks'] = array(
+  array('function_name'=>'importFinalCallback',
+        'class_path'   =>'\App\Http\Controllers\AdminModerationController',
+       ),         
+);
 
 $ajimport_config['import_log_mail'] = array(
    'from'        => 'nutan@ajency.in',

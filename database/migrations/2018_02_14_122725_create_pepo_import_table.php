@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Defaults;
 
 class CreatePepoImportTable extends Migration
 {
@@ -34,6 +35,11 @@ class CreatePepoImportTable extends Migration
             $table->timestamps();
             $table->text('response')->nullable();
         });
+        $object = new Defaults;
+        $object->type = 'email_notification';
+        $object->label = 'pepo-import';
+        $object->meta_data = json_encode(['name'=>'notification-pepo-import', 'title'=>'Pepo import csv', 'value'=>[]]);
+        $object->save();
     }
 
     /**

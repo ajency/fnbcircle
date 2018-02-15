@@ -680,7 +680,23 @@ class AdminModerationController extends Controller
             }
         }
     }
-
+    public function importFinalCallback(){
+        $filepath = dumpTableintoFile('pepo_imports',[],[],true);
+        if($filepath['status']){
+            \DB::table('pepo_imports')->truncate();
+            $file = \Storage::disk('root')->get($filepath['path']);
+             $email = [
+                'to' => 'admin@fnbcircle.com',
+                'subject' => "Upload contacts to PepoCampaigns",
+                'attach' => [['file' => base64_encode($file), 'as'=>'pepo-import.csv', 'mime'=>'text/csv']]
+                
+            ];
+            sendEmail('pepo-import',$email);
+        }else{
+            \Log::error($filepath['msg']);
+        }
+        
+    }
     public function importCallback(){
         $listing_ids = \App\Listing::whereNull('reference')->pluck('id')->toArray();
         if(!empty($listing_ids)){

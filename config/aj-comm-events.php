@@ -115,4 +115,8 @@ return [
         "laravel" => "email.success_seeker_contactrequest_non_premium",
         "smsgupshup" => "",
     ],
+    'pepo-import'=>[
+        "laravel" => "email.pepo-import",
+        "smsgupshup" => "",
+    ]
 ];

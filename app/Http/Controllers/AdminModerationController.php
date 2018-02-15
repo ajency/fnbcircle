@@ -1089,8 +1089,8 @@ class AdminModerationController extends Controller
                     $users=$users->whereIn('id',$description_users);
                 }
                 if(!empty($request->cities) or !empty($request->areas)){
-                    $areas = UserDetail::whereIn('area',$request->areas)->pluck('user_id')->toArray();
-                    $cities = UserDetail::whereIn('city',$request->cities)->pluck('user_id')->toArray();
+                    $areas = ($request->has('areas'))? UserDetail::whereIn('area',$request->areas)->pluck('user_id')->toArray() : [];
+                    $cities = ($request->has('cities'))? UserDetail::whereIn('city',$request->cities)->pluck('user_id')->toArray() : [];
                     $location_filter = array_unique(array_merge($cities,$areas));
                     $users = $users->whereIn('id',$location_filter);
                 }

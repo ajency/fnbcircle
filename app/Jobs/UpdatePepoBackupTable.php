@@ -94,7 +94,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             case 'listing_publish':
                 $by = $on->owner;
                 $email = $by->getPrimaryEmail();
-                $fields['listingType'] = ['Published'];
+                // $fields['listingType'] = ['Published'];
                 break;
             case 'job_created':
                 $email = $by->getPrimaryEmail();

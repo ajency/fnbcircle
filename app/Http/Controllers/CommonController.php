@@ -194,6 +194,7 @@ class CommonController extends Controller
         if($request->type == 'listing'){
             $object = Listing::where($config['listing']['id'],$request->id)->firstOrFail();
             if ($object->status == 3 or $object->status == 5) {
+                saveListingStatusChange($object, $object->status, Listing::REVIEW);
                 if ($object->isReviewable()) {
                     $object->status          = Listing::REVIEW;
                     $object->submission_date = Carbon::now();

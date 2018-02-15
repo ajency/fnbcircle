@@ -88,7 +88,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $by->getPrimaryEmail();
                 $fields['area'] = [$on->location->city->id => $on->location->city->name];
                 $fields['userType'] = ['Listing'];
-                $fields['ListingStatus'] = ["$on->id" => Listing::listing_status[$on->status]];
+                $fields['listingStatus'] = [$on->reference => Listing::listing_status[$on->status]];
                 $fields['listingType'] = [Listing::listing_business_type[$on->type]];
                 break;
             case 'listing_publish':
@@ -153,7 +153,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             case 'listing-status-change':
                 if($by!=null){
                     $email = $by->getPrimaryEmail();
-                    $fields['listingStatus'] = ["$on->id" => Listing::listing_status[$on->status]];
+                    $fields['listingStatus'] = [$on->reference => Listing::listing_status[$on->status]];
                 }
                 break;
             default:

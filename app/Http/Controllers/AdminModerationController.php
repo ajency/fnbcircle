@@ -11,6 +11,7 @@ use App\Area;
 use App\Common;
 use App\Http\Controllers\ListingController;
 use App\Listing;
+use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\Defaults;
@@ -23,6 +24,8 @@ use View;
 use Illuminate\Support\Facades\Password;
 use Ajency\Ajfileimport\Helpers\AjCsvFileImport;
 use App\Http\Controllers\Auth\RegisterController;
+use App\PepoImport;
+use App\PepoBackup;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -614,6 +617,86 @@ class AdminModerationController extends Controller
         return response()->download(storage_path().'/app/public/import-sample-file.xlsx');
     }
 
+    public function uploadToPepo($listings){
+        foreach ($listings as $listing_id) {
+            $listing = Listing::find($listing_id);
+            $email = $listing->owner->getPrimaryEmail();
+            $import = new PepoImport;
+            $backup =  PepoBackup::where('email',$email)->first();
+            try{
+                if($backup == null){
+                    $backup = new PepoBackup;
+                    //$import->email = $email;
+                    $backup->email = $email;
+                    $backup->state = $listing->owner->getUserDetails->userCity->id;
+                    //$import->name = 'imported user';
+                    $backup->name = 'imported user';
+                    $backup->state = $listing->owner->getUserDetails->userCity->name;
+                    // $backup->state = $import->state;
+                    // $import->active = "False";
+                    $backup->active = "False";
+                    // $import->subscribed = "True";
+                    $backup->subscribed = "True";
+                    // $import->signUpType = 'Import';
+                    $backup->signUpType = 'Import';
+                    // $import->userType = json_encode(["Listing"]);
+                    $backup->userType = json_encode(["Listing"]);
+                    $backup->listingStatus =json_encode([]);
+                    $backup->listingType =json_encode([]);
+                    $backup->listingCategories =json_encode([]);
+                    $backup->area = json_encode([]);
+                    $backup->save();
+                }
+                if ($backup != null){
+                    $import->email = $email;
+                    $import->name = $backup->name;
+                    $import->state = $backup->state;
+                    $import->active = $backup->active;
+                    $import->subscribed = $backup->subscribed;
+                    if($backup->signUpType == 'Guest' or $backup->signUpType == null){
+                        $import->signUpType = 'Import';
+                    }else{
+                        $import->signUpType = $backup->signUpType;
+                    }
+                    $import->userSubType = $backup->userSubType;
+                    $import->userType = json_encode(array_unique(array_values(array_merge(json_decode($backup->userType,true),['Listing']))));
+                    $import->listingStatus = json_encode(array_unique(array_values(array_merge(json_decode($backup->listingStatus,true),[$listing->reference=>'Draft']))));
+                    $import->listingType = json_encode(array_unique(array_values(array_merge(json_decode($backup->listingType,true),[Listing::listing_business_type[$listing->type]]))));
+                    $import->listingCategories = json_encode(array_unique(array_values(array_merge(json_decode($backup->listingCategories,true),json_decode(ListingCategory::getCategoryJsonTag($listing->id),true)))));
+                    $import->area = json_encode(array_unique(array_values(array_merge(json_decode($backup->area,true),json_decode(ListingAreasOfOperation::listingAreasJsonTag($listing->id),true)))));
+                    $import->save();
+                    $backup->signUpType = $import->signUpType;
+                    $backup->userType = $import->userType;
+                    $backup->listingStatus = json_encode(array_unique(array_merge(json_decode($backup->listingStatus,true),[$listing->reference=>'Draft'])));
+                    $backup->listingType = json_encode(array_unique(array_merge(json_decode($backup->listingType,true),[Listing::listing_business_type[$listing->type]])));
+                    $backup->listingCategories = json_encode(array_unique(array_merge(json_decode($backup->listingCategories,true),json_decode(ListingCategory::getCategoryJsonTag($listing->id),true))));
+                    $backup->area = json_encode(array_unique(array_merge(json_decode($backup->area,true),json_decode(ListingAreasOfOperation::listingAreasJsonTag($listing->id),true))));
+                    $backup->save();
+
+                }
+            } catch (\Exception $ex) {
+                $error_msg = $ex->getMessage();
+                \Log::error($error_msg);
+            }
+        }
+    }
+    public function importFinalCallback(){
+        $filepath = dumpTableintoFile('pepo_imports',[],[],true);
+        if($filepath['status']){
+            \DB::table('pepo_imports')->truncate();
+            $file = \Storage::disk('root')->get($filepath['path']);
+             $email = [
+                'to' => 'admin@fnbcircle.com',
+                'subject' => "Upload contacts to PepoCampaigns",
+                'attach' => [['file' => base64_encode($file), 'as'=>'pepo-import.csv', 'mime'=>'text/csv']]
+                
+            ];
+            sendEmail('pepo-import',$email);
+        }else{
+            \Log::error($filepath['msg']);
+        }
+        
+    }
     public function importCallback(){
         $listing_ids = \App\Listing::whereNull('reference')->pluck('id')->toArray();
         if(!empty($listing_ids)){
@@ -626,6 +709,7 @@ class AdminModerationController extends Controller
             $sql.= 'END) WHERE id in ('.implode(',', array_keys($references)).')';
             \DB::statement($sql);
         }
+        
         $category_ids = \App\ListingCategory::distinct()->whereNull('category_slug')->pluck('category_id')->toArray();
         if(!empty($category_ids)){
             $categories = \App\Category::whereIn('id',$category_ids)->pluck('slug','id')->toArray();
@@ -671,6 +755,7 @@ class AdminModerationController extends Controller
         $userDetailSql .= ' END) WHERE area IS NOT NULL AND city IS NULL';
         \Log::info('UserDetailQuery: '.$userDetailSql);
         \DB::statement($userDetailSql);
+        $this->uploadToPepo($listing_ids);
         $common = new CommonController;
         $common->updateUserDetails();
     }

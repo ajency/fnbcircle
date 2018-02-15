@@ -15,7 +15,7 @@ class CreatePepoImportTable extends Migration
     {
         Schema::create('pepo_imports', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('name')->nullable();
             $table->string('state')->nullable();
             $table->string('signUpType')->nullable();

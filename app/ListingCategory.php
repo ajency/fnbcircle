@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -84,9 +83,9 @@ class ListingCategory extends Model
             [$listing_id, $listing_id]);
         $array = [];
         foreach ($categories as $category) {
-            $array["$category->parentID"] = $category->parent;
-            $array["$category->branchID"] = $category->branch;
-            $array["$category->id"] = $category->name;
+            $array[$category->parent_slug] = $category->parent;
+            $array[$category->branch_slug] = $category->branch;
+            $array[$category->slug] = $category->name;
         }
         return json_encode(array_unique($array));
     }

@@ -26,7 +26,7 @@ use Ajency\Ajfileimport\Helpers\AjCsvFileImport;
 use App\Http\Controllers\Auth\RegisterController;
 use App\PepoImport;
 use App\PepoBackup;
-use App\UserDetails;
+use App\UserDetail;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller

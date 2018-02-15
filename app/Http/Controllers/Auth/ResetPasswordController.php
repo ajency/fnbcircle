@@ -15,7 +15,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\UserCommunication;
 use App\Listing;
 use Illuminate\Support\Facades\DB;
-use Auth;
+// use Auth;
 
 class ResetPasswordController extends Controller
 {

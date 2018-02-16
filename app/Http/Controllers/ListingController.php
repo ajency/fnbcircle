@@ -129,12 +129,15 @@ class ListingController extends Controller
                             'to' => $user_details->email,
                             'subject' => "Activate your account to claim your business on FnB Circle",
                             'template_data' => [
-                                'listing_name' => $listing->title,
-                                'listing_type' => Listing::listing_business_type[$listing->type],
-                                'listing_state' => $area->city['name'],
-                                'listing_city' => $area->name,
+                                'listings'=>[[
+                                    'listing_name' => $listing->title,
+                                    'listing_type' => Listing::listing_business_type[$listing->type],
+                                    'listing_state' => $area->city['name'],
+                                    'listing_city' => $area->name,
+                                    'listing_reference' => $listing->reference,
+                                ]],
                                 'confirmationLink' => $reset_password_url,
-                                'listing_reference' => $listing->reference,
+                                
                             ],
                         ];
                     sendEmail('listing-user-verify',$email);

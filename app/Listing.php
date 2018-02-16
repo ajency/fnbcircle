@@ -152,8 +152,8 @@ class Listing extends Model
                 $this->source = ($import)? 'import': 'internal_user'; 
             } 
         }
-        logActivity('listing_created',$this,Auth::user());
         $this->save();
+        if(Auth::user()->type == 'external') logActivity('listing_created',$this,Auth::user());
     }
 
     public static function existingTagsLike($group,$str)

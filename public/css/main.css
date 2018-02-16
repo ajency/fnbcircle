@@ -5722,6 +5722,9 @@ input[type=checkbox].custom-checkbox:before {
   .verification-modal .areas-select__selection li .left-star:after {
     padding-left: 0;
   }
+  .verification-modal .areas-select__selection li ul li {
+    max-width: 100%;
+  }
   .verification-modal.multilevel-modal .level-two {
     display: block;
     top: 0;

@@ -21,9 +21,9 @@
             <div class="seller-info__body filter-cards__body flex-row white-space list-new-changes" style="@isset($is_email) border: 1px solid #ddd;padding: 15px;margin-top: 20px; @endisset">
                 <div class="body-left flex-cols">
                     <div>
-                        <div class="list-title-container" style="@isset($is_email) clear: both; display: table; @endisset">
+                        <div class="list-title-container" style="@isset($is_email) clear: both; display: table;width: 100%; @endisset">
                             <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}" style="@isset($is_email) margin-bottom: 0;margin-top: 0;float:left; @endisset"><a class="text-darker" href="{{ url(generateUrl($list_value->city['slug'], $list_value->slug)) }}" target="_blank" style="@isset($is_email) color: #ec6d4b; @endisset">{{ $list_value->title }}</a></h3>
-                            <div class="power-seller-container" style="@isset($is_email) float: left; padding-left: 15px; @endisset">
+                            <div class="power-seller-container" style="@isset($is_email) float: right; padding-left: 15px; @endisset">
                                 @isset($is_email)
                                     @if($list_value->premium)
                                         <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     @if($list_value->cores->count() > 0)
-                        <div class="m-t-15 p-t-15 cat-holder" style="@isset($is_email) margin-top: 40px;border-top: 1px solid #eee;display:table; @endisset">
+                        <div class="m-t-15 p-t-15 cat-holder" style="@isset($is_email) margin-top: 40px;border-top: 1px solid #eee;display:table;width: 100%; @endisset">
                             <div class="core-cat">
                                 <p class="default-size text-lighter m-t-0 m-b-0" style="@isset($is_email) margin-bottom: 5px; @endisset">Core Categories</p>
                                 <ul class="fnb-cat flex-row" style="@isset($is_email) width: 100%;list-style: none;margin: 0;clear: both;padding-left: 0; @endisset">
@@ -85,7 +85,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="body-right flex-cols" style="@isset($is_email) clear: both;display:table; @endisset">
+                <div class="body-right flex-cols" style="@isset($is_email) clear: both;display:table;width: 100%;margin-top: 15px; @endisset">
                     @if($list_value->premium || sizeof($list_value->areas_operation) > 0)
                         <div class="operations">
                             @if($list_value->premium)

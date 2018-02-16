@@ -333,7 +333,7 @@ class EnquiryController extends Controller {
 	*/
 	public function newsLetterSubscription($newsletter_subscribe, $subscribed_on, $subscribed_by) {
 		if($newsletter_subscribe != NULL) {
-			$subscribe = ($newsletter_subscribe and $newsletter_subscribe != "false")? "True" : "False";
+			$subscribe = $newsletter_subscribe; //($newsletter_subscribe and $newsletter_subscribe != "false")? "True" : "False";
 			logActivity('newsletter', $subscribed_on, $subscribed_by, ["subscribe" => $subscribe]);
 		}
 	}
@@ -923,7 +923,8 @@ class EnquiryController extends Controller {
 					$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
 					$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
 					$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
-
+					$session_payload["enquiry_data"]["subscription"] = ($request->newsletter and $request->newsletter != "false")? "True":"False"; // Newsletter Subscription
+							
 					Session::put('enquiry_data', $payload_data["enquiry_data"]); // Update the session with New User details
 				}
 			}
@@ -1074,7 +1075,7 @@ class EnquiryController extends Controller {
 							$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
 							$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
 							$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
-							$session_payload["enquiry_data"]["subscription"] = ($request->subscription)? "True":"False"; // Newsletter Subscription
+							$payload_data["enquiry_data"]["subscription"] = ($request->newsletter and $request->newsletter != "false")? "True":"False"; // Newsletter Subscription
 							
 							if(isset($listing_obj_id)) { // Assign the New Listing ID & Listing Type
 								$payload_data["enquiry_data"]["enquiry_to_id"] = $listing_obj_id;
@@ -1097,7 +1098,15 @@ class EnquiryController extends Controller {
 
 
 							if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // IF user ID exist & Mobile is verified, then save the data in the Enquiry & ENquirySent Table
-								$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null, "enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing", "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
+								$enquiry_data = [
+									"user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, 
+									"user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", 
+									"enquiry_device" => $this->isMobile() ? "mobile" : "desktop",
+									"enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null,
+									"enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing",
+									"enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"],
+									"subscription" => isset($payload_data["enquiry_data"]["subscription"]) ? $payload_data["enquiry_data"]["subscription"] : "True",
+								];
 
 								if($listing_obj && $listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
 									$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
@@ -1110,9 +1119,9 @@ class EnquiryController extends Controller {
 		    				}
 
 		    				/* update News letter status */
-	    					if($request->has('newsletter') && $lead_obj && isset($create_enq_response) && isset($create_enq_response["enquiry"])) {
-		    					$this->newsLetterSubscription($request->newsletter, $create_enq_response["enquiry"], $lead_obj);
-	    					}
+	    					// if($request->has('newsletter') && $lead_obj && isset($create_enq_response) && isset($create_enq_response["enquiry"])) {
+		    				// 	$this->newsLetterSubscription($request->newsletter, $create_enq_response["enquiry"], $lead_obj);
+	    					// }
 
 		    				Session::put('enquiry_data', $payload_data["enquiry_data"]); // Update the session with New User details
 

@@ -246,7 +246,7 @@
                                         </div>
                                     </div> -->
                                     <div class="flex-row points m-b-15 heavier">
-                                        <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="" checked="true"/> Subscribe me to the Newsletter.
+                                        <input type="checkbox" class="checkbox" for="" name="newsletter" id="news-letter-subscribe" value="true" checked="true"/> Subscribe me to the Newsletter.
                                     </div>
                                     <div class="col-sm-12 text-center">
                                         <div class="text-medium text-lighter accept_terms m-t-5 m-b-5">By clicking Sign Up, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>

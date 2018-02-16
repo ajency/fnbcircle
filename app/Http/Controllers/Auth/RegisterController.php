@@ -137,6 +137,7 @@ class RegisterController extends Controller
             $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], $request->contact_id);
         } else {
             // $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], '');
+            UserCommunication::where('object_type',"App\\User")->where('object_id',$user_obj->id)->where('type','mobile')->delete();
             $user_comm = new UserCommunication;
             $user_comm->object_type = "App\\User";
             $user_comm->object_id = $user_obj->id;

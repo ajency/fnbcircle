@@ -812,6 +812,7 @@ $(function(){
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
                 	"description" : descr_values,
+                	"newsletter": $('#news-letter-subscribe').prop('checked'),
                 	"next_url": redirect_url
                 };
 

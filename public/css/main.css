@@ -8439,6 +8439,12 @@ input[type=checkbox].custom-checkbox:before {
 .enquiry-add-card {
   padding: 0.8em 1.5em;
 }
+.describes .points .multiselect-container label input[type='checkbox'] {
+  position: relative;
+}
+.describes .points .multiselect-container label input[type='checkbox']:before {
+  top: -8px;
+}
 .home-text {
   position: relative;
   top: 3em;

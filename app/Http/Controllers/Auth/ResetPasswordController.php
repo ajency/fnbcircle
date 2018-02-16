@@ -94,6 +94,8 @@ class ResetPasswordController extends Controller
 
         if($user->status == "inactive") { // Activate the User
             $user->status = "active";
+            $user->signup_source = "email_signup";
+
         }
 
         $user->save();

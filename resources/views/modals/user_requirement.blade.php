@@ -30,7 +30,7 @@
                                         <div class="number-code flex-row">
                                             <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
                                             <!-- <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality"> -->
-                                            <input type="tel" class="form-control fnb-input number-code__value contact-input contact-mobile-input contact-mobile-number" placeholder="xxxxxxxxxx" name="contact" value="{{ Auth::user()->getPrimaryContact()['contact_region'] }}{{ Auth::user()->getPrimaryContact()['contact'] }}">
+                                            <input type="tel" class="form-control fnb-input number-code__value contact-input contact-mobile-input contact-mobile-number" placeholder="xxxxxxxxxx" name="contact" value="{{ Auth::user()->getPrimaryContact()['contact'] }}">
                                             <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ Auth::user()->getPrimaryContact()['contact_region'] }}">
                                         </div>
                                     </div>

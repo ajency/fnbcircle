@@ -451,7 +451,7 @@ $ajimport_config['aj_callbacks'] = array(
 );
 
 $ajimport_config['import_log_mail'] = array(
-   'from'        => 'nutan@ajency.in',
+   'from'        => 'admin@fnbcircle.com',
    'subject'     => 'Import log -ajency',
    'to'          => array('rahul@pizzasquare.in'),
    'cc'          => array('valenie@ajency.in', 'shashank@ajency.in','harshita@ajency.in'),

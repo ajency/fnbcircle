@@ -199,69 +199,74 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
 
         <!-- Email Body : BEGIN -->
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr style="text-align: center;background-color: #fff;">
-      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
-            <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-              <p>Hi</p>
-            </div>
+    <tr style="text-align: center;">
+    <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
+          <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
+            <p>Hi <b style="color: #7f7f7f;">{{ $name }} </b></p>
+          </div>
 
-            <!-- Tips -->
-            <div style="margin-top: 2em;text-align: left;">
-              <div style="margin-bottom: 0.8em;">        
-                  <div style="color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">  
+          <!-- Tips -->
+          <div style="margin-top: 2em;">
+        <div style="margin-bottom: 0.8em;">        
+          <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+            @if(isset($is_premium) && $is_premium)
+              Thank you for showing your interest in <a href="{{ $listing_url }}" target="_blank">{{ $listing_name }}</a>. Your details have been shared via email and sms with the owner of this business. They would contact you soon.<br><br>
+            @else
+              Thank you for showing your interest.<br><br>
+              We have sent your enquiry details via email and sms to <a href="{{ $listing_url }}" target="_blank" style="color: #ec6d4b;">{{ $listing_name }}</a> &amp; few similar businesses matching your requirements. They would contact you soon.<br><br>
+            @endif
+            
+            @if(isset($is_premium) && $is_premium)
+              <b>Listing Details:</b><br>
+            @else
+              Based on your enquiry, here are a few similar listings: <br><br>
+            @endif
 
-                  Please review “<a href="{{$listing_link}}">{{$listing_name}}</a>”.<br><br>
+            @if(isset($listing_data))
+              @foreach(array_slice($listing_data, 0, 3) as $listing_index => $listing_value)
+                Name:  <a href="{{ isset($listing_value['link']) ? $listing_value['link'] : $listing_url }}" target="_blank">{{ isset($listing_value['name']) ? $listing_value['name'] : $listing_name }}</a><br>
+                Type:  {{ isset($listing_value['type']) ? $listing_value['type']['name'] : '' }}<br>
+                @if(isset($listing_value['cores']) && sizeof($listing_value['cores']) > 0)
+                  Core Categories:
+                    @foreach($listing_value['cores'] as $core_index => $core_value)
+                      {{ $core_value["name"] }}{{ $core_index < (sizeof($listing_value['cores']) - 1) ? ', ' : '' }}
+                    @endforeach
+                @endif
+                <br>
+                @if(isset($listing_value['operation_areas']) && sizeof($listing_value['operation_areas']) > 0)
+                  Area(s) of Operation:<br>
+                    @foreach($listing_value['operation_areas'] as $operations_index => $operations_value)
+                      States : {{ $operations_value["city"]["name"] }}<br>
+                      Cities : 
+                      @foreach($operations_value["areas"] as $operation_area_index => $operation_area_value)
+                        {{ $operation_area_value["name"] }}{{ $operation_area_index < (sizeof($operations_value["areas"]) - 1) ? ', ' : '' }}
+                      @endforeach
+                      <br>
+                    @endforeach
+                @endif
+                Rating: - <br><br>
+              @endforeach
 
-                  <b>Details of the Listing</b>:<br/>
+              @if(sizeof($listing_data) - 3 > 0)
+                <br/>
+                and {{ sizeof($listing_data) - 3 }} more listings..
+              @endif
+            @endif
+          
+            <div style="font-size: 0.9em;"><b>Disclaimer:</b> FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.</div>
+            <br><br>
 
-                <b>Name</b> : <a href="{{$listing_link}}">{{$listing_name}}</a><br/>
-                <b>Type</b> : {{$listing_type}}<br/>
-                <b>State</b> : {{$listing_city}}<br/>
-                <b>City</b> : {{$listing_area}}<br/>
-                <b>Categories</b> : <br/>
 
-                <div class="listed p-t-20 p-b-10" id="listed" style="clear: both;display: table;margin-top: 15px;margin-bottom: 20px;">
-                  <!-- <b class="element-title">Also Listed In</b> -->
-                  <br>
-                  @foreach($listing_categories as $category)
-                  <div class="listed__section flex-row" style="display:table;">
-                      <div class="parent-cat flex-row" style="float: left;min-width: 130px;">
-                          <span class="m-r-10" style="display: inline-block;">
-                              <img src="{{$category['image-url']}}" width="40" style="vertical-align: middle;">
-                          </span>
-                          <p class="parent-cat__title cat-size" style=" display: inline-block;margin: 0;">{{$category['parent']}}</p>
-                      </div>
-                      <div class="child-cat" style="float: left;width: 80px;text-align: center;">
-                          <p class="child-cat__title cat-size" style="margin-bottom: 0;margin-top: 7px;">{{$category['branch']}}</p>
-                      </div>
-                      <ul class="fnb-cat flex-row" style="padding-left: 0;margin-left: 0;list-style: none;float: left;margin-top: 5px;">
-                          @foreach($category['nodes'] as $node)
-                          <li style=" display: inline-block;border: 1px solid #676767;padding: 0.2em 0.6em;margin: 0 0.2em 0.2em 0.2em;border-radius: 4px;font-size: 12px;"><a href="#" class="fnb-cat__title" style="color: inherit;text-decoration: none;cursor: default;">{{$node['name']}}</a></li>
-                          @endforeach
-                      </ul>
+            <div>
+                    Regards,<br>
+                    Team FnB Circle<br>
                   </div>
-                  @if(!$loop->last)<hr>@endif
-                  @endforeach
-                </div>
-
-
-                  <b>Details of the listing owner </b>:<br/>
-                  <b>Name</b> : {{$owner_name}}<br/>
-                  <b>Email</b> : {{$owner_email}} ({{$email_verified}})<br/>
-                  <b>Phone</b> : +{{$owner_phone['contact_region']}}-{{$owner_phone['contact']}} ({{$phone_verified}})<br/>
-
-                  <br>
-
-                  <div style="text-align: left;">
-                          Regards,<br>
-                          Team FnB Circle<br>
-                  </div>
-                  </div>
+          </div>
                 <div style="clear: both;display:table;"></div>
-                </div>
-            </div>
-          <!-- Tips ends -->
-      </td>
+              </div>
+          </div>
+        <!-- Tips ends -->
+    </td>
     </tr>
 </table>
         <!-- Email Body : END -->

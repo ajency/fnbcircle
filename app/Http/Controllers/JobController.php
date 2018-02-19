@@ -593,6 +593,8 @@ class JobController extends Controller
         $job->interview_location = $interviewLocation;
         $job->save(); 
 
+        logActivity('job_created',$job,Auth::user());
+        
         $this->addJobTypes($job,$jobTypeIds);
         $this->addJobLocation($job,$jobArea);
         $this->addJobKeywords($job,$keywordIds,$jobKeywords);
@@ -1180,6 +1182,7 @@ class JobController extends Controller
   
         $job->status = $statusId; 
         $job->save();
+        logActivity('job-status-change',$job,Auth::user());
 
         if($statusId == 3){
             updateJobExpiry($job);

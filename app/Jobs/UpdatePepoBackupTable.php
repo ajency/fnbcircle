@@ -40,6 +40,7 @@ class UpdatePepoBackupTable implements ShouldQueue
         $by = $activity->causer;
         // the case should give back 2 fields. Email and all the tags that have to be added
         $fields = [];
+        \Log::info('Event: '.$activity->description);
         switch ($activity->description) {
             case 'contact-request-created':
                 $email = $by->getPrimaryEmail();
@@ -97,8 +98,16 @@ class UpdatePepoBackupTable implements ShouldQueue
                 // $fields['listingType'] = ['Published'];
                 break;
             case 'job_created':
-                $email = $by->getPrimaryEmail();
+                $email = $on->createdBy->getPrimaryEmail();
                 $fields['userType'] = ['Job Poster'];
+                $fields['jobCategory'] =  [$on->getJobCategoryName()];
+                $fields['jobRole'] = explode(",", $on->getAllJobKeywords());
+                $fields['jobStatus'] = [$on->reference_id => $on->getJobStatus()];
+                $fields['jobArea'] = $on->getJobLocationNames('city');
+                break;
+            case 'job-status-change':
+                $email = $on->createdBy->getPrimaryEmail();
+                $fields['jobStatus'] = [$on->reference_id => $on->getJobStatus()];
                 break;
             case 'profile_updated':
                 $email = $on->getPrimaryEmail();
@@ -144,7 +153,6 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $by = $on->owner;
                 $email = $by->getPrimaryEmail();
                 $fields['area'] = json_decode($activity->getExtraProperty('areas'),true);
-                \Log::info($fields['area']);
                 break;
             case 'newsletter':
                 $email = $by->getPrimaryEmail();
@@ -187,9 +195,14 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'listingStatus':
                 case 'enquiryCategories':
                 case 'listingCategories':
+                case 'jobStatus':
+                case 'jobType':
+                case 'jobRole':
+                case 'jobCategory':
+                case 'jobArea':
                 case 'area':
                     $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
-                    $newVal = array_unique(array_merge($oldVal,$value));
+                    $newVal = unique_array(array_merge($oldVal,$value));
                     $backup[$key] = json_encode($newVal);
                     \Log::info($key.'=>'.$backup[$key]);
                     break;
@@ -224,10 +237,10 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[userSubType]' => ($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[userSubType]' =>($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[listingType]' => ($backup->listingType != null) ? $backup->listingType : "null",
-            'attributes[listingStatus]' => ($backup->listingStatus != null) ? json_encode(array_values(json_decode($backup->listingStatus,true))) : "null",
-            'attributes[listingCategories]' => ($backup->listingCategories != null) ? json_encode(array_values(json_decode($backup->listingCategories,true))) : "null",
-            'attributes[enquiryCategories]' => ($backup->enquiryCategories != null) ? json_encode(array_values(json_decode($backup->enquiryCategories,true))) : "null",
-            'attributes[area]' => ($backup->area != null) ? json_encode(array_values(json_decode($backup->area,true))) : "null",
+            'attributes[listingStatus]' => ($backup->listingStatus != null) ? json_encode(unique_array(array_values(json_decode($backup->listingStatus,true)))) : "null",
+            'attributes[listingCategories]' => ($backup->listingCategories != null) ? json_encode(unique_array(array_values(json_decode($backup->listingCategories,true)))) : "null",
+            'attributes[enquiryCategories]' => ($backup->enquiryCategories != null) ? json_encode(unique_array(array_values(json_decode($backup->enquiryCategories,true)))) : "null",
+            'attributes[area]' => ($backup->area != null) ? json_encode(unique_array(array_values(json_decode($backup->area,true)))) : "null",
         ];
        
         $fields_string = http_build_query($parameters);

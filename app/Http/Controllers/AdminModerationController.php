@@ -665,11 +665,11 @@ class AdminModerationController extends Controller
                     $import->listingType = json_encode(unique_array(array_values(array_merge(json_decode($backup->listingType,true),[Listing::listing_business_type[$listing->type]]))));
                     $import->listingCategories = json_encode(unique_array(array_values(array_merge(json_decode($backup->listingCategories,true),json_decode(ListingCategory::getCategoryJsonTag($listing->id),true)))));
                     $import->area = json_encode(unique_array(array_values(array_merge(json_decode($backup->area,true),json_decode(ListingAreasOfOperation::listingAreasJsonTag($listing->id),true)))));
-                    $import->enquiryCategories = $backup->enquiryCategories;
-                    $import->jobStatus = $backup->jobStatus;
-                    $import->jobRole = $backup->jobRole;
-                    $import->jobCategory = $backup->jobCategory;
-                    $import->jobArea = $backup->jobArea;
+                    $import->enquiryCategories = json_encode(unique_array(array_values(json_decode($backup->enquiryCategories))));
+                    $import->jobStatus = json_encode(unique_array(array_values(json_decode($backup->jobStatus))));
+                    $import->jobRole = json_encode(unique_array(array_values(json_decode($backup->jobRole))));
+                    $import->jobCategory = json_encode(unique_array(array_values(json_decode($backup->jobCategory))));
+                    $import->jobArea = json_encode(unique_array(array_values(json_decode($backup->jobArea))));
                     $import->save();
 
                     $backup->signUpType = $import->signUpType;

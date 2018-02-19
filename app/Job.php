@@ -631,7 +631,7 @@ class Job extends Model
         $this->status = 2; 
         $this->date_of_submission = $date; 
         $this->save();
-
+        logActivity('job-status-change',$this,Auth::user());
 
         //email data 
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdatePepoBackupTable extends Migration
+class AddJobStatusAndAreasToPepo extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,10 @@ class UpdatePepoBackupTable extends Migration
     public function up()
     {
         Schema::table('pepo_backups', function (Blueprint $table) {
-            $table->dropColumn('category');
-            $table->json('listingCategories')->nullable();
-            $table->json('listingStatus')->nullable();
-            $table->json('enquiryCategories')->nullable();
-            $table->json('jobStatus')->nullable();
+            $table->json('jobArea')->nullable();
+        });
+        Schema::table('pepo_imports', function (Blueprint $table) {
+            $table->json('jobArea')->nullable();
         });
     }
 
@@ -30,8 +29,10 @@ class UpdatePepoBackupTable extends Migration
     public function down()
     {
         Schema::table('pepo_backups', function (Blueprint $table) {
-            $table->dropColumn(['listingCategories','listingStatus','enquiryCategories','jobStatus']);
-            $table->json('category')->nullable();
+            $table->dropColumn(['jobArea']);
+        });
+        Schema::table('pepo_imports', function (Blueprint $table) {
+            $table->dropColumn(['jobArea']);
         });
     }
 }

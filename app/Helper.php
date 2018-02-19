@@ -1094,7 +1094,7 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 	if(!empty($fields)){
 		$field_string = implode(',', $fields);
 	}else{
-		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories` ";
+		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories`,`jobStatus`,`jobArea` ";
 	}
 	$es_ch = ($escape)? '~':'';
 	$qry_test = "SELECT  ".$field_string." INTO OUTFILE '" . $filepath . "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' escaped by '".$es_ch."' LINES TERMINATED BY '\\n' FROM ".$table_name;
@@ -1142,7 +1142,10 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 
 }
 
-function getFileSendEmail($filepath){
-	$file = \Storage::disk('root')->get($filepath);
-
+function unique_array(array $arr){
+	if (array() === $arr or array_keys($arr) == range(0, count($arr) - 1)) {
+		return array_unique($arr);
+	}else{
+		return $arr;
+	}
 }

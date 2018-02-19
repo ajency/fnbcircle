@@ -50,5 +50,6 @@ class CreatePepoImportTable extends Migration
     public function down()
     {
         Schema::dropIfExists('pepo_imports');
+        Defaults::where('type','email_notification')->where('label','pepo-import')->delete();
     }
 }

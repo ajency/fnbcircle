@@ -196,7 +196,6 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'enquiryCategories':
                 case 'listingCategories':
                 case 'jobStatus':
-                case 'jobType':
                 case 'jobRole':
                 case 'jobCategory':
                 case 'jobArea':

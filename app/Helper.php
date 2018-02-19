@@ -1084,7 +1084,7 @@ function uniqueFileName($prefix){
 /**
 * This function takes the table, fields and filters and dumps the fields into a table and returns the file as the response
 */
-function dumpTableintoFile($table_name = 'pepo_backups', $fields = [], $filters = [],$escape=false){
+function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields = [],$escape=true){
 	$qry_get_mysql_securefilepriv_directory = "SHOW VARIABLES LIKE 'secure_file_priv'";
 	$res_get_mysql_securefilepriv_directory = DB::select($qry_get_mysql_securefilepriv_directory);
 	foreach ($res_get_mysql_securefilepriv_directory as $res_v) {
@@ -1097,7 +1097,21 @@ function dumpTableintoFile($table_name = 'pepo_backups', $fields = [], $filters 
 		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories` ";
 	}
 	$es_ch = ($escape)? '~':'';
-	$qry_test = "SELECT  ".$field_string." INTO OUTFILE '" . $filepath . "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' escaped by '".$es_ch."' LINES TERMINATED BY '\n' FROM ".$table_name;
+	$qry_test = "SELECT  ".$field_string." INTO OUTFILE '" . $filepath . "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' escaped by '".$es_ch."' LINES TERMINATED BY '\\n' FROM ".$table_name;
+	if(!empty($filters)){
+		foreach ($filters as $column => &$data) {
+			if(!empty($data)){
+				$stringdata = [];
+				foreach ($data as &$value) {
+					$stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
+				}
+				
+			}
+			$data = '('. implode(" OR ",$stringdata) . ")";
+		}
+		$string = " where ".implode(' AND ', $filters);
+		$qry_test .= $string;
+	}
 	\Log::info('Dump Query: '.$qry_test);
 	try {
 		DB::select($qry_test);
@@ -1118,6 +1132,8 @@ function dumpTableintoFile($table_name = 'pepo_backups', $fields = [], $filters 
 	    $file = str_replace(', ', ',', $file);
 	    $file = str_replace('[', '"[', $file);
 	    $file = str_replace(']', ']"', $file);
+	    $file = str_replace('{', '"{', $file);
+	    $file = str_replace('}', '}"', $file);
 	    $file = str_replace('^', '""', $file);
 	    $file = str_replace('%%', '~', $file);
 	    \Storage::disk('root')->put($filepath,$file);

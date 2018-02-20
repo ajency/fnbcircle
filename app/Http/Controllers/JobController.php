@@ -1241,11 +1241,11 @@ class JobController extends Controller
         $jobApplicant->save();
         $common = new CommonController;
         $common->updateUserDetails($user);
-        activity()
-           ->performedOn($jobApplicant)
-           ->causedBy($user)
-           ->log('job-applied');
-
+        // activity()
+        //    ->performedOn($jobApplicant)
+        //    ->causedBy($user)
+        //    ->log('job-applied');
+        logActivity('job-applied',$jobApplicant,$user);
         $jobOwner = $job->createdBy;
         $ownerDetails = $jobOwner->getUserProfileDetails();
         $userDetails = $user->getUserProfileDetails();
@@ -1314,7 +1314,7 @@ class JobController extends Controller
         if(!empty($userDetails)){
             $userDetails->send_job_alerts = $sendAlert;
             $userDetails->save();
-
+            if($sendAlert) logActivity('job-alert',$userDetails,$user);
             $results = true;
         }
         

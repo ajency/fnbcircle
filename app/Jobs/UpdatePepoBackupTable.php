@@ -109,6 +109,18 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $on->createdBy->getPrimaryEmail();
                 $fields['jobStatus'] = [$on->reference_id => $on->getJobStatus()];
                 break;
+            case 'job-applied':
+                $email = $by->getPrimaryEmail();
+                $fields['userType'] = ['Job Seeker'];
+                break;
+            case 'resume-uploaded':
+                $email = $by->getPrimaryEmail();
+                $fields['userType'] = ['Job Seeker'];
+                break;
+            case 'job-alert':
+                $email = $by->getPrimaryEmail();
+                $fields['userType'] = ['Job Seeker'];
+                break;
             case 'profile_updated':
                 $email = $on->getPrimaryEmail();
                 $fields['stateID'] =  $on->getUserCity();

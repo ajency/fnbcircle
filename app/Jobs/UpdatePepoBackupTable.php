@@ -256,6 +256,10 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[listingCategories]' => ($backup->listingCategories != null) ? json_encode(unique_array(array_values(json_decode($backup->listingCategories,true)))) : "null",
             'attributes[enquiryCategories]' => ($backup->enquiryCategories != null) ? json_encode(unique_array(array_values(json_decode($backup->enquiryCategories,true)))) : "null",
             'attributes[area]' => ($backup->area != null) ? json_encode(unique_array(array_values(json_decode($backup->area,true)))) : "null",
+            'attributes[jobStatus]' => ($backup->jobStatus != null) ? json_encode(unique_array(array_values(json_decode($backup->jobStatus,true)))) : "null",
+            'attributes[jobRole]' => ($backup->jobRole != null) ? json_encode(unique_array(array_values(json_decode($backup->jobRole,true)))) : "null",
+            'attributes[jobCategory]' => ($backup->jobCategory != null) ? json_encode(unique_array(array_values(json_decode($backup->jobCategory,true)))) : "null",
+            'attributes[jobArea]' => ($backup->jobArea != null) ? json_encode(unique_array(array_values(json_decode($backup->jobArea,true)))) : "null",
         ];
        
         $fields_string = http_build_query($parameters);

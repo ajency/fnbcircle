@@ -150,6 +150,10 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $email = $on->getPrimaryEmail();
                 $fields['active'] = "True";
                 break;
+            case 'user-status-change':
+                $email = $on->getPrimaryEmail();
+                $fields['active'] = ($on->status == "active")? "True":"False";
+                break;
             case 'social_signup':
                 $email = $on->getPrimaryEmail();
                 $fields['active'] = "True";

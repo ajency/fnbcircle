@@ -1144,7 +1144,7 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 
 function unique_array(array $arr){
 	if (array() === $arr or array_keys($arr) == range(0, count($arr) - 1)) {
-		return array_unique($arr);
+		return array_values(array_unique($arr));
 	}else{
 		return $arr;
 	}

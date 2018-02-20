@@ -197,7 +197,7 @@ class User extends Authenticatable
     public Function uploadUserResume($file){
         $id = $this->uploadFile($file,false);
         $this->remapFiles([$id]);
-
+        logActivity('resume-uploaded',$this,$this);
          return $id;
     }
 

@@ -1417,5 +1417,39 @@ class AdminModerationController extends Controller
             });
         })->export('xls');
     }
+
+    public function getExportFilters(Request $request){
+        $this->validate($request,[
+            'type'=>'required'
+        ]);
+        $email_type = Defaults::where('type','export')->where('label',$request->type)->first();
+        if($email_type == null) abort(404);
+        $email_data = json_decode($email_type->meta_data,true);
+        $html = '<input type="hidden" name="mail-type" value="'.$email_type->label.'"'.$this->getFilterHtmlData($email_data['user_filters']);
+        
+    }
+
+    public function getFilterHtmlData($userFilters){
+        $html = "";
+        foreach ($userFilters as $filter) {
+            switch($filter){
+                case 'State':
+                    $html .= $this->getExportStateFilter();
+                    break;
+            }
+        }
+    }
+
+    public function getExportStateFilter(){
+        $cities = City::where('status', '1')->get();
+        $html= '<div id="export-state-filter">';
+        foreach ($cities as $city) {
+            $html .= '<div class="">';
+            $html .= '<input id="'.$city->slug.'" value="'.$city->slug.'" name="exportState[]">';
+            $html .= '<label id="'.$city->slug.'-label" for="'.$city->slug.'" >'$city->name.'</label>';
+            $html .= '</div>';
+        }
+        $html.='</div>';
+    }
 }
 

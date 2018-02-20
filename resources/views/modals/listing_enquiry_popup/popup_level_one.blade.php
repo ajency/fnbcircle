@@ -136,7 +136,7 @@
             </div>
         </div><br/>
         <!-- looking for ends -->
-        @if(Auth::guest()  and !isset($enquiry_data['subscription']))
+        @if(Auth::guest()  and !isset($enquiry_data['user_object_type']))
             <!-- Newsletter subscription -->
             <div class="flex-row points m-b-15 heavier">
                 <input type="checkbox" class="checkbox" for="" name="news-letter-subscribe" id="news-letter-subscribe" value="" checked="true"/> Subscribe me to the Newsletter.

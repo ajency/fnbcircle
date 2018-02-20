@@ -875,7 +875,7 @@ class AdminConfigurationController extends Controller
 
         $user->status = $request->status;
         $user->save();
-
+        logActivity('user-status-change',$user,\Auth::user());
         return response()->json(['status'=>'success']);        
 
     }

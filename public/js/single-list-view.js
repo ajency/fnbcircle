@@ -211,7 +211,11 @@
     mobile = $('#contact-modal #get-crdetails-form #contact_number').val();
     region = $('#contact-modal #get-crdetails-form #contact_number').intlTelInput('getSelectedCountryData')['dialCode'];
     description = $('#contact-modal #get-crdetails-form #contact_description').val();
-    subscription = $('#contact-modal #get-crdetails-form #news-letter-subscribe').prop('checked');
+    if ($('#contact-modal #get-crdetails-form #news-letter-subscribe') !== void 0) {
+      subscription = $('#contact-modal #get-crdetails-form #news-letter-subscribe').prop('checked');
+    } else {
+      subscription = true;
+    }
     url = $('#contact-modal #cr-details-form-submit-link').val();
     return $.ajax({
       url: url,

@@ -1421,26 +1421,35 @@ class AdminModerationController extends Controller
         })->export('xls');
     }
 
+    public function userExport(Request $request){
+        $internal = Defaults::where('type','internal_email')->get();
+        return view('admin-dashboard.user_export');//->with('types',$internal);
+    }
+
     public function getExportFilters(Request $request){
         $this->validate($request,[
             'type'=>'required'
         ]);
-        $email_type = Defaults::where('type','export')->where('label',$request->type)->first();
-        if($email_type == null) abort(404);
-        $email_data = json_decode($email_type->meta_data,true);
-        $html = '<input type="hidden" name="mail-type" value="'.$email_type->label.'"'.$this->getFilterHtmlData($email_data['user_filters']);
+        return $this->getFilterHtmlData();
+        // $email_type = Defaults::where('type','export')->where('label',$request->type)->first();
+        // if($email_type == null) abort(404);
+        // $email_data = json_decode($email_type->meta_data,true);
+        // $html = '<input type="hidden" name="mail-type" value="'.$email_type->label.'"'.$this->getFilterHtmlData($email_data['user_filters']);
         
     }
 
-    public function getFilterHtmlData($userFilters){
+    public function getFilterHtmlData($userFilters=[]){
         $html = "";
-        foreach ($userFilters as $filter) {
-            switch($filter){
-                case 'State':
-                    $html .= $this->getExportStateFilter();
-                    break;
-            }
-        }
+        $html .= $this->getExportCategoryFilter();
+        // foreach ($userFilters as $filter) {
+        //     switch($filter){
+        //         case 'State':
+        //             $html .= $this->getExportStateFilter();
+        //             break;
+        //     }
+        // }
+        return $html;
+        die(); 
     }
 
     public function getExportStateFilter(){
@@ -1449,10 +1458,90 @@ class AdminModerationController extends Controller
         foreach ($cities as $city) {
             $html .= '<div class="">';
             $html .= '<input id="'.$city->slug.'" value="'.$city->slug.'" name="exportState[]">';
-            $html .= '<label id="'.$city->slug.'-label" for="'.$city->slug.'" >'$city->name.'</label>';
+            $html .= '<label id="'.$city->slug.'-label" for="'.$city->slug.'" >'.$city->name.'</label>';
             $html .= '</div>';
         }
         $html.='</div>';
+    }
+    public function getExportCategoryFilter(){
+        $html = '<h5>Categories <a href="#" data-toggle="modal" data-target="#export-category-modal">Filter based on categories</a></h5>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-category-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Categories</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div id="export-categories"></div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-categories">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+    public function getAllTreeCategoriesFromIds($categ_ids){
+        $query = Category::whereIn('id',$categ_ids);
+        foreach ($categ_ids as &$id) {
+            $query->orWhere('path','LIKE', '%'.str_pad($id, 5, '0', STR_PAD_LEFT).'%');
+        }
+        $categories = $query->get();
+        $paths = $categories->pluck('path')->toArray();
+        $ids = [];
+        foreach ($paths as $path) {
+            $ids=array_merge(str_split($path,5),$ids);
+        }
+        $ids = array_unique($ids);
+        $categories2 = Category::whereIn('id',$ids)->get();
+        $categories = $categories->merge($categories2);
+        return $categories;
+    }
+
+    public function generateTreeFromCategories($categories){
+        $categories = $categories->groupBy('level');
+        return $categories;
+    }
+
+    public function generateCategoryHirarchyFromID(Request $request){
+        $this->validate($request,[
+            'categories'=>'required'
+        ]);
+
+        $categories=$this->getAllTreeCategoriesFromIds($request->categories);
+        $tree = $this->generateTreeFromCategories($categories);
+        
+        return response()->json($tree);
+    }
+
+    public function getCategoriesData(Request $request){
+        $response = [];
+        if($request->has('id') and $request->id != "#"){
+            $parent = Category::find($request->id);
+            $children = ($parent->level == 1)? true:false;
+            $categories = Category::where('status',1)->where('type','listing')->where('parent_id',$parent->id)->get();
+            foreach ($categories  as $category) {
+                $temp = [];
+                $temp['children'] = $children;
+                $temp['icon'] = false;
+                $temp['text'] = $category->name;
+                $temp['id'] = $category->id;
+                array_push($response, $temp);
+            }
+        }else{
+            $categories = Category::where('status',1)->where('type','listing')->where('level','1')->get();
+            foreach ($categories  as $category) {
+                $temp = [];
+                $temp['children'] = true;
+                $temp['icon'] = $category->icon_url;
+                $temp['text'] = $category->name;
+                $temp['id'] = $category->id;
+                array_push($response, $temp);
+            }
+        }
+        return response()->json($response);
     }
 }
 

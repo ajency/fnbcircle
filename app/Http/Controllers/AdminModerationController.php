@@ -659,36 +659,39 @@ class AdminModerationController extends Controller
                     }else{
                         $import->signUpType = $backup->signUpType;
                     }
-                    $import->userSubType = $backup->userSubType;
-                    $import->userType = json_encode(unique_array(array_values(array_merge(json_decode($backup->userType,true),['Listing']))));
-                    $import->listingStatus = json_encode(unique_array(array_values(array_merge(json_decode($backup->listingStatus,true),[$listing->reference=>'Draft']))));
-                    $import->listingType = json_encode(unique_array(array_values(array_merge(json_decode($backup->listingType,true),[Listing::listing_business_type[$listing->type]]))));
-                    $import->listingCategories = json_encode(unique_array(array_values(array_merge(json_decode($backup->listingCategories,true),json_decode(ListingCategory::getCategoryJsonTag($listing->id),true)))));
-                    $import->area = json_encode(unique_array(array_values(array_merge(json_decode($backup->area,true),json_decode(ListingAreasOfOperation::listingAreasJsonTag($listing->id),true)))));
-                    $import->enquiryCategories = json_encode(unique_array(array_values(json_decode($backup->enquiryCategories))));
-                    $import->jobStatus = json_encode(unique_array(array_values(json_decode($backup->jobStatus))));
-                    $import->jobRole = json_encode(unique_array(array_values(json_decode($backup->jobRole))));
-                    $import->jobCategory = json_encode(unique_array(array_values(json_decode($backup->jobCategory))));
-                    $import->jobArea = json_encode(unique_array(array_values(json_decode($backup->jobArea))));
+                    $import->userSubType = mergeFields($backup->userSubType,[],true);
+                    $import->userType = mergeFields($backup->userType,['Listing'],true);
+                    $import->listingStatus = mergeFields($backup->listingStatus,[$listing->reference => 'Draft'],true);
+                    $import->listingType = mergeFields($backup->listingType,[Listing::listing_business_type[$listing->type]],true);
+                    $import->listingCategories = mergeFields($backup->listingCategories,ListingCategory::getCategoryJsonTag($listing->id),true);
+                    $import->area = mergeFields($backup->area,ListingAreasOfOperation::listingAreasJsonTag($listing->id),true);
+                    $import->enquiryCategories = mergeFields($backup->enquiryCategories,[],true);
+                    $import->jobStatus = mergeFields($backup->jobStatus,[],true);
+                    $import->jobRole = mergeFields($backup->jobRole,[],true);
+                    $import->jobCategory = mergeFields($backup->jobCategory,[],true);
+                    $import->jobArea = mergeFields($backup->jobArea,[],true);
                     $import->save();
 
                     $backup->signUpType = $import->signUpType;
                     $backup->userType = $import->userType;
-                    $backup->listingStatus = json_encode(unique_array(array_merge(json_decode($backup->listingStatus,true),[$listing->reference=>'Draft'])));
-                    $backup->listingType = json_encode(unique_array(array_merge(json_decode($backup->listingType,true),[Listing::listing_business_type[$listing->type]])));
-                    $backup->listingCategories = json_encode(unique_array(array_merge(json_decode($backup->listingCategories,true),json_decode(ListingCategory::getCategoryJsonTag($listing->id),true))));
-                    $backup->area = json_encode(unique_array(array_merge(json_decode($backup->area,true),json_decode(ListingAreasOfOperation::listingAreasJsonTag($listing->id),true))));
+                    $backup->listingStatus = mergeFields($backup->listingStatus,[$listing->reference=>'Draft']);
+                    $backup->listingType = mergeFields($backup->listingType,[Listing::listing_business_type[$listing->type]]);
+                    $backup->listingCategories = mergeFields($backup->listingCategories,ListingCategory::getCategoryJsonTag($listing->id));
+                    $backup->area = mergeFields($backup->area,ListingAreasOfOperation::listingAreasJsonTag($listing->id));
+                    $backup->response = null;
                     $backup->save();
 
                 }
             } catch (\Exception $ex) {
                 $error_msg = $ex->getMessage();
                 \Log::error($error_msg);
+                \Log::error(json_encode($backup->toArray()));
             }
         }
     }
     public function importFinalCallback(){
         $filepath = dumpTableintoFile('pepo_imports',[],[],true);
+        // return $filepath;
         if($filepath['status']){
             \DB::table('pepo_imports')->truncate();
             $file = \Storage::disk('root')->get($filepath['path']);

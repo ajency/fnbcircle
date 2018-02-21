@@ -1019,9 +1019,27 @@ function logActivity($log,$performedOn,$causedBy=null,$properties=[]){
 		   ->withProperties($properties)
 		   ->log($log);
 
-	UpdatePepoBackupTable::dispatch($newActivity)->onQueue('low');
+	UpdatePepoBackupTable::dispatch($newActivity)->onQueue('low')->delay(now()->addMinute());
 }
 
+function mergeFields($field1,$field2=[],$values=false){
+	if(gettype($field1) == "string") $field1 = json_decode($field1,true);
+	if($field1 == null) $field1 = [];
+	if(gettype($field2) == "string") $field2 = json_decode($field2,true);
+	if($field2 == null) $field2 = [];
+	// return $field1;
+	if(gettype($field1) == "array" and gettype($field2) == "array"){
+		$merge = array_merge($field1,$field2);
+		if($values) $merge = array_values($merge);
+		$merge = unique_array($merge);
+		if(!empty($merge)) $json = json_encode($merge);
+		else $json = "null";
+		return $json;
+	}else{
+		\Log::error("entered fields could not be converted to arrays");
+	}
+
+}
 
 // function createNewPlan($objectType,$objectid,$planId){
 // 	//check if any plan is active or requested

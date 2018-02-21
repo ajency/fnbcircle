@@ -250,7 +250,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[signUpType]' => ($backup->signUpType != null) ? $backup->signUpType : "null",
             'attributes[userType]' => ($backup->userType != null) ? $backup->userType : "null",
             'attributes[userSubType]' => ($backup->userSubType != null) ? $backup->userSubType : "null",
-            'attributes[userSubType]' =>($backup->userSubType != null) ? $backup->userSubType : "null",
+            // 'attributes[userSubType]' =>($backup->userSubType != null) ? $backup->userSubType : "null",
             'attributes[listingType]' => ($backup->listingType != null) ? $backup->listingType : "null",
             'attributes[listingStatus]' => ($backup->listingStatus != null) ? json_encode(unique_array(array_values(json_decode($backup->listingStatus,true)))) : "null",
             'attributes[listingCategories]' => ($backup->listingCategories != null) ? json_encode(unique_array(array_values(json_decode($backup->listingCategories,true)))) : "null",

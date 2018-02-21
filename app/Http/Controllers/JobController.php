@@ -1338,6 +1338,7 @@ class JobController extends Controller
             if($refType){
                 $userDetails->send_job_alerts = 1;
                 $userDetails->save();
+                logActivity('job-alert',$userDetails,$user);
             }
             
         }

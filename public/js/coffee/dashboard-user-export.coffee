@@ -21,7 +21,7 @@ $('body').on 'change', '#export-type', ->
     $('#filter-area').html ""
 
 
-$('body').on 'click','#select-categories', ->
+$('body').on 'click','#select-export-categories', ->
   instance = $('#export-categories').jstree(true)
   selected = instance.get_selected()
   console.log selected

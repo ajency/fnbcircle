@@ -1454,15 +1454,62 @@ class AdminModerationController extends Controller
 
     public function getExportStateFilter(){
         $cities = City::where('status', '1')->get();
-        $html= '<div id="export-state-filter">';
+        $html = '<h5>States <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on States</a></h5>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-state-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose States</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  ';
+        $html.= '<div id="export-state-filter">';
         foreach ($cities as $city) {
             $html .= '<div class="">';
             $html .= '<input id="'.$city->slug.'" value="'.$city->slug.'" name="exportState[]">';
             $html .= '<label id="'.$city->slug.'-label" for="'.$city->slug.'" >'.$city->name.'</label>';
             $html .= '</div>';
         }
-        $html.='</div>';
+        $html.='</div>
+        <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-states">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
     }
+
+    public function getExportStatusFilter(){
+        $statuses = ["Draft", "Review", "Published", "Archived","Rejected"];
+        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on Statuses</a></h5>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-status-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Statuses</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  ';
+        $html.= '<div id="export-status-filter">';
+        foreach ($statuses as $status) {
+            $html .= '<div class="">';
+            $html .= '<input id="status-'.$status.'" value="'.$status.'" name="exportStatus[]">';
+            $html .= '<label id="status-'.$status.'-label" for="status-'.$status.'" >'.$status.'</label>';
+            $html .= '</div>';
+        }
+        $html.='</div>
+        <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-statuses">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+    }
+
     public function getExportCategoryFilter(){
         $html = '<h5>Categories <a href="#" data-toggle="modal" data-target="#export-category-modal">Filter based on categories</a></h5>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-category-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -1474,7 +1521,7 @@ class AdminModerationController extends Controller
                               <div class="modal-body text-center">
                                   <div id="export-categories"></div>  
                                   <div class="confirm-actions text-right">
-                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-categories">Add</button></a>
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-categories">Add</button></a>
                                         <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                   </div>
                               </div>

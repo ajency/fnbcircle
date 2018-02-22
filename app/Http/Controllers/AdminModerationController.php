@@ -1530,11 +1530,12 @@ class AdminModerationController extends Controller
                   </div>';
         return $html;
     }
+
     public function getAllTreeCategoriesFromIds($categ_ids){
         $query = Category::whereIn('id',$categ_ids);
-        foreach ($categ_ids as &$id) {
-            $query->orWhere('path','LIKE', '%'.str_pad($id, 5, '0', STR_PAD_LEFT).'%');
-        }
+        // foreach ($categ_ids as &$id) {
+        //     $query->orWhere('path','LIKE', '%'.str_pad($id, 5, '0', STR_PAD_LEFT).'%');
+        // }
         $categories = $query->get();
         $paths = $categories->pluck('path')->toArray();
         $ids = [];
@@ -1548,7 +1549,25 @@ class AdminModerationController extends Controller
     }
 
     public function generateTreeFromCategories($categories){
+        $tree = ['parents' => []];
         $categories = $categories->groupBy('level');
+        foreach ($categories['1'] as $category) {
+            $tree['parents'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                'id' => $category->id,
+                'image-url' => $category->icon_url,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'branches' => []
+            ];
+        }
+        foreach ($categories['2'] as $category) {
+            $tree['parents'][$category->path]['branches'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                'id' => $category->id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'nodes' => []
+            ];
+        }
         return $categories;
     }
 

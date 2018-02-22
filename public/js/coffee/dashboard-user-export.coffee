@@ -32,5 +32,4 @@ $('body').on 'click','#select-export-categories', ->
     data:
       categories: selected
     success: (response) ->
-      console.log  response
-  
+      $('div#display-export-categories').html (response['html'])

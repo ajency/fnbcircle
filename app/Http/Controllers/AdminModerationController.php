@@ -1441,6 +1441,10 @@ class AdminModerationController extends Controller
     public function getFilterHtmlData($userFilters=[]){
         $html = "";
         $html .= $this->getExportCategoryFilter();
+        $html .= $this->getExportStateFilter();
+        $html .= $this->getExportStatusFilter();
+        $html .= $this->getExportPremiumFilter();
+
         // foreach ($userFilters as $filter) {
         //     switch($filter){
         //         case 'State':
@@ -1466,24 +1470,25 @@ class AdminModerationController extends Controller
         $html.= '<div id="export-state-filter">';
         foreach ($cities as $city) {
             $html .= '<div class="">';
-            $html .= '<input id="'.$city->slug.'" value="'.$city->slug.'" name="exportState[]">';
+            $html .= '<input type="checkbox" id="'.$city->slug.'" value="'.$city->slug.'" name="exportState[]">';
             $html .= '<label id="'.$city->slug.'-label" for="'.$city->slug.'" >'.$city->name.'</label>';
             $html .= '</div>';
         }
         $html.='</div>
         <div class="confirm-actions text-right">
-                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-states">Add</button></a>
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-states" data-dismiss="modal">Add</button></a>
                                         <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                   </div>
                               </div>
                           </div>
                       </div>
                   </div>';
+        return $html;
     }
 
     public function getExportStatusFilter(){
         $statuses = ["Draft", "Review", "Published", "Archived","Rejected"];
-        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on Statuses</a></h5>
+        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-status-modal">Filter based on Statuses</a></h5>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-status-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">
@@ -1495,23 +1500,30 @@ class AdminModerationController extends Controller
         $html.= '<div id="export-status-filter">';
         foreach ($statuses as $status) {
             $html .= '<div class="">';
-            $html .= '<input id="status-'.$status.'" value="'.$status.'" name="exportStatus[]">';
+            $html .= '<input type="checkbox" id="status-'.$status.'" value="'.$status.'" name="exportStatus[]">';
             $html .= '<label id="status-'.$status.'-label" for="status-'.$status.'" >'.$status.'</label>';
             $html .= '</div>';
         }
         $html.='</div>
         <div class="confirm-actions text-right">
-                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-statuses">Add</button></a>
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-statuses" data-dismiss="modal">Add</button></a>
                                         <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                   </div>
                               </div>
                           </div>
                       </div>
                   </div>';
+        return $html;
+    }
+
+    public function getExportPremiumFilter(){
+        $html = '<h5>Premium <input type="checkbox" id="exportPremium" name="exportPremium"><label for="exportPremium" >Filter only Premium</label></h5>';
+        return $html;
     }
 
     public function getExportCategoryFilter(){
         $html = '<h5>Categories <a href="#" data-toggle="modal" data-target="#export-category-modal">Filter based on categories</a></h5>
+                <div id="display-export-categories"></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-category-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">
@@ -1521,7 +1533,7 @@ class AdminModerationController extends Controller
                               <div class="modal-body text-center">
                                   <div id="export-categories"></div>  
                                   <div class="confirm-actions text-right">
-                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-categories">Add</button></a>
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-categories" data-dismiss="modal">Add</button></a>
                                         <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                   </div>
                               </div>
@@ -1560,15 +1572,86 @@ class AdminModerationController extends Controller
                 'branches' => []
             ];
         }
-        foreach ($categories['2'] as $category) {
-            $tree['parents'][$category->path]['branches'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
-                'id' => $category->id,
-                'name' => $category->name,
-                'slug' => $category->slug,
-                'nodes' => []
-            ];
+        if(isset($categories['2'])){
+            foreach ($categories['2'] as $category) {
+                $tree['parents'][$category->path]['branches'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'nodes' => []
+                ];
+            }
         }
-        return $categories;
+        if(isset($categories['3'])){
+        try{
+            foreach ($categories['3'] as $category) {
+                $path = str_split($category->path,5);
+                $tree['parents'][$path[0]]['branches'][$path[1]]['nodes'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                ];
+                }
+            }catch(\Exception $e){
+                return false;
+            }
+        }
+        return $tree;
+    }
+
+    public function getCategoryHtmlFromTree($tree){
+        $html = "";
+        foreach ($tree['parents'] as $parent) {
+            $html.='
+<div class="single-category gray-border add-more-cat m-t-15" data-categ-id="'.$parent['id'].'">
+  <div class="row flex-row categoryContainer corecat-container align-top">
+    <div class="col-sm-4 flex-row">
+      <img class="import-icon cat-icon" src="'.$parent['image-url'].'">
+      <div class="branch-row">
+        <div class="cat-label">
+          '.$parent['name'].'
+          <input type=hidden name="categories" value="'.$parent['id'].'" data-item-name="'.$parent['slug'].'"> 
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">';
+      
+            foreach ($parent['branches'] as $branch) {
+                $html .= '
+      <div class="m-b-10 row branch-container" data-categ-id="'.$branch['id'].'">
+        <div class="col-sm-4">
+          <ul class="fnb-cat flex-row small">
+            <li>
+              <span class="fnb-cat__title">
+                <strong class="branch">'.$branch['name'].'</strong>
+                <input type=hidden name="categories" value="'.$branch['id'].'" data-item-name="'.$branch['name'].'"> 
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-8">
+          <ul class="fnb-cat small flex-row" id="view-categ-node">';
+                foreach ($branch['nodes'] as $node) {
+                    $html .= '
+            <li class="node-container">
+              <span class="fnb-cat__title">
+                '.$node['name'].'
+                <input data-item-name="'.$node['name'].'" name="categories" type="hidden" value="'.$node['id'].'"> 
+              </span>
+            </li>
+            ';
+                }
+             
+          $html .= '</ul>
+        </div>
+      </div>
+      ';
+            }
+    $html .= '</div>
+  </div>
+</div>';
+        }
+        return $html;
     }
 
     public function generateCategoryHirarchyFromID(Request $request){
@@ -1578,8 +1661,8 @@ class AdminModerationController extends Controller
 
         $categories=$this->getAllTreeCategoriesFromIds($request->categories);
         $tree = $this->generateTreeFromCategories($categories);
-        
-        return response()->json($tree);
+        $html = $this->getCategoryHtmlFromTree($tree);
+        return response()->json(["html"=>$html]);
     }
 
     public function getCategoriesData(Request $request){

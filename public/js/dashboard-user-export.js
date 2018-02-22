@@ -34,7 +34,7 @@
     }
   });
 
-  $('body').on('click', '#select-categories', function() {
+  $('body').on('click', '#select-export-categories', function() {
     var instance, selected, url;
     instance = $('#export-categories').jstree(true);
     selected = instance.get_selected();
@@ -47,7 +47,7 @@
         categories: selected
       },
       success: function(response) {
-        return console.log(response);
+        return $('div#display-export-categories').html(response['html']);
       }
     });
   });

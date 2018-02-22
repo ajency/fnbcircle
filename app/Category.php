@@ -190,6 +190,10 @@ class Category extends Model
         return $data;
     }
 
+    public function getChildrenCount(){
+        return self::where('parent_id', $this->id)->count();
+    }
+
     
 
 }

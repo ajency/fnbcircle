@@ -1530,7 +1530,7 @@ class AdminModerationController extends Controller
                               <div class="modal-header">
                                   <h5 class="text-medium m-t-0 bolder">Choose Categories</h5>
                               </div>
-                              <div class="modal-body text-center">
+                              <div class="modal-body">
                                   <div id="export-categories"></div>  
                                   <div class="confirm-actions text-right">
                                       <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-categories" data-dismiss="modal">Add</button></a>
@@ -1673,9 +1673,11 @@ class AdminModerationController extends Controller
             $categories = Category::where('status',1)->where('type','listing')->where('parent_id',$parent->id)->get();
             foreach ($categories  as $category) {
                 $temp = [];
+                $count = $category->getChildrenCount();
+                $text = ($count>0)? " (".$count.")":"";
                 $temp['children'] = $children;
                 $temp['icon'] = false;
-                $temp['text'] = $category->name;
+                $temp['text'] = $category->name.$text;
                 $temp['id'] = $category->id;
                 array_push($response, $temp);
             }
@@ -1684,8 +1686,8 @@ class AdminModerationController extends Controller
             foreach ($categories  as $category) {
                 $temp = [];
                 $temp['children'] = true;
-                $temp['icon'] = $category->icon_url;
-                $temp['text'] = $category->name;
+                $temp['icon'] = false;//$category->icon_url;
+                $temp['text'] = $category->name.' ('.$category->getChildrenCount().')';
                 $temp['id'] = $category->id;
                 array_push($response, $temp);
             }

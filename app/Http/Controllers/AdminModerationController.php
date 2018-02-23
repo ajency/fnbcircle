@@ -1524,37 +1524,37 @@ class AdminModerationController extends Controller
     }
 
     public function getExportPremiumFilter(){
-        $html = '   <div class="row">
-                        <div class="col-md-4">
-                            <h5>Premium </h5>
-                        </div> 
-                        <div class="col-md-8">
-                            <input type="checkbox" id="exportPremium" name="exportPremium">
-                            <label for="exportPremium" >Filter only Premium</label>
-                        </div> 
+        // $html = '   <div class="row">
+        //                 <div class="col-md-4">
+        //                     <h5>Premium </h5>
+        //                 </div> 
+        //                 <div class="col-md-8">
+        //                     <input type="checkbox" id="exportPremium" name="exportPremium">
+        //                     <label for="exportPremium" >Filter only Premium</label>
+        //                 </div> 
                         
-                    </div>';
-        // $html = '<h5>Premium  <a href="#" data-toggle="modal" data-target="#export-premium-modal">Filter based on premium</a></h5>
-        //         <div id="display-export-premium"></div>
-        // <div class="modal fnb-modal confirm-box fade modal-center" id="export-premium-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        //               <div class="modal-dialog modal-sm" role="document">
-        //                   <div class="modal-content">
-        //                       <div class="modal-header">
-        //                           <h5 class="text-medium m-t-0 bolder">Choose Premium</h5>
-        //                       </div>
-        //                       <div class="modal-body">
-        //                           <div id="export-premium">
-        //                              <input type="checkbox" id="exportPremium" name="exportPremium">
-        //                              <label for="exportPremium" >Filter only Premium</label>
-        //                           </div>  
-        //                           <div class="confirm-actions text-right">
-        //                               <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-premium" data-dismiss="modal">Add</button></a>
-        //                                 <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
-        //                           </div>
-        //                       </div>
-        //                   </div>
-        //               </div>
-        //           </div>';
+        //             </div>';
+        $html = '<h5>Premium  <a href="#" data-toggle="modal" data-target="#export-premium-modal">Filter based on premium</a></h5>
+                <div id="display-export-premium"></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-premium-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Premium</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-premium">
+                                     <input type="checkbox" id="exportPremium" name="exportPremium">
+                                     <label for="exportPremium" >Filter only Premium</label>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-premium" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
         return $html;
     }
 
@@ -1765,7 +1765,7 @@ class AdminModerationController extends Controller
     
     public function getExportUsersubtypeFilter(){
         $usersubtypes = Description::all();
-        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-itusersubtype-modal">Filter based on user subtypes</a></h5>
+        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-usersubtype-modal">Filter based on user subtypes</a></h5>
                 <div id="display-export-usersubtypes"></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-usersubtype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">

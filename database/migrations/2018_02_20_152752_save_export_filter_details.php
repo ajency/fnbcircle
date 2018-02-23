@@ -15,64 +15,48 @@ class SaveExportFilterDetails extends Migration
     {
         $defaults = [
             'users'=> [
-                'name'=>'Registered Users',
                 'applied_filters'=>[
-                    'App\Listing'=>[
-                        'status'=>[3]
-                    ],
-                    'App\User'=>[
-                        'status'=>['active'],
-                    ],
+                    "signUpType" => ['google','facebook','import','listing']
                 ],
                 'user_filters' =>[
-                    'location_filter', 
-                    'category_filter', 
-                    'listing_source',
+                    'signUpType' => 'signupType',
+                    'active' => 'active',
+                    'userSubType' => 'userSubType',
+                    'state' => 'state' 
                 ]
             ],
             'listings'=> [
-                'name'=>'Listing Owners',
                 'applied_filters'=>[
-                    'App\Listing'=>[
-                        'status'=>[3]
-                    ],
-                    'App\User'=>[
-                        'status'=>['inactive'],
-                    ],
+                    'userType' => ['Listing']
                 ],
                 'user_filters' =>[
-                    'location_filter', 
-                    'category_filter', 
-                    'listing_source',
+                    'area' => 'state',
+                    'listingStatus' => 'status',
+                    'listingPremium' => 'premium',
+                    'listing_categories' => 'categories'
                 ]
             ],
             'jobs'=> [
-                'name'=>'Job Posters',
                 'applied_filters'=>[
-                    'App\Listing'=>[
-                        'status'=>[3]
-                    ],
-                    'App\User'=>[
-                        'status'=>['inactive'],
-                    ],
+                    'userType'=>['Job Poster']
                 ],
                 'user_filters' =>[
-                    'location_filter', 
-                    'category_filter', 
-                    'listing_source',
+                    'jobArea' => 'state',
+                    'jobPremium' => 'premium',
+                    'jobStatus' => 'status',
+                    'jobCategory' => 'jobBusinessType',
+                    'jobRole' => 'jobRole'
                 ]
             ],
             'enquiries'=> [
-                'name'=>'Enquirees',
                 'applied_filters'=>[
-                    'App\User'=>[
-                        'status'=>['inactive'],
-                    ],
+                    'userType' => ['Enquiry']
                 ],
                 'user_filters' =>[
-                    'description_filter',
-                    'location_filter',
-                    'user_created_filter',
+                    'signUpType' => 'userType',
+                    'userSubType' => 'userSubType',
+                    'enquiryArea' => 'state',
+                    'enquiryCategories' => 'categories'
                 ],
             ],
         ];

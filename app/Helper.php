@@ -1112,7 +1112,7 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 	if(!empty($fields)){
 		$field_string = implode(',', $fields);
 	}else{
-		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories`,`jobStatus`,`jobArea` ";
+		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories`,`jobStatus`,`jobArea`, `listingPremium`, `jobPremium`, `enquiryAreas` ";
 	}
 	$es_ch = ($escape)? '~':'';
 	$qry_test = "SELECT  ".$field_string." INTO OUTFILE '" . $filepath . "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' escaped by '".$es_ch."' LINES TERMINATED BY '\\n' FROM ".$table_name;

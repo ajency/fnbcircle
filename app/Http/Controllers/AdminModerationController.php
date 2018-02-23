@@ -15,6 +15,7 @@ use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\Defaults;
+use App\Description;
 use App\PlanAssociation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -1444,6 +1445,12 @@ class AdminModerationController extends Controller
         $html .= $this->getExportStateFilter();
         $html .= $this->getExportStatusFilter();
         $html .= $this->getExportPremiumFilter();
+        $html .= $this->getExportUsertypeFilter();
+        $html .= $this->getExportUsersubtypeFilter();
+        $html .= $this->getExportJobBusinessTypeFilter();
+        $html .= $this->getExportJobRoleFilter();
+        $html .= $this->getExportSignupTypeFilter();
+        $html .= $this->getExportActiveFilter();
 
         // foreach ($userFilters as $filter) {
         //     switch($filter){
@@ -1517,7 +1524,37 @@ class AdminModerationController extends Controller
     }
 
     public function getExportPremiumFilter(){
-        $html = '<h5>Premium <input type="checkbox" id="exportPremium" name="exportPremium"><label for="exportPremium" >Filter only Premium</label></h5>';
+        $html = '   <div class="row">
+                        <div class="col-md-4">
+                            <h5>Premium </h5>
+                        </div> 
+                        <div class="col-md-8">
+                            <input type="checkbox" id="exportPremium" name="exportPremium">
+                            <label for="exportPremium" >Filter only Premium</label>
+                        </div> 
+                        
+                    </div>';
+        // $html = '<h5>Premium  <a href="#" data-toggle="modal" data-target="#export-premium-modal">Filter based on premium</a></h5>
+        //         <div id="display-export-premium"></div>
+        // <div class="modal fnb-modal confirm-box fade modal-center" id="export-premium-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        //               <div class="modal-dialog modal-sm" role="document">
+        //                   <div class="modal-content">
+        //                       <div class="modal-header">
+        //                           <h5 class="text-medium m-t-0 bolder">Choose Premium</h5>
+        //                       </div>
+        //                       <div class="modal-body">
+        //                           <div id="export-premium">
+        //                              <input type="checkbox" id="exportPremium" name="exportPremium">
+        //                              <label for="exportPremium" >Filter only Premium</label>
+        //                           </div>  
+        //                           <div class="confirm-actions text-right">
+        //                               <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-premium" data-dismiss="modal">Add</button></a>
+        //                                 <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+        //                           </div>
+        //                       </div>
+        //                   </div>
+        //               </div>
+        //           </div>';
         return $html;
     }
 
@@ -1694,5 +1731,194 @@ class AdminModerationController extends Controller
         }
         return response()->json($response);
     }
+
+    public function getExportUsertypeFilter(){
+        $html = '<h5>User Type <a href="#" data-toggle="modal" data-target="#export-usertype-modal">Filter based on user types</a></h5>
+                <div id="display-export-usertypes"></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-usertype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose User Types</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-usertypes">
+                                    <div>
+                                        <input type="checkbox" name="usertypes[]" value="User" id="usertype-user-select">
+                                        <label for="usertype-user-select">User</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" name="usertypes[]" value="Lead" id="usertype-lead-select">
+                                        <label for="usertype-lead-select">Lead</label>
+                                    </div>
+                                </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-usertypes" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }   
+    
+    public function getExportUsersubtypeFilter(){
+        $usersubtypes = Description::all();
+        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-itusersubtype-modal">Filter based on user subtypes</a></h5>
+                <div id="display-export-usersubtypes"></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-usersubtype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose User SubTypes</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-usersubtypes">';
+                                foreach ($usersubtypes as $description) {
+                                        $html.= '<div>
+                                        <input type="checkbox" name="usersubtypes[]" value="'.$description->value.'" id="usersubtype-'.$description->id.'-select">
+                                        <label for="usertype-'.$description->id.'-select">'.$description->title.'</label>
+                                    </div>';
+                                    }    
+                                    
+                                    
+                         $html .= '</div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-usersubtypes" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+    public function getExportJobBusinessTypeFilter(){
+            $jobbusinesstypes = Category::where('type','job')->get();
+            $html = '<h5>Job Business Type <a href="#" data-toggle="modal" data-target="#export-jobbusinestype-modal">Filter based on job business types</a></h5>
+                    <div id="display-export-usersubtypes"></div>
+            <div class="modal fnb-modal confirm-box fade modal-center" id="export-jobbusinestype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                          <div class="modal-dialog modal-sm" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="text-medium m-t-0 bolder">Choose Job Business Types</h5>
+                                  </div>
+                                  <div class="modal-body">
+                                        <input type="text" id="jobtypesearch">
+                                      <div id="export-jobbusinesstypes">';
+                                    foreach ($jobbusinesstypes as $jobtype) {
+                                            $html.= '<div class="jobbusinesstype">
+                                            <input type="checkbox" name="jobbusinesstypes[]" value="'.$jobtype->slug.'" id="jobtype-'.$jobtype->id.'-select">
+                                            <label for="jobtype-'.$jobtype->id.'-select">'.$jobtype->name.'</label>
+                                        </div>';
+                                        }    
+                                        
+                                        
+                             $html .= '</div>  
+                                      <div class="confirm-actions text-right">
+                                          <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-jobbusinesstypes" data-dismiss="modal">Add</button></a>
+                                            <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>';
+            return $html;
+        }
+
+    public function getExportJobRoleFilter(){
+        $jobroles = Defaults::where('type','job_keyword')->get();
+        $html = '<h5>Job Roles <a href="#" data-toggle="modal" data-target="#export-jobrole-modal">Filter based on job roles</a></h5>
+                <div id="display-export-jobroles"></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-jobrole-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Job Roles</h5>
+                              </div>
+                              <div class="modal-body">
+                                    <input type="text" id="jobrolesearch">
+                                  <div id="export-jobroles">';
+                                foreach ($jobroles as $jobrole) {
+                                        $html.= '<div class="jobrole">
+                                        <input type="checkbox" name="jobroles[]" value="'.$jobrole->label.'" id="jobrole-'.str_slug($jobrole->label,'-').'-select">
+                                        <label for="jobrole-'.str_slug($jobrole->label,'-').'-select">'.$jobrole->label.'</label>
+                                    </div>';
+                                    }    
+                                    
+                                    
+                         $html .= '</div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-jobroles" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    } 
+
+    public function getExportSignupTypeFilter(){
+        $types = ["google",'facebook','email','import','guest','listing'];
+        $html = '<h5>Sign Up types <a href="#" data-toggle="modal" data-target="#export-signuptype-modal">Filter based on Sign-Up Type</a></h5>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-signuptype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Sign-up Types</h5>
+                              </div>
+                              <div class="modal-body ">
+                                  ';
+        $html.= '<div id="export-signuptype-filter">';
+        foreach ($types as $status) {
+            $html .= '<div class="">';
+            $html .= '<input type="checkbox" id="signuptype-'.$status.'" value="'.$status.'" name="exportsignuptype[]">';
+            $html .= '<label id="signuptype-'.$status.'-label" for="signuptype-'.$status.'" >'.ucfirst($status).'</label>';
+            $html .= '</div>';
+        }
+        $html.='</div>
+        <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-signuptypes" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }   
+    public function getExportActiveFilter(){
+        $html = '<h5>Active  <a href="#" data-toggle="modal" data-target="#export-active-modal">Filter based on active users</a></h5>
+                <div id="display-export-active"></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-active-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Active</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-active">
+                                     <div>
+                                         <input type="checkbox" id="exportActive" name="exportActive[]" value="true">
+                                         <label for="exportActive" >Active</label>
+                                     </div>
+                                     <div>
+                                         <input type="checkbox" id="exportinactive" name="exportActive[]" value="false">
+                                         <label for="exportinactive" >Inactive</label>
+                                     </div>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-active" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+
 }
 

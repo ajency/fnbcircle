@@ -33,3 +33,21 @@ $('body').on 'click','#select-export-categories', ->
       categories: selected
     success: (response) ->
       $('div#display-export-categories').html (response['html'])
+
+$('body').on 'keyup','#jobtypesearch', ->
+  value = $(this).val().toLowerCase()
+  # console.log value
+  $('#export-jobbusinesstypes .jobbusinesstype').filter ->
+    # console.log $(this).text()
+    $(this).toggle $(this).text().toLowerCase().indexOf(value) > -1
+    return
+  return
+
+$('body').on 'keyup','#jobrolesearch', ->
+  value = $(this).val().toLowerCase()
+  # console.log value
+  $('#export-jobroles .jobrole').filter ->
+    # console.log $(this).text()
+    $(this).toggle $(this).text().toLowerCase().indexOf(value) > -1
+    return
+  return

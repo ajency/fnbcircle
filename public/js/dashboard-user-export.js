@@ -52,4 +52,20 @@
     });
   });
 
+  $('body').on('keyup', '#jobtypesearch', function() {
+    var value;
+    value = $(this).val().toLowerCase();
+    $('#export-jobbusinesstypes .jobbusinesstype').filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+  });
+
+  $('body').on('keyup', '#jobrolesearch', function() {
+    var value;
+    value = $(this).val().toLowerCase();
+    $('#export-jobroles .jobrole').filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+  });
+
 }).call(this);

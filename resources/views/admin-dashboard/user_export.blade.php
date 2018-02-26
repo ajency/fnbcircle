@@ -29,6 +29,15 @@
 @section('meta')
   <meta property="export-type-change-url" content="{{action('AdminModerationController@getExportFilters')}}">
   <meta property="category-hierarchy" content="{{action('AdminModerationController@generateCategoryHirarchyFromID')}}">
+  <meta property="export-state-display" content="{{action('AdminModerationController@displayExportStateFilter')}}">
+  <meta property="export-status-display" content="{{action('AdminModerationController@displayExportStatusFilter')}}">
+  <meta property="export-premium-display" content="{{action('AdminModerationController@displayExportPremiumFilter')}}">
+  <meta property="export-usertype-display" content="{{action('AdminModerationController@displayExportUserTypeFilter')}}">
+  <meta property="export-usersubtype-display" content="{{action('AdminModerationController@displayExportUserSubTypeFilter')}}">
+  <meta property="export-jobtype-display" content="{{action('AdminModerationController@displayExportJobTypeFilter')}}">
+  <meta property="export-jobrole-display" content="{{action('AdminModerationController@displayExportJobRoleFilter')}}">
+  <meta property="export-signup-display" content="{{action('AdminModerationController@displayExportSignupFilter')}}">
+  <meta property="export-active-display" content="{{action('AdminModerationController@displayExportActiveFilter')}}">
   <meta property="mail-count" content="{{action('AdminModerationController@getMailCount')}}">
   <meta property="mail-send" content="{{action('AdminModerationController@sendSelectedUsersMail')}}">
  @endsection
@@ -56,8 +65,12 @@
                   <p class="default-size bolder">Please select the type</p>
                   <select class="fnb-select select-variant" id="export-type" style="font-size: 1em;">
                    <option value="">Select export type</option>
-                   <option value="categ">categ</option>
-                   
+                   @foreach($types as $type)
+                      @php
+                        $data = json_decode($type->meta_data,true);
+                      @endphp
+                      <option value="{{$type->label}}">{{$data['name']}}</option>
+                   @endforeach 
                   </select>  
                 </div>
               </div>

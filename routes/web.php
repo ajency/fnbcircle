@@ -183,6 +183,15 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::post('internal-mail-filters','AdminModerationController@getInternalMailFilters');
 	Route::post('export-filters','AdminModerationController@getExportFilters');
 	Route::post('category-hirarchy','AdminModerationController@generateCategoryHirarchyFromID');
+	Route::post('export-state-display','AdminModerationController@displayExportStateFilter');
+	Route::post('export-status-display','AdminModerationController@displayExportStatusFilter');
+	Route::post('export-premium-display','AdminModerationController@displayExportPremiumFilter');
+	Route::post('export-usertype-display','AdminModerationController@displayExportUserTypeFilter');
+	Route::post('export-usersubtype-display','AdminModerationController@displayExportUserSubTypeFilter');
+	Route::post('export-jobtype-display','AdminModerationController@displayExportJobTypeFilter');
+	Route::post('export-jobrole-display','AdminModerationController@displayExportJobRoleFilter');
+	Route::post('export-signup-display','AdminModerationController@displayExportSignupFilter');
+	Route::post('export-active-display','AdminModerationController@displayExportActiveFilter');
 	Route::post('internal-mail-count','AdminModerationController@getMailCount');
 	Route::post('internal-mail-send','AdminModerationController@sendSelectedUsersMail');
 	Route::group(['prefix' => 'moderation'], function() {

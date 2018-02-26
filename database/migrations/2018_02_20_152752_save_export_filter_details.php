@@ -15,6 +15,7 @@ class SaveExportFilterDetails extends Migration
     {
         $defaults = [
             'users'=> [
+                'name'=>'Users',
                 'applied_filters'=>[
                     "signUpType" => ['google','facebook','import','listing']
                 ],
@@ -26,6 +27,7 @@ class SaveExportFilterDetails extends Migration
                 ]
             ],
             'listings'=> [
+                'name'=>'Listings',
                 'applied_filters'=>[
                     'userType' => ['Listing']
                 ],
@@ -37,6 +39,7 @@ class SaveExportFilterDetails extends Migration
                 ]
             ],
             'jobs'=> [
+                'name'=>'Jobs',
                 'applied_filters'=>[
                     'userType'=>['Job Poster']
                 ],
@@ -49,6 +52,7 @@ class SaveExportFilterDetails extends Migration
                 ]
             ],
             'enquiries'=> [
+                'name'=>'Enquiries',
                 'applied_filters'=>[
                     'userType' => ['Enquiry']
                 ],
@@ -76,6 +80,6 @@ class SaveExportFilterDetails extends Migration
      */
     public function down()
     {
-        //
+        Defaults::where('type','export_filter')->delete();
     }
 }

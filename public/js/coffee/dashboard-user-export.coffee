@@ -21,6 +21,46 @@ $('body').on 'change', '#export-type', ->
     $('#filter-area').html ""
 
 
+$('body').on 'click','#select-export-states', ->
+  selected = []
+  $('#export-state-filter input[name="exportState[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-state-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      states: selected
+    success: (response) ->
+      $('div#display-export-state').html (response['html'])
+
+$('body').on 'click','#select-export-statuses', ->
+  selected = []
+  $('#export-status-filter input[name="exportStatus[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-status-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      statuses: selected
+    success: (response) ->
+      $('div#display-export-status').html (response['html'])
+
+$('body').on 'click','#select-export-premium', ->
+  selected = $('#export-premium input[name="exportPremium"]').prop 'checked'
+  console.log selected
+  url = document.head.querySelector('[property="export-premium-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      premium: selected
+    success: (response) ->
+      $('div#display-export-premium').html (response['html'])
+
 $('body').on 'click','#select-export-categories', ->
   instance = $('#export-categories').jstree(true)
   selected = instance.get_selected()
@@ -33,6 +73,90 @@ $('body').on 'click','#select-export-categories', ->
       categories: selected
     success: (response) ->
       $('div#display-export-categories').html (response['html'])
+
+$('body').on 'click','#select-export-usertypes', ->
+  selected = []
+  $('#export-usertypes input[name="usertypes[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-usertype-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      userTypes: selected
+    success: (response) ->
+      $('div#display-export-usertypes').html (response['html'])
+
+$('body').on 'click','#select-export-usersubtypes', ->
+  selected = []
+  $('#export-usersubtypes input[name="usersubtypes[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-usersubtype-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      userSubTypes: selected
+    success: (response) ->
+      $('div#display-export-usersubtypes').html (response['html'])
+
+$('body').on 'click','#select-export-jobbusinesstypes', ->
+  selected = []
+  $('#export-jobbusinesstypes input[name="jobbusinesstypes[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-jobtype-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      jobTypes: selected
+    success: (response) ->
+      $('div#display-export-jobtypes').html (response['html'])
+
+$('body').on 'click','#select-export-jobroles', ->
+  selected = []
+  $('#export-jobroles input[name="jobroles[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-jobrole-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      jobRoles: selected
+    success: (response) ->
+      $('div#display-export-jobroles').html (response['html'])
+
+$('body').on 'click','#select-export-signuptypes', ->
+  selected = []
+  $('#export-signuptype-filter input[name="exportsignuptype[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-signup-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      signup: selected
+    success: (response) ->
+      $('div#display-export-signup').html (response['html'])
+
+$('body').on 'click','#select-export-active', ->
+  selected = []
+  $('#export-active input[name="exportActive[]"]:checked').each ->
+    selected.push(this.value)
+  console.log selected
+  url = document.head.querySelector('[property="export-active-display"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      active: selected
+    success: (response) ->
+      $('div#display-export-active').html (response['html'])
 
 $('body').on 'keyup','#jobtypesearch', ->
   value = $(this).val().toLowerCase()

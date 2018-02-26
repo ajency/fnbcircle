@@ -181,6 +181,17 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::get('email-notification', 'AdminModerationController@emailNotification');
 	Route::get('internal-email', 'AdminModerationController@internalEmails');
 	Route::post('internal-mail-filters','AdminModerationController@getInternalMailFilters');
+	Route::post('export-filters','AdminModerationController@getExportFilters');
+	Route::post('category-hirarchy','AdminModerationController@generateCategoryHirarchyFromID');
+	Route::post('export-state-display','AdminModerationController@displayExportStateFilter');
+	Route::post('export-status-display','AdminModerationController@displayExportStatusFilter');
+	Route::post('export-premium-display','AdminModerationController@displayExportPremiumFilter');
+	Route::post('export-usertype-display','AdminModerationController@displayExportUserTypeFilter');
+	Route::post('export-usersubtype-display','AdminModerationController@displayExportUserSubTypeFilter');
+	Route::post('export-jobtype-display','AdminModerationController@displayExportJobTypeFilter');
+	Route::post('export-jobrole-display','AdminModerationController@displayExportJobRoleFilter');
+	Route::post('export-signup-display','AdminModerationController@displayExportSignupFilter');
+	Route::post('export-active-display','AdminModerationController@displayExportActiveFilter');
 	Route::post('internal-mail-count','AdminModerationController@getMailCount');
 	Route::post('internal-mail-send','AdminModerationController@sendSelectedUsersMail');
 	Route::group(['prefix' => 'moderation'], function() {
@@ -194,6 +205,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::group(['prefix' => 'users'], function() {
 		/* Get Users */
 		Route::get('internal-users', 'AdminConfigurationController@internalUserView'); // Get Internal Users
+		Route::get('export', 'AdminModerationController@userExport'); // Get Internal Users
 		Route::get('registered-users', 'AdminConfigurationController@registeredUserView');
 		Route::post('get-registered-users', 'AdminConfigurationController@getRegisteredUsers');  // Get Registered / External Users
 		Route::post('set-user-status', 'AdminConfigurationController@userAccountStatus');  // Get Registered / External Users
@@ -211,6 +223,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	});
 	
 });
+Route::get('/get-categories-data','AdminModerationController@getCategoriesData');
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
  

@@ -68,12 +68,12 @@ class UpdatePepoBackupTable implements ShouldQueue
                 }
                 $fields['userType'] = ['Enquiry'];
                 $fields['enquiryCategories'] = json_decode(EnquiryCategory::getCategoryJsonTag($on->id),true);
-                $fields['area'] = array_unique($on->areas()->with('city')->get()->pluck('city')->pluck('name')->toArray());
+                $fields['enquiryArea'] = array_unique($on->areas()->with('city')->get()->pluck('city')->pluck('name')->toArray());
                 break;
             case 'enquiry-updated':
                 $email = $by->getPrimaryEmail();
                 $fields['enquiryCategories'] = json_decode(EnquiryCategory::getCategoryJsonTag($on->id),true);
-                $fields['area'] = array_unique($on->areas()->with('city')->get()->pluck('city')->pluck('name')->toArray());
+                $fields['enquiryArea'] = array_unique($on->areas()->with('city')->get()->pluck('city')->pluck('name')->toArray());
                 break;
             case 'email_signup':
                 $email = $by->getPrimaryEmail();

@@ -15,6 +15,7 @@ use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\Defaults;
+use App\Description;
 use App\PlanAssociation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -1420,5 +1421,749 @@ class AdminModerationController extends Controller
             });
         })->export('xls');
     }
+
+    public function userExport(Request $request){
+        $export = Defaults::where('type','export_filter')->get();
+        return view('admin-dashboard.user_export')->with('types',$export);
+    }
+
+    public function getExportFilters(Request $request){
+        $this->validate($request,[
+            'type'=>'required'
+        ]);
+        // return $this->getFilterHtmlData();
+        $email_type = Defaults::where('type','export_filter')->where('label',$request->type)->first();
+        if($email_type == null) abort(404);
+        $email_data = json_decode($email_type->meta_data,true);
+        $html = '<input type="hidden" name="mail-type" value="'.$email_type->label.'"> '.$this->getFilterHtmlData($email_data['user_filters']);
+        return $html;
+        
+    }
+
+    public function getFilterHtmlData($userFilters=[]){
+        $html = "";
+        // $html .= $this->getExportCategoryFilter();
+        // $html .= $this->getExportStateFilter();
+        // $html .= $this->getExportStatusFilter();
+        // $html .= $this->getExportPremiumFilter();
+        // $html .= $this->getExportUsertypeFilter();
+        // $html .= $this->getExportUsersubtypeFilter();
+        // $html .= $this->getExportJobBusinessTypeFilter();
+        // $html .= $this->getExportJobRoleFilter();
+        // $html .= $this->getExportSignupTypeFilter();
+        // $html .= $this->getExportActiveFilter();
+
+        foreach ($userFilters as $column => $filter) {
+            switch($filter){
+                case 'state':
+                    $html .= $this->getExportStateFilter();
+                    break;
+                case 'status':
+                    $html .= $this->getExportStatusFilter();
+                    break;
+                case 'premium':
+                    $html .= $this->getExportPremiumFilter();
+                    break;
+                case 'categories':
+                    $html .= $this->getExportCategoryFilter();
+                    break;
+                case 'jobBusinessType':
+                    $html .= $this->getExportJobBusinessTypeFilter();
+                    break;
+                case 'jobRole':
+                    $html .= $this->getExportJobRoleFilter();
+                    break;
+                case 'signupType':
+                    $html .= $this->getExportSignupTypeFilter();
+                    break;
+                case 'active':
+                    $html .= $this->getExportActiveFilter();
+                    break;
+                case 'userSubType':
+                    $html .= $this->getExportUsersubtypeFilter();
+                    break;
+                case 'userType':
+                    $html .= $this->getExportUsertypeFilter();
+                    break;
+            }
+        }
+        return $html;
+        die(); 
+    }
+
+    public function getExportStateFilter(){
+        $cities = City::where('status', '1')->get();
+        $html = '<h5>States <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on States</a></h5>
+        <div id="display-export-state"><input type="hidden" id="selected-export-states" name="selected-export-states" value=""></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-state-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose States</h5>
+                              </div>
+                              <div class="modal-body">
+                                  ';
+        $html.= '<div id="export-state-filter">';
+        foreach ($cities as $city) {
+            $html .= '<div class="">';
+            $html .= '<input type="checkbox" id="'.$city->slug.'" value="'.$city->name.'" name="exportState[]">';
+            $html .= '<label id="'.$city->slug.'-label" for="'.$city->slug.'" >'.$city->name.'</label>';
+            $html .= '</div>';
+        }
+        $html.='</div>
+        <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-states" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+
+    public function displayExportStateFilter(Request $request){
+        $states = ($request->has('states'))? $request->states : [];
+
+        $html = '<input type="hidden" id="selected-export-states" name="selected-export-states" value="'.implode(',', $states).'">';
+        if(!empty($states)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-states">';
+                    foreach ($states as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    }
+
+    public function getExportStatusFilter(){
+        $statuses = ["Draft", "Review", "Published", "Archived","Rejected"];
+        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-status-modal">Filter based on Statuses</a></h5> <div id="display-export-status"><input type="hidden" id="selected-export-status" name="selected-export-status" value=""></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-status-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Statuses</h5>
+                              </div>
+                              <div class="modal-body ">
+                                  ';
+        $html.= '<div id="export-status-filter">';
+        foreach ($statuses as $status) {
+            $html .= '<div class="">';
+            $html .= '<input type="checkbox" id="status-'.$status.'" value="'.$status.'" name="exportStatus[]">';
+            $html .= '<label id="status-'.$status.'-label" for="status-'.$status.'" >'.$status.'</label>';
+            $html .= '</div>';
+        }
+        $html.='</div>
+        <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-statuses" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+
+    public function displayExportStatusFilter(Request $request){
+        $statuses = ($request->has('statuses'))? $request->statuses : [];
+
+        $html = '<input type="hidden" id="selected-export-status" name="selected-export-status" value="'.implode(',', $statuses).'">';
+        if(!empty($statuses)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-statuses">';
+                    foreach ($statuses as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    }
+
+    public function getExportPremiumFilter(){
+        // $html = '   <div class="row">
+        //                 <div class="col-md-4">
+        //                     <h5>Premium </h5>
+        //                 </div> 
+        //                 <div class="col-md-8">
+        //                     <input type="checkbox" id="exportPremium" name="exportPremium">
+        //                     <label for="exportPremium" >Filter only Premium</label>
+        //                 </div> 
+                        
+        //             </div>';
+        $html = '<h5>Premium  <a href="#" data-toggle="modal" data-target="#export-premium-modal">Filter based on premium</a></h5>
+                <div id="display-export-premium"><input type="hidden" id="selected-export-premium" name="selected-export-premium" value="false"></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-premium-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Premium</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-premium">
+                                     <input type="checkbox" id="exportPremium" name="exportPremium">
+                                     <label for="exportPremium" >Filter only Premium</label>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-premium" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+
+    public function displayExportPremiumFilter(Request $request){
+        $premium = ($request->premium == "true")? true : false;
+
+        $html = '<input type="hidden" id="selected-export-premium" name="selected-export-premium" value="'.$request->premium.'">';
+        if($premium){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-statuses">
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    Premium
+                  </span>
+                </li>
+                </ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    }
+
+    public function getExportCategoryFilter(){
+        $html = '<h5>Categories <a href="#" data-toggle="modal" data-target="#export-category-modal">Filter based on categories</a></h5>
+                <div id="display-export-categories"><input type="hidden" name="selected-categories" value=""> </div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-category-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Categories</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-categories"></div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-categories" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+
+    public function getAllTreeCategoriesFromIds($categ_ids){
+        $query = Category::whereIn('id',$categ_ids);
+        // foreach ($categ_ids as &$id) {
+        //     $query->orWhere('path','LIKE', '%'.str_pad($id, 5, '0', STR_PAD_LEFT).'%');
+        // }
+        $categories = $query->get();
+        $paths = $categories->pluck('path')->toArray();
+        $ids = [];
+        foreach ($paths as $path) {
+            $ids=array_merge(str_split($path,5),$ids);
+        }
+        $ids = array_unique($ids);
+        $categories2 = Category::whereIn('id',$ids)->get();
+        $categories = $categories->merge($categories2);
+        return $categories;
+    }
+
+    public function generateTreeFromCategories($categories){
+        $tree = ['parents' => [], 'leaf' =>[]];
+        $categories = $categories->groupBy('level');
+        if(isset($categories['1'])){
+            foreach ($categories['1'] as $category) {
+                $tree['parents'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                    'id' => $category->id,
+                    'image-url' => $category->icon_url,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'branches' => []
+                ];
+                array_push($tree['leaf'], $category->id);
+            }
+        }
+        if(isset($categories['2'])){
+            foreach ($categories['2'] as $category) {
+                $tree['parents'][$category->path]['branches'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                    'nodes' => []
+                ];
+                unset($tree['leaf'][array_search($category->parent_id, $tree['leaf'])]);
+                array_push($tree['leaf'], $category->id);
+            }
+        }
+        if(isset($categories['3'])){
+        try{
+            foreach ($categories['3'] as $category) {
+                $path = str_split($category->path,5);
+                $tree['parents'][$path[0]]['branches'][$path[1]]['nodes'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                ];
+                }
+                unset($tree['leaf'][array_search($category->parent_id, $tree['leaf'])]);
+                array_push($tree['leaf'], $category->id);
+            }catch(\Exception $e){
+                return false;
+            }
+        }
+        $tree['leaf']=array_values($tree['leaf']);
+        return $tree;
+    }
+
+    public function getCategoryHtmlFromTree($tree){
+        $html = '<input type="hidden" name="selected-categories" value="'.implode(',', $tree['leaf']).'"> ';
+        foreach ($tree['parents'] as $parent) {
+            $html.='
+            
+<div class="single-category gray-border add-more-cat m-t-15" data-categ-id="'.$parent['id'].'">
+  <div class="row flex-row categoryContainer corecat-container align-top">
+    <div class="col-sm-4 flex-row">
+      <img class="import-icon cat-icon" src="'.$parent['image-url'].'">
+      <div class="branch-row">
+        <div class="cat-label">
+          '.$parent['name'].'
+          <input type=hidden name="categories" value="'.$parent['id'].'" data-item-name="'.$parent['slug'].'"> 
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">';
+      
+            foreach ($parent['branches'] as $branch) {
+                $html .= '
+      <div class="m-b-10 row branch-container" data-categ-id="'.$branch['id'].'">
+        <div class="col-sm-4">
+          <ul class="fnb-cat flex-row small">
+            <li>
+              <span class="fnb-cat__title">
+                <strong class="branch">'.$branch['name'].'</strong>
+                <input type=hidden name="categories" value="'.$branch['id'].'" data-item-name="'.$branch['name'].'"> 
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-sm-8">
+          <ul class="fnb-cat small flex-row" id="view-categ-node">';
+                foreach ($branch['nodes'] as $node) {
+                    $html .= '
+            <li class="node-container">
+              <span class="fnb-cat__title">
+                '.$node['name'].'
+                <input data-item-name="'.$node['name'].'" name="categories" type="hidden" value="'.$node['id'].'"> 
+              </span>
+            </li>
+            ';
+                }
+             
+          $html .= '</ul>
+        </div>
+      </div>
+      ';
+            }
+    $html .= '</div>
+  </div>
+</div>';
+        }
+        return $html;
+    }
+
+    public function generateCategoryHirarchyFromID(Request $request){
+        $category_ids = ($request->has('categories'))? $request->categories : [];
+
+        $categories=$this->getAllTreeCategoriesFromIds($category_ids);
+        $tree = $this->generateTreeFromCategories($categories);
+        $html = $this->getCategoryHtmlFromTree($tree);
+        return response()->json(["html"=>$html]);
+    }
+
+    public function getCategoriesData(Request $request){
+        $response = [];
+        if($request->has('id') and $request->id != "#"){
+            $parent = Category::find($request->id);
+            $children = ($parent->level == 1)? true:false;
+            $categories = Category::where('status',1)->where('type','listing')->where('parent_id',$parent->id)->get();
+            foreach ($categories  as $category) {
+                $temp = [];
+                $count = $category->getChildrenCount();
+                $text = ($count>0)? " (".$count.")":"";
+                $temp['children'] = $children;
+                $temp['icon'] = false;
+                $temp['text'] = $category->name.$text;
+                $temp['id'] = $category->id;
+                array_push($response, $temp);
+            }
+        }else{
+            $categories = Category::where('status',1)->where('type','listing')->where('level','1')->get();
+            foreach ($categories  as $category) {
+                $temp = [];
+                $temp['children'] = true;
+                $temp['icon'] = false;//$category->icon_url;
+                $temp['text'] = $category->name.' ('.$category->getChildrenCount().')';
+                $temp['id'] = $category->id;
+                array_push($response, $temp);
+            }
+        }
+        return response()->json($response);
+    }
+
+    public function getExportUsertypeFilter(){
+        $html = '<h5>User Type <a href="#" data-toggle="modal" data-target="#export-usertype-modal">Filter based on user types</a></h5>
+                <div id="display-export-usertypes"><input type="hidden" id="selected-export-usertypes" name="selected-export-status" value=""></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-usertype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose User Types</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-usertypes">
+                                    <div>
+                                        <input type="checkbox" name="usertypes[]" value="User" id="usertype-user-select">
+                                        <label for="usertype-user-select">User</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" name="usertypes[]" value="Lead" id="usertype-lead-select">
+                                        <label for="usertype-lead-select">Lead</label>
+                                    </div>
+                                </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-usertypes" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }  
+
+    public function displayExportUserTypeFilter(Request $request){
+        $userTypes = ($request->has('userTypes'))? $request->userTypes : [];
+
+        $html = '<input type="hidden" id="selected-export-usertypes" name="selected-export-usertypes" value="'.implode(',', $userTypes).'">';
+        if(!empty($userTypes)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-usertypes">';
+                    foreach ($userTypes as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    } 
+    
+    public function getExportUsersubtypeFilter(){
+        $usersubtypes = Description::all();
+        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-usersubtype-modal">Filter based on user subtypes</a></h5>
+                <div id="display-export-usersubtypes"><input type="hidden" id="selected-export-usersubtypes" name="selected-export-usersubtypes" value=""></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-usersubtype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose User SubTypes</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-usersubtypes">';
+                                foreach ($usersubtypes as $description) {
+                                        $html.= '<div>
+                                        <input type="checkbox" name="usersubtypes[]" value="'.$description->title.'" id="usersubtype-'.$description->id.'-select">
+                                        <label for="usertype-'.$description->id.'-select">'.$description->title.'</label>
+                                    </div>';
+                                    }    
+                                    
+                                    
+                         $html .= '</div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-usersubtypes" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+
+    public function displayExportUserSubTypeFilter(Request $request){
+        $userSubTypes = ($request->has('userSubTypes'))? $request->userSubTypes : [];
+        $html = '<input type="hidden" id="selected-export-usersubtypes" name="selected-export-usersubtypes" value="'.implode(',', $userSubTypes).'">';
+        if(!empty($userSubTypes)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-usersubtypes">';
+                    foreach ($userSubTypes as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    } 
+
+    public function getExportJobBusinessTypeFilter(){
+            $jobbusinesstypes = Category::where('type','job')->get();
+            $html = '<h5>Job Business Type <a href="#" data-toggle="modal" data-target="#export-jobbusinestype-modal">Filter based on job business types</a></h5>
+                    <div id="display-export-jobtypes"><input type="hidden" id="selected-export-jobtypes" name="selected-export-jobtypes" value=""></div>
+            <div class="modal fnb-modal confirm-box fade modal-center" id="export-jobbusinestype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                          <div class="modal-dialog modal-sm" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="text-medium m-t-0 bolder">Choose Job Business Types</h5>
+                                  </div>
+                                  <div class="modal-body">
+                                        <input type="text" id="jobtypesearch">
+                                      <div id="export-jobbusinesstypes">';
+                                    foreach ($jobbusinesstypes as $jobtype) {
+                                            $html.= '<div class="jobbusinesstype">
+                                            <input type="checkbox" name="jobbusinesstypes[]" value="'.$jobtype->name.'" id="jobtype-'.$jobtype->id.'-select">
+                                            <label for="jobtype-'.$jobtype->id.'-select">'.$jobtype->name.'</label>
+                                        </div>';
+                                        }    
+                                        
+                                        
+                             $html .= '</div>  
+                                      <div class="confirm-actions text-right">
+                                          <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-jobbusinesstypes" data-dismiss="modal">Add</button></a>
+                                            <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>';
+            return $html;
+        }
+
+    public function displayExportJobTypeFilter(Request $request){
+        $jobTypes = ($request->has('jobTypes'))? $request->jobTypes : [];
+        $html = '<input type="hidden" id="selected-export-jobtypes" name="selected-export-jobtypes" value="'.implode(',', $jobTypes).'">';
+        if(!empty($jobTypes)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-jobtypes">';
+                    foreach ($jobTypes as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    }
+
+    public function getExportJobRoleFilter(){
+        $jobroles = Defaults::where('type','job_keyword')->get();
+        $html = '<h5>Job Roles <a href="#" data-toggle="modal" data-target="#export-jobrole-modal">Filter based on job roles</a></h5>
+                <div id="display-export-jobroles"><input type="hidden" id="selected-export-jobRoles" name="selected-export-jobRoles" value=""></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-jobrole-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Job Roles</h5>
+                              </div>
+                              <div class="modal-body">
+                                    <input type="text" id="jobrolesearch">
+                                  <div id="export-jobroles">';
+                                foreach ($jobroles as $jobrole) {
+                                        $html.= '<div class="jobrole">
+                                        <input type="checkbox" name="jobroles[]" value="'.$jobrole->label.'" id="jobrole-'.str_slug($jobrole->label,'-').'-select">
+                                        <label for="jobrole-'.str_slug($jobrole->label,'-').'-select">'.$jobrole->label.'</label>
+                                    </div>';
+                                    }    
+                                    
+                                    
+                         $html .= '</div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-jobroles" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    } 
+
+    public function displayExportJobRoleFilter(Request $request){
+        $jobRoles = ($request->has('jobRoles'))? $request->jobRoles : [];
+        $html = '<input type="hidden" id="selected-export-jobRoles" name="selected-export-jobRoles" value="'.implode(',', $jobRoles).'">';
+        if(!empty($jobRoles)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-jobrole">';
+                    foreach ($jobRoles as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    }
+
+    public function getExportSignupTypeFilter(){
+        $types = ["google",'facebook','email','import','guest','listing'];
+        $html = '<h5>Sign Up types <a href="#" data-toggle="modal" data-target="#export-signuptype-modal">Filter based on Sign-Up Type</a></h5>
+            <div id="display-export-signup"><input type="hidden" id="selected-export-signup" name="selected-export-signup" value=""></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-signuptype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Sign-up Types</h5>
+                              </div>
+                              <div class="modal-body ">
+                                  ';
+        $html.= '<div id="export-signuptype-filter">';
+        foreach ($types as $status) {
+            $html .= '<div class="">';
+            $html .= '<input type="checkbox" id="signuptype-'.$status.'" value="'.$status.'" name="exportsignuptype[]">';
+            $html .= '<label id="signuptype-'.$status.'-label" for="signuptype-'.$status.'" >'.ucfirst($status).'</label>';
+            $html .= '</div>';
+        }
+        $html.='</div>
+        <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-signuptypes" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }  
+
+    public function displayExportSignupFilter(Request $request){
+        $signup = ($request->has('signup'))? $request->signup : [];
+        $html = '<input type="hidden" id="selected-export-signup" name="selected-export-signup" value="'.implode(',', $signup).'">';
+        if(!empty($signup)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-signup">';
+                    foreach ($signup as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    }
+
+    public function getExportActiveFilter(){
+        $html = '<h5>Active  <a href="#" data-toggle="modal" data-target="#export-active-modal">Filter based on active users</a></h5>
+                <div id="display-export-active"><input type="hidden" id="selected-export-active" name="selected-export-active" value=""></div>
+        <div class="modal fnb-modal confirm-box fade modal-center" id="export-active-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Choose Active</h5>
+                              </div>
+                              <div class="modal-body">
+                                  <div id="export-active">
+                                     <div>
+                                         <input type="checkbox" id="exportActive" name="exportActive[]" value="true">
+                                         <label for="exportActive" >Active</label>
+                                     </div>
+                                     <div>
+                                         <input type="checkbox" id="exportinactive" name="exportActive[]" value="false">
+                                         <label for="exportinactive" >Inactive</label>
+                                     </div>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-active" data-dismiss="modal">Add</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>';
+        return $html;
+    }
+
+    public function displayExportActiveFilter(Request $request){
+        $active = ($request->has('active'))? $request->active : [];
+        $html = '<input type="hidden" id="selected-export-active" name="selected-export-active" value="'.implode(',', $active).'">';
+        if(!empty($active)){
+            $html.='<div class="single-category gray-border add-more-cat m-t-15">
+                        <ul class="fnb-cat small flex-row" id="view-export-active">';
+                    foreach ($active as $node) {
+                        $html .= '
+                <li class="node-container">
+                  <span class="fnb-cat__title">
+                    '.$node.'
+                  </span>
+                </li>
+                ';
+                    }
+                 
+              $html .= '</ul>
+                    </div>';
+        }
+
+        return response()->json(["html"=>$html]);
+    }
+
 }
 

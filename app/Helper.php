@@ -1117,19 +1117,20 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 	$es_ch = ($escape)? '~':'';
 	$qry_test = "SELECT  ".$field_string." INTO OUTFILE '" . $filepath . "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' escaped by '".$es_ch."' LINES TERMINATED BY '\\n' FROM ".$table_name;
 	if(!empty($filters)){
-		foreach ($filters as $column => &$data) {
-			if(!empty($data)){
-				$stringdata = [];
-				foreach ($data as &$value) {
-					$stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
-				}
-				
-			}
-			$data = '('. implode(" OR ",$stringdata) . ")";
-		}
-		$string = " where ".implode(' AND ', $filters);
-		$qry_test .= $string;
-	}
+        foreach ($filters as $column => &$data) {
+            if(!empty($data)){
+                $stringdata = [];
+                foreach ($data as &$value) {
+                    $stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
+                }
+                $data = '('. implode(" OR ",$stringdata) . ")";
+            }else{
+                unset($filters[$column]);
+            }
+        }
+        $string = " where ".implode(' AND ', $filters);
+        $qry_test .= $string;
+    }
 	\Log::info('Dump Query: '.$qry_test);
 	try {
 		DB::select($qry_test);

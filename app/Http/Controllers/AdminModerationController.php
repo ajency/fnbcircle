@@ -2220,6 +2220,17 @@ class AdminModerationController extends Controller
         return array('status'=> true, 'count' => $count->first()->count);
     }
 
+    Public function getExportData(Request $request){
+        $this->validate($request,[
+            'exportType' => 'required'
+        ]);
+        $filters = $this->getExportFiltersFromRequest($request);
+        $file = dumpTableintoFile('pepo_backups',$filters);
+
+        
+        return response()->download($file);
+    }
+
     
 }
 

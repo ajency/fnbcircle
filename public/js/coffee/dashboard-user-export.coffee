@@ -229,3 +229,34 @@ $('body').on 'click','#getExportCount', ->
       $('#send-mail-confirm').prop 'disabled',false
       $('#confirm-mail-message').html 'There are total '+response['email_count']+' inactive users.Are you sure you want to send email to all the users?';
       $('#confirmBox').modal('show')
+
+
+$('body').on 'click','#export-confirm', ->
+  exportType = $('input[name="export-type"]').val()
+  state = $('#selected-export-states').val()
+  status = $('#selected-export-status').val()
+  premium = $('#selected-export-premium').val()
+  categories = $('#selected-export-categories').val()
+  userType = $('#selected-export-usertypes').val()
+  userSubType = $('#selected-export-usersubtypes').val()
+  jobBusinessType = $('#selected-export-jobtypes').val()
+  jobRole = $('#selected-export-jobRoles').val()
+  signuptype = $('#selected-export-signup').val()
+  active = $('#selected-export-active').val()
+  url = document.head.querySelector('[property="export-download"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      exportType:exportType
+      state:state
+      status:status
+      premium:premium
+      categories:categories
+      userType:userType
+      userSubType:userSubType
+      jobBusinessType:jobBusinessType
+      jobRole:jobRole
+      signuptype:signuptype
+      active:active
+    

@@ -295,4 +295,37 @@
     });
   });
 
+  $('body').on('click', '#export-confirm', function() {
+    var active, categories, exportType, jobBusinessType, jobRole, premium, signuptype, state, status, url, userSubType, userType;
+    exportType = $('input[name="export-type"]').val();
+    state = $('#selected-export-states').val();
+    status = $('#selected-export-status').val();
+    premium = $('#selected-export-premium').val();
+    categories = $('#selected-export-categories').val();
+    userType = $('#selected-export-usertypes').val();
+    userSubType = $('#selected-export-usersubtypes').val();
+    jobBusinessType = $('#selected-export-jobtypes').val();
+    jobRole = $('#selected-export-jobRoles').val();
+    signuptype = $('#selected-export-signup').val();
+    active = $('#selected-export-active').val();
+    url = document.head.querySelector('[property="export-download"]').content;
+    return $.ajax({
+      type: 'post',
+      url: url,
+      data: {
+        exportType: exportType,
+        state: state,
+        status: status,
+        premium: premium,
+        categories: categories,
+        userType: userType,
+        userSubType: userSubType,
+        jobBusinessType: jobBusinessType,
+        jobRole: jobRole,
+        signuptype: signuptype,
+        active: active
+      }
+    });
+  });
+
 }).call(this);

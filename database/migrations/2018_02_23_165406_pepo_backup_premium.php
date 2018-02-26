@@ -14,14 +14,14 @@ class PepoBackupPremium extends Migration
     public function up()
     {
         Schema::table('pepo_backups', function (Blueprint $table) {
-            $table->json('listingPremium');
-            $table->json('jobPremium');
-            $table->json('enquiryArea');
+            $table->json('listingPremium')->nullable();
+            $table->json('jobPremium')->nullable();
+            $table->json('enquiryArea')->nullable();
         });
         Schema::table('pepo_imports', function (Blueprint $table) {
-            $table->json('listingPremium');
-            $table->json('jobPremium');
-            $table->json('enquiryArea');
+            $table->json('listingPremium')->nullable();
+            $table->json('jobPremium')->nullable();
+            $table->json('enquiryArea')->nullable();
         });
     }
 

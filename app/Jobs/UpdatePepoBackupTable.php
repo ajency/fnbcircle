@@ -91,6 +91,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['userType'] = ['Listing'];
                 $fields['listingStatus'] = [$on->reference => Listing::listing_status[$on->status]];
                 $fields['listingType'] = [Listing::listing_business_type[$on->type]];
+                $fields['listingPremium'] = [$on->reference => 'false'];
                 break;
             case 'listing_publish':
                 $by = $on->owner;
@@ -104,6 +105,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['jobRole'] = explode(",", $on->getAllJobKeywords());
                 $fields['jobStatus'] = [$on->reference_id => $on->getJobStatus()];
                 $fields['jobArea'] = $on->getJobLocationNames('city');
+                $fields['jobPremium'] = [$on->reference_id => 'false'];
                 break;
             case 'job-status-change':
                 $email = $on->createdBy->getPrimaryEmail();
@@ -209,6 +211,8 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'userType':
                 case 'listingType':
                 case 'listingStatus':
+                case 'listingPremium':
+                case 'jobPremium':
                 case 'enquiryCategories':
                 case 'listingCategories':
                 case 'jobStatus':
@@ -252,6 +256,8 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[listingType]' => mergeFields($backup->listingType,[],true),
             'attributes[userSubType]' => mergeFields($backup->userSubType,[],true),
             'attributes[listingStatus]' => mergeFields($backup->listingStatus,[],true),
+            'attributes[listingPremium]' => mergeFields($backup->listingPremium,[],true),
+            'attributes[jobPremium]' => mergeFields($backup->jobPremium,[],true),
             'attributes[listingCategories]' => mergeFields($backup->listingCategories,[],true),
             'attributes[enquiryCategories]' => mergeFields($backup->enquiryCategories,[],true),
             'attributes[area]' => mergeFields($backup->area,[],true),

@@ -192,6 +192,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::post('export-jobrole-display','AdminModerationController@displayExportJobRoleFilter');
 	Route::post('export-signup-display','AdminModerationController@displayExportSignupFilter');
 	Route::post('export-active-display','AdminModerationController@displayExportActiveFilter');
+	Route::post('export-count','AdminModerationController@getExportCount');
 	Route::post('internal-mail-count','AdminModerationController@getMailCount');
 	Route::post('internal-mail-send','AdminModerationController@sendSelectedUsersMail');
 	Route::group(['prefix' => 'moderation'], function() {

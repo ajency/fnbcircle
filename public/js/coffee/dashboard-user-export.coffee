@@ -12,7 +12,7 @@ $('body').on 'change', '#export-type', ->
           $('#export-categories').jstree
             'plugins': [ 'checkbox','search' ]
             'core': 'data':
-              'url': 'http://localhost:8000/get-categories-data'
+              'url': '/get-categories-data'
               'dataType': 'json'
               'data': (node) ->
                 { 'id': node.id }
@@ -175,3 +175,57 @@ $('body').on 'keyup','#jobrolesearch', ->
     $(this).toggle $(this).text().toLowerCase().indexOf(value) > -1
     return
   return
+
+$('body').on 'click','#getExportCount', ->
+  exportType = $('input[name="export-type"]').val()
+  # console.log exportType
+  state = $('#selected-export-states').val()
+  # console.log state
+  status = $('#selected-export-status').val()
+  # console.log status
+  premium = $('#selected-export-premium').val()
+  # console.log premium
+  categories = $('#selected-export-categories').val()
+  # console.log categories
+  userType = $('#selected-export-usertypes').val()
+  # console.log usertypes
+  userSubType = $('#selected-export-usersubtypes').val()
+  # console.log usersubtypes
+  jobBusinessType = $('#selected-export-jobtypes').val()
+  # console.log jobbusinesstypes
+  jobRole = $('#selected-export-jobRoles').val()
+  # console.log jobroles
+  signuptype = $('#selected-export-signup').val()
+  # console.log signuptypes
+  active = $('#selected-export-active').val()
+  # console.log active
+  url = document.head.querySelector('[property="export-count"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      exportType:exportType
+      state:state
+      status:status
+      premium:premium
+      categories:categories
+      userType:userType
+      userSubType:userSubType
+      jobBusinessType:jobBusinessType
+      jobRole:jobRole
+      signuptype:signuptype
+      active:active
+    success: (response) ->
+      if response['count'] == 0
+        $('#confirm-mail-message').html 'No users available to export for current selection'
+        $('#send-mail-confirm').prop 'disabled',true
+        $('#confirmBox').modal('show')
+        return
+      if response['count'] > 5000
+        $('#confirm-mail-message').html 'More than 5000 users in the current selection. Export will take a long time. Please change your filters.'
+        $('#send-mail-confirm').prop 'disabled',true
+        $('#confirmBox').modal('show')
+        return
+      $('#send-mail-confirm').prop 'disabled',false
+      $('#confirm-mail-message').html 'There are total '+response['email_count']+' inactive users.Are you sure you want to send email to all the users?';
+      $('#confirmBox').modal('show')

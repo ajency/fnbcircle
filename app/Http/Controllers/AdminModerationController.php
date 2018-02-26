@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use Excel;
 use Auth;
+use DB;
 use App\Category;
 use App\City;
 use App\Area;
@@ -1435,23 +1436,13 @@ class AdminModerationController extends Controller
         $email_type = Defaults::where('type','export_filter')->where('label',$request->type)->first();
         if($email_type == null) abort(404);
         $email_data = json_decode($email_type->meta_data,true);
-        $html = '<input type="hidden" name="mail-type" value="'.$email_type->label.'"> '.$this->getFilterHtmlData($email_data['user_filters']);
+        $html = '<input type="hidden" name="export-type" value="'.$email_type->label.'"> '.$this->getFilterHtmlData($email_data['user_filters']);
         return $html;
         
     }
 
     public function getFilterHtmlData($userFilters=[]){
         $html = "";
-        // $html .= $this->getExportCategoryFilter();
-        // $html .= $this->getExportStateFilter();
-        // $html .= $this->getExportStatusFilter();
-        // $html .= $this->getExportPremiumFilter();
-        // $html .= $this->getExportUsertypeFilter();
-        // $html .= $this->getExportUsersubtypeFilter();
-        // $html .= $this->getExportJobBusinessTypeFilter();
-        // $html .= $this->getExportJobRoleFilter();
-        // $html .= $this->getExportSignupTypeFilter();
-        // $html .= $this->getExportActiveFilter();
 
         foreach ($userFilters as $column => $filter) {
             switch($filter){
@@ -1487,6 +1478,8 @@ class AdminModerationController extends Controller
                     break;
             }
         }
+
+        $html .= '<div><button class="btn primary-btn border-btn fnb-btn" id="getExportCount">Export</button></div>';
         return $html;
         die(); 
     }
@@ -1656,7 +1649,7 @@ class AdminModerationController extends Controller
 
     public function getExportCategoryFilter(){
         $html = '<h5>Categories <a href="#" data-toggle="modal" data-target="#export-category-modal">Filter based on categories</a></h5>
-                <div id="display-export-categories"><input type="hidden" name="selected-categories" value=""> </div>
+                <div id="display-export-categories"><input type="hidden" id="selected-export-categories"  name="selected-categories" value=""> </div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-category-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">
@@ -1741,7 +1734,7 @@ class AdminModerationController extends Controller
     }
 
     public function getCategoryHtmlFromTree($tree){
-        $html = '<input type="hidden" name="selected-categories" value="'.implode(',', $tree['leaf']).'"> ';
+        $html = '<input type="hidden" id="selected-export-categories"  name="selected-categories" value="'.implode(',', $tree['leaf']).'"> ';
         foreach ($tree['parents'] as $parent) {
             $html.='
             
@@ -2165,5 +2158,57 @@ class AdminModerationController extends Controller
         return response()->json(["html"=>$html]);
     }
 
+    public function getCountQuery($filters){
+        $qry_test = "SELECT  count(*) as count FROM `pepo_backups` ";
+        if(!empty($filters)){
+            foreach ($filters as $column => &$data) {
+                $stringdata = [];
+                if(!empty($data)){
+                    foreach ($data as &$value) {
+                        $stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
+                    }
+                    
+                }
+                $data = '('. implode(" OR ",$stringdata) . ")";
+            }
+            $string = " where ".implode(' AND ', $filters);
+            $qry_test .= $string;
+        }
+        \Log::info('Dump Query: '.$qry_test);
+        return $qry_test;
+    }
+
+    public function getExportFiltersFromRequest($request){
+        $export_type = Defaults::where('type','export_filter')->where('label',$request->exportType)->first();
+        if($export_type == null) abort(404);
+        $export = json_decode($export_type->meta_data,true);
+        $filters = [];
+        $userData = $request->all();
+        foreach ($export['applied_filters'] as $column => $value) {
+            $filters[$column] = $value;
+        }
+        foreach ($export['user_filters'] as $column => $userfilter) {
+            $value = ($request->has($userfilter) and $userData[$userfilter] != 'undefined')? explode(',', $userData[$userfilter]): [];
+            $filters[$column] = $value;
+        }
+        return $filters;
+    }
+
+    public function getExportCount(Request $request){
+        $this->validate($request,[
+            'exportType' => 'required'
+        ]);
+        $filters = $this->getExportFiltersFromRequest($request);
+        $qry_test = $this->getCountQuery($filters);
+        try {
+            $count = collect(DB::select($qry_test));
+        }catch (\Illuminate\Database\QueryException $ex) {
+            $error_msg = $ex->getMessage();
+            return array('status' => false, 'msg' => $error_msg);
+        }
+        return array('status'=> true, 'count' => $count->first()->count);
+    }
+
+    
 }
 

@@ -35,7 +35,7 @@ class SaveExportFilterDetails extends Migration
                     'area' => 'state',
                     'listingStatus' => 'status',
                     'listingPremium' => 'premium',
-                    'listing_categories' => 'categories'
+                    'listingCategories' => 'categories'
                 ]
             ],
             'jobs'=> [

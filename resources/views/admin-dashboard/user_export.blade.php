@@ -38,7 +38,7 @@
   <meta property="export-jobrole-display" content="{{action('AdminModerationController@displayExportJobRoleFilter')}}">
   <meta property="export-signup-display" content="{{action('AdminModerationController@displayExportSignupFilter')}}">
   <meta property="export-active-display" content="{{action('AdminModerationController@displayExportActiveFilter')}}">
-  <meta property="mail-count" content="{{action('AdminModerationController@getMailCount')}}">
+  <meta property="export-count" content="{{action('AdminModerationController@getExportCount')}}">
   <meta property="mail-send" content="{{action('AdminModerationController@sendSelectedUsersMail')}}">
  @endsection
 

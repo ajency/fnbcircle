@@ -16,7 +16,7 @@
               'plugins': ['checkbox', 'search'],
               'core': {
                 'data': {
-                  'url': 'http://localhost:8000/get-categories-data',
+                  'url': '/get-categories-data',
                   'dataType': 'json',
                   'data': function(node) {
                     return {
@@ -242,6 +242,56 @@
     value = $(this).val().toLowerCase();
     $('#export-jobroles .jobrole').filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+  });
+
+  $('body').on('click', '#getExportCount', function() {
+    var active, categories, exportType, jobBusinessType, jobRole, premium, signuptype, state, status, url, userSubType, userType;
+    exportType = $('input[name="export-type"]').val();
+    state = $('#selected-export-states').val();
+    status = $('#selected-export-status').val();
+    premium = $('#selected-export-premium').val();
+    categories = $('#selected-export-categories').val();
+    userType = $('#selected-export-usertypes').val();
+    userSubType = $('#selected-export-usersubtypes').val();
+    jobBusinessType = $('#selected-export-jobtypes').val();
+    jobRole = $('#selected-export-jobRoles').val();
+    signuptype = $('#selected-export-signup').val();
+    active = $('#selected-export-active').val();
+    url = document.head.querySelector('[property="export-count"]').content;
+    return $.ajax({
+      type: 'post',
+      url: url,
+      data: {
+        exportType: exportType,
+        state: state,
+        status: status,
+        premium: premium,
+        categories: categories,
+        userType: userType,
+        userSubType: userSubType,
+        jobBusinessType: jobBusinessType,
+        jobRole: jobRole,
+        signuptype: signuptype,
+        active: active
+      },
+      success: function(response) {
+        if (response['count'] === 0) {
+          $('#confirm-mail-message').html('No users available to export for current selection');
+          $('#send-mail-confirm').prop('disabled', true);
+          $('#confirmBox').modal('show');
+          return;
+        }
+        if (response['count'] > 5000) {
+          $('#confirm-mail-message').html('More than 5000 users in the current selection. Export will take a long time. Please change your filters.');
+          $('#send-mail-confirm').prop('disabled', true);
+          $('#confirmBox').modal('show');
+          return;
+        }
+        $('#send-mail-confirm').prop('disabled', false);
+        $('#confirm-mail-message').html('There are total ' + response['email_count'] + ' inactive users.Are you sure you want to send email to all the users?');
+        return $('#confirmBox').modal('show');
+      }
     });
   });
 

@@ -2162,14 +2162,15 @@ class AdminModerationController extends Controller
         $qry_test = "SELECT  count(*) as count FROM `pepo_backups` ";
         if(!empty($filters)){
             foreach ($filters as $column => &$data) {
-                $stringdata = [];
                 if(!empty($data)){
+                    $stringdata = [];
                     foreach ($data as &$value) {
                         $stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
                     }
-                    
+                    $data = '('. implode(" OR ",$stringdata) . ")";
+                }else{
+                    unset($filters[$column]);
                 }
-                $data = '('. implode(" OR ",$stringdata) . ")";
             }
             $string = " where ".implode(' AND ', $filters);
             $qry_test .= $string;
@@ -2188,7 +2189,17 @@ class AdminModerationController extends Controller
             $filters[$column] = $value;
         }
         foreach ($export['user_filters'] as $column => $userfilter) {
-            $value = ($request->has($userfilter) and $userData[$userfilter] != 'undefined')? explode(',', $userData[$userfilter]): [];
+            $value = ($request->has($userfilter) and $userData[$userfilter] != 'undefined' and $userData[$userfilter] != '' )? explode(',', $userData[$userfilter]): [];
+            if($userfilter == 'userType'){
+                if(array_search('User', $value) > -1){
+                    unset($value[array_search('User', $value)]); 
+                    $value = array_merge(['email','google','facebook','import','listing'],$value);
+                }
+                if(array_search('Lead', $value) > -1){
+                    unset($value[array_search('Lead', $value)]); 
+                    $value = array_merge(['guest'],$value);
+                }
+            }
             $filters[$column] = $value;
         }
         return $filters;

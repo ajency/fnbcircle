@@ -27,7 +27,7 @@ class SaveExportFilterDetails extends Migration
                 ]
             ],
             'listings'=> [
-                'name'=>'Listings',
+                'name'=>'Business Listings',
                 'applied_filters'=>[
                     'userType' => ['Listing']
                 ],

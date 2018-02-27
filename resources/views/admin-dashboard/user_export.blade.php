@@ -61,10 +61,10 @@
             <div class="x_panel">
               <div class="x_content">
               <div class="row">
-                <div class="col-sm-3">
-                  <p class="default-size bolder">Please select the type</p>
+                <div class="col-sm-8">
+                  <p class="default-size bolder">Please select the module that you wish to export users for:</p>
                   <select class="fnb-select select-variant" id="export-type" style="font-size: 1em;">
-                   <option value="">Select export type</option>
+                   <option value="">Select module type</option>
                    @foreach($types as $type)
                       @php
                         $data = json_decode($type->meta_data,true);
@@ -74,7 +74,6 @@
                   </select>  
                 </div>
               </div>
-              	
                 <div id="filter-area" class="filter-area">
                 </div>
               </div>

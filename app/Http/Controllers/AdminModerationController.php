@@ -1442,7 +1442,7 @@ class AdminModerationController extends Controller
     }
 
     public function getFilterHtmlData($userFilters=[]){
-        $html = "";
+        $html = "<h3>Please add values to the following filtering criteria as necessary:</h3>";
 
         foreach ($userFilters as $column => $filter) {
             switch($filter){
@@ -1486,7 +1486,7 @@ class AdminModerationController extends Controller
 
     public function getExportStateFilter(){
         $cities = City::where('status', '1')->get();
-        $html = '<h5>States <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on States</a></h5>
+        $html = '<h5>Locations <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on Locations</a></h5>
         <div id="display-export-state"><input type="hidden" id="selected-export-states" name="selected-export-states" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-state-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
@@ -1541,7 +1541,7 @@ class AdminModerationController extends Controller
 
     public function getExportStatusFilter(){
         $statuses = ["Draft", "Review", "Published", "Archived","Rejected"];
-        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-status-modal">Filter based on Statuses</a></h5> <div id="display-export-status"><input type="hidden" id="selected-export-status" name="selected-export-status" value=""></div>
+        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-status-modal">Filter based on Status</a></h5> <div id="display-export-status"><input type="hidden" id="selected-export-status" name="selected-export-status" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-status-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">
@@ -1885,7 +1885,7 @@ class AdminModerationController extends Controller
     
     public function getExportUsersubtypeFilter(){
         $usersubtypes = Description::all();
-        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-usersubtype-modal">Filter based on user subtypes</a></h5>
+        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-usersubtype-modal">Filter based on user sub type</a></h5>
                 <div id="display-export-usersubtypes"><input type="hidden" id="selected-export-usersubtypes" name="selected-export-usersubtypes" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-usersubtype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
@@ -2052,7 +2052,7 @@ class AdminModerationController extends Controller
 
     public function getExportSignupTypeFilter(){
         $types = ["google",'facebook','email','import','guest','listing'];
-        $html = '<h5>Sign Up types <a href="#" data-toggle="modal" data-target="#export-signuptype-modal">Filter based on Sign-Up Type</a></h5>
+        $html = '<h5>Registration Type(s) <a href="#" data-toggle="modal" data-target="#export-signuptype-modal">Filter based on Registration Type</a></h5>
             <div id="display-export-signup"><input type="hidden" id="selected-export-signup" name="selected-export-signup" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-signuptype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
@@ -2117,11 +2117,11 @@ class AdminModerationController extends Controller
                                   <div id="export-active">
                                      <div>
                                          <input type="checkbox" id="exportActive" name="exportActive[]" value="true">
-                                         <label for="exportActive" >Active</label>
+                                         <label for="exportActive" >true (Active)</label>
                                      </div>
                                      <div>
                                          <input type="checkbox" id="exportinactive" name="exportActive[]" value="false">
-                                         <label for="exportinactive" >Inactive</label>
+                                         <label for="exportinactive" >false (Inactive)</label>
                                      </div>
                                   </div>  
                                   <div class="confirm-actions text-right">

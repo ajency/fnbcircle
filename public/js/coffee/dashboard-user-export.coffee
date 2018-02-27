@@ -195,7 +195,7 @@ $('body').on 'click','#getExportCount', ->
   # console.log jobbusinesstypes
   jobRole = $('#selected-export-jobRoles').val()
   # console.log jobroles
-  signuptype = $('#selected-export-signup').val()
+  signupType = $('#selected-export-signup').val()
   # console.log signuptypes
   active = $('#selected-export-active').val()
   # console.log active
@@ -213,21 +213,25 @@ $('body').on 'click','#getExportCount', ->
       userSubType:userSubType
       jobBusinessType:jobBusinessType
       jobRole:jobRole
-      signuptype:signuptype
+      signupType:signupType
       active:active
     success: (response) ->
+      if response['status'] == 'false'
+        $('#confirm-mail-message').html 'There was a server error, Please contact site administrator'
+        $('#export-confirm').prop 'disabled',true
+        $('#confirmBox').modal('show')
       if response['count'] == 0
         $('#confirm-mail-message').html 'No users available to export for current selection'
-        $('#send-mail-confirm').prop 'disabled',true
+        $('#export-confirm').prop 'disabled',true
         $('#confirmBox').modal('show')
         return
       if response['count'] > 5000
         $('#confirm-mail-message').html 'More than 5000 users in the current selection. Export will take a long time. Please change your filters.'
-        $('#send-mail-confirm').prop 'disabled',true
+        $('#export-confirm').prop 'disabled',true
         $('#confirmBox').modal('show')
         return
-      $('#send-mail-confirm').prop 'disabled',false
-      $('#confirm-mail-message').html 'There are total '+response['email_count']+' inactive users.Are you sure you want to send email to all the users?';
+      $('#export-confirm').prop 'disabled',false
+      $('#confirm-mail-message').html 'There are total '+response['count']+' users in your selection.Are you sure you want to export?';
       $('#confirmBox').modal('show')
 
 
@@ -241,22 +245,47 @@ $('body').on 'click','#export-confirm', ->
   userSubType = $('#selected-export-usersubtypes').val()
   jobBusinessType = $('#selected-export-jobtypes').val()
   jobRole = $('#selected-export-jobRoles').val()
-  signuptype = $('#selected-export-signup').val()
+  signupType = $('#selected-export-signup').val()
   active = $('#selected-export-active').val()
   url = document.head.querySelector('[property="export-download"]').content
-  $.ajax
-    type: 'post'
-    url: url
-    data:
-      exportType:exportType
-      state:state
-      status:status
-      premium:premium
-      categories:categories
-      userType:userType
-      userSubType:userSubType
-      jobBusinessType:jobBusinessType
-      jobRole:jobRole
-      signuptype:signuptype
-      active:active
+  form = $('<form></form>')
+  form.attr 'method', 'post'
+  form.attr 'action', url
+  parameters = {}
+  parameters['exportType'] = exportType
+  parameters['state'] = state
+  parameters['status'] = status
+  parameters['premium'] = premium
+  parameters['categories'] = categories
+  parameters['userType'] = userType
+  parameters['userSubType'] = userSubType
+  parameters['jobBusinessType'] = jobBusinessType
+  parameters['jobRole'] = jobRole
+  parameters['signupType'] = signupType
+  parameters['active'] = active
+  $.each parameters, (key, value) ->
+    field = $('<input></input>')
+    field.attr 'type', 'hidden'
+    field.attr 'name', key
+    field.attr 'value', value
+    form.append field
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
+  # $.ajax
+  #   type: 'post'
+  #   url: url
+  #   data:
+  #     exportType:exportType
+  #     state:state
+  #     status:status
+  #     premium:premium
+  #     categories:categories
+  #     userType:userType
+  #     userSubType:userSubType
+  #     jobBusinessType:jobBusinessType
+  #     jobRole:jobRole
+  #     signupType:signupType
+  #     active:active
     

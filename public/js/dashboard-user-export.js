@@ -246,7 +246,7 @@
   });
 
   $('body').on('click', '#getExportCount', function() {
-    var active, categories, exportType, jobBusinessType, jobRole, premium, signuptype, state, status, url, userSubType, userType;
+    var active, categories, exportType, jobBusinessType, jobRole, premium, signupType, state, status, url, userSubType, userType;
     exportType = $('input[name="export-type"]').val();
     state = $('#selected-export-states').val();
     status = $('#selected-export-status').val();
@@ -256,7 +256,7 @@
     userSubType = $('#selected-export-usersubtypes').val();
     jobBusinessType = $('#selected-export-jobtypes').val();
     jobRole = $('#selected-export-jobRoles').val();
-    signuptype = $('#selected-export-signup').val();
+    signupType = $('#selected-export-signup').val();
     active = $('#selected-export-active').val();
     url = document.head.querySelector('[property="export-count"]').content;
     return $.ajax({
@@ -272,31 +272,36 @@
         userSubType: userSubType,
         jobBusinessType: jobBusinessType,
         jobRole: jobRole,
-        signuptype: signuptype,
+        signupType: signupType,
         active: active
       },
       success: function(response) {
+        if (response['status'] === 'false') {
+          $('#confirm-mail-message').html('There was a server error, Please contact site administrator');
+          $('#export-confirm').prop('disabled', true);
+          $('#confirmBox').modal('show');
+        }
         if (response['count'] === 0) {
           $('#confirm-mail-message').html('No users available to export for current selection');
-          $('#send-mail-confirm').prop('disabled', true);
+          $('#export-confirm').prop('disabled', true);
           $('#confirmBox').modal('show');
           return;
         }
         if (response['count'] > 5000) {
           $('#confirm-mail-message').html('More than 5000 users in the current selection. Export will take a long time. Please change your filters.');
-          $('#send-mail-confirm').prop('disabled', true);
+          $('#export-confirm').prop('disabled', true);
           $('#confirmBox').modal('show');
           return;
         }
-        $('#send-mail-confirm').prop('disabled', false);
-        $('#confirm-mail-message').html('There are total ' + response['email_count'] + ' inactive users.Are you sure you want to send email to all the users?');
+        $('#export-confirm').prop('disabled', false);
+        $('#confirm-mail-message').html('There are total ' + response['count'] + ' users in your selection.Are you sure you want to export?');
         return $('#confirmBox').modal('show');
       }
     });
   });
 
   $('body').on('click', '#export-confirm', function() {
-    var active, categories, exportType, jobBusinessType, jobRole, premium, signuptype, state, status, url, userSubType, userType;
+    var active, categories, exportType, form, jobBusinessType, jobRole, parameters, premium, signupType, state, status, url, userSubType, userType;
     exportType = $('input[name="export-type"]').val();
     state = $('#selected-export-states').val();
     status = $('#selected-export-status').val();
@@ -306,26 +311,35 @@
     userSubType = $('#selected-export-usersubtypes').val();
     jobBusinessType = $('#selected-export-jobtypes').val();
     jobRole = $('#selected-export-jobRoles').val();
-    signuptype = $('#selected-export-signup').val();
+    signupType = $('#selected-export-signup').val();
     active = $('#selected-export-active').val();
     url = document.head.querySelector('[property="export-download"]').content;
-    return $.ajax({
-      type: 'post',
-      url: url,
-      data: {
-        exportType: exportType,
-        state: state,
-        status: status,
-        premium: premium,
-        categories: categories,
-        userType: userType,
-        userSubType: userSubType,
-        jobBusinessType: jobBusinessType,
-        jobRole: jobRole,
-        signuptype: signuptype,
-        active: active
-      }
+    form = $('<form></form>');
+    form.attr('method', 'post');
+    form.attr('action', url);
+    parameters = {};
+    parameters['exportType'] = exportType;
+    parameters['state'] = state;
+    parameters['status'] = status;
+    parameters['premium'] = premium;
+    parameters['categories'] = categories;
+    parameters['userType'] = userType;
+    parameters['userSubType'] = userSubType;
+    parameters['jobBusinessType'] = jobBusinessType;
+    parameters['jobRole'] = jobRole;
+    parameters['signupType'] = signupType;
+    parameters['active'] = active;
+    $.each(parameters, function(key, value) {
+      var field;
+      field = $('<input></input>');
+      field.attr('type', 'hidden');
+      field.attr('name', key);
+      field.attr('value', value);
+      form.append(field);
+      console.log(key + '=>' + value);
     });
+    $(document.body).append(form);
+    return form.submit();
   });
 
 }).call(this);

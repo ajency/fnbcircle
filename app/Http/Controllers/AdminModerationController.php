@@ -2159,6 +2159,7 @@ class AdminModerationController extends Controller
     }
 
     public function getCountQuery($filters){
+
         $qry_test = "SELECT  count(*) as count FROM `pepo_backups` ";
         if(!empty($filters)){
             foreach ($filters as $column => &$data) {
@@ -2185,11 +2186,14 @@ class AdminModerationController extends Controller
         $export = json_decode($export_type->meta_data,true);
         $filters = [];
         $userData = $request->all();
+        // \Log::info(json_encode($userData));
         foreach ($export['applied_filters'] as $column => $value) {
             $filters[$column] = $value;
         }
+
         foreach ($export['user_filters'] as $column => $userfilter) {
             $value = ($request->has($userfilter) and $userData[$userfilter] != 'undefined' and $userData[$userfilter] != '' )? explode(',', $userData[$userfilter]): [];
+            // \Log::info($userfilter.' => 1)'.$request->has($userfilter).' 2)'.$userData[$userfilter].json_encode($value));
             if($userfilter == 'userType'){
                 if(array_search('User', $value) > -1){
                     unset($value[array_search('User', $value)]); 
@@ -2201,7 +2205,9 @@ class AdminModerationController extends Controller
                 }
             }
             $filters[$column] = $value;
+            // \Log::info(json_encode($filters));
         }
+
         return $filters;
     }
 
@@ -2220,15 +2226,16 @@ class AdminModerationController extends Controller
         return array('status'=> true, 'count' => $count->first()->count);
     }
 
-    Public function getExportData(Request $request){
+    public function getExportData(Request $request){
         $this->validate($request,[
             'exportType' => 'required'
         ]);
         $filters = $this->getExportFiltersFromRequest($request);
         $file = dumpTableintoFile('pepo_backups',$filters);
 
-        
-        return response()->download($file);
+        // \Log::info(json_encode($file));
+        if($file['status']) return response()->download($file['path']);
+        abort(200);
     }
 
     

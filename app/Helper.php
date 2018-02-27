@@ -1112,31 +1112,32 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 	if(!empty($fields)){
 		$field_string = implode(',', $fields);
 	}else{
-		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories`,`jobStatus`,`jobArea`, `listingPremium`, `jobPremium`, `enquiryAreas` ";
+		$field_string = " `email`,`name`,`state`, `signUpType`, `active`, `subscribed`, `userType`, `userSubType`, `listingType`, `jobRole`, `jobCategory`, `area`, `listingCategories`, `listingStatus`, `enquiryCategories`,`jobStatus`,`jobArea`, `listingPremium`, `jobPremium`, `enquiryArea` ";
 	}
 	$es_ch = ($escape)? '~':'';
 	$qry_test = "SELECT  ".$field_string." INTO OUTFILE '" . $filepath . "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' escaped by '".$es_ch."' LINES TERMINATED BY '\\n' FROM ".$table_name;
 	if(!empty($filters)){
-		foreach ($filters as $column => &$data) {
-			if(!empty($data)){
-				$stringdata = [];
-				foreach ($data as &$value) {
-					$stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
-				}
-				
-			}
-			$data = '('. implode(" OR ",$stringdata) . ")";
-		}
-		$string = " where ".implode(' AND ', $filters);
-		$qry_test .= $string;
-	}
+        foreach ($filters as $column => &$data) {
+            if(!empty($data)){
+                $stringdata = [];
+                foreach ($data as &$value) {
+                    $stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
+                }
+                $data = '('. implode(" OR ",$stringdata) . ")";
+            }else{
+                unset($filters[$column]);
+            }
+        }
+        $string = " where ".implode(' AND ', $filters);
+        $qry_test .= $string;
+    }
 	\Log::info('Dump Query: '.$qry_test);
 	try {
 		DB::select($qry_test);
 	}catch (\Illuminate\Database\QueryException $ex) {
 		$error_msg = $ex->getMessage();
 	    if( stristr($error_msg,'create/write')!=false){
-	        $error_msg = "Please set write permission for folder '".$ajency_folder."' and Upload the file again. ".$error_msg ;
+	        $error_msg = "Please set write permission for folder 'Ajency' and Upload the file again. ".$error_msg ;
 	    }
 	    return array('status' => false, 'msg' => $error_msg);
 	}

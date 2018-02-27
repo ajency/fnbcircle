@@ -39,7 +39,7 @@
   <meta property="export-signup-display" content="{{action('AdminModerationController@displayExportSignupFilter')}}">
   <meta property="export-active-display" content="{{action('AdminModerationController@displayExportActiveFilter')}}">
   <meta property="export-count" content="{{action('AdminModerationController@getExportCount')}}">
-  <meta property="mail-send" content="{{action('AdminModerationController@sendSelectedUsersMail')}}">
+  <meta property="export-download" content="{{action('AdminModerationController@getExportData')}}">
  @endsection
 
  @section('page-data')
@@ -98,7 +98,7 @@
                                       <h4 class="element-title text-medium text-left text-color" id="confirm-mail-message"></h4>
                                   </div>  
                                   <div class="confirm-actions text-right">
-                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="send-mail-confirm">Send Email</button></a>
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="export-confirm">Export</button></a>
                                         <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                   </div>
                               </div>

@@ -117,11 +117,15 @@
                 <!-- business listing ends -->
                 <div class="row flex-row flex-wrap align-reset card contact-card">
 
-                    <div class="col-sm-4 flex-row justify-center contact-card__address">
+                    <div class="col-sm-12 m-b-30 m-t-20 text-center">
+                      <p>If you’d like to know more about our platform, the services it offers or if you have anything else to say, write to us at ______ or just fill out the form below.</p>
+                    </div>
 
-                      <div class="more-details p-t-20 p-b-20">
+                    <div class="col-sm-4 justify-center contact-card__address">
 
-                        <div class="detail-3 flex-row m-t-25 m-b-25">
+                      <div class="more-details p-b-20">
+
+                        <div class="detail-3 flex-row m-b-25">
                           <div class="address">
                             <h5 class="element-title m-b-15">Address</h5>
                             <p class=" lighter flex-row align-top m-b-15">
@@ -129,9 +133,9 @@
                                Shop No 1, Navjeevan Building,<br>
                                Evershine Nagar-Malad West,<br>
                                Mumbai - 400064.</p>
-                            <p class="flex-row m-b-15">
+                            <!-- <p class="flex-row m-b-15">
                               <i class="fa fa-envelope lighter p-r-10"></i> <a href="mailto:dummy@mail.com" class="primary-link">dummy@mail.com</a>
-                            </p>
+                            </p> -->
                             <p class="flex-row">
                               <i class="fa fa-phone lighter p-r-10"></i> <a href="tel:987987456" class="primary-link">+91 9789784565</a><br>
                             </p>
@@ -156,14 +160,14 @@
                              </div>
                              <div class="enquiry-form__body">
                                 <div class="row">
-                                   <div class="col-sm-4">
+                                   <div class="col-sm-6">
                                       <div class="form-group p-t-10 m-b-0">
                                          <!-- <input type="text" class="form-control fnb-input" placeholder="Name"> -->
                                                   <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
                                                   <input type="text" class="form-control fnb-input float-input" id="contact_name">
                                       </div>
                                    </div>
-                                   <div class="col-sm-4">
+                                   <div class="col-sm-6">
                                       <div class="form-group p-t-10 m-b-0">
                                          <!-- <input type="email" class="form-control fnb-input" placeholder="Email"> -->
                                                   <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
@@ -171,14 +175,24 @@
                                       </div>
                                    </div>
 
-                                   <div class="col-sm-4">
+                                </div>
+
+                                <div class="row">
+                                   <div class="col-sm-6">
                                       <div class="form-group p-t-10 m-b-0">
                                                   <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
                                                   <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
                                          <!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
                                       </div>
                                    </div>
-                                </div>
+                                   <div class="col-sm-6">
+                                      <div class="form-group p-t-10 m-b-0">
+                                                  <label class="m-b-0 text-lighter float-label" for="contact_location">Location</label>
+                                                  <input type="text" class="form-control fnb-input float-input" id="contact_location">
+                                         <!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
+                                      </div>
+                                   </div>
+                                 </div>
 
                                    <div class="form-group p-t-20 p-b-20 m-b-0">
                                       <!-- <label class="custom-label">Message</label> -->
@@ -211,37 +225,17 @@
 
         <div class="container">
           <div class="row m-t-30 m-b-30 why-row">
-            <div class="col-sm-12">
-               <!-- why fnb -->
-               <div class="why-fnb text-center m-b-30 p-b-30">
-                  <h3 class="element-title">Why FnB Circle?</h3>
-                  <ul class="points m-t-30 flex-row">
-                     <li>
-                        <!-- <img src="img/quotes.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
-                              <span class="why-icon quote"></span>
-                        <p class="sub-title heavier">Hospitality News</p>
-                        <p class="default-size m-b-0 text-lighter why-captions">Stay upto date and profit from the latest Hospitality industry News, Trends and Research</p>
-                     </li>
-                     <li>
-                              <span class="why-icon supplier"></span>
-                        <!-- <img src="img/suppliers.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
-                        <p class="sub-title heavier">Your own Purchase Department</p>
-                        <p class="default-size m-b-0 text-lighter why-captions">Find the best vendors for your products &amp; services or let them come to you.</p>
-                     </li>
-                     <li>
-                        <!-- <img src="img/jobs.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
-                              <span class="why-icon jobs"></span>
-                        <p class="sub-title heavier">Your own H.R. Department</p>
-                        <p class="default-size m-b-0 text-lighter why-captions">Hire the best talent to manage your business or find the most suitable job for yourself.</p>
-                     </li>
-                     <li>
-                        <!-- <img src="img/updates.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
-                              <span class="why-icon news"></span>
-                        <p class="sub-title heavier">Sales for Vendors/Suppliers</p>
-                        <p class="default-size m-b-0 text-lighter why-captions">Find new products &amp; opportunities and take your products to news customers.</p>
-                     </li>
-                  </ul>
-               </div>
+            <div class="col-sm-12 share-job">
+
+              <h5 class="text-center m-b-30 m-t-20">Get in touch with us on social media!</h5>
+
+               <ul class="options flex-row flex-wrap">
+                  <li><a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-instagram fa-lg" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-linkedin-square fa-lg" aria-hidden="true"></i></a></li>
+               </ul>
+
             </div>
           </div>
         </div>

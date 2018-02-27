@@ -1885,7 +1885,7 @@ class AdminModerationController extends Controller
     
     public function getExportUsersubtypeFilter(){
         $usersubtypes = Description::all();
-        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-usersubtype-modal">Filter based on user subtypes</a></h5>
+        $html = '<h5>User Sub Type <a href="#" data-toggle="modal" data-target="#export-usersubtype-modal">Filter based on user sub type</a></h5>
                 <div id="display-export-usersubtypes"><input type="hidden" id="selected-export-usersubtypes" name="selected-export-usersubtypes" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-usersubtype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">

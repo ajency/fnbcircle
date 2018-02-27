@@ -2052,7 +2052,7 @@ class AdminModerationController extends Controller
 
     public function getExportSignupTypeFilter(){
         $types = ["google",'facebook','email','import','guest','listing'];
-        $html = '<h5>Sign Up types <a href="#" data-toggle="modal" data-target="#export-signuptype-modal">Filter based on Sign-Up Type</a></h5>
+        $html = '<h5>Registration Type(s) <a href="#" data-toggle="modal" data-target="#export-signuptype-modal">Filter based on Registration Type</a></h5>
             <div id="display-export-signup"><input type="hidden" id="selected-export-signup" name="selected-export-signup" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-signuptype-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
@@ -2117,11 +2117,11 @@ class AdminModerationController extends Controller
                                   <div id="export-active">
                                      <div>
                                          <input type="checkbox" id="exportActive" name="exportActive[]" value="true">
-                                         <label for="exportActive" >Active</label>
+                                         <label for="exportActive" >true (Active)</label>
                                      </div>
                                      <div>
                                          <input type="checkbox" id="exportinactive" name="exportActive[]" value="false">
-                                         <label for="exportinactive" >Inactive</label>
+                                         <label for="exportinactive" >false (Inactive)</label>
                                      </div>
                                   </div>  
                                   <div class="confirm-actions text-right">

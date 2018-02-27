@@ -64,7 +64,7 @@
                 <div class="col-sm-3">
                   <p class="default-size bolder">Please select the module that you wish to export users for:</p>
                   <select class="fnb-select select-variant" id="export-type" style="font-size: 1em;">
-                   <option value="">Select export type</option>
+                   <option value="">Select module type</option>
                    @foreach($types as $type)
                       @php
                         $data = json_decode($type->meta_data,true);

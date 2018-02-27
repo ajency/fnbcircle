@@ -1108,6 +1108,9 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 	foreach ($res_get_mysql_securefilepriv_directory as $res_v) {
 	    $filepath =  str_replace("\\", "\\\\", $res_v->Value);
 	}
+	if ($filepath == "" or $filepath == false or is_null($filepath)) {
+		$filepath = storage_path('app');
+    }
 	$filepath .= "Ajency/". uniqueFileName('pepo_backup');
 	if(!empty($fields)){
 		$field_string = implode(',', $fields);

@@ -1486,7 +1486,7 @@ class AdminModerationController extends Controller
 
     public function getExportStateFilter(){
         $cities = City::where('status', '1')->get();
-        $html = '<h5>States <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on States</a></h5>
+        $html = '<h5>Locations <a href="#" data-toggle="modal" data-target="#export-state-modal">Filter based on Locations</a></h5>
         <div id="display-export-state"><input type="hidden" id="selected-export-states" name="selected-export-states" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-state-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
@@ -1541,7 +1541,7 @@ class AdminModerationController extends Controller
 
     public function getExportStatusFilter(){
         $statuses = ["Draft", "Review", "Published", "Archived","Rejected"];
-        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-status-modal">Filter based on Statuses</a></h5> <div id="display-export-status"><input type="hidden" id="selected-export-status" name="selected-export-status" value=""></div>
+        $html = '<h5>Status <a href="#" data-toggle="modal" data-target="#export-status-modal">Filter based on Status</a></h5> <div id="display-export-status"><input type="hidden" id="selected-export-status" name="selected-export-status" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-status-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">

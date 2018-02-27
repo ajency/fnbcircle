@@ -2235,7 +2235,7 @@ class AdminModerationController extends Controller
 
         // \Log::info(json_encode($file));
         if($file['status']) return response()->download($file['path']);
-        abort(200);
+        abort(200,$file['msg']);
     }
 
     

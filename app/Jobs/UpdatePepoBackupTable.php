@@ -221,9 +221,9 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'jobCategory':
                 case 'jobArea':
                 case 'area':
-                    $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
-                    $newVal = unique_array(array_merge($oldVal,$value));
-                    $backup[$key] = json_encode($newVal);
+                    // $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
+                    // $newVal = unique_array(array_merge($oldVal,$value));
+                    $backup[$key] = mergeFields($backup[$key],$value) ;//json_encode($newVal);
                     \Log::info($key.'=>'.$backup[$key]);
                     break;
                 default:

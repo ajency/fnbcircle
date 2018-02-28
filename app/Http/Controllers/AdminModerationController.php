@@ -2217,6 +2217,10 @@ class AdminModerationController extends Controller
                     $value = array_merge(['guest'],$value);
                 }
             }
+            if($userfilter == 'categories'){
+                $value = Category::whereIn('id',$value)->pluck('name')->toArray();
+            }
+
             if(!isset($filters[$column]) or !empty($value))
             $filters[$column] = $value;
             // \Log::info(json_encode($filters));

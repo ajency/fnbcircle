@@ -76,7 +76,10 @@
 
   $('body').on('click', '#select-export-premium', function() {
     var selected, url;
-    selected = $('#export-premium input[name="exportPremium"]').prop('checked');
+    selected = [];
+    $('#export-premium input[name="exportPremium[]"]:checked').each(function() {
+      return selected.push(this.value);
+    });
     console.log(selected);
     url = document.head.querySelector('[property="export-premium-display"]').content;
     return $.ajax({
@@ -276,10 +279,11 @@
         active: active
       },
       success: function(response) {
-        if (response['status'] === 'false') {
+        if (response['status'] === false) {
           $('#confirm-mail-message').html('There was a server error, Please contact site administrator');
           $('#export-confirm').prop('disabled', true);
           $('#confirmBox').modal('show');
+          return;
         }
         if (response['count'] === 0) {
           $('#confirm-mail-message').html('No users available to export for current selection');

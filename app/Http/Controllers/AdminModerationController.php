@@ -1614,8 +1614,14 @@ class AdminModerationController extends Controller
                               </div>
                               <div class="modal-body">
                                   <div id="export-premium">
-                                     <input type="checkbox" id="exportPremium" name="exportPremium">
-                                     <label for="exportPremium" >Filter only Premium</label>
+                                     <div>
+                                         <input type="checkbox" id="exportActive" name="exportPremium[]" value="true">
+                                         <label for="exportActive" >true</label>
+                                     </div>
+                                     <div>
+                                         <input type="checkbox" id="exportinactive" name="exportPremium[]" value="false">
+                                         <label for="exportinactive" >false</label>
+                                     </div>
                                   </div>  
                                   <div class="confirm-actions text-right">
                                       <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="select-export-premium" data-dismiss="modal">Add</button></a>
@@ -1629,18 +1635,23 @@ class AdminModerationController extends Controller
     }
 
     public function displayExportPremiumFilter(Request $request){
-        $premium = ($request->premium == "true")? true : false;
+        $premium = ($request->has('premium'))? $request->premium : [];
 
-        $html = '<input type="hidden" id="selected-export-premium" name="selected-export-premium" value="'.$request->premium.'">';
+        $html = '<input type="hidden" id="selected-export-premium" name="selected-export-premium" value="'.implode(',', $premium).'">';
         if($premium){
             $html.='<div class="single-category gray-border add-more-cat m-t-15">
-                        <ul class="fnb-cat small flex-row" id="view-export-statuses">
+                        <ul class="fnb-cat small flex-row" id="view-export-statuses">';
+                    foreach ($premium as $node) {
+                        $html .= '
                 <li class="node-container">
                   <span class="fnb-cat__title">
-                    Premium
+                    '.$node.'
                   </span>
                 </li>
-                </ul>
+                ';
+                    }
+                 
+              $html .= '</ul>
                     </div>';
         }
 
@@ -2173,8 +2184,10 @@ class AdminModerationController extends Controller
                     unset($filters[$column]);
                 }
             }
-            $string = " where ".implode(' AND ', $filters);
-            $qry_test .= $string;
+            if(!empty($filters)){
+                $string = " where ".implode(' AND ', $filters);
+                $qry_test .= $string;
+            }
         }
         \Log::info('Dump Query: '.$qry_test);
         return $qry_test;
@@ -2190,9 +2203,9 @@ class AdminModerationController extends Controller
         foreach ($export['applied_filters'] as $column => $value) {
             $filters[$column] = $value;
         }
-
+        // \Log::info(json_encode($filters));
         foreach ($export['user_filters'] as $column => $userfilter) {
-            $value = ($request->has($userfilter) and $userData[$userfilter] != 'undefined' and $userData[$userfilter] != '' )? explode(',', $userData[$userfilter]): [];
+            $value = ($request->has($userfilter) and $userData[$userfilter] != 'undefined' and $userData[$userfilter] != ''  and !empty($userData[$userfilter]))? explode(',', $userData[$userfilter]): [];
             // \Log::info($userfilter.' => 1)'.$request->has($userfilter).' 2)'.$userData[$userfilter].json_encode($value));
             if($userfilter == 'userType'){
                 if(array_search('User', $value) > -1){
@@ -2204,10 +2217,11 @@ class AdminModerationController extends Controller
                     $value = array_merge(['guest'],$value);
                 }
             }
+            if(!isset($filters[$column]) or !empty($value))
             $filters[$column] = $value;
             // \Log::info(json_encode($filters));
         }
-
+        \Log::info(json_encode($filters));
         return $filters;
     }
 

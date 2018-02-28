@@ -2249,7 +2249,7 @@ class AdminModerationController extends Controller
             'exportType' => 'required'
         ]);
         $filters = $this->getExportFiltersFromRequest($request);
-        $file = dumpTableintoFile('pepo_backups',$filters);
+        $file = dumpTableintoFile('pepo_backups',$filters,[],true,true);
 
         // \Log::info(json_encode($file));
         if($file['status']) return response()->download($file['path']);

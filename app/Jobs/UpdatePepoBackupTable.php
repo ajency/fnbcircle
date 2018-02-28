@@ -214,6 +214,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'listingPremium':
                 case 'jobPremium':
                 case 'enquiryCategories':
+                case 'enquiryArea':
                 case 'listingCategories':
                 case 'jobStatus':
                 case 'jobRole':
@@ -259,6 +260,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[listingPremium]' => mergeFields($backup->listingPremium,[],true),
             'attributes[jobPremium]' => mergeFields($backup->jobPremium,[],true),
             'attributes[listingCategories]' => mergeFields($backup->listingCategories,[],true),
+            'attributes[enquiryArea]' => mergeFields($backup->enquiryArea,[],true),
             'attributes[enquiryCategories]' => mergeFields($backup->enquiryCategories,[],true),
             'attributes[area]' => mergeFields($backup->area,[],true),
             'attributes[jobStatus]' => mergeFields($backup->jobStatus,[],true),

@@ -1141,6 +1141,7 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 		$error_msg = $ex->getMessage();
 	    if( stristr($error_msg,'create/write')!=false){
 	        $error_msg = "Please set write permission for folder 'Ajency' and Upload the file again. ".$error_msg ;
+	        \Log::error($error_msg);
 	    }
 	    return array('status' => false, 'msg' => $error_msg);
 	}

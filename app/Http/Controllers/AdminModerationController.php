@@ -2058,7 +2058,7 @@ class AdminModerationController extends Controller
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">
                               <div class="modal-header">
-                                  <h5 class="text-medium m-t-0 bolder">Choose Sign-up Types</h5>
+                                  <h5 class="text-medium m-t-0 bolder">Choose Registration Types</h5>
                               </div>
                               <div class="modal-body ">
                                   ';

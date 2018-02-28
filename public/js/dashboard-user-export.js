@@ -346,4 +346,17 @@
     return form.submit();
   });
 
+  $('body').on('click', '#clear-filters', function() {
+    $('div#display-export-active').html('<input type="hidden" id="selected-export-active" name="selected-export-active" value="">');
+    $('div#display-export-state').html('<input type="hidden" id="selected-export-states" name="selected-export-states" value="">');
+    $('div#display-export-status').html('input type="hidden" id="selected-export-status" name="selected-export-status" value="">');
+    $('div#display-export-premium').html('<input type="hidden" id="selected-export-premium" name="selected-export-premium" value="false">');
+    $('div#display-export-categories').html('<input type="hidden" id="selected-export-categories"  name="selected-categories" value="">');
+    $('div#display-export-usertypes').html('<input type="hidden" id="selected-export-usertypes" name="selected-export-status" value="">');
+    $('div#display-export-usersubtypes').html('<input type="hidden" id="selected-export-usersubtypes" name="selected-export-usersubtypes" value="">');
+    $('div#display-export-jobtypes').html('input type="hidden" id="selected-export-jobtypes" name="selected-export-jobtypes" value="">');
+    $('div#display-export-jobroles').html('<input type="hidden" id="selected-export-jobRoles" name="selected-export-jobRoles" value="">');
+    return $('div#display-export-signup').html('<input type="hidden" id="selected-export-signup" name="selected-export-signup" value="">');
+  });
+
 }).call(this);

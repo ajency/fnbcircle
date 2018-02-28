@@ -1442,7 +1442,7 @@ class AdminModerationController extends Controller
     }
 
     public function getFilterHtmlData($userFilters=[]){
-        $html = "<h3>Please add values to the following filtering criteria as necessary:</h3>";
+        $html = '<h3>Please add values to the following filtering criteria as necessary:</h3><a href="#" id="clear-filters">clear all filters</a>';
 
         foreach ($userFilters as $column => $filter) {
             switch($filter){

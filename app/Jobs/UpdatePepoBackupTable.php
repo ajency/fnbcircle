@@ -214,15 +214,16 @@ class UpdatePepoBackupTable implements ShouldQueue
                 case 'listingPremium':
                 case 'jobPremium':
                 case 'enquiryCategories':
+                case 'enquiryArea':
                 case 'listingCategories':
                 case 'jobStatus':
                 case 'jobRole':
                 case 'jobCategory':
                 case 'jobArea':
                 case 'area':
-                    $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
-                    $newVal = unique_array(array_merge($oldVal,$value));
-                    $backup[$key] = json_encode($newVal);
+                    // $oldVal = ($backup[$key] != null)? json_decode($backup[$key],true) : [];
+                    // $newVal = unique_array(array_merge($oldVal,$value));
+                    $backup[$key] = mergeFields($backup[$key],$value) ;//json_encode($newVal);
                     \Log::info($key.'=>'.$backup[$key]);
                     break;
                 default:
@@ -259,6 +260,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             'attributes[listingPremium]' => mergeFields($backup->listingPremium,[],true),
             'attributes[jobPremium]' => mergeFields($backup->jobPremium,[],true),
             'attributes[listingCategories]' => mergeFields($backup->listingCategories,[],true),
+            'attributes[enquiryArea]' => mergeFields($backup->enquiryArea,[],true),
             'attributes[enquiryCategories]' => mergeFields($backup->enquiryCategories,[],true),
             'attributes[area]' => mergeFields($backup->area,[],true),
             'attributes[jobStatus]' => mergeFields($backup->jobStatus,[],true),

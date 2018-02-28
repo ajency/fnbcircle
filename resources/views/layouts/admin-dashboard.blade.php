@@ -74,6 +74,8 @@
                     </li>
                     <li class="@if(Request::path() == 'admin-dashboard/users/registered-users')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/users/registered-users')#@else {{action('AdminConfigurationController@registeredUserView')}} @endif">Registered users</a>
                     </li>
+                    <li class="@if(Request::path() == 'admin-dashboard/users/export')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/users/export')#@else {{action('AdminModerationController@userExport')}} @endif">Export CSV</a>
+                    </li>
                   </ul>
               </li>
               <li><a><i class="fa fa-envelope"></i> Emails <span class="fa fa-chevron-down"></span></a>

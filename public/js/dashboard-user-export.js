@@ -76,7 +76,10 @@
 
   $('body').on('click', '#select-export-premium', function() {
     var selected, url;
-    selected = $('#export-premium input[name="exportPremium"]').prop('checked');
+    selected = [];
+    $('#export-premium input[name="exportPremium[]"]:checked').each(function() {
+      return selected.push(this.value);
+    });
     console.log(selected);
     url = document.head.querySelector('[property="export-premium-display"]').content;
     return $.ajax({
@@ -276,10 +279,11 @@
         active: active
       },
       success: function(response) {
-        if (response['status'] === 'false') {
+        if (response['status'] === false) {
           $('#confirm-mail-message').html('There was a server error, Please contact site administrator');
           $('#export-confirm').prop('disabled', true);
           $('#confirmBox').modal('show');
+          return;
         }
         if (response['count'] === 0) {
           $('#confirm-mail-message').html('No users available to export for current selection');
@@ -340,6 +344,19 @@
     });
     $(document.body).append(form);
     return form.submit();
+  });
+
+  $('body').on('click', '#clear-filters', function() {
+    $('div#display-export-active').html('<input type="hidden" id="selected-export-active" name="selected-export-active" value="">');
+    $('div#display-export-state').html('<input type="hidden" id="selected-export-states" name="selected-export-states" value="">');
+    $('div#display-export-status').html('input type="hidden" id="selected-export-status" name="selected-export-status" value="">');
+    $('div#display-export-premium').html('<input type="hidden" id="selected-export-premium" name="selected-export-premium" value="false">');
+    $('div#display-export-categories').html('<input type="hidden" id="selected-export-categories"  name="selected-categories" value="">');
+    $('div#display-export-usertypes').html('<input type="hidden" id="selected-export-usertypes" name="selected-export-status" value="">');
+    $('div#display-export-usersubtypes').html('<input type="hidden" id="selected-export-usersubtypes" name="selected-export-usersubtypes" value="">');
+    $('div#display-export-jobtypes').html('input type="hidden" id="selected-export-jobtypes" name="selected-export-jobtypes" value="">');
+    $('div#display-export-jobroles').html('<input type="hidden" id="selected-export-jobRoles" name="selected-export-jobRoles" value="">');
+    return $('div#display-export-signup').html('<input type="hidden" id="selected-export-signup" name="selected-export-signup" value="">');
   });
 
 }).call(this);

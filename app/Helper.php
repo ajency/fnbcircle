@@ -1102,7 +1102,7 @@ function uniqueFileName($prefix){
 /**
 * This function takes the table, fields and filters and dumps the fields into a table and returns the file as the response
 */
-function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields = [],$escape=true){
+function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields = [],$escape=true,$header=false){
 	$qry_get_mysql_securefilepriv_directory = "SHOW VARIABLES LIKE 'secure_file_priv'";
 	$res_get_mysql_securefilepriv_directory = DB::select($qry_get_mysql_securefilepriv_directory);
 	foreach ($res_get_mysql_securefilepriv_directory as $res_v) {
@@ -1141,6 +1141,7 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 		$error_msg = $ex->getMessage();
 	    if( stristr($error_msg,'create/write')!=false){
 	        $error_msg = "Please set write permission for folder 'Ajency' and Upload the file again. ".$error_msg ;
+	        \Log::error($error_msg);
 	    }
 	    return array('status' => false, 'msg' => $error_msg);
 	}
@@ -1158,7 +1159,12 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 	    $file = str_replace('}', '}"', $file);
 	    $file = str_replace('^', '""', $file);
 	    $file = str_replace('%%', '~', $file);
-	    \Storage::disk('root')->put($filepath,$file);
+	    
+	    if(!$header){
+	    	\Storage::disk('root')->put($filepath,$file);
+	    }else{
+	    	\Storage::disk('root')->put($filepath,str_replace('`', '', $field_string)."\n".$file);
+	    }
 	}
 	return array('status'=> true, 'path' => $filepath);
 

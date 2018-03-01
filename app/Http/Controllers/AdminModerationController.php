@@ -1609,7 +1609,7 @@ class AdminModerationController extends Controller
                         
         //             </div>';
         $html = '<h5>Premium  <a href="#" data-toggle="modal" data-target="#export-premium-modal">Filter based on premium</a></h5>
-                <div id="display-export-premium"><input type="hidden" id="selected-export-premium" name="selected-export-premium" value="false"></div>
+                <div id="display-export-premium"><input type="hidden" id="selected-export-premium" name="selected-export-premium" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-premium-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">

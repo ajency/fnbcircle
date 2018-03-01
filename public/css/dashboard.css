@@ -870,3 +870,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 .category-modal .main-category .add-container h5 span {
   display: none;
 }
+.modal-lists .jobrole {
+  display: flex;
+  align-items: flex-start;
+}

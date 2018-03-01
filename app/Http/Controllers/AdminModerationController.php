@@ -1483,7 +1483,7 @@ class AdminModerationController extends Controller
             }
         }
 
-        $html .= '<div><button class="btn primary-btn border-btn fnb-btn" id="getExportCount">Export</button></div>';
+        $html .= '<div class="m-t-15"><button class="btn primary-btn border-btn fnb-btn" id="getExportCount">Export</button></div>';
         return $html;
         die(); 
     }
@@ -2026,7 +2026,7 @@ class AdminModerationController extends Controller
                               </div>
                               <div class="modal-body">
                                     <input type="text" id="jobrolesearch">
-                                  <div id="export-jobroles">';
+                                  <div id="export-jobroles" class="modal-lists">';
                                 foreach ($jobroles as $jobrole) {
                                         $html.= '<div class="jobrole">
                                         <input type="checkbox" name="jobroles[]" value="'.$jobrole->label.'" id="jobrole-'.str_slug($jobrole->label,'-').'-select">

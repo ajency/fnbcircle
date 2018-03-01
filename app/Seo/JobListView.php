@@ -128,7 +128,7 @@ class JobListView extends Model
         }elseif(isset($filters['business_type'])){
             $title = 'Best Matching Jobs for '.$filters['business_type'].' in '.$this->state;
         }elseif(isset($filters['experience']) and $filters['experience'][0] == '0-1'){
-            $title = 'Job vacancies for freshers for in '.$this->state;
+            $title = 'Job vacancies for freshers in '.$this->state;
         }else{
             $title = $this->getStateFilterText();
         }

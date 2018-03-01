@@ -3,6 +3,7 @@
 namespace App\Seo;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Category;
 
 class JobListView extends Model
 {
@@ -122,11 +123,12 @@ class JobListView extends Model
             }
 
         }elseif (isset($filters['job_type'])) {
-            $title = implode(', ',$filters['job_type']).' job vacancies in '.$this->state;
+            $title = "Top " implode(', ',$filters['job_type']).' job vacancies in '.$this->state;
         }elseif(isset($filters['area'])){
             $title = 'Best matching hospitality job vacancies in '.implode(', ', $filters['area']);
         }elseif(isset($filters['business_type'])){
-            $title = 'Best Matching Jobs for '.$filters['business_type'].' in '.$this->state;
+            $categories = Category::where('type','job')->pluck('name','slug')->toArray();
+            $title = 'Best Matching Jobs for '.$categories[$filters['business_type']].' in '.$this->state;
         }elseif(isset($filters['experience']) and $filters['experience'][0] == '0-1'){
             $title = 'Job vacancies for freshers in '.$this->state;
         }else{
@@ -170,8 +172,8 @@ class JobListView extends Model
             } 
         }
         if(isset($filters['business_type'])){
-           
-                $keywords .= ', Jobs for '.$filters['business_type'].'in '.$this->state;    
+                $categories = Category::where('type','job')->pluck('name','slug')->toArray();
+                $keywords .= ', Jobs for '.$categories[$filters['business_type']].'in '.$this->state;    
            
         }
         if(isset($filters['job_roles'])){

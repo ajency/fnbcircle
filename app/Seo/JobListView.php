@@ -118,7 +118,7 @@ class JobListView extends Model
         // dd($filters);
         if(isset($filters['job_roles'])){
 
-            $title = 'Top '.implode(', ', $filters['job_roles']).'  job openings in '.$this->state;
+            $title = 'Top '.implode(', ', $filters['job_roles']).' job openings in '.$this->state;
             if(isset($filters['experience']) and $filters['experience'][0] == '0-1'){
                 $title = 'Job vacancies for freshers for '.implode(', ', $filters['job_roles']).' in '.$this->state;
             }

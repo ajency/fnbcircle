@@ -169,7 +169,7 @@ class JobListView extends Model
     	// $keywords .= ','.$this->getStateFilterText(); 
      //    if(isset($filters['category_name']))
     	//    $keywords .= ','. $filters['category_name'];
-        $keywords = 'Hotel and restaurant jobs in '.$this->state.', Restaurant staff wait staff required in '.$this->state.', Openings for Cleaning Jobs in '.$this->state.', Job vacancies for housekeeping staff in '.$this->state.', Apply for hospitality jobs in '.$this->state.' online, Apply for hospitality jobs in '.$this->state.' online, Best matching jobs in '.$this->state.', Jobs in '.$this->state.', Careers in '.$this->state.', Latest available jobs in '.$this->state.', Job vacancies in '.$this->state.', Job openings in '.$this->state.', '.$this->state.' job openings, Private jobs in '.$this->state.', Job search '.$this->state.', Best jobs in '.$this->state.' Job in '.$this->state.' hotel';
+        $keywords = 'Hotel and restaurant jobs in '.$this->state.', Restaurant staff wait staff required in '.$this->state.', Openings for Cleaning Jobs in '.$this->state.', Job vacancies for housekeeping staff in '.$this->state.', Apply for hospitality jobs in '.$this->state.' online, Best matching jobs in '.$this->state.', Jobs in '.$this->state.', Careers in '.$this->state.', Latest available jobs in '.$this->state.', Job vacancies in '.$this->state.', Job openings in '.$this->state.', '.$this->state.' job openings, Private jobs in '.$this->state.', Job search '.$this->state.', Best jobs in '.$this->state.' Job in '.$this->state.' hotel';
         if(isset($filters['area'])){
             $areas = Area::where('status','1')->pluck('name','slug')->toArray();
             foreach ($filters['area'] as &$value) {

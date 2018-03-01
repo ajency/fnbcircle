@@ -4,7 +4,6 @@ $seoFileName ->file path of seo page 'App\Seo\JobSingleView'
 $additionaldata -> additional info related to page eg: [id=>1]
 */
 function getMetaTags($seoFileName,$additionaldata=[]){
-
 	$seoFile = new $seoFileName($additionaldata) ;
 	$metaData = $seoFile->getMetaData($seoFileName,$additionaldata);
 

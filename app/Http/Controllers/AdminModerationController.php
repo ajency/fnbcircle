@@ -2179,14 +2179,17 @@ class AdminModerationController extends Controller
     }
 
     public function getCountQuery($filters){
-
         $qry_test = "SELECT  count(*) as count FROM `pepo_backups` ";
         if(!empty($filters)){
             foreach ($filters as $column => &$data) {
                 if(!empty($data)){
                     $stringdata = [];
                     foreach ($data as &$value) {
-                        $stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
+                        if(in_array($column, ['userType','listingType','area','jobRole','jobCategory','listingCategories','listingStatus','enquiryCategories','jobStatus','jobArea','listingPremium','jobPremium','enquiryArea'])){
+                            $stringdata[] = '`'.$column.'` like  "%\"'.$value.'\"%" ';
+                        }else{
+                            $stringdata[] = '`'.$column.'` like  "%'.$value.'%" ';
+                        }       
                     }
                     $data = '('. implode(" OR ",$stringdata) . ")";
                 }else{

@@ -1483,7 +1483,7 @@ class AdminModerationController extends Controller
             }
         }
 
-        $html .= '<div><button class="btn primary-btn border-btn fnb-btn" id="getExportCount">Export</button></div>';
+        $html .= '<div class="m-t-15"><button class="btn primary-btn border-btn fnb-btn" id="getExportCount">Export</button></div>';
         return $html;
         die(); 
     }

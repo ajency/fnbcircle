@@ -667,7 +667,7 @@ class AdminModerationController extends Controller
                     $import->listingType = mergeFields($backup->listingType,[Listing::listing_business_type[$listing->type]],true);
                     $import->listingCategories = mergeFields($backup->listingCategories,ListingCategory::getCategoryJsonTag($listing->id),true);
                     $import->area = mergeFields($backup->area,ListingAreasOfOperation::listingAreasJsonTag($listing->id),true);
-                    $import->listingPremium = mergeFields($backup->listingPremium,["false"],true);
+                    $import->listingPremium = mergeFields($backup->listingPremium,[$listing->reference =>"false"],true);
                     $import->jobPremium = mergeFields($backup->jobPremium,[],true);
                     $import->enquiryArea = mergeFields($backup->enquiryArea,[],true);
                     $import->enquiryCategories = mergeFields($backup->enquiryCategories,[],true);
@@ -680,7 +680,7 @@ class AdminModerationController extends Controller
                     $backup->signUpType = $import->signUpType;
                     $backup->userType = $import->userType;
                     $backup->listingStatus = mergeFields($backup->listingStatus,[$listing->reference=>'Draft']);
-                    $backup->listingPremium = mergeFields($backup->listingpremium,[$listing->reference=>'false']);
+                    $backup->listingPremium = mergeFields($backup->listingPremium,[$listing->reference=>'false']);
                     $backup->listingType = mergeFields($backup->listingType,[Listing::listing_business_type[$listing->type]]);
                     $backup->listingCategories = mergeFields($backup->listingCategories,ListingCategory::getCategoryJsonTag($listing->id));
                     $backup->area = mergeFields($backup->area,ListingAreasOfOperation::listingAreasJsonTag($listing->id));

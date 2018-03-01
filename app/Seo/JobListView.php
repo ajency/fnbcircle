@@ -170,9 +170,9 @@ class JobListView extends Model
             } 
         }
         if(isset($filters['business_type'])){
-           foreach ($filters['business_type'] as $key => $value) {
+           
                 $keywords .= ', Jobs for '.$value.'in '.$this->state;    
-           }
+           
         }
         if(isset($filters['job_roles'])){
            foreach ($filters['job_roles'] as $key => $value) {

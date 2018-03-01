@@ -171,7 +171,7 @@ class JobListView extends Model
         }
         if(isset($filters['business_type'])){
            
-                $keywords .= ', Jobs for '.$value.'in '.$this->state;    
+                $keywords .= ', Jobs for '.$filters['business_type'].'in '.$this->state;    
            
         }
         if(isset($filters['job_roles'])){

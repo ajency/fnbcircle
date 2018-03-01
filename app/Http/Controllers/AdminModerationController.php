@@ -1609,7 +1609,7 @@ class AdminModerationController extends Controller
                         
         //             </div>';
         $html = '<h5>Premium  <a href="#" data-toggle="modal" data-target="#export-premium-modal">Filter based on premium</a></h5>
-                <div id="display-export-premium"><input type="hidden" id="selected-export-premium" name="selected-export-premium" value="false"></div>
+                <div id="display-export-premium"><input type="hidden" id="selected-export-premium" name="selected-export-premium" value=""></div>
         <div class="modal fnb-modal confirm-box fade modal-center" id="export-premium-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">
@@ -1714,6 +1714,7 @@ class AdminModerationController extends Controller
                     'branches' => []
                 ];
                 array_push($tree['leaf'], $category->id);
+                \Log::info('category_tree (push parent):'.$category->name.'('.$category->id.')');
             }
         }
         if(isset($categories['2'])){
@@ -1725,21 +1726,25 @@ class AdminModerationController extends Controller
                     'nodes' => []
                 ];
                 unset($tree['leaf'][array_search($category->parent_id, $tree['leaf'])]);
+                \Log::info('category_tree (pop parent):'.$category->parent_id);
                 array_push($tree['leaf'], $category->id);
+                \Log::info('category_tree (push branch):'.$category->name.'('.$category->id.')');
             }
         }
         if(isset($categories['3'])){
         try{
             foreach ($categories['3'] as $category) {
-                $path = str_split($category->path,5);
-                $tree['parents'][$path[0]]['branches'][$path[1]]['nodes'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
-                    'id' => $category->id,
-                    'name' => $category->name,
-                    'slug' => $category->slug,
-                ];
+                    $path = str_split($category->path,5);
+                    $tree['parents'][$path[0]]['branches'][$path[1]]['nodes'][str_pad($category->id, 5, '0', STR_PAD_LEFT)] =[
+                        'id' => $category->id,
+                        'name' => $category->name,
+                        'slug' => $category->slug,
+                    ];
+                    unset($tree['leaf'][array_search($category->parent_id, $tree['leaf'])]);
+                    \Log::info('category_tree (pop branch):'.$category->parent_id);
+                    array_push($tree['leaf'], $category->id);
+                    \Log::info('category_tree (push node):'.$category->name.'('.$category->id.')');
                 }
-                unset($tree['leaf'][array_search($category->parent_id, $tree['leaf'])]);
-                array_push($tree['leaf'], $category->id);
             }catch(\Exception $e){
                 return false;
             }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('openGraph')   
-{!! getMetaTags('App\Seo\ListingListView',$filters) !!}
+{!! getMetaTags('App\Seo\ListingListView',['urlFilters'=>$filters,'currentUrl'=>$currentUrl]) !!}
 @endsection
 
 @section('css')

@@ -9,18 +9,71 @@ class ListingListView extends Model
 {
     public $state;
     public $currentUrl;
+    public $category;
+    public $city;
+    public $type;
+    public $status;
 
     public function __construct($additionaldata){
         if(isset($additionaldata['urlFilters'])){
             $urlFilters = $additionaldata['urlFilters'];
             $this->urlFilters = $urlFilters;
-            $state = $urlFilters['state'];
+            if(isset($urlFilters['state'])){
+                $state = $urlFilters['state'];
                 $this->state = ucwords($state);
+            }
+            $this->category = "food and beverage ";
+            if(isset($urlFilters['category'])) $this->setCategoryFromFilter($urlFilters['category']);
+            $this->status = "";
+            if(isset($urlFilters['listing_status'])) $this->setStatusFromFilter($urlFilters['listing_status']);
+            $this->type = "suppliers ";
+            if(isset($urlFilters['business_type'])) $this->setTypeFromFilter($urlFilters['business_type']);
+            $this->city = $this->state.' ';
+            if(isset($urlFilters['areas_selected'])) $this->setCityFromFilter($urlFilters['areas_selected']);
         }
         if(isset($additionaldata['currentUrl'])){
             $currentUrl = $additionaldata['currentUrl'];
             $this->currentUrl = $currentUrl;
         }
+    }
+
+    public function setCategoryFromFilter($categ_filter){
+        if(isset($categ_filter['slug']) and $categ_filter['slug'] != '' ){
+            $this->category = Category::where('slug',$categ_filter['slug'])->pluck('name')->first();
+            if($this->category == '' or $this->category == null) $this->category = 'food and beverage';
+            $this->category .= ' ';
+        }else{
+            $this->category = 'food and beverage ';
+        }
+    }
+    public function setStatusFromFilter($status_filter){
+        if(isset($status_filter[0])) $this->status = ucfirst($$status_filter[0]);
+        else{ 
+            $this->status = "";
+            return;
+        }
+        if(isset($status_filter[1])) $this->status .= " and ".ucfirst($$status_filter[1]);
+        $this->status .= ' ';
+    }
+
+    public function setTypeFromFilter($type_filter){
+        if(empty($type_filter)){
+            $this->type = "suppliers ";
+            return;
+        }
+        foreach ($type_filter as &$value) {
+            $value= ucwords(str_replace('-', ' ', $value));
+        }
+        $this->type = implode(', ', $type_filter).' ';
+    }
+
+    public function setCityFromFilter($area_filter){
+        $areas = Area::whereIn('slug',$area_filter)->pluck('name')->toArray();
+        if(empty($areas) or $areas == null){
+            $this->city = $this->state.' ';
+            return;
+        }
+        $this->city = implode(', ', $areas).' ';
     }
 
     public function getMetaData(){
@@ -66,40 +119,7 @@ class ListingListView extends Model
 
     public function getTitle(){
         $filters = $this->urlFilters;
-        // dd($filters);
-        if(isset($filters['job_roles'])){
-
-            $title = 'Top '.implode(', ', $filters['job_roles']).' job openings in '.$this->state;
-            if(isset($filters['experience']) and $filters['experience'][0] == '0-1'){
-                $title = 'Job vacancies for freshers for '.implode(', ', $filters['job_roles']).' in '.$this->state;
-            }
-        }elseif (isset($filters['job_type'])) {
-            foreach ($filters['job_type'] as &$value) {
-                $value = ucwords(str_replace('-', ' ', $value));
-            }
-            $title = "Top ".implode(', ',$filters['job_type']).' job vacancies in '.$this->state;
-            if(isset($filters['business_type'])){
-                $categories = Category::where('type','job')->pluck('name','slug')->toArray();
-                $title = "Top ".implode(', ',$filters['job_type']).' job vacancies in '.$categories[$filters['business_type']].' in '.$this->state;
-            }
-        }elseif(isset($filters['area'])){
-            $areas = Area::where('status','1')->pluck('name','slug')->toArray();
-            foreach ($filters['area'] as &$value) {
-                $value = $areas[$value];
-            }
-            $title = 'Best matching hospitality job vacancies in '.implode(', ', $filters['area']);
-        }elseif(isset($filters['business_type'])){
-            $categories = Category::where('type','job')->pluck('name','slug')->toArray();
-            $title = 'Best Matching Jobs for '.$categories[$filters['business_type']].' in '.$this->state;
-        }elseif(isset($filters['experience']) and $filters['experience'][0] == '0-1'){
-            $title = 'Job vacancies for freshers in '.$this->state;
-        }else{
-            $title = $this->getStateFilterText();
-        }
-        // $title = $this->getJobNameFilterText($filters); 
-        // $title .= $this->getStateFilterText(); 
-        // $title .= $this->getCategoryFilterText($filters);
-        // $title .= $this->getKeywordsFilterText($filters);
+        $title = 'List of best '.$this->status.''.$this->category.''.$this->type.' for the hospitality industry in '.$this->city;
         $title .= ' | Fnb Circle ';
     	return $title;
     } 
@@ -128,43 +148,7 @@ class ListingListView extends Model
      //    if(isset($filters['category_name']))
     	//    $keywords .= ','. $filters['category_name'];
         $keywords = 'Hotel and restaurant jobs in '.$this->state.', Restaurant staff, wait staff required in '.$this->state.', Openings for Cleaning Jobs in '.$this->state.', Job vacancies for housekeeping staff in '.$this->state.', Apply for hospitality jobs in '.$this->state.' online, Best matching jobs in '.$this->state.', Jobs in '.$this->state.', Careers in '.$this->state.', Latest available jobs in '.$this->state.', Job vacancies in '.$this->state.', Job openings in '.$this->state.', '.$this->state.' job openings, Private jobs in '.$this->state.', Job search '.$this->state.', Best jobs in '.$this->state.', Job in '.$this->state.' hotel';
-        if(isset($filters['area'])){
-            $areas = Area::where('status','1')->pluck('name','slug')->toArray();
-            foreach ($filters['area'] as &$value) {
-                $value = $areas[$value];
-                $keywords .= ', Hotel and restaurant jobs in '.$value.', Restaurant staff, wait staff required in '.$value.', Openings for Cleaning Jobs in '.$value.', Job vacancies for housekeeping staff in '.$value.', Apply for hospitality jobs in '.$value.' online, Apply for hospitality jobs in '.$value.' online, Best matching jobs in '.$value.', Jobs in '.$value.', Careers in '.$value.', Latest available jobs in '.$value.', Job vacancies in '.$value.', Job openings in '.$value.', '.$value.' job openings, Private jobs in '.$value.', Job search '.$value.', Best jobs in '.$value.', Job in '.$value.' hotel';   
-            } 
-        }
-        if(isset($filters['business_type'])){
-                $categories = Category::where('type','job')->pluck('name','slug')->toArray();
-                $keywords .= ', Jobs for '.$categories[$filters['business_type']].'in '.$this->state;    
-           
-        }
-        if(isset($filters['job_roles'])){
-           foreach ($filters['job_roles'] as $key => $value) {
-                $keywords .= ', Job vacancies for '.$value.' in '.$this->state;
-                $keywords .= ', Hot jobs in '.$this->state.' for '.$value.'s';
-           }
-        }
-        if(isset($filters['job_type'])){
-           foreach ($filters['job_type'] as $key => $value) {
-                $keywords .= ', '.$value.' jobs in '.$this->state;
-           }
-        }
-        if(isset($filters['experience']) and $filters['experience'][0] == '0-1'){
-            $keywords .= ', Job vacancies for freshers in '.$this->state;
-            $keywords .= ', Job vacancies for freshers';
-            $keywords .= ', Entry-level jobs in '.$this->state;
-            if(isset($filters['job_roles'])){
-                foreach ($filters['job_roles'] as $key => $value) {
-                    $keywords .= ', Job vacancies for freshers for '.$value.' in '.$this->state;
-                    $keywords .= ', Entry-level jobs for '.$value.' in '.$this->state;
-                }
-            }
-        }
-        if(isset($filters['keywords']))
-           $keywords .= ','. implode(',', $filters['keywords']);
-
+        
     	return $keywords;
     }
 

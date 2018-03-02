@@ -91,7 +91,7 @@ class ListViewController extends Controller {
 
     	$paginate = pagination($page * $page_size, $page, $page_size);
 
-    	return view('list-view.business_listing', compact('header_type', 'filter_view_html', 'city', 'paginate'));
+    	return view('list-view.business_listing', compact('header_type', 'filter_view_html', 'city', 'paginate', 'filters'));
     }
 
     /**

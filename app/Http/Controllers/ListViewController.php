@@ -90,8 +90,8 @@ class ListViewController extends Controller {
     	$page_size = $request->has('limit') && intval($request->has('limit')) ? (int)$request->limit : 10;
 
     	$paginate = pagination($page * $page_size, $page, $page_size);
-
-    	return view('list-view.business_listing', compact('header_type', 'filter_view_html', 'city', 'paginate'));
+        $currentUrl = $request->fullUrl();
+    	return view('list-view.business_listing', compact('header_type', 'filter_view_html', 'city', 'paginate', 'filters','currentUrl'));
     }
 
     /**

@@ -365,7 +365,8 @@ class User extends Authenticatable
     public function getUserCity($name=false){
         $cityId = $this->getUserDetails->city;
         if(!$name){
-            return $cityId;
+            $city = City::find($cityId);
+            return $city->slug;
         }else{
             $city = City::find($cityId);
             return $city->name;

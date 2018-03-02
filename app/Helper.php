@@ -1031,6 +1031,7 @@ function mergeFields($field1,$field2=[],$values=false){
 	if(gettype($field1) == "array" and gettype($field2) == "array"){
 		$merge = array_merge($field1,$field2);
 		if($values) $merge = array_values($merge);
+		\Log::info('before unique: '.json_encode($merge));//this function needs to be fixed it removes the keys when the status is initially null
 		$merge = unique_array($merge);
 		if(!empty($merge)) $json = json_encode($merge);
 		else $json = "null";

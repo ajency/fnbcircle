@@ -123,7 +123,14 @@ class JobListView extends Model
                 $title = 'Job vacancies for freshers for '.implode(', ', $filters['job_roles']).' in '.$this->state;
             }
         }elseif (isset($filters['job_type'])) {
+            foreach ($filters['job_type'] as &$value) {
+                $value = ucwords(str_replace('-', ' ', $value));
+            }
             $title = "Top ".implode(', ',$filters['job_type']).' job vacancies in '.$this->state;
+            if(isset($filters['business_type'])){
+                $categories = Category::where('type','job')->pluck('name','slug')->toArray();
+                $title = "Top ".implode(', ',$filters['job_type']).' job vacancies in '.$categories[$filters['business_type']].' in '.$this->state;
+            }
         }elseif(isset($filters['area'])){
             $areas = Area::where('status','1')->pluck('name','slug')->toArray();
             foreach ($filters['area'] as &$value) {

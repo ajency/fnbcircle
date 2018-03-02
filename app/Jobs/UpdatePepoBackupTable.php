@@ -87,7 +87,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 break;
             case 'listing_created':
                 $email = $by->getPrimaryEmail();
-                $fields['area'] = [$on->location->city->id => $on->location->city->name];
+                $fields['area'] = [$on->location->city->slug => $on->location->city->name];
                 $fields['userType'] = ['Listing'];
                 $fields['listingStatus'] = [$on->reference => Listing::listing_status[$on->status]];
                 $fields['listingType'] = [Listing::listing_business_type[$on->type]];

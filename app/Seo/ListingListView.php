@@ -119,36 +119,39 @@ class ListingListView extends Model
 
     public function getTitle(){
         $filters = $this->urlFilters;
-        $title = 'List of best '.$this->status.''.$this->category.''.$this->type.' for the hospitality industry in '.$this->city;
+        $title = 'List of best '.$this->status.''.$this->category.''.$this->type.'for the hospitality industry in '.$this->city;
         $title .= ' | Fnb Circle ';
     	return $title;
     } 
 
     public function getDescription(){
     	$filters = $this->urlFilters;
-        if(isset($filters['area']) and isset($filters['job_roles']) and isset($filters['job_type'])){
-            
-            $desc = 'Find jobs in '.implode(', ', $filters['area']).' that best match your skills and your personality. FnB Circle lists '.implode(', ', $filters['job_type']).' job openings for '.implode(', ', $filters['area']).' in '.$this->state.'. View and apply online.';
-        }else{
-            $desc = 'Find jobs in '.$this->state.' that best match your skills and your personality. FnB Circle lists job openings for vacancies in hotels and restaurants. View and apply online.';
-        }
-        // $desc = $this->getJobNameFilterText($filters); 
-        // $desc .= $this->getStateFilterText(); 
-        // $desc .= $this->getCategoryFilterText($filters);
-        // $desc .= $this->getKeywordsFilterText($filters);
-        // $desc .= ' | Find Latest Job vacancies for Freshers & Experienced across Top Companies. | Fnb Circle ';
-        $desc .= ' | Fnb Circle ';
+        $desc = 'Find a directory of best '.$this->status.''.$this->category.''.$this->type.' in '.$this->city.'only on FnB Circle. We give you a complete list of the nearest '.$this->type.'in the hospitality industry for '.$this->category.'businesses.';
         return $desc;
     }
 
     public function getKeywords(){
         $filters = $this->urlFilters;
-    	// $keywords = 'fnb,fnbcircle,jobs,job,job opening,interview';
-    	// $keywords .= ','.$this->getStateFilterText(); 
-     //    if(isset($filters['category_name']))
-    	//    $keywords .= ','. $filters['category_name'];
-        $keywords = 'Hotel and restaurant jobs in '.$this->state.', Restaurant staff, wait staff required in '.$this->state.', Openings for Cleaning Jobs in '.$this->state.', Job vacancies for housekeeping staff in '.$this->state.', Apply for hospitality jobs in '.$this->state.' online, Best matching jobs in '.$this->state.', Jobs in '.$this->state.', Careers in '.$this->state.', Latest available jobs in '.$this->state.', Job vacancies in '.$this->state.', Job openings in '.$this->state.', '.$this->state.' job openings, Private jobs in '.$this->state.', Job search '.$this->state.', Best jobs in '.$this->state.', Job in '.$this->state.' hotel';
-        
+        $keywords = 'Best '.$this->status.'food and beverage vendors in '.$this->state.', Top food and beverage suppliers in '.$this->state.', Find best '.$this->status.'retailers, Maps for top suppliers in '.$this->state.' on FnB Circle, '.$this->status.' Food and beverages distribution in '.$this->state.', Food products manufacturers in '.$this->state.', List of top '.$this->status.'beverages companies in '.$this->state.', food and beverage products, '.$this->status.'food and beverage products distributors, food and beverage products vendors, list of top '.$this->status.'food and beverage suppliers in '.$this->state.', list of top food and beverage distributors in '.$this->state.'';
+        if($this->category != "food and beverage "){
+            $keywords .= ', Best '.$this->category.'vendors in '.$this->state.', Top '.$this->category.'suppliers in '.$this->state.', Find best retailers, Maps for top suppliers in '.$this->state.' on FnB Circle, '.$this->category.'distribution in '.$this->state.', Food products manufacturers in '.$this->state.', List of top beverages companies in '.$this->state.', '.$this->category.'products, '.$this->category.'products distributors, '.$this->category.'products vendors, list of top '.$this->category.'suppliers in '.$this->state.', list of top '.$this->category.'distributors in '.$this->state.', Best '.$this->category.'vendors in '.$this->state.', Wholesale distributors of '.$this->category.'in '.$this->state.'';
+        }
+        if($this->city != $this->state.' '){
+            $areas = Area::whereIn('slug',$filters['areas_selected'])->pluck('name','slug')->toArray();
+            foreach ($filters['areas_selected'] as $value) {
+                $area = $areas[$value];
+                $keywords .= ', Best food and beverage vendors in '.$area.', Top food and beverage suppliers in '.$area.', Find best retailers, Maps for top suppliers in '.$area.' on FnB Circle, Food and beverages distribution in '.$area.', Food products manufacturers in '.$area.', List of top beverages companies in '.$area.', food and beverage products, food and beverage products distributors, food and beverage products vendors, list of top food and beverage suppliers in '.$area.', list of top food and beverage distributors in '.$area.'';
+            }
+        }
+        if($this->type != "suppliers "){
+            foreach ($filters['business_type'] as &$value) {
+                $value= ucwords(str_replace('-', ' ', $value));
+                $keywords .= ', Best food and beverage '.$value.' in '.$this->state.', Top food and beverage '.$value.' in '.$this->state.', Find best '.$value.', Maps for top '.$value.' in '.$this->state.' on FnB Circle, Food products '.$value.' in '.$this->state.',   food and beverage products '.$value.', list of top food and beverage '.$value.' in '.$this->state.', list of top food and beverage '.$value.' in '.$this->state.'';
+            }
+        }
+        if($this->type != "suppliers " and $this->category != "food and beverage "){
+            $keywords .= ', list of top '.$this->status.''.$this->category.''.$this->type.'in '.$this->city;
+        }
     	return $keywords;
     }
 

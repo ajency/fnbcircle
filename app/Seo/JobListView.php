@@ -197,6 +197,7 @@ class JobListView extends Model
         }
         if(isset($filters['job_type'])){
            foreach ($filters['job_type'] as $key => $value) {
+                $value = ucwords(str_replace('-', ' ', $value));
                 $keywords .= ', '.$value.' jobs in '.$this->state;
            }
         }

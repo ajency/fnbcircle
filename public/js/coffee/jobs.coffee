@@ -52,7 +52,7 @@ $(document).on 'click', '.remove_resume', ->
       $('input[name="resume_id"]').val('')
       $('.no_resume').removeClass 'hidden'
       $('.has_resume').addClass 'hidden'
-      $('.dropify-message').find('p').html('Upload my resume')
+      $('.dropify-message').find('p').html('Click here to add file')
       
     error: (request, status, error) ->
       throwError()
@@ -283,14 +283,14 @@ if $('.expSelect').length
     nonSelectedText: 'Select Experience'
 
 $('.resume-upload').dropify messages:
-  'default': 'Upload my resume'
+  'default': 'Click here to add file'
   'replace': 'Replace resume'
   'remove': '<i class="">&#10005;</i>'
   'error': ''
 
 
 $('.resume-already-upload').dropify messages:
-  'default': 'Upload new resume'
+  'default': 'Click here to add file'
   'replace': 'Replace resume'
   'remove': '<i class="">&#10005;</i>'
   'error': ''  

@@ -83,7 +83,7 @@ class UpdatePepoBackupTable implements ShouldQueue
                 $fields['userSubType'] = array_values($details);
                 $fields['stateID'] =  $by->getUserCity();
                 $fields['state'] = $by->getUserCity(true);
-                $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
+                // $fields['area'] = [$by->getUserCity() => $by->getUserCity(true)];
                 break;
             case 'listing_created':
                 $email = $by->getPrimaryEmail();
@@ -195,7 +195,8 @@ class UpdatePepoBackupTable implements ShouldQueue
             $backup['email'] = $email;  
         } 
         foreach ($fields as $key => $value) {
-
+            // \Log::info($key.'(user) => '.json_encode($value));
+            // \Log::info($key.'(old) => '.$backup[$key]);
             switch ($key) {
                 case 'name':
                 case 'stateID':

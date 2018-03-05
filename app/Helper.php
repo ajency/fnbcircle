@@ -1031,10 +1031,12 @@ function mergeFields($field1,$field2=[],$values=false){
 	if(gettype($field1) == "array" and gettype($field2) == "array"){
 		$merge = array_merge($field1,$field2);
 		if($values) $merge = array_values($merge);
-		\Log::info('before unique: '.json_encode($merge));//this function needs to be fixed it removes the keys when the status is initially null
+		// \Log::info('before unique: '.json_encode($merge));//this function needs to be fixed it removes the keys when the status is initially null
 		$merge = unique_array($merge);
+		// \Log::info('after unique: '.json_encode($merge));
 		if(!empty($merge)) $json = json_encode($merge);
 		else $json = "null";
+		// \Log::info('before return: '.json_encode($merge));
 		return $json;
 	}else{
 		\Log::error("entered fields could not be converted to arrays");
@@ -1172,7 +1174,7 @@ function dumpTableintoFile($table_name = 'pepo_backups', $filters = [], $fields 
 }
 
 function unique_array(array $arr){
-	if (array() === $arr or array_keys($arr) == range(0, count($arr) - 1)) {
+	if (array() === $arr or array_keys($arr) === range(0, count($arr) - 1)) {
 		return array_values(array_unique($arr));
 	}else{
 		return $arr;

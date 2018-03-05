@@ -156,8 +156,11 @@ class JobListView extends Model
     public function getDescription(){
     	$filters = $this->urlFilters;
         if(isset($filters['area']) and isset($filters['job_roles']) and isset($filters['job_type'])){
-            
-            $desc = 'Find jobs in '.implode(', ', $filters['area']).' that best match your skills and your personality. FnB Circle lists '.implode(', ', $filters['job_type']).' job openings for '.implode(', ', $filters['area']).' in '.$this->state.'. View and apply online.';
+            $areas = Area::where('status','1')->pluck('name','slug')->toArray();
+            foreach ($filters['area'] as &$value) {
+                $value = $areas[$value];
+            }
+            $desc = 'Find jobs in '.implode(', ', $filters['area']).' that best match your skills and your personality. FnB Circle lists job openings in '.implode(', ', $filters['area']).' - '.$this->state.' for '.implode(', ', $filters['job_type']).' vacancies in '.implode(', ', $filters['job_roles']).'. View and apply online.';
         }else{
             $desc = 'Find jobs in '.$this->state.' that best match your skills and your personality. FnB Circle lists job openings for vacancies in hotels and restaurants. View and apply online.';
         }

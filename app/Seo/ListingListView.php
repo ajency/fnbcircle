@@ -58,7 +58,7 @@ class ListingListView extends Model
 
     public function setTypeFromFilter($type_filter){
         if(empty($type_filter)){
-            $this->type = "suppliers ";
+            $this->type = "suppliers and distributors ";
             return;
         }
         foreach ($type_filter as &$value) {
@@ -126,7 +126,7 @@ class ListingListView extends Model
 
     public function getDescription(){
     	$filters = $this->urlFilters;
-        $desc = 'Find a directory of best '.$this->status.''.$this->category.''.$this->type.' in '.$this->city.'only on FnB Circle. We give you a complete list of the nearest '.$this->type.'in the hospitality industry for '.$this->category.'businesses.';
+        $desc = 'Find a directory of best '.$this->status.''.$this->category.''.$this->type.'in '.$this->city.'only on FnB Circle. We give you a complete list of the nearest '.$this->type.'in the hospitality industry for '.$this->category.'businesses.';
         return $desc;
     }
 

@@ -160,6 +160,9 @@ class JobListView extends Model
             foreach ($filters['area'] as &$value) {
                 $value = $areas[$value];
             }
+            foreach ($filters['job_type'] as &$value) {
+                $value = ucwords(str_replace('-', ' ', $value));
+            }
             $desc = 'Find jobs in '.implode(', ', $filters['area']).' that best match your skills and your personality. FnB Circle lists job openings in '.implode(', ', $filters['area']).' - '.$this->state.' for '.implode(', ', $filters['job_type']).' vacancies in '.implode(', ', $filters['job_roles']).'. View and apply online.';
         }else{
             $desc = 'Find jobs in '.$this->state.' that best match your skills and your personality. FnB Circle lists job openings for vacancies in hotels and restaurants. View and apply online.';

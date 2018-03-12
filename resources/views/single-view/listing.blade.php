@@ -145,12 +145,6 @@
                                 </div>
                                 <div class="stats flex-row m-t-10 stat-section">
                                     <div class="rating-view flex-row">
-                                        @isset($data['rating'])
-                                        <div class="rating m-r-20">
-                                            <div class="bg"></div>
-                                            <div class="value" style="width: {{$data['rating']}}%;"></div>
-                                        </div>
-                                        @endisset
                                         @isset($data['views'])
                                         <div class="views m-r-20 flex-row" title="Views">
                                             <span class="fnb-icons eye-icon"></span>

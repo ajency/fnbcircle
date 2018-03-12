@@ -156,7 +156,7 @@
     </div>
 </div>
 <!-- Ratings -->
-<div class="filter-group rating-section no-gap">
+<!--<div class="filter-group rating-section no-gap">
     <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-rating" aria-expanded="false" aria-controls="section-rating">
         <h6 class="sub-title flex-row">Ratings <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
         </h6>
@@ -174,7 +174,7 @@
                         </div>
                     </a>
                 </label>
-            @endforeach
+            @endforeach -->
             <!-- <label class="sub-title flex-row text-color">
                <div class="rating-view p-r-10">
                     <div class="rating">
@@ -220,7 +220,7 @@
                 </div>
                 <span>&amp; Up (23)</span>
             </label> -->
-        </div>
+       <!-- </div>
     </div>
-</div>
+</div> -->
 <!-- ratings ends -->

@@ -42,12 +42,12 @@
                             @endif -->
                         </div>
                         <div class="flex-row rat-pub" style="@isset($is_email) float: left; @endisset">
-                            <div class="rating-view flex-row p-r-10">
+                            <!-- <div class="rating-view flex-row p-r-10">
                                 <div class="rating rating-small">
                                     <div class="bg"></div>
                                     <div class="value" style="width: 80%;"></div>
                                 </div>
-                            </div>
+                            </div> -->
                             @if($list_value->status ==1)<p class="m-b-0 text-lighter default-size lighter published-date" style="@isset($is_email)  margin-top: 0;margin-bottom: 5px; @endisset"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>@endif
                         </div>
                         <div class="stats flex-row m-t-10" style="@isset($is_email) float: right;position: relative;top: -8px; @endisset">

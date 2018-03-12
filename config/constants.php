@@ -13,7 +13,7 @@ return [
  
     /* Dev Mode */
     'email_from_dev' => 'admin@fnbcircle.com',
-    'email_to_dev' => ['harshita@ajency.in','rahul@pizzasquare.in'], // ['harshita@ajency.in', 'valenie@ajency.in'],
+    'email_to_dev' => ['harshita@ajency.in','rahul@pizzasquare.in','meha@ajency.in'], // ['harshita@ajency.in', 'valenie@ajency.in'],
     'email_cc_dev' => [], // ['prajay@ajency.in', 'sharath@ajency.in', 'shashank@ajency.in'],
     'email_bcc_dev' => [],
 

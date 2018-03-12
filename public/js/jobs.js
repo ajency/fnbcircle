@@ -481,18 +481,6 @@
     });
   }
 
-  $('.open-popup-alert').popover({
-    container: 'body',
-    html: true,
-    content: function() {
-      var clone;
-      clone = $($(this).data('popover-content')).clone(true).removeClass('hidden');
-      return clone;
-    }
-  }).click(function(e) {
-    e.preventDefault();
-  });
-
   $('.custom-pop-btn.yes').click(function() {
     return $('.send-jobs-loader').removeClass('hidden');
   });

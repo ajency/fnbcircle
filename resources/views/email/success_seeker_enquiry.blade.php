@@ -13,7 +13,7 @@
         <div style="margin-bottom: 0.8em;">        
           <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
             @if(isset($is_premium) && $is_premium)
-              Thank you for showing your interest in <a href="{{ $listing_url }}" target="_blank">{{ $listing_name }}</a>. Your details have been shared via email and sms with the owner of this business. They would contact you soon.<br><br>
+              Thank you for showing your interest in <a href="{{ isset($listing_value['link']) ? $listing_value['link'] : $listing_url }}" target="_blank">{{ isset($listing_value['name']) ? $listing_value['name'] : $listing_name }}</a>. Your details have been shared via email and sms with the owner of this business. They would contact you soon.<br><br>
             @else
               Thank you for showing your interest.<br><br>
               We have sent your enquiry details via email and sms to <a href="{{ $listing_url }}" target="_blank" style="color: #ec6d4b;">{{ $listing_name }}</a> &amp; few similar businesses matching your requirements. They would contact you soon.<br><br>

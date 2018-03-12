@@ -102,7 +102,7 @@
                 <!-- Breadcrums -->
                 <ul class="fnb-breadcrums flex-row">
                     <li class="fnb-breadcrums__section">
-                        <a href="{{url('/')}}">
+                        <a href="{{url('/')}}" title="Home">
                             <i class="fa fa-home home-icon" aria-hidden="true"></i>
                         </a>
                     </li>
@@ -112,7 +112,7 @@
                         </a>
                     </li>
                     <li class="fnb-breadcrums__section">
-                        <a href="">
+                        <a href="" title="{{ucfirst($city)}}">
                             <p class="fnb-breadcrums__title state_label"> {{ ucfirst($city) }}</p>
                         </a>
                     </li>

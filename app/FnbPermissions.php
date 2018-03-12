@@ -27,19 +27,23 @@ function routePermission(){
 
 				//admin jobs permission
 				'admin-dashboard/moderation/listing-approval'=>['listing_approval'],
-				'admin-dashboard/config/categories'=>['listing_approval'],
-				'admin-dashboard/config/locations'=>['listing_approval'],
-				'admin-dashboard/users/internal-users'=>['listing_approval'],
-				'admin-dashboard/users/registered-users'=>['listing_approval'],
-				'admin-dashboard/email-notification'=>['listing_approval'],
+				'admin-dashboard/moderation/manage-listings'=>['listing_approval'],
+				'admin-dashboard/moderation/manage-enquiries'=>['listing_approval'],
+				
 
 
- 				'admin-dashboard/jobs/manage-jobs'=>['listing_approval'],
+ 				'admin-dashboard/jobs/manage-jobs'=>['manage_job_status'],
  				// 'admin-dashboard/jobs/manage-jobs'=>['manage_job_status','manage_job_view'],
 			 	'admin-dashboard/jobs/get-jobs'=>['manage_job_status','manage_job_view'],
 			 	'admin-dashboard/jobs/update-job-status'=>['manage_job_status'],
 			 	'admin-dashboard/jobs/bulk-update-job-status'=>['manage_job_status'],
-
+			 	'admin-dashboard/config/categories'=>['manage_job_status'],
+				'admin-dashboard/config/locations'=>['manage_job_status'],
+				'admin-dashboard/users/internal-users'=>['manage_job_status'],
+				'admin-dashboard/users/registered-users'=>['manage_job_status'],
+				'admin-dashboard/users/export'=>['manage_job_status'],
+				'admin-dashboard/email-notification'=>['manage_job_status'],
+				'admin-dashboard/internal-email'=>['manage_job_status'],
 
 			 	//ui element
 				'submit_review_element_cls'=>['submit_for_review_job','submit_for_review_listing'],

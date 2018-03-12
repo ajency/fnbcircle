@@ -101,32 +101,42 @@ class AdminModerationController extends Controller
             }
             unset($listing['owner']);
             unset($listing['listing_obj']);
-
-            // if (count($filters['status'])==1) $listing['#'] = '<td class=" select-checkbox" style="display: table-cell;"></td>';
-            // dd($listing['categories']);
+            $nodes = "";
             $i    = 0;
-            $temp = '';
             foreach ($listing['categories'] as $key => $value) {
-                if ($i != 0) {
-                    $temp .= "<hr>";
-                } else {
-                    $temp .= "";
-                }
-
-                $temp .= $value['parent'] . ' > ' . $value['branch'] . ' > ';
-                $j = 0;
+                $temp = $value['parent'] . ' >> ' . $value['branch'] . ' >> ';
                 foreach ($value['nodes'] as $node) {
-                    if ($j != 0) {
-                        $temp .= ', ';
+                    if ($i != 0) {
+                        $nodes .= ', ';
                     }
 
-                    $temp .= $node['name'];
-                    $j++;
+                    $nodes .= '<span title="'.$temp.$node['name'].'">'.$node['name'].'</span>';
+                    $i++;
                 }
-                $i++;
             }
-            $listing['categories'] = $temp;
-            // dd($listing['categories']);
+            $listing['categories'] = $nodes;
+            // $i    = 0;
+            // $temp = '';
+            // foreach ($listing['categories'] as $key => $value) {
+            //     if ($i != 0) {
+            //         $temp .= "<hr>";
+            //     } else {
+            //         $temp .= "";
+            //     }
+
+            //     $temp .= $value['parent'] . ' > ' . $value['branch'] . ' > ';
+            //     $j = 0;
+            //     foreach ($value['nodes'] as $node) {
+            //         if ($j != 0) {
+            //             $temp .= ', ';
+            //         }
+
+            //         $temp .= $node['name'];
+            //         $j++;
+            //     }
+            //     $i++;
+            // }
+            // $listing['categories'] = $temp;
         }
 
         return response()->json($response);
@@ -189,28 +199,42 @@ class AdminModerationController extends Controller
             unset($listing['updated_on']);
             unset($listing['owner']);
             unset($listing['listing_obj']);
-            $i    = 0;
-            $temp = '';
-            foreach ($listing['categories'] as $key => $value) {
-                if ($i != 0) {
-                    $temp .= "<hr>";
-                } else {
-                    $temp .= "";
-                }
+            // $i    = 0;
+            // $temp = '';
+            // foreach ($listing['categories'] as $key => $value) {
+            //     if ($i != 0) {
+            //         $temp .= "<hr>";
+            //     } else {
+            //         $temp .= "";
+            //     }
 
-                $temp .= $value['parent'] . ' > ' . $value['branch'] . ' > ';
-                $j = 0;
+            //     $temp .= $value['parent'] . ' > ' . $value['branch'] . ' > ';
+            //     $j = 0;
+            //     foreach ($value['nodes'] as $node) {
+            //         if ($j != 0) {
+            //             $temp .= ', ';
+            //         }
+
+            //         $temp .= $node['name'];
+            //         $j++;
+            //     }
+            //     $i++;
+            // }
+            // $listing['categories'] = $temp;
+            $nodes = "";
+            $i    = 0;
+            foreach ($listing['categories'] as $key => $value) {
+                $temp = $value['parent'] . ' >> ' . $value['branch'] . ' >> ';
                 foreach ($value['nodes'] as $node) {
-                    if ($j != 0) {
-                        $temp .= ', ';
+                    if ($i != 0) {
+                        $nodes .= ', ';
                     }
 
-                    $temp .= $node['name'];
-                    $j++;
+                    $nodes .= '<span title="'.$temp.$node['name'].'">'.$node['name'].'</span>';
+                    $i++;
                 }
-                $i++;
             }
-            $listing['categories'] = $temp;
+            $listing['categories'] = $nodes;
         }
 
         return response()->json($response);

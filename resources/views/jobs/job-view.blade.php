@@ -1164,17 +1164,17 @@ $additionalData = ['job'=>$job];
                               <h6 class="text-medium m-b-15 m-t-15 j-alert-title">Your job alert for <b>'{{ $job->title }}'</b> has been created</h6>
                               
                               <p>You will receive the job alert in your email <b>'{{ Session::get('applicant_email') }}'</b> as per the below criteria</p>
-                              <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p>
+                              <!-- <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p> -->
                           </div>
                         @endif
   
 
                           <!-- <hr> -->
 
-                          <div class="m-b-20 m-t-10 send-job-alert heavier">
+                          <div class="m-b-20 m-t-10 send-job-alert heavier hidden">
                           Send job alerts : <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_alert" value="1">
                           </div>
-                          <div class="row flex-row flex-wrap align-top edit-criteria x-small {{ ($sendJobAlerts) ? '' : 'hidden' }}">
+                          <div class="row flex-row flex-wrap align-top edit-criteria x-small hidden {{ ($sendJobAlerts) ? '' : 'hidden' }}">
 
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size dis-block">Job category: </label>

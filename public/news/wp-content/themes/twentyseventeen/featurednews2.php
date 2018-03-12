@@ -193,7 +193,7 @@ get_header(); ?>
 			 <?php $my_post_meta = get_post_meta($post->ID, '_is_ns_featured_post', true); ?>
 			  
 			  <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>"  target ="_blank" >  <h5><?php the_title(); ?></h5> </a>
-			    <?php the_excerpt(15); ?>
+			    <?php the_excerpt(30); ?>
 			    <?php echo $current_featured_tags_html;?>
 			<div class="featured-meta">
 				<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />

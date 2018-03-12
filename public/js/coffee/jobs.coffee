@@ -520,15 +520,15 @@ if $('.default-area-select').length
 
 
 
-$('.open-popup-alert').popover(
-  container: 'body'
-  html: true
-  content: ->
-    clone = $($(this).data('popover-content')).clone(true).removeClass('hidden')
-    clone
-).click (e) ->
-  e.preventDefault()
-  return
+# $('.open-popup-alert').popover(
+#   container: 'body'
+#   html: true
+#   content: ->
+#     clone = $($(this).data('popover-content')).clone(true).removeClass('hidden')
+#     clone
+# ).click (e) ->
+#   e.preventDefault()
+#   return
 
 
 $('.custom-pop-btn.yes').click ->

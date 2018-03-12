@@ -685,7 +685,8 @@ $additionalData = ['job'=>$job];
 
                       <!-- Popover data ends -->
 
-                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
+                      <!-- <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif"> -->
+                      <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="open-popup-alert secondary-link p-l-20 dis-block">
                     @else
                       <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif
@@ -1164,17 +1165,17 @@ $additionalData = ['job'=>$job];
                               <h6 class="text-medium m-b-15 m-t-15 j-alert-title">Your job alert for <b>'{{ $job->title }}'</b> has been created</h6>
                               
                               <p>You will receive the job alert in your email <b>'{{ Session::get('applicant_email') }}'</b> as per the below criteria</p>
-                              <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p>
+                              <!-- <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p> -->
                           </div>
                         @endif
   
 
                           <!-- <hr> -->
 
-                          <div class="m-b-20 m-t-10 send-job-alert heavier">
+                          <div class="m-b-20 m-t-10 send-job-alert heavier hidden">
                           Send job alerts : <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_alert" value="1">
                           </div>
-                          <div class="row flex-row flex-wrap align-top edit-criteria x-small {{ ($sendJobAlerts) ? '' : 'hidden' }}">
+                          <div class="row flex-row flex-wrap align-top edit-criteria x-small hidden {{ ($sendJobAlerts) ? '' : 'hidden' }}">
 
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size dis-block">Job category: </label>

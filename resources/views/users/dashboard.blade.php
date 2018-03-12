@@ -369,7 +369,7 @@ Dashboard
                                             <div class="form-group">
                                                 <label class="checkbox-inline send-alert">
 
-                                                    <input type="checkbox" @if($sendJobAlerts == null)checked @endif {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_job_alerts" class="fnb-checkbox custom-checkbox" value="1"><span class="default-size">Send Alerts</span></span>
+                                                    <input type="checkbox" @if($sendJobAlerts == null)checked @endif {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_job_alerts" class="fnb-checkbox custom-checkbox" value="1"><span class="default-size">Receive Alerts</span></span>
                                                 </label>
                                             </div>
                                             

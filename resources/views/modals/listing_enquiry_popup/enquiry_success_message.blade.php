@@ -14,7 +14,7 @@
 
 <div class="suppliers-data success-cards">
    @if(isset($listing_data) && sizeof($listing_data) > 0 && (!isset($is_premium) || !$is_premium))
-        <p class="element-title heavier text-darker success-cards__title">Don't miss out on these suppliers <img src="/img/direction-down-2.png" class="img-responsive direction-down"></p>
+        <p class="element-title heavier text-darker success-cards__title">Based on your enquiry, here are a few similar listings <img src="/img/direction-down-2.png" class="img-responsive direction-down"></p>
 	    @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
 	   
         <!-- Show Listings found count -->

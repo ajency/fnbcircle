@@ -22,7 +22,7 @@
                     <div class="suppliers-data">
                         <!-- <h5 class="text-darker lighter m-t-0 deal-text">We can help you get the best deals on F&amp;BCircle <p class="xx-small m-t-5 text-medium m-b-20">Please give us details of the categories that you're interested in and also the areas of operation.</p></h5> -->
 
-                        <p class="element-title heavier text-darker">Don't miss out on these suppliers <img src="{{ asset('img/direction-down-2.png') }}" class="img-responsive direction-down"></p>
+                        <p class="element-title heavier text-darker">Based on your enquiry, here are a few similar listings <img src="{{ asset('img/direction-down-2.png') }}" class="img-responsive direction-down"></p>
                     </div>
                 </div>
                 <div class="enquiry-details flex-row content-data">

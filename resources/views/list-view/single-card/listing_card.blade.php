@@ -51,7 +51,7 @@
                             @if($list_value->status ==1)<p class="m-b-0 text-lighter default-size lighter published-date" style="@isset($is_email)  margin-top: 0;margin-bottom: 5px; @endisset"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>@endif
                         </div>
                         <div class="stats flex-row m-t-10" style="@isset($is_email) float: right;position: relative;top: -8px; @endisset">
-                            <a class="fnb-label wholesaler flex-row list-label m-r-10" @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]' style="@isset($is_email)  padding: 5px;color: #27b7b0;border: 1px solid;border-radius: 4px;text-decoration: none;font-size: 12px;width: auto;float: left;margin-right: 15px; @endisset">
+                            <a class="fnb-label wholesaler flex-row list-label m-r-10" @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]' title="{{ $list_value->business_type["name"] }}(s) in {{$list_value->city["name"]}}" style="@isset($is_email)  padding: 5px;color: #27b7b0;border: 1px solid;border-radius: 4px;text-decoration: none;font-size: 12px;width: auto;float: left;margin-right: 15px; @endisset">
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                 {{ $list_value->business_type["name"] }}
                             </a>
@@ -70,7 +70,7 @@
                                 <ul class="fnb-cat flex-row" style="@isset($is_email) width: 100%;list-style: none;margin: 0;clear: both;padding-left: 0; @endisset">
                                     @foreach($list_value->cores->take(4) as $core_index => $core_value)
                                         @if($core_index < 4)
-                                            <li style="@isset($is_email) float: left;padding-right: 8px; @endisset"><a @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title" style="@isset($is_email) color: #757575; @endisset">{{ $core_value->name }}</a></li>
+                                            <li style="@isset($is_email) float: left;padding-right: 8px; @endisset"><a @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title" title="{{ $core_value->name }} vendors in {{$list_value->city['name']}}" style="@isset($is_email) color: #757575; @endisset">{{ $core_value->name }}</a></li>
                                         @else
                                             <!-- <li class="desk-hide"><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li> -->
                                         @endif

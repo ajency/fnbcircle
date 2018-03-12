@@ -332,7 +332,7 @@ class EnquiryController extends Controller {
 	* This function updates the NewsLetter subscription
 	*/
 	public function newsLetterSubscription($newsletter_subscribe, $subscribed_on, $subscribed_by) {
-		if($newsletter_subscribe != NULL) {
+		if($newsletter_subscribe != NULL and Auth::guest()) {
 			$subscribe = $newsletter_subscribe; //($newsletter_subscribe and $newsletter_subscribe != "false")? "True" : "False";
 			logActivity('newsletter', $subscribed_on, $subscribed_by, ["subscribe" => $subscribe]);
 		}

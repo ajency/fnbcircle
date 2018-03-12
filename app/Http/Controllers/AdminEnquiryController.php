@@ -60,15 +60,12 @@ class AdminEnquiryController extends Controller
             $enquiry['enquirer_details'] = implode(', ',$enquiry['enquirer_details']);
             $categories = [];
             foreach($enquiry['categories'] as $branch){
-                $category = $branch['parent'].' > '.$branch['branch'].' > ';
-                $nodes = [];
+                $category = $branch['parent'].' >> '.$branch['branch'].' >> ';
                 foreach ($branch['nodes'] as $node) {
-                    $nodes[] = $node['name'];
+                    $categories[] = '<span title="'.$category.$node['name'].'">'.$node['name'].'</span>';
                 }
-                $category .= implode(', ',$nodes);
-                $categories[] = $category;
             }
-            $enquiry['categories'] = implode('<br/>',$categories);
+            $enquiry['categories'] = implode(', ',$categories);
 
             $areas = [];
             foreach($enquiry['areas'] as $city_id => $cities){
@@ -380,7 +377,7 @@ class AdminEnquiryController extends Controller
             $response[$enquiry->id]['categories'] = EnquiryCategory::getCategories($enquiry->id);
             $response[$enquiry->id]['made_against'] = $enquiry->enquiry_to()->first();
             $response[$enquiry->id]['sent_to'] = [];
-            $sentTo = $enquiry->sentTo()->get();
+            $sentTo = $enquiry->sentTo()->take(5)->get();
 
             foreach ($sentTo as $to) {
                 try{

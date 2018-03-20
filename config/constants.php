@@ -17,8 +17,8 @@ return [
     'email_cc_dev' => [], // ['prajay@ajency.in', 'sharath@ajency.in', 'shashank@ajency.in'],
     'email_bcc_dev' => [],
 
-    'sms_to_dev' => ['+918806724695'],
-    'sms_to_dev_array' => env('SMS_TO_DEV_ARRAY', false), // IF false, will take 1st no, else will take all the No
+    'sms_to_dev' => ['+918806724695','+919811990334'],
+    'sms_to_dev_array' => env('SMS_TO_DEV_ARRAY', true), // IF false, will take 1st no, else will take all the No
 
     'app_dev_envs' => ['local', 'development'],
 

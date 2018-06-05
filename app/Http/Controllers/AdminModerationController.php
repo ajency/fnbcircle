@@ -1273,7 +1273,9 @@ class AdminModerationController extends Controller
     public function manageListings(Request $request){
         $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->where('status','1')->where('type','listing')->get();
         $cities       = City::where('status', '1')->get();
-        return view('admin-dashboard.manage_listings')->with('parents', $parent_categ)->with('cities', $cities);
+        $start_id = (isset($request->start_id))?  $request->start_id : 0;
+        $end_id = (isset($request->end_id))?  $request->end_id : 0;
+        return view('admin-dashboard.manage_listings')->with('parents', $parent_categ)->with('cities', $cities)->with('start_id',$start_id)->with('end_id',$end_id);
     }
 
     public function exportManageListings(Request $request){

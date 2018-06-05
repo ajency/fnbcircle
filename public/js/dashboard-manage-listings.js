@@ -1,7 +1,12 @@
 (function() {
   var listing_table;
 
-  window.filters = {};
+  window.filters = {
+    'id_filter': {
+      'start': document.head.querySelector('[property="start-id"]').content,
+      'end': document.head.querySelector('[property="end-id"]').content
+    }
+  };
 
   listing_table = $('#datatable-manage_listings').DataTable({
     'pageLength': 25,
@@ -148,7 +153,12 @@
     window.categories = {
       'parents': []
     };
-    window.filters = {};
+    window.filters = {
+      'id_filter': {
+        'start': document.head.querySelector('[property="start-id"]').content,
+        'end': document.head.querySelector('[property="end-id"]').content
+      }
+    };
     return listing_table.ajax.reload();
   });
 

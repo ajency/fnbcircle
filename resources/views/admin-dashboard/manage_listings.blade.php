@@ -24,6 +24,10 @@
     <script type="text/javascript" src="/js/dashboard-manage-listings.js"></script>
 @endsection
 
+@section('meta')
+  <meta property="start-id" content="{{$start_id}}">
+  <meta property="end-id" content="{{$end_id}}">
+@endsection
 
 @section('page-data')
 <div class="right_col" role="main">

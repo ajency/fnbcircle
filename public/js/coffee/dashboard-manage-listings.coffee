@@ -1,4 +1,9 @@
-window.filters = {}
+window.filters = {
+  'id_filter': {
+    'start': document.head.querySelector('[property="start-id"]').content
+    'end': document.head.querySelector('[property="end-id"]').content
+  }
+}
 
 listing_table = $('#datatable-manage_listings').DataTable(
   'pageLength': 25
@@ -124,7 +129,12 @@ $('body').on 'click','button#resetAll', (e)->
     $(this).multiselect('deselectAll',false)
   $('div#categories.node-list').html ''
   window.categories = 'parents': []
-  window.filters = {}
+  window.filters = {
+    'id_filter': {
+      'start': document.head.querySelector('[property="start-id"]').content
+      'end': document.head.querySelector('[property="end-id"]').content
+    }
+  }
   listing_table.ajax.reload()
 
 $('body').on 'click','button#exportListings', (e)->

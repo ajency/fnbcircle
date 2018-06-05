@@ -43,7 +43,9 @@ class AdminModerationController extends Controller
         $cities       = City::where('status', '1')->get();
         $aj_file_import = new AjCsvFileImport();
         $form_view = $aj_file_import->fileuploadform();
-        return view('admin-dashboard.listing_approval')->with('parents', $parent_categ)->with('cities', $cities)->with('importForm',$form_view);
+        $start_id = (isset($request->start_id))?  $request->start_id : 0;
+        $end_id = (isset($request->end_id))?  $request->end_id : 0;
+        return view('admin-dashboard.listing_approval')->with('parents', $parent_categ)->with('cities', $cities)->with('importForm',$form_view)->with('start_id',$start_id)->with('end_id',$end_id);
     }
 
     public function displayListingsDum(Request $request)
@@ -242,6 +244,11 @@ class AdminModerationController extends Controller
 
     }
 
+    private function IDFilter($filters){
+        $result = (isset($filters['id_filter']) and isset($filters['id_filter']['start']) and isset($filters['id_filter']['end']) and ($filters['id_filter']['start'] != 0 or $filters['id_filter']['start'] != '0') and ($filters['id_filter']['end'] != 0 or $filters['id_filter']['end'] != '0'));
+        return $result;
+    }
+
     public function displayListings($display_limit, $start, $sort, $order, $filters,$search='')
     {
         $listings = Listing::where(function ($sql) use ($filters) {
@@ -256,6 +263,12 @@ class AdminModerationController extends Controller
                 }
             }
         });
+        if($this->IDFilter($filters)){
+            
+            $idstart = $filters['id_filter']['start'];
+            $idend = $filters['id_filter']['end'];
+            $listings->where('id','>=',$idstart)->where('id','<=',$idend);
+        }
         if(isset($filters['submission_date'])){
             $end = new Carbon($filters['submission_date']['end']);
             if ($filters['submission_date']['start'] != "") {

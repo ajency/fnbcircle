@@ -12,6 +12,10 @@
     'updated_by': {
       'user_id': [],
       'user_type': ['internal', 'external']
+    },
+    'id_filter': {
+      'start': document.head.querySelector('[property="start-id"]').content,
+      'end': document.head.querySelector('[property="end-id"]').content
     }
   };
 
@@ -394,6 +398,10 @@
       'updated_by': {
         'user_id': [],
         'user_type': ['internal', 'external']
+      },
+      'id_filter': {
+        'start': document.head.querySelector('[property="start-id"]').content,
+        'end': document.head.querySelector('[property="end-id"]').content
       }
     };
     sendRequest();

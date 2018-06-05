@@ -19,6 +19,10 @@ window.filters =
         'internal'
         'external'
       ]
+    'id_filter': {
+      'start': document.head.querySelector('[property="start-id"]').content
+      'end': document.head.querySelector('[property="end-id"]').content
+    }
 approval_table = $('#datatable-listing_approval').DataTable(
   'pageLength': 25
   'processing': true
@@ -349,6 +353,10 @@ $('body').on 'click','button#resetAll', (e)->
         'internal'
         'external'
       ]
+    'id_filter':{
+      'start': document.head.querySelector('[property="start-id"]').content
+      'end': document.head.querySelector('[property="end-id"]').content
+    }
   sendRequest()
   showBulk()
   return

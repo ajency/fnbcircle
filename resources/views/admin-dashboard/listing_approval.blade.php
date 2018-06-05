@@ -24,6 +24,8 @@
 @endsection
 @section('meta')
   <meta property="status-url" content="{{action('AdminModerationController@setStatus')}}">
+  <meta property="start-id" content="{{$start_id}}">
+  <meta property="end-id" content="{{$end_id}}">
 @endsection
 
 @section('page-data')

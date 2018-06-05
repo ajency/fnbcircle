@@ -20,6 +20,9 @@
   };
 
   approval_table = $('#datatable-listing_approval').DataTable({
+    'language': {
+      "zeroRecords": "No listings? Please check if you're not making one of the common mistakes listed below:<br><ol><li>Mark the include Drafts on the top right as ticked</li><li>start_id must always be less than end_id</li></ol>"
+    },
     'pageLength': 25,
     'processing': true,
     'order': [[2, 'desc']],

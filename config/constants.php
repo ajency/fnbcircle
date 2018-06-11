@@ -32,5 +32,7 @@ return [
  	/* Dev Mode Ends */
 
     'google-analytics' => env('GOOGLE_ANALYTICS_ID','UA-112473904-1'),
+
+    'pepo-list-id' => env('PEPO_LIST_ID'),
 ];
  

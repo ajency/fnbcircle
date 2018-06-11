@@ -234,7 +234,7 @@ class UpdatePepoBackupTable implements ShouldQueue
             \Log::info($key.'=>'.gettype($backup[$key]));
         }
 
-        $listID = '3616';
+        $listID = config('constants.pepo-list-id');
         $url = '/api/v1/list/'.$listID.'/add-contact/';
         $pepoKey = '653cab790618ef33e954dcc4a2701528';
         $pepoSecret='08f4de7f8a8c6d2fa2dd5fb059abc4c8';
